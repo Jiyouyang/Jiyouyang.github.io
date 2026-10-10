@@ -1,0 +1,177 @@
+const i18n = {
+  'zh-CN': {
+    'meta.title': 'Minecraft 国际版 · Jiyouyang', 'meta.description': 'Minecraft 国际版 Windows 与 Android 下载入口。',
+    'nav.label': '下载页面导航', 'nav.back': '返回资源库', 'nav.title': '下载中心',
+    'hero.title': 'Minecraft 国际版', 'hero.intro': '选择你的设备平台。下载地址将在你确认后接入，<br>页面结构与全部外观功能已经准备完成。', 'hero.status': '站内页面 · 下载链接待添加',
+    'platform.title': '选择安装平台', 'platform.subtitle': '切换选项卡查看对应版本与安装说明。', 'platform.label': '安装平台',
+    'download.pending': '下载链接待添加', 'download.notice': '当前按钮不会开始下载，也不会跳转到第三方网站。等你提供具体网址后，我会分别接入两个平台。',
+    'next.title': '下一步只需要下载网址', 'next.text': 'Windows 与 Android 可以使用不同链接，也可以继续增加版本或安装说明。',
+    'footer.motto': '把好用的，分享给需要的人。', 'footer.back': '返回资源库 ↗',
+    'settings.open': '打开网站设置', 'settings.short': '网站设置', 'settings.title': '外观与语言', 'settings.close': '关闭设置',
+    'settings.color': '主题颜色', 'settings.mode': '深浅模式', 'settings.language': '翻译语言',
+    'color.graphite': '石墨', 'color.blue': '蓝色', 'color.violet': '紫色', 'color.green': '绿色', 'color.orange': '橙色',
+    'mode.auto': '跟随系统', 'mode.light': '浅色', 'mode.dark': '深色'
+  },
+  'zh-TW': {
+    'meta.title': 'Minecraft 國際版 · Jiyouyang', 'meta.description': 'Minecraft 國際版 Windows 與 Android 下載入口。',
+    'nav.label': '下載頁面導覽', 'nav.back': '返回資源庫', 'nav.title': '下載中心',
+    'hero.title': 'Minecraft 國際版', 'hero.intro': '選擇你的裝置平台。下載網址將在你確認後接入，<br>頁面結構與全部外觀功能已經準備完成。', 'hero.status': '站內頁面 · 下載連結待新增',
+    'platform.title': '選擇安裝平台', 'platform.subtitle': '切換選項卡查看對應版本與安裝說明。', 'platform.label': '安裝平台',
+    'download.pending': '下載連結待新增', 'download.notice': '目前按鈕不會開始下載，也不會跳轉至第三方網站。等你提供具體網址後，我會分別接入兩個平台。',
+    'next.title': '下一步只需要下載網址', 'next.text': 'Windows 與 Android 可以使用不同連結，也可以繼續增加版本或安裝說明。',
+    'footer.motto': '把好用的，分享給需要的人。', 'footer.back': '返回資源庫 ↗',
+    'settings.open': '開啟網站設定', 'settings.short': '網站設定', 'settings.title': '外觀與語言', 'settings.close': '關閉設定',
+    'settings.color': '主題顏色', 'settings.mode': '深淺模式', 'settings.language': '翻譯語言',
+    'color.graphite': '石墨', 'color.blue': '藍色', 'color.violet': '紫色', 'color.green': '綠色', 'color.orange': '橙色',
+    'mode.auto': '跟隨系統', 'mode.light': '淺色', 'mode.dark': '深色'
+  },
+  en: {
+    'meta.title': 'Minecraft International · Jiyouyang', 'meta.description': 'Windows and Android download options for Minecraft International.',
+    'nav.label': 'Download page navigation', 'nav.back': 'Back to resources', 'nav.title': 'Downloads',
+    'hero.title': 'Minecraft International', 'hero.intro': 'Choose your device platform. Download URLs will be connected after your confirmation.<br>The page structure and appearance controls are ready.', 'hero.status': 'Internal page · Download links pending',
+    'platform.title': 'Choose a platform', 'platform.subtitle': 'Switch tabs to see the matching version and installation notes.', 'platform.label': 'Installation platform',
+    'download.pending': 'Download link pending', 'download.notice': 'The button does not download anything or open a third-party site yet. Once you provide the URLs, each platform will be connected separately.',
+    'next.title': 'Only the download URLs are needed next', 'next.text': 'Windows and Android can use different links, with more versions or instructions added later.',
+    'footer.motto': 'Share useful things with people who need them.', 'footer.back': 'Back to resources ↗',
+    'settings.open': 'Open site settings', 'settings.short': 'Site settings', 'settings.title': 'Appearance & Language', 'settings.close': 'Close settings',
+    'settings.color': 'Accent color', 'settings.mode': 'Appearance mode', 'settings.language': 'Translation language',
+    'color.graphite': 'Graphite', 'color.blue': 'Blue', 'color.violet': 'Violet', 'color.green': 'Green', 'color.orange': 'Orange',
+    'mode.auto': 'System', 'mode.light': 'Light', 'mode.dark': 'Dark'
+  },
+  ja: {
+    'meta.title': 'Minecraft 国際版 · Jiyouyang', 'meta.description': 'Minecraft 国際版の Windows・Android ダウンロード入口です。',
+    'nav.label': 'ダウンロードページナビゲーション', 'nav.back': 'リソースへ戻る', 'nav.title': 'ダウンロード',
+    'hero.title': 'Minecraft 国際版', 'hero.intro': 'デバイスのプラットフォームを選んでください。URL は確認後に接続します。<br>ページ構成とすべての外観機能は準備済みです。', 'hero.status': 'サイト内ページ · リンク追加待ち',
+    'platform.title': 'プラットフォームを選択', 'platform.subtitle': 'タブを切り替えて、対応バージョンと案内を確認できます。', 'platform.label': 'インストール先',
+    'download.pending': 'リンク追加待ち', 'download.notice': '現在のボタンはダウンロードや外部サイトへの移動を行いません。URL を受け取った後、各プラットフォームへ個別に接続します。',
+    'next.title': '次に必要なのはダウンロード URL だけです', 'next.text': 'Windows と Android に別々のリンクを設定し、後からバージョンや説明も追加できます。',
+    'footer.motto': '便利なものを、必要な人へ。', 'footer.back': 'リソースへ戻る ↗',
+    'settings.open': 'サイト設定を開く', 'settings.short': 'サイト設定', 'settings.title': '外観と言語', 'settings.close': '設定を閉じる',
+    'settings.color': 'テーマカラー', 'settings.mode': '表示モード', 'settings.language': '翻訳言語',
+    'color.graphite': 'グラファイト', 'color.blue': 'ブルー', 'color.violet': 'バイオレット', 'color.green': 'グリーン', 'color.orange': 'オレンジ',
+    'mode.auto': 'システム', 'mode.light': 'ライト', 'mode.dark': 'ダーク'
+  }
+};
+
+const platforms = {
+  windows: {
+    icon: '<svg viewBox="0 0 24 24"><path d="M3 5.5 10.5 4v7H3zm9-1.8L21 2v9h-9zM3 12.5h7.5v7L3 18zm9 0h9v9l-9-1.7z"/></svg>',
+    content: {
+      'zh-CN': ['桌面平台', 'Minecraft Windows 版', '适用于 Windows 10 与 Windows 11。下载地址确认后，按钮将直接进入对应安装页面。', ['Windows 10 / 11', '64 位', '安装程序']],
+      'zh-TW': ['桌面平台', 'Minecraft Windows 版', '適用於 Windows 10 與 Windows 11。下載網址確認後，按鈕將直接進入對應安裝頁面。', ['Windows 10 / 11', '64 位元', '安裝程式']],
+      en: ['DESKTOP', 'Minecraft for Windows', 'For Windows 10 and Windows 11. Once confirmed, the button will open the matching installer page.', ['Windows 10 / 11', '64-bit', 'Installer']],
+      ja: ['デスクトップ', 'Minecraft for Windows', 'Windows 10・11 向けです。URL 確認後、ボタンから対応するインストールページへ移動できます。', ['Windows 10 / 11', '64 ビット', 'インストーラー']]
+    }
+  },
+  android: {
+    icon: '<svg viewBox="0 0 24 24"><path d="m8 5-2-3m10 3 2-3M6 9h12v9H6zM4 10v6m16-6v6M9 18v4m6-4v4"/><circle cx="9" cy="7" r=".5"/><circle cx="15" cy="7" r=".5"/></svg>',
+    content: {
+      'zh-CN': ['移动平台', 'Minecraft Android 版', '适用于 Android 手机与平板。下载地址确认后，按钮将进入对应安装包页面。', ['Android', '手机 / 平板', '安装包']],
+      'zh-TW': ['行動平台', 'Minecraft Android 版', '適用於 Android 手機與平板。下載網址確認後，按鈕將進入對應安裝套件頁面。', ['Android', '手機 / 平板', '安裝套件']],
+      en: ['MOBILE', 'Minecraft for Android', 'For Android phones and tablets. Once confirmed, the button will open the matching package page.', ['Android', 'Phone / Tablet', 'Package']],
+      ja: ['モバイル', 'Minecraft for Android', 'Android のスマートフォンとタブレット向けです。URL 確認後、対応するパッケージページへ移動できます。', ['Android', 'スマホ / タブレット', 'パッケージ']]
+    }
+  }
+};
+
+const $ = selector => document.querySelector(selector);
+const settings = $('#settings');
+const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+let selectedPlatform = 'windows';
+let preference = 'auto';
+let accentPreference = 'graphite';
+let language = 'zh-CN';
+
+try {
+  preference = localStorage.getItem('jy-theme') || 'auto';
+  accentPreference = localStorage.getItem('jy-accent') || 'graphite';
+  language = localStorage.getItem('jy-language') || 'zh-CN';
+} catch {}
+if (!i18n[language]) language = 'zh-CN';
+
+const t = key => i18n[language][key] || i18n['zh-CN'][key] || key;
+const persist = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
+
+function renderPlatform() {
+  const platform = platforms[selectedPlatform];
+  const [label, name, description, details] = platform.content[language] || platform.content['zh-CN'];
+  $('#platform-art').innerHTML = platform.icon;
+  $('#platform-label').textContent = label;
+  $('#platform-name').textContent = name;
+  $('#platform-description').textContent = description;
+  $('#platform-details').innerHTML = details.map(detail => '<span class="detail"></span>').join('');
+  [...$('#platform-details').children].forEach((element, index) => { element.textContent = details[index]; });
+  const buttons = [...document.querySelectorAll('[data-platform]')];
+  const activeIndex = Math.max(0, buttons.findIndex(button => button.dataset.platform === selectedPlatform));
+  $('.platform-tabs').style.setProperty('--active-index', activeIndex);
+  buttons.forEach((button, index) => {
+    button.classList.toggle('active', index === activeIndex);
+    button.setAttribute('aria-selected', String(index === activeIndex));
+  });
+}
+
+function applyAccent() {
+  document.documentElement.dataset.accent = accentPreference;
+  document.querySelectorAll('[data-accent-choice]').forEach(button => {
+    const active = button.dataset.accentChoice === accentPreference;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  persist('jy-accent', accentPreference);
+}
+
+function applyTheme() {
+  document.documentElement.dataset.theme = preference === 'auto' ? (systemTheme.matches ? 'dark' : 'light') : preference;
+  $('meta[name="theme-color"]').content = document.documentElement.dataset.theme === 'dark' ? '#000000' : '#f5f5f7';
+  const buttons = [...document.querySelectorAll('[data-mode]')];
+  const index = Math.max(0, buttons.findIndex(button => button.dataset.mode === preference));
+  $('.mode-switch').style.setProperty('--active-index', index);
+  buttons.forEach((button, buttonIndex) => {
+    button.classList.toggle('active', buttonIndex === index);
+    button.setAttribute('aria-pressed', String(buttonIndex === index));
+  });
+  persist('jy-theme', preference);
+}
+
+function applyLanguage() {
+  document.documentElement.lang = language;
+  document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = t(element.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(element => { element.innerHTML = t(element.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-label]').forEach(element => { element.setAttribute('aria-label', t(element.dataset.i18nLabel)); });
+  document.title = t('meta.title');
+  $('meta[name="description"]').content = t('meta.description');
+  const buttons = [...document.querySelectorAll('[data-language]')];
+  const index = Math.max(0, buttons.findIndex(button => button.dataset.language === language));
+  $('.language-switch').style.setProperty('--active-index', index);
+  buttons.forEach((button, buttonIndex) => {
+    button.classList.toggle('active', buttonIndex === index);
+    button.setAttribute('aria-pressed', String(buttonIndex === index));
+  });
+  renderPlatform();
+  persist('jy-language', language);
+}
+
+document.querySelectorAll('[data-platform]').forEach(button => {
+  button.onclick = () => { selectedPlatform = button.dataset.platform; renderPlatform(); };
+});
+$('#settings-trigger').onclick = () => { settings.showModal(); document.body.style.overflow = 'hidden'; };
+$('#close-settings').onclick = () => settings.close();
+settings.addEventListener('click', event => {
+  const bounds = settings.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) settings.close();
+});
+settings.addEventListener('close', () => { document.body.style.overflow = ''; });
+document.querySelectorAll('[data-accent-choice]').forEach(button => {
+  button.onclick = () => { accentPreference = button.dataset.accentChoice; applyAccent(); };
+});
+document.querySelectorAll('[data-mode]').forEach(button => {
+  button.onclick = () => { preference = button.dataset.mode; applyTheme(); };
+});
+document.querySelectorAll('[data-language]').forEach(button => {
+  button.onclick = () => { language = button.dataset.language; applyLanguage(); };
+});
+systemTheme.addEventListener('change', () => { if (preference === 'auto') applyTheme(); });
+$('#year').textContent = new Date().getFullYear();
+applyAccent();
+applyTheme();
+applyLanguage();

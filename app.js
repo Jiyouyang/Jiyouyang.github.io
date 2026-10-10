@@ -137,6 +137,12 @@ const resources = [
     'zh-TW': ['SteamDB', '查詢 Steam 遊戲價格、更新記錄、線上人數與歷史資料。'],
     en: ['SteamDB', 'Explore Steam pricing, update history, player counts, and historical data.'],
     ja: ['SteamDB', 'Steam の価格、更新履歴、プレイヤー数、過去データを確認できます。']
+  }},
+  { id: 'minecraft', category: 'games', url: '/minecraft.html', domain: 'jiyouyang.github.io/minecraft', glyph: 'MC', x: '78%', y: '22%', internal: true, content: {
+    'zh-CN': ['Minecraft 国际版', '在站内选择 Windows 或 Android 平台，进入对应的下载入口。'],
+    'zh-TW': ['Minecraft 國際版', '在站內選擇 Windows 或 Android 平台，進入對應的下載入口。'],
+    en: ['Minecraft International', 'Choose Windows or Android on the internal page and continue to its download option.'],
+    ja: ['Minecraft 国際版', 'サイト内で Windows または Android を選び、対応するダウンロードへ進めます。']
   }}
 ];
 
@@ -175,9 +181,11 @@ function renderResources() {
   $('#count').textContent = t('library.count', { n: String(list.length) });
   $('#resource-grid').innerHTML = list.length ? list.map(resource => {
     const [title, description] = localized(resource);
-    return '<a class="resource-card" href="' + resource.url + '" target="_blank" rel="noopener noreferrer" aria-label="' + escapeHtml(t('resource.open', { title })) + '">' +
+    const linkAttributes = resource.internal ? '' : ' target="_blank" rel="noopener noreferrer"';
+    const arrow = resource.internal ? '→' : '↗';
+    return '<a class="resource-card" href="' + resource.url + '"' + linkAttributes + ' aria-label="' + escapeHtml(t('resource.open', { title })) + '">' +
       '<div class="resource-visual" style="--x:' + resource.x + ';--y:' + resource.y + '"><span class="resource-glyph">' + escapeHtml(resource.glyph) + '</span></div>' +
-      '<div class="resource-body"><div class="resource-topline"><span class="resource-tag">' + escapeHtml(t('category.' + resource.category)) + '</span><span class="resource-arrow">↗</span></div>' +
+      '<div class="resource-body"><div class="resource-topline"><span class="resource-tag">' + escapeHtml(t('category.' + resource.category)) + '</span><span class="resource-arrow">' + arrow + '</span></div>' +
       '<h3>' + escapeHtml(title) + '</h3><p>' + escapeHtml(description) + '</p><div class="resource-domain">' + escapeHtml(resource.domain) + '</div></div></a>';
   }).join('') : '<p class="empty">' + escapeHtml(t('library.empty')) + '</p>';
 }
