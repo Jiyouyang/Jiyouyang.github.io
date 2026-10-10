@@ -1,25 +1,22 @@
-# Jiyouyang · 个人博客
+# Jiyouyang · 资源分享
 
-Apple 官网式布局与网页液态玻璃视觉。无需安装依赖，可直接用于 GitHub Pages。
-
-## 预览
-直接用浏览器打开 preview.html 或 index.html。
-
-## 上传
-将 index.html 和 .nojekyll 放在仓库根目录。
-GitHub 仓库 Settings → Pages → Deploy from a branch → main / (root)。
-
-## 网站图标
-浏览器标签页、Apple 主屏幕与桌面快捷方式图标使用 `assets/site-cover.jpg`，并由 `site.webmanifest` 提供安装信息。
-
-## 写文章
-修改 index.html 底部的 posts 数组。id 唯一，category 为科技、游戏或生活；填写 title、summary、date、time、body。body 是作者维护的 HTML 正文。
-分享链接格式为 #post/文章id。资源入口位于 resources 区域。
-新内容为首版展示札记，可随时编辑。
+一个采用 Apple 风格黑白基调与液态玻璃视觉的精选资源分享站，可直接部署到 GitHub Pages。
 
 ## 功能
-文章分类、即时搜索、阅读对话框、文章直达链接、主题记忆、跟随系统主题、手机响应式布局、减少动态效果偏好。
-玻璃外观为 CSS 半透明、模糊、高光与阴影效果。
 
-## 验证
-已完成内联 JavaScript 语法与文章过滤、搜索、主题逻辑检查。手机视觉效果需实际浏览器确认。
+- 开发、学习、工具、游戏资源分类
+- 资源名称、说明与域名即时搜索
+- 石墨、蓝、紫、绿、橙五种主题色
+- 跟随系统、浅色、深色外观
+- 简体中文、繁体中文、英语、日语
+- 手机与桌面响应式布局
+
+## 内容维护
+
+资源数据位于 `app.js` 的 `resources` 数组。每项包含链接、域名、分类、封面字符以及四种语言的标题与说明。
+
+## 部署
+
+仓库根目录保留 `.nojekyll`，GitHub Pages 使用 `main` 分支根目录发布。
+
+浏览器标签页、Apple 主屏幕与桌面快捷方式图标使用 `assets/site-cover.jpg`。
