@@ -1,0 +1,16 @@
+{
+  "name": "Jiyouyang · 灵感，值得分享。",
+  "short_name": "Jiyouyang",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#f5f5f7",
+  "icons": [
+    {
+      "src": "/assets/site-cover.jpg?v=2",
+      "sizes": "1242x1242",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

@@ -9,8 +9,8 @@ Apple 官网式布局与网页液态玻璃视觉。无需安装依赖，可直�
 将 index.html 和 .nojekyll 放在仓库根目录。
 GitHub 仓库 Settings → Pages → Deploy from a branch → main / (root)。
 
-## 封面
-首页封面与社交分享预览图位于 `assets/site-cover.jpg`。
+## 网站图标
+浏览器标签页、Apple 主屏幕与桌面快捷方式图标使用 `assets/site-cover.jpg`，并由 `site.webmanifest` 提供安装信息。
 
 ## 写文章
 修改 index.html 底部的 posts 数组。id 唯一，category 为科技、游戏或生活；填写 title、summary、date、time、body。body 是作者维护的 HTML 正文。
