@@ -4,7 +4,7 @@ const i18n = {
     'nav.label': '下载页面导航', 'nav.back': '返回资源库', 'nav.title': '下载中心',
     'hero.title': 'Minecraft 国际版', 'hero.intro': '选择平台查看对应版本与安装说明。<br>只有下方下载按钮会打开对应网站。', 'hero.status': 'Windows 与 Android 下载按钮已接入',
     'platform.title': '选择安装平台', 'platform.subtitle': '点击选项卡切换平台，使用下方按钮前往下载网站。', 'platform.label': '安装平台',
-    'download.action': '前往下载页面', 'download.notice': '选项卡只用于切换平台。点击下方下载按钮后，你将离开本站并前往对应的 MineBBS 下载页面。',
+    'download.action': '前往下载页面', 'download.action1': '前往下载页面 1', 'download.action2': '前往下载页面 2', 'download.notice': '选项卡只用于切换平台。点击下方下载按钮后，你将离开本站并前往对应的下载页面。',
     'next.title': '两个平台已就绪', 'next.text': 'Windows 与 Android 已分别连接到对应页面，后续仍可增加版本或安装说明。',
     'footer.motto': '把好用的，分享给需要的人。', 'footer.back': '返回资源库 ↗',
     'settings.open': '打开网站设置', 'settings.short': '网站设置', 'settings.title': '外观与语言', 'settings.close': '关闭设置',
@@ -17,7 +17,7 @@ const i18n = {
     'nav.label': '下載頁面導覽', 'nav.back': '返回資源庫', 'nav.title': '下載中心',
     'hero.title': 'Minecraft 國際版', 'hero.intro': '選擇平台查看對應版本與安裝說明。<br>只有下方下載按鈕會開啟對應網站。', 'hero.status': 'Windows 與 Android 下載按鈕已接入',
     'platform.title': '選擇安裝平台', 'platform.subtitle': '點擊選項卡切換平台，使用下方按鈕前往下載網站。', 'platform.label': '安裝平台',
-    'download.action': '前往下載頁面', 'download.notice': '選項卡只用於切換平台。點擊下方下載按鈕後，你將離開本站並前往對應的 MineBBS 下載頁面。',
+    'download.action': '前往下載頁面', 'download.action1': '前往下載頁面 1', 'download.action2': '前往下載頁面 2', 'download.notice': '選項卡只用於切換平台。點擊下方下載按鈕後，你將離開本站並前往對應的下載頁面。',
     'next.title': '兩個平台已就緒', 'next.text': 'Windows 與 Android 已分別連接到對應頁面，後續仍可增加版本或安裝說明。',
     'footer.motto': '把好用的，分享給需要的人。', 'footer.back': '返回資源庫 ↗',
     'settings.open': '開啟網站設定', 'settings.short': '網站設定', 'settings.title': '外觀與語言', 'settings.close': '關閉設定',
@@ -30,7 +30,7 @@ const i18n = {
     'nav.label': 'Download page navigation', 'nav.back': 'Back to resources', 'nav.title': 'Downloads',
     'hero.title': 'Minecraft International', 'hero.intro': 'Choose a platform to view its version and installation notes.<br>Only the download button below opens the matching website.', 'hero.status': 'Windows and Android download buttons are connected',
     'platform.title': 'Choose a platform', 'platform.subtitle': 'Use the tabs to switch platforms, then use the button below to continue.', 'platform.label': 'Installation platform',
-    'download.action': 'Open download page', 'download.notice': 'The tabs only switch platforms. The download button below leaves this site and opens the matching MineBBS page.',
+    'download.action': 'Open download page', 'download.action1': 'Open download page 1', 'download.action2': 'Open download page 2', 'download.notice': 'The tabs only switch platforms. The buttons below leave this site and open the matching download page.',
     'next.title': 'Both platforms are ready', 'next.text': 'Windows and Android now lead to separate pages. Versions or installation notes can still be added later.',
     'footer.motto': 'Share useful things with people who need them.', 'footer.back': 'Back to resources ↗',
     'settings.open': 'Open site settings', 'settings.short': 'Site settings', 'settings.title': 'Appearance & Language', 'settings.close': 'Close settings',
@@ -43,7 +43,7 @@ const i18n = {
     'nav.label': 'ダウンロードページナビゲーション', 'nav.back': 'リソースへ戻る', 'nav.title': 'ダウンロード',
     'hero.title': 'Minecraft 国際版', 'hero.intro': 'プラットフォームを選んで、対応するバージョンと案内を確認できます。<br>外部サイトを開くのは下のダウンロードボタンだけです。', 'hero.status': 'Windows・Android のダウンロードボタンを接続済み',
     'platform.title': 'プラットフォームを選択', 'platform.subtitle': 'タブでプラットフォームを切り替え、下のボタンからダウンロードサイトへ進みます。', 'platform.label': 'インストール先',
-    'download.action': 'ダウンロードページを開く', 'download.notice': 'タブはプラットフォームの切り替え専用です。下のボタンを押すと、対応する MineBBS ページへ移動します。',
+    'download.action': 'ダウンロードページを開く', 'download.action1': 'ダウンロードページ 1', 'download.action2': 'ダウンロードページ 2', 'download.notice': 'タブはプラットフォームの切り替え専用です。下のボタンを押すと、対応するダウンロードページへ移動します。',
     'next.title': '両方のプラットフォームを接続しました', 'next.text': 'Windows と Android は別々のページにつながっています。バージョンや説明は後から追加できます。',
     'footer.motto': '便利なものを、必要な人へ。', 'footer.back': 'リソースへ戻る ↗',
     'settings.open': 'サイト設定を開く', 'settings.short': 'サイト設定', 'settings.title': '外観と言語', 'settings.close': '設定を閉じる',
@@ -66,12 +66,13 @@ const platforms = {
   },
   android: {
     url: 'https://mc.minebbs.com/?platform=1&environment=1',
+    secondaryUrl: 'https://mcapks.net',
     icon: '<svg viewBox="0 0 24 24"><path d="m8 5-2-3m10 3 2-3M6 9h12v9H6zM4 10v6m16-6v6M9 18v4m6-4v4"/><circle cx="9" cy="7" r=".5"/><circle cx="15" cy="7" r=".5"/></svg>',
     content: {
-      'zh-CN': ['移动平台', 'Minecraft Android 版', '适用于 Android 手机与平板。下载地址确认后，按钮将进入对应安装包页面。', ['Android', '手机 / 平板', '安装包']],
-      'zh-TW': ['行動平台', 'Minecraft Android 版', '適用於 Android 手機與平板。下載網址確認後，按鈕將進入對應安裝套件頁面。', ['Android', '手機 / 平板', '安裝套件']],
-      en: ['MOBILE', 'Minecraft for Android', 'For Android phones and tablets. Once confirmed, the button will open the matching package page.', ['Android', 'Phone / Tablet', 'Package']],
-      ja: ['モバイル', 'Minecraft for Android', 'Android のスマートフォンとタブレット向けです。URL 確認後、対応するパッケージページへ移動できます。', ['Android', 'スマホ / タブレット', 'パッケージ']]
+      'zh-CN': ['移动平台', 'Minecraft Android 版', '适用于 Android 手机与平板。如果下载页面 1 里没有你想要的版本，请去链接 2 试试。', ['Android', '手机 / 平板', '安装包']],
+      'zh-TW': ['行動平台', 'Minecraft Android 版', '適用於 Android 手機與平板。如果下載頁面 1 沒有你想要的版本，請試試連結 2。', ['Android', '手機 / 平板', '安裝套件']],
+      en: ['MOBILE', 'Minecraft for Android', 'For Android phones and tablets. If download page 1 does not have the version you need, try link 2.', ['Android', 'Phone / Tablet', 'Package']],
+      ja: ['モバイル', 'Minecraft for Android', 'Android のスマートフォンとタブレット向けです。ダウンロードページ 1 に必要なバージョンがない場合は、リンク 2 をお試しください。', ['Android', 'スマホ / タブレット', 'パッケージ']]
     }
   }
 };
@@ -102,6 +103,11 @@ function renderPlatform() {
   $('#platform-name').textContent = name;
   $('#platform-description').textContent = description;
   $('#download-link').href = platform.url;
+  const secondaryLink = $('#download-link-secondary');
+  const hasSecondaryLink = Boolean(platform.secondaryUrl);
+  $('#download-label').textContent = t(hasSecondaryLink ? 'download.action1' : 'download.action');
+  secondaryLink.hidden = !hasSecondaryLink;
+  secondaryLink.href = platform.secondaryUrl || '#';
   $('#platform-details').innerHTML = details.map(detail => '<span class="detail"></span>').join('');
   [...$('#platform-details').children].forEach((element, index) => { element.textContent = details[index]; });
   const buttons = [...document.querySelectorAll('[data-platform]')];
