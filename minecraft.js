@@ -155,9 +155,12 @@ function applyLanguage() {
 }
 
 document.querySelectorAll('[data-platform]').forEach(button => {
-  button.onclick = () => {
+  button.onclick = event => {
+    event.preventDefault();
+    event.stopPropagation();
     selectedPlatform = button.dataset.platform;
     renderPlatform();
+    return false;
   };
 });
 $('#settings-trigger').onclick = () => { settings.showModal(); document.body.style.overflow = 'hidden'; };
