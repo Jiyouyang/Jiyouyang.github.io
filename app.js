@@ -534,8 +534,12 @@ document.querySelectorAll('[data-category]').forEach(button => {
 
 $('#search').oninput = render;
 $('#search-jump').onclick = () => {
-  location.hash = 'journal';
-  $('#search').focus({ preventScroll: true });
+  const input = $('#search');
+  const searchBox = input.closest('.search');
+  const targetTop = Math.max(0, scrollY + searchBox.getBoundingClientRect().top - (innerWidth <= 560 ? 188 : 140));
+  history.replaceState(null, '', location.pathname + location.search + '#journal');
+  input.focus({ preventScroll: true });
+  window.scrollTo({ top: targetTop, behavior: 'smooth' });
 };
 
 const navSlider = $('.navlinks');
