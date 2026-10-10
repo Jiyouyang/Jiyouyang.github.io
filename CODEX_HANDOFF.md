@@ -40,7 +40,7 @@
 
 ### Minecraft 专区 `/minecraft.html`
 
-这是 Minecraft 的“大选项”/内容聚合页。当前包含三张站内卡片：
+这是 Minecraft 的“大选项”/内容聚合页。当前包含四张站内卡片：
 
 1. **Minecraft 基岩版下载** → `/minecraft-download.html`
    - 标题不再写“国际”“双端”或“启动器双端”。
@@ -53,6 +53,10 @@
    - 标题不再写“桌面端”。
    - 简体中文简介：`适用于桌面端，可选择官方启动器、PCL 或 HMCL。`
    - 桌面端范围放在简介，不塞进标题。
+4. **Minecraft Java 版移动端下载** → `/minecraft-mobile.html`
+   - 提供 Android 与 iOS 两个移动端入口。
+   - Android 对应 Fold Craft Launcher，iOS 对应 Amethyst iOS。
+   - 选项卡只切换内容，下方按钮才打开下载网页。
 
 专区的目的不是只放一个下载卡片，而是作为可持续扩充的 Minecraft 内容容器；以后用户还会加入更多 Minecraft 相关跳转选项。
 
@@ -85,6 +89,15 @@
 - PCL：<https://github.com/Meloong-Git/PCL>
 - HMCL：<https://github.com/HMCL-dev/HMCL/releases/tag/v3.16.4>
 - 这是桌面端启动器集合，但“桌面端”只在简介中说明，不放进页面或卡片主标题。
+
+### Java 移动端页 `/minecraft-mobile.html`
+
+- 页面名称：Minecraft Java 版移动端下载。
+- 两个页内选项卡：Android、iOS。
+- 选项卡只切换展示内容，下载按钮才打开外部网站。
+- Android / Fold Craft Launcher：<https://foldcraftlaunch.com/download/>
+- iOS / Amethyst iOS：<https://github.com/herbrine8403/Amethyst-iOS-MyRemastered/releases>
+- 页面继承五种主题色、深浅模式及简中、繁中、英文、日文翻译。
 
 ## 3. 视觉与设计系统
 
@@ -183,6 +196,8 @@
 | `minecraft-mods.js` | CurseForge/Modrinth 数据、多语言和设置逻辑 |
 | `minecraft-launchers.html` | Java 启动器选择页 |
 | `minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
+| `minecraft-mobile.html` | Java 版 Android/iOS 移动端选择页 |
+| `minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
 | `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
 | `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
 | `preview.html` | 历史预览文件；不是当前正式入口 |
@@ -265,6 +280,13 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-10：新增 Minecraft Java 版移动端下载
+
+- Minecraft 聚合页新增第四张站内卡片“Minecraft Java 版移动端下载”。
+- 新增 Android 与 iOS 两个选项卡；选项卡仅切换内容，下载按钮才打开外链。
+- Android 接入 Fold Craft Launcher，iOS 接入 Amethyst iOS GitHub Releases。
+- 新页面完整适配五种主题色、深浅模式及四语言。
 
 ### 2026-10-10：精简 Java 启动器选项卡文字
 
