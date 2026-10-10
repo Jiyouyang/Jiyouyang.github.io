@@ -139,12 +139,14 @@ const resources = [
     ja: ['SteamDB', 'Steam の価格、更新履歴、プレイヤー数、過去データを確認できます。']
   }},
   { id: 'minecraft', category: 'games', url: '/minecraft.html', domain: 'jiyouyang.github.io/minecraft', glyph: 'MC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['Minecraft 国际版', '在站内选择 Windows 或 Android 平台，进入对应的下载入口。'],
-    'zh-TW': ['Minecraft 國際版', '在站內選擇 Windows 或 Android 平台，進入對應的下載入口。'],
-    en: ['Minecraft International', 'Choose Windows or Android on the internal page and continue to its download option.'],
-    ja: ['Minecraft 国際版', 'サイト内で Windows または Android を選び、対応するダウンロードへ進めます。']
+    'zh-CN': ['Minecraft', '在站内选择 Windows 或 Android 平台，进入对应的下载入口。'],
+    'zh-TW': ['Minecraft', '在站內選擇 Windows 或 Android 平台，進入對應的下載入口。'],
+    en: ['Minecraft', 'Choose Windows or Android on the internal page and continue to its download option.'],
+    ja: ['Minecraft', 'サイト内で Windows または Android を選び、対応するダウンロードへ進めます。']
   }}
 ];
+
+resources.sort((left, right) => left.id === 'minecraft' ? -1 : right.id === 'minecraft' ? 1 : 0);
 
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');
