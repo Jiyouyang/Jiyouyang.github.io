@@ -26,7 +26,7 @@ const platforms = {
   },
   ios: {
     url:'https://github.com/herbrine8403/Amethyst-iOS-MyRemastered/releases',
-    icon:'<svg viewBox="0 0 24 24"><path d="M15.5 4.2c-.8.1-1.7.7-2.2 1.3-.5.6-.9 1.5-.7 2.3.9.1 1.8-.5 2.3-1.1.5-.6.9-1.5.6-2.5zM18.7 15.3c-.4 1-1 1.9-1.7 2.9-.9 1.2-1.8 2.4-3.2 2.4-1.2 0-1.6-.8-3-.8s-1.9.8-3.1.8c-1.3 0-2.3-1.3-3.2-2.5-2.5-3.6-2.8-7.8-1.2-10.2 1.1-1.7 2.9-2.7 4.6-2.7 1.3 0 2.5.8 3.3.8.8 0 2.3-1 3.9-.9.7 0 2.6.3 3.8 2.1-3.3 1.8-2.8 6.5-.2 8.1z"/></svg>',
+    icon:'<span class="apple-symbol" aria-hidden="true"></span>',
     content:{
       'zh-CN':['iOS 平台','Amethyst iOS','适用于 iPhone 与 iPad 的 Minecraft Java 版移动端项目，点击下方按钮查看 GitHub Releases。',['Java 版','iOS / iPadOS','GitHub Releases']],
       'zh-TW':['iOS 平台','Amethyst iOS','適用於 iPhone 與 iPad 的 Minecraft Java 版行動端專案，點擊下方按鈕查看 GitHub Releases。',['Java 版','iOS / iPadOS','GitHub Releases']],
