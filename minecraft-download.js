@@ -1,8 +1,8 @@
 const i18n = {
   'zh-CN': {
-    'meta.title': 'Minecraft 基岩版启动器双端下载 · Jiyouyang', 'meta.description': 'Minecraft 基岩版启动器双端下载，支持 Windows 与 Android。',
+    'meta.title': 'Minecraft 基岩版 · Jiyouyang', 'meta.description': 'Minecraft 基岩版 Windows 与 Android 下载入口。',
     'nav.label': '下载页面导航', 'nav.back': '返回 Minecraft 专区', 'nav.title': '下载中心',
-    'hero.title': 'Minecraft 基岩版启动器双端下载', 'hero.intro': '选择平台查看基岩版的对应版本与安装说明。<br>只有下方下载按钮会打开对应网站。', 'hero.status': '基岩版 Windows 与 Android 下载按钮已接入',
+    'hero.title': 'Minecraft 基岩版', 'hero.intro': '选择平台查看基岩版的对应版本与安装说明。<br>只有下方下载按钮会打开对应网站。', 'hero.status': '基岩版 Windows 与 Android 下载按钮已接入',
     'platform.title': '选择安装平台', 'platform.subtitle': '点击选项卡切换平台，使用下方按钮前往下载网站。', 'platform.label': '安装平台',
     'download.action': '前往下载页面', 'download.action1': '前往下载页面 1', 'download.action2': '前往下载页面 2', 'download.notice': '选项卡只用于切换平台。点击下方下载按钮后，你将离开本站并前往对应的下载页面。',
     'next.title': '两个平台已就绪', 'next.text': 'Windows 与 Android 已分别连接到对应页面，后续仍可增加版本或安装说明。',
@@ -13,9 +13,9 @@ const i18n = {
     'mode.auto': '跟随系统', 'mode.light': '浅色', 'mode.dark': '深色'
   },
   'zh-TW': {
-    'meta.title': 'Minecraft 基岩版啟動器雙端下載 · Jiyouyang', 'meta.description': 'Minecraft 基岩版啟動器雙端下載，支援 Windows 與 Android。',
+    'meta.title': 'Minecraft 基岩版 · Jiyouyang', 'meta.description': 'Minecraft 基岩版 Windows 與 Android 下載入口。',
     'nav.label': '下載頁面導覽', 'nav.back': '返回 Minecraft 專區', 'nav.title': '下載中心',
-    'hero.title': 'Minecraft 基岩版啟動器雙端下載', 'hero.intro': '選擇平台查看基岩版的對應版本與安裝說明。<br>只有下方下載按鈕會開啟對應網站。', 'hero.status': '基岩版 Windows 與 Android 下載按鈕已接入',
+    'hero.title': 'Minecraft 基岩版', 'hero.intro': '選擇平台查看基岩版的對應版本與安裝說明。<br>只有下方下載按鈕會開啟對應網站。', 'hero.status': '基岩版 Windows 與 Android 下載按鈕已接入',
     'platform.title': '選擇安裝平台', 'platform.subtitle': '點擊選項卡切換平台，使用下方按鈕前往下載網站。', 'platform.label': '安裝平台',
     'download.action': '前往下載頁面', 'download.action1': '前往下載頁面 1', 'download.action2': '前往下載頁面 2', 'download.notice': '選項卡只用於切換平台。點擊下方下載按鈕後，你將離開本站並前往對應的下載頁面。',
     'next.title': '兩個平台已就緒', 'next.text': 'Windows 與 Android 已分別連接到對應頁面，後續仍可增加版本或安裝說明。',
@@ -26,9 +26,9 @@ const i18n = {
     'mode.auto': '跟隨系統', 'mode.light': '淺色', 'mode.dark': '深色'
   },
   en: {
-    'meta.title': 'Minecraft Bedrock Dual-Platform Launcher Download · Jiyouyang', 'meta.description': 'Minecraft Bedrock launcher downloads for Windows and Android.',
+    'meta.title': 'Minecraft Bedrock Edition · Jiyouyang', 'meta.description': 'Windows and Android download options for Minecraft Bedrock Edition.',
     'nav.label': 'Download page navigation', 'nav.back': 'Back to Minecraft', 'nav.title': 'Downloads',
-    'hero.title': 'Minecraft Bedrock Dual-Platform Launcher Download', 'hero.intro': 'Choose a platform to view its Bedrock Edition version and installation notes.<br>Only the download button below opens the matching website.', 'hero.status': 'Bedrock Edition downloads for Windows and Android are connected',
+    'hero.title': 'Minecraft Bedrock Edition', 'hero.intro': 'Choose a platform to view its Bedrock Edition version and installation notes.<br>Only the download button below opens the matching website.', 'hero.status': 'Bedrock Edition downloads for Windows and Android are connected',
     'platform.title': 'Choose a platform', 'platform.subtitle': 'Use the tabs to switch platforms, then use the button below to continue.', 'platform.label': 'Installation platform',
     'download.action': 'Open download page', 'download.action1': 'Open download page 1', 'download.action2': 'Open download page 2', 'download.notice': 'The tabs only switch platforms. The buttons below leave this site and open the matching download page.',
     'next.title': 'Both platforms are ready', 'next.text': 'Windows and Android now lead to separate pages. Versions or installation notes can still be added later.',
@@ -39,9 +39,9 @@ const i18n = {
     'mode.auto': 'System', 'mode.light': 'Light', 'mode.dark': 'Dark'
   },
   ja: {
-    'meta.title': 'Minecraft 統合版ランチャー 2プラットフォームダウンロード · Jiyouyang', 'meta.description': 'Minecraft 統合版ランチャーの Windows・Android ダウンロード入口です。',
+    'meta.title': 'Minecraft 統合版 · Jiyouyang', 'meta.description': 'Minecraft 統合版の Windows・Android ダウンロード入口です。',
     'nav.label': 'ダウンロードページナビゲーション', 'nav.back': 'Minecraft へ戻る', 'nav.title': 'ダウンロード',
-    'hero.title': 'Minecraft 統合版ランチャー 2プラットフォームダウンロード', 'hero.intro': 'プラットフォームを選んで、統合版の対応バージョンと案内を確認できます。<br>外部サイトを開くのは下のダウンロードボタンだけです。', 'hero.status': '統合版の Windows・Android ダウンロードボタンを接続済み',
+    'hero.title': 'Minecraft 統合版', 'hero.intro': 'プラットフォームを選んで、統合版の対応バージョンと案内を確認できます。<br>外部サイトを開くのは下のダウンロードボタンだけです。', 'hero.status': '統合版の Windows・Android ダウンロードボタンを接続済み',
     'platform.title': 'プラットフォームを選択', 'platform.subtitle': 'タブでプラットフォームを切り替え、下のボタンからダウンロードサイトへ進みます。', 'platform.label': 'インストール先',
     'download.action': 'ダウンロードページを開く', 'download.action1': 'ダウンロードページ 1', 'download.action2': 'ダウンロードページ 2', 'download.notice': 'タブはプラットフォームの切り替え専用です。下のボタンを押すと、対応するダウンロードページへ移動します。',
     'next.title': '両方のプラットフォームを接続しました', 'next.text': 'Windows と Android は別々のページにつながっています。バージョンや説明は後から追加できます。',
@@ -58,10 +58,10 @@ const platforms = {
     url: 'https://mc.minebbs.com/?platform=3&environment=1',
     icon: '<svg viewBox="0 0 24 24"><path d="M3 5.5 10.5 4v7H3zm9-1.8L21 2v9h-9zM3 12.5h7.5v7L3 18zm9 0h9v9l-9-1.7z"/></svg>',
     content: {
-      'zh-CN': ['桌面平台 · 基岩版', 'Minecraft 基岩版启动器（Windows）', '适用于 Windows 10 与 Windows 11 的 Minecraft 基岩版。按钮将直接进入对应安装页面。', ['基岩版', 'Windows 10 / 11', '安装程序']],
-      'zh-TW': ['桌面平台 · 基岩版', 'Minecraft 基岩版啟動器（Windows）', '適用於 Windows 10 與 Windows 11 的 Minecraft 基岩版。按鈕將直接進入對應安裝頁面。', ['基岩版', 'Windows 10 / 11', '安裝程式']],
-      en: ['DESKTOP · BEDROCK', 'Minecraft Bedrock Launcher for Windows', 'Minecraft Bedrock Edition for Windows 10 and Windows 11. The button opens the matching installer page.', ['Bedrock Edition', 'Windows 10 / 11', 'Installer']],
-      ja: ['デスクトップ · 統合版', 'Minecraft 統合版ランチャー（Windows）', 'Windows 10・11 向けの Minecraft 統合版です。ボタンから対応するインストールページへ移動できます。', ['統合版', 'Windows 10 / 11', 'インストーラー']]
+      'zh-CN': ['桌面平台 · 基岩版', 'Minecraft 基岩版（Windows）', '适用于 Windows 10 与 Windows 11 的 Minecraft 基岩版。按钮将直接进入对应安装页面。', ['基岩版', 'Windows 10 / 11', '安装程序']],
+      'zh-TW': ['桌面平台 · 基岩版', 'Minecraft 基岩版（Windows）', '適用於 Windows 10 與 Windows 11 的 Minecraft 基岩版。按鈕將直接進入對應安裝頁面。', ['基岩版', 'Windows 10 / 11', '安裝程式']],
+      en: ['DESKTOP · BEDROCK', 'Minecraft Bedrock for Windows', 'Minecraft Bedrock Edition for Windows 10 and Windows 11. The button opens the matching installer page.', ['Bedrock Edition', 'Windows 10 / 11', 'Installer']],
+      ja: ['デスクトップ · 統合版', 'Minecraft 統合版（Windows）', 'Windows 10・11 向けの Minecraft 統合版です。ボタンから対応するインストールページへ移動できます。', ['統合版', 'Windows 10 / 11', 'インストーラー']]
     }
   },
   android: {
@@ -69,10 +69,10 @@ const platforms = {
     secondaryUrl: 'https://mcapks.net',
     icon: '<svg viewBox="0 0 24 24"><path d="m8 5-2-3m10 3 2-3M6 9h12v9H6zM4 10v6m16-6v6M9 18v4m6-4v4"/><circle cx="9" cy="7" r=".5"/><circle cx="15" cy="7" r=".5"/></svg>',
     content: {
-      'zh-CN': ['移动平台 · 基岩版', 'Minecraft 基岩版启动器（Android）', '适用于 Android 手机与平板的 Minecraft 基岩版。如果下载页面 1 里没有你想要的版本，请去链接 2 试试。', ['基岩版', 'Android', '安装包']],
-      'zh-TW': ['行動平台 · 基岩版', 'Minecraft 基岩版啟動器（Android）', '適用於 Android 手機與平板的 Minecraft 基岩版。如果下載頁面 1 沒有你想要的版本，請試試連結 2。', ['基岩版', 'Android', '安裝套件']],
-      en: ['MOBILE · BEDROCK', 'Minecraft Bedrock Launcher for Android', 'Minecraft Bedrock Edition for Android phones and tablets. If download page 1 does not have the version you need, try link 2.', ['Bedrock Edition', 'Android', 'Package']],
-      ja: ['モバイル · 統合版', 'Minecraft 統合版ランチャー（Android）', 'Android のスマートフォンとタブレット向けの Minecraft 統合版です。ダウンロードページ 1 に必要なバージョンがない場合は、リンク 2 をお試しください。', ['統合版', 'Android', 'パッケージ']]
+      'zh-CN': ['移动平台 · 基岩版', 'Minecraft 基岩版（Android）', '适用于 Android 手机与平板的 Minecraft 基岩版。如果下载页面 1 里没有你想要的版本，请去链接 2 试试。', ['基岩版', 'Android', '安装包']],
+      'zh-TW': ['行動平台 · 基岩版', 'Minecraft 基岩版（Android）', '適用於 Android 手機與平板的 Minecraft 基岩版。如果下載頁面 1 沒有你想要的版本，請試試連結 2。', ['基岩版', 'Android', '安裝套件']],
+      en: ['MOBILE · BEDROCK', 'Minecraft Bedrock for Android', 'Minecraft Bedrock Edition for Android phones and tablets. If download page 1 does not have the version you need, try link 2.', ['Bedrock Edition', 'Android', 'Package']],
+      ja: ['モバイル · 統合版', 'Minecraft 統合版（Android）', 'Android のスマートフォンとタブレット向けの Minecraft 統合版です。ダウンロードページ 1 に必要なバージョンがない場合は、リンク 2 をお試しください。', ['統合版', 'Android', 'パッケージ']]
     }
   }
 };
