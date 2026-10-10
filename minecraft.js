@@ -2,10 +2,10 @@ const i18n = {
   'zh-CN': {
     'meta.title': 'Minecraft 国际版 · Jiyouyang', 'meta.description': 'Minecraft 国际版 Windows 与 Android 下载入口。',
     'nav.label': '下载页面导航', 'nav.back': '返回资源库', 'nav.title': '下载中心',
-    'hero.title': 'Minecraft 国际版', 'hero.intro': '选择你的设备平台。下载地址将在你确认后接入，<br>页面结构与全部外观功能已经准备完成。', 'hero.status': '站内页面 · 下载链接待添加',
-    'platform.title': '选择安装平台', 'platform.subtitle': '切换选项卡查看对应版本与安装说明。', 'platform.label': '安装平台',
-    'download.pending': '下载链接待添加', 'download.notice': '当前按钮不会开始下载，也不会跳转到第三方网站。等你提供具体网址后，我会分别接入两个平台。',
-    'next.title': '下一步只需要下载网址', 'next.text': 'Windows 与 Android 可以使用不同链接，也可以继续增加版本或安装说明。',
+    'hero.title': 'Minecraft 国际版', 'hero.intro': '选择你的设备平台，点击后前往对应下载网站。<br>页面外观会继续沿用你的主题与语言设置。', 'hero.status': 'Windows 与 Android 下载入口已接入',
+    'platform.title': '选择安装平台', 'platform.subtitle': '点击选项卡，前往对应平台的下载网站。', 'platform.label': '安装平台',
+    'download.action': '前往下载页面', 'download.notice': '点击平台选项或下载按钮后，你将离开本站并前往对应的 MineBBS 下载页面。',
+    'next.title': '两个平台已就绪', 'next.text': 'Windows 与 Android 已分别连接到对应页面，后续仍可增加版本或安装说明。',
     'footer.motto': '把好用的，分享给需要的人。', 'footer.back': '返回资源库 ↗',
     'settings.open': '打开网站设置', 'settings.short': '网站设置', 'settings.title': '外观与语言', 'settings.close': '关闭设置',
     'settings.color': '主题颜色', 'settings.mode': '深浅模式', 'settings.language': '翻译语言',
@@ -15,10 +15,10 @@ const i18n = {
   'zh-TW': {
     'meta.title': 'Minecraft 國際版 · Jiyouyang', 'meta.description': 'Minecraft 國際版 Windows 與 Android 下載入口。',
     'nav.label': '下載頁面導覽', 'nav.back': '返回資源庫', 'nav.title': '下載中心',
-    'hero.title': 'Minecraft 國際版', 'hero.intro': '選擇你的裝置平台。下載網址將在你確認後接入，<br>頁面結構與全部外觀功能已經準備完成。', 'hero.status': '站內頁面 · 下載連結待新增',
-    'platform.title': '選擇安裝平台', 'platform.subtitle': '切換選項卡查看對應版本與安裝說明。', 'platform.label': '安裝平台',
-    'download.pending': '下載連結待新增', 'download.notice': '目前按鈕不會開始下載，也不會跳轉至第三方網站。等你提供具體網址後，我會分別接入兩個平台。',
-    'next.title': '下一步只需要下載網址', 'next.text': 'Windows 與 Android 可以使用不同連結，也可以繼續增加版本或安裝說明。',
+    'hero.title': 'Minecraft 國際版', 'hero.intro': '選擇你的裝置平台，點擊後前往對應下載網站。<br>頁面外觀會繼續沿用你的主題與語言設定。', 'hero.status': 'Windows 與 Android 下載入口已接入',
+    'platform.title': '選擇安裝平台', 'platform.subtitle': '點擊選項卡，前往對應平台的下載網站。', 'platform.label': '安裝平台',
+    'download.action': '前往下載頁面', 'download.notice': '點擊平台選項或下載按鈕後，你將離開本站並前往對應的 MineBBS 下載頁面。',
+    'next.title': '兩個平台已就緒', 'next.text': 'Windows 與 Android 已分別連接到對應頁面，後續仍可增加版本或安裝說明。',
     'footer.motto': '把好用的，分享給需要的人。', 'footer.back': '返回資源庫 ↗',
     'settings.open': '開啟網站設定', 'settings.short': '網站設定', 'settings.title': '外觀與語言', 'settings.close': '關閉設定',
     'settings.color': '主題顏色', 'settings.mode': '深淺模式', 'settings.language': '翻譯語言',
@@ -28,10 +28,10 @@ const i18n = {
   en: {
     'meta.title': 'Minecraft International · Jiyouyang', 'meta.description': 'Windows and Android download options for Minecraft International.',
     'nav.label': 'Download page navigation', 'nav.back': 'Back to resources', 'nav.title': 'Downloads',
-    'hero.title': 'Minecraft International', 'hero.intro': 'Choose your device platform. Download URLs will be connected after your confirmation.<br>The page structure and appearance controls are ready.', 'hero.status': 'Internal page · Download links pending',
-    'platform.title': 'Choose a platform', 'platform.subtitle': 'Switch tabs to see the matching version and installation notes.', 'platform.label': 'Installation platform',
-    'download.pending': 'Download link pending', 'download.notice': 'The button does not download anything or open a third-party site yet. Once you provide the URLs, each platform will be connected separately.',
-    'next.title': 'Only the download URLs are needed next', 'next.text': 'Windows and Android can use different links, with more versions or instructions added later.',
+    'hero.title': 'Minecraft International', 'hero.intro': 'Choose your device platform to open its download website.<br>Your theme and language settings remain active on this page.', 'hero.status': 'Windows and Android links are connected',
+    'platform.title': 'Choose a platform', 'platform.subtitle': 'Select a tab to open the matching download website.', 'platform.label': 'Installation platform',
+    'download.action': 'Open download page', 'download.notice': 'Selecting a platform or the download button will leave this site and open the matching MineBBS download page.',
+    'next.title': 'Both platforms are ready', 'next.text': 'Windows and Android now lead to separate pages. Versions or installation notes can still be added later.',
     'footer.motto': 'Share useful things with people who need them.', 'footer.back': 'Back to resources ↗',
     'settings.open': 'Open site settings', 'settings.short': 'Site settings', 'settings.title': 'Appearance & Language', 'settings.close': 'Close settings',
     'settings.color': 'Accent color', 'settings.mode': 'Appearance mode', 'settings.language': 'Translation language',
@@ -41,10 +41,10 @@ const i18n = {
   ja: {
     'meta.title': 'Minecraft 国際版 · Jiyouyang', 'meta.description': 'Minecraft 国際版の Windows・Android ダウンロード入口です。',
     'nav.label': 'ダウンロードページナビゲーション', 'nav.back': 'リソースへ戻る', 'nav.title': 'ダウンロード',
-    'hero.title': 'Minecraft 国際版', 'hero.intro': 'デバイスのプラットフォームを選んでください。URL は確認後に接続します。<br>ページ構成とすべての外観機能は準備済みです。', 'hero.status': 'サイト内ページ · リンク追加待ち',
-    'platform.title': 'プラットフォームを選択', 'platform.subtitle': 'タブを切り替えて、対応バージョンと案内を確認できます。', 'platform.label': 'インストール先',
-    'download.pending': 'リンク追加待ち', 'download.notice': '現在のボタンはダウンロードや外部サイトへの移動を行いません。URL を受け取った後、各プラットフォームへ個別に接続します。',
-    'next.title': '次に必要なのはダウンロード URL だけです', 'next.text': 'Windows と Android に別々のリンクを設定し、後からバージョンや説明も追加できます。',
+    'hero.title': 'Minecraft 国際版', 'hero.intro': 'デバイスのプラットフォームを選ぶと、対応するダウンロードサイトへ移動します。<br>テーマと言語の設定はこのページでも引き継がれます。', 'hero.status': 'Windows・Android のリンクを接続済み',
+    'platform.title': 'プラットフォームを選択', 'platform.subtitle': 'タブを押すと、対応するダウンロードサイトへ移動します。', 'platform.label': 'インストール先',
+    'download.action': 'ダウンロードページを開く', 'download.notice': 'プラットフォームまたはダウンロードボタンを押すと、このサイトを離れて対応する MineBBS ページへ移動します。',
+    'next.title': '両方のプラットフォームを接続しました', 'next.text': 'Windows と Android は別々のページにつながっています。バージョンや説明は後から追加できます。',
     'footer.motto': '便利なものを、必要な人へ。', 'footer.back': 'リソースへ戻る ↗',
     'settings.open': 'サイト設定を開く', 'settings.short': 'サイト設定', 'settings.title': '外観と言語', 'settings.close': '設定を閉じる',
     'settings.color': 'テーマカラー', 'settings.mode': '表示モード', 'settings.language': '翻訳言語',
@@ -55,6 +55,7 @@ const i18n = {
 
 const platforms = {
   windows: {
+    url: 'https://mc.minebbs.com/?platform=3&environment=1',
     icon: '<svg viewBox="0 0 24 24"><path d="M3 5.5 10.5 4v7H3zm9-1.8L21 2v9h-9zM3 12.5h7.5v7L3 18zm9 0h9v9l-9-1.7z"/></svg>',
     content: {
       'zh-CN': ['桌面平台', 'Minecraft Windows 版', '适用于 Windows 10 与 Windows 11。下载地址确认后，按钮将直接进入对应安装页面。', ['Windows 10 / 11', '64 位', '安装程序']],
@@ -64,6 +65,7 @@ const platforms = {
     }
   },
   android: {
+    url: 'https://mc.minebbs.com/?platform=1&environment=1',
     icon: '<svg viewBox="0 0 24 24"><path d="m8 5-2-3m10 3 2-3M6 9h12v9H6zM4 10v6m16-6v6M9 18v4m6-4v4"/><circle cx="9" cy="7" r=".5"/><circle cx="15" cy="7" r=".5"/></svg>',
     content: {
       'zh-CN': ['移动平台', 'Minecraft Android 版', '适用于 Android 手机与平板。下载地址确认后，按钮将进入对应安装包页面。', ['Android', '手机 / 平板', '安装包']],
@@ -99,6 +101,7 @@ function renderPlatform() {
   $('#platform-label').textContent = label;
   $('#platform-name').textContent = name;
   $('#platform-description').textContent = description;
+  $('#download-link').href = platform.url;
   $('#platform-details').innerHTML = details.map(detail => '<span class="detail"></span>').join('');
   [...$('#platform-details').children].forEach((element, index) => { element.textContent = details[index]; });
   const buttons = [...document.querySelectorAll('[data-platform]')];
@@ -152,7 +155,11 @@ function applyLanguage() {
 }
 
 document.querySelectorAll('[data-platform]').forEach(button => {
-  button.onclick = () => { selectedPlatform = button.dataset.platform; renderPlatform(); };
+  button.onclick = () => {
+    selectedPlatform = button.dataset.platform;
+    renderPlatform();
+    window.location.assign(platforms[selectedPlatform].url);
+  };
 });
 $('#settings-trigger').onclick = () => { settings.showModal(); document.body.style.overflow = 'hidden'; };
 $('#close-settings').onclick = () => settings.close();
