@@ -139,10 +139,10 @@ const resources = [
     ja: ['SteamDB', 'Steam の価格、更新履歴、プレイヤー数、過去データを確認できます。']
   }},
   { id: 'minecraft', category: 'games', url: '/minecraft.html', domain: 'jiyouyang.github.io/minecraft', glyph: 'MC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['Minecraft', '在站内选择 Windows 或 Android 平台，进入对应的下载入口。'],
-    'zh-TW': ['Minecraft', '在站內選擇 Windows 或 Android 平台，進入對應的下載入口。'],
-    en: ['Minecraft', 'Choose Windows or Android on the internal page and continue to its download option.'],
-    ja: ['Minecraft', 'サイト内で Windows または Android を選び、対応するダウンロードへ進めます。']
+    'zh-CN': ['Minecraft', '进入 Minecraft 专区，浏览国际版下载与之后加入的更多相关内容。'],
+    'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽國際版下載與之後加入的更多相關內容。'],
+    en: ['Minecraft', 'Open the Minecraft hub for downloads and more Minecraft resources added over time.'],
+    ja: ['Minecraft', 'Minecraft 専用ページで、ダウンロードや今後追加されるコンテンツを確認できます。']
   }}
 ];
 
