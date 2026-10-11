@@ -14,22 +14,22 @@
 
 ## 给后续 Codex 的回滚流程
 
-用户说“回滚到本次视觉升级前”时，先检查工作区和远端的新提交，保留尚未提交的工作，再从固定标签恢复。以一个新的恢复提交推送 `main`，保留完整历史；不要强制推送或重置历史。
+用户说“回滚到本次视觉升级前”时，先按 `CODEX_HANDOFF.md` 的现行规则备份当前完整仓库、检查工作区和远端提交，再从固定标签**仅恢复实际网站文件**。`CODEX_HANDOFF.md`、本文件、`README.md`、测试/维护脚本等非网站文件保持当前最新版；不要强制推送或重置历史。
 
 在干净工作区、已同步远端后，可在单独分支准备恢复：
 
 ```bash
 git fetch origin --tags
 git switch -c restore/pre-visual-upgrade origin/main
-git restore --source=pre-visual-upgrade-20261011 --staged --worktree -- .
+git restore --source=pre-visual-upgrade-20261011 --staged --worktree -- index.html app.js minecraft.html minecraft-download.html minecraft-mods.html minecraft-launchers.html minecraft-mobile.html genshin.html genshin-download.html site.css site.js
 ```
 
-这一步会让跟踪文件与旧版本一致，包括移除升级后新增的文件。检查 diff，并在恢复后的 `CODEX_HANDOFF.md` 记录回滚原因、标签、验证结果；若升级后还有用户希望保留的新资源，应先按其意愿单独保留。
+以上只是针对这次视觉升级的示例文件清单；真正操作前要核对目标版本实际涉及的网页文件、资源及发布配置，不可照搬到其他回滚。检查 diff，并在**当前最新版** `CODEX_HANDOFF.md` 追加回滚原因、标签、验证结果；不得把文档回退。若升级后还有用户希望保留的新网站资源，应先按其意愿单独保留。
 
 完成页面与链接检查后创建恢复提交，再普通推送到 `main`：
 
 ```bash
-git add CODEX_HANDOFF.md
+git add -u
 git commit -m "Restore site before visual upgrade"
 git push origin HEAD:main
 ```
