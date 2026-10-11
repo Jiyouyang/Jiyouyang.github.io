@@ -160,6 +160,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-11-visual-upgrade', date: '2026-10-11', content: {
+      'zh-CN': ['视觉与体验全面升级', ['全站统一更清晰的文字层级、轻盈卡片和液态玻璃控件，深浅模式与五种色调同步优化。', '手机端设置面板、搜索清空、键盘选项卡和公告暂停现已可用，原有资源与下载入口继续保留。']],
+      'zh-TW': ['視覺與體驗全面升級', ['全站統一更清晰的文字層級、輕盈卡片與液態玻璃控制項，深淺模式和五種色調同步優化。', '手機版設定面板、清除搜尋、鍵盤分頁操作與公告暫停現已可用，原有資源與下載入口繼續保留。']],
+      en: ['A refreshed look, a smoother experience', ['Clearer typography, lighter cards, and refined glass controls across the site, with all five accent colors and light and dark modes.', 'New mobile settings, search clearing, keyboard tab navigation, and announcement pause controls. All existing resources and downloads remain available.']],
+      ja: ['デザインと使いやすさを全面更新', ['文字の階層、軽やかなカード、ガラス調の操作部を全ページで統一。5色のテーマとライト・ダーク表示も調整しました。', 'モバイル設定、検索のクリア、キーボードでのタブ操作、お知らせの一時停止に対応。既存のリソースとダウンロード先は引き続き利用できます。']]
+    }
+  },
+  {
     id: '2026-10-11-jiyouyang', date: '2026-10-11', pinned: true, content: {
       'zh-CN': ['jiyouyang也是可爱傲娇小男娘喵', [
         '与 Eghver 置顶公告每 3 秒上下滚动切换显示。'
@@ -290,7 +298,8 @@ function setAnnouncementSummary(entry) {
 }
 
 function rotateAnnouncementSummary() {
-  if (rotatingAnnouncements.length < 2) return;
+  const notice = $('#top');
+  if (rotatingAnnouncements.length < 2 || document.hidden || window.JYAnnouncementPaused || notice.open || notice.contains(document.activeElement) || (matchMedia('(hover: hover)').matches && notice.matches(':hover'))) return;
   activeAnnouncementIndex = (activeAnnouncementIndex + 1) % rotatingAnnouncements.length;
   const next = rotatingAnnouncements[activeAnnouncementIndex];
   const title = $('#announcement-title');
@@ -321,7 +330,7 @@ function renderResources() {
     const [title, description] = localized(resource);
     const linkAttributes = resource.internal ? '' : ' target="_blank" rel="noopener noreferrer"';
     const arrow = resource.internal ? '→' : '↗';
-    return '<a class="resource-card" href="' + resource.url + '"' + linkAttributes + ' aria-label="' + escapeHtml(t('resource.open', { title })) + '">' +
+    return '<a class="resource-card"' + (resource.internal ? ' data-internal="true"' : '') + ' href="' + resource.url + '"' + linkAttributes + ' aria-label="' + escapeHtml(t('resource.open', { title })) + '">' +
       '<div class="resource-visual" style="--x:' + resource.x + ';--y:' + resource.y + '"><span class="resource-glyph">' + escapeHtml(resource.glyph) + '</span></div>' +
       '<div class="resource-body"><div class="resource-topline"><span class="resource-tag">' + escapeHtml(t('category.' + resource.category)) + '</span><span class="resource-arrow">' + arrow + '</span></div>' +
       '<h3>' + escapeHtml(title) + '</h3><p>' + escapeHtml(description) + '</p><div class="resource-domain">' + escapeHtml(resource.domain) + '</div></div></a>';

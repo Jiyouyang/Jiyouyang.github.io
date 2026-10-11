@@ -13,12 +13,21 @@
 - Minecraft 专区：基岩版下载、Java 版模组、桌面端启动器与移动端入口
 - 原神专区：国际版 Android / iOS / Windows 下载入口及国服官网直达卡片
 - 首页可展开的更新公告
+- 全站共享视觉系统、手机端底部设置面板、搜索清空与键盘选项卡操作
 
 ## 内容维护
 
 首页资源数据位于 `app.js` 的 `resources` 数组，公告位于同文件的 `announcements` 数组。每项资源包含链接、域名、分类、封面字符以及四种语言的标题与说明。
 
 Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.html`、`minecraft-mods.html`、`minecraft-launchers.html` 和 `minecraft-mobile.html`，分别由同名 JS（专区由 `minecraft-hub.js`）管理。原神专区由 `genshin.html` / `genshin.js` 提供，下载页由 `genshin-download.html` / `genshin-download.js` 提供。`minecraft.js` 与 `preview.html` 仅是旧版遗留文件，不参与正式页面。详细维护约定见 `CODEX_HANDOFF.md`。
+
+正式页面统一引用 `site.css` 与 `site.js`，分别提供视觉样式及共用交互增强。页面自己的脚本保留资源、四语言字典和主题偏好逻辑。修改共享文件时，应同步更新所有正式 HTML 的缓存版本。
+
+## 验证与回滚
+
+浏览器回归脚本为 `scripts/verify-ui.cjs`。启动根目录静态服务器，并在有 Playwright Core 与 Chromium 的环境运行 `node scripts/verify-ui.cjs`；可用 `SITE_BASE_URL` 和 `CHROMIUM_PATH` 指定服务器及浏览器。
+
+升级前备份固定在标签 `pre-visual-upgrade-20261011`，具体恢复步骤见 `ROLLBACK.md`。
 
 ## 部署
 
