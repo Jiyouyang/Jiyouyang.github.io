@@ -149,16 +149,24 @@ const resources = [
     ja: ['Minecraft', 'Minecraft 専用ページで、統合版のダウンロードや Java 版の MOD・ランチャーを探せます。']
   }},
   { id: 'genshin', category: 'games', url: '/genshin.html', domain: 'jiyouyang.github.io/genshin', glyph: 'GI', x: '24%', y: '24%', internal: true, content: {
-    'zh-CN': ['原神', '进入原神专区，查看国际版多平台下载与国服官网入口。'],
-    'zh-TW': ['原神', '進入原神專區，查看國際版多平台下載與國服官網入口。'],
-    en: ['Genshin Impact', 'Find global-edition downloads and the mainland China official site in the Genshin Impact hub.'],
-    ja: ['原神', '原神専用ページで、グローバル版のダウンロードと中国版の公式サイトを確認できます。']
+    'zh-CN': ['原神', '进入原神专区，查看多平台下载、国服官网与可用兑换码。'],
+    'zh-TW': ['原神', '進入原神專區，查看多平台下載、國服官網與可用兌換碼。'],
+    en: ['Genshin Impact', 'Find downloads, the mainland China official site, and available redemption codes in the Genshin Impact hub.'],
+    ja: ['原神', '原神専用ページで、ダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
   }}
 ];
 
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-11-genshin-codes', date: '2026-10-11', content: {
+      'zh-CN': ['原神兑换码查询已加入', ['原神专区新增“原神兑换码”选择项，可直接查询当前可用兑换码。']],
+      'zh-TW': ['原神兌換碼查詢已加入', ['原神專區新增「原神兌換碼」選項，可直接查詢目前可用的兌換碼。']],
+      en: ['Genshin Impact code lookup added', ['The Genshin Impact hub now includes a direct option for checking currently available redemption codes.']],
+      ja: ['原神の交換コード確認を追加', ['原神ページに、現在利用できる交換コードを直接確認する項目を追加しました。']]
+    }
+  },
   {
     id: '2026-10-11-platform-selectors-only', date: '2026-10-11', content: {
       'zh-CN': ['选择滑块样式范围已修正', ['新的浅色玻璃滑块现在只用于下载页面的平台与渠道选择；主页分类和网站设置等其他滑块已恢复原先设计。']],
