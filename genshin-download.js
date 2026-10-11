@@ -12,7 +12,7 @@ const i18n = {
     'meta.title':'原神國際版下載 · Jiyouyang','meta.description':'原神國際版 Android 與 iOS 下載入口。','nav.label':'原神下載頁面導覽','nav.back':'返回原神專區','nav.title':'下載中心',
     'hero.title':'原神國際版下載','hero.intro':'選擇 Android 或 iOS 查看下載方式。<br>選項卡只切換平台，下方按鈕才會開啟下載網頁。','hero.status':'Android 與 iOS 下載入口已接入',
     'platform.title':'選擇行動平台','platform.subtitle':'點擊選項卡切換平台，再使用下方按鈕前往對應下載頁面。','platform.label':'行動平台',
-    'download.google':'Google Play','download.apk':'APK 下載','download.ios':'App Store 下載',
+    'download.google':'Google Play 下載','download.apk':'APK 下載','download.ios':'App Store 下載',
     'footer.motto':'把好用的，分享給需要的人。','footer.back':'返回原神專區 ↗',
     'settings.open':'開啟網站設定','settings.short':'網站設定','settings.title':'外觀與語言','settings.close':'關閉設定','settings.color':'主題顏色','settings.mode':'深淺模式','settings.language':'翻譯語言',
     'color.graphite':'石墨','color.blue':'藍色','color.violet':'紫色','color.green':'綠色','color.orange':'橙色','mode.auto':'跟隨系統','mode.light':'淺色','mode.dark':'深色'
