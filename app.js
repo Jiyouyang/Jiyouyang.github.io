@@ -156,8 +156,25 @@ const resources = [
   }}
 ];
 
-// Add future update summaries at the start of this list; remove an entry by id when requested.
+// Add future update summaries at the start of this list; pinned entries stay above regular updates.
+// Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-11-eghver', date: '2026-10-11', pinned: true, content: {
+      'zh-CN': ['Eghver恶魔是可爱傲娇小男娘喵', [
+        '此公告已置顶，将持续显示在首页公告栏的标题位置。'
+      ]],
+      'zh-TW': ['Eghver惡魔是可愛傲嬌小男娘喵', [
+        '此公告已置頂，將持續顯示在首頁公告列的標題位置。'
+      ]],
+      en: ['Eghver the demon is a cute, tsundere femboy, meow', [
+        'This pinned notice will remain in the title position of the home-page announcement bar.'
+      ]],
+      ja: ['悪魔のEghverは可愛いツンデレ男の娘にゃ', [
+        'このお知らせは固定され、ホームページのお知らせ欄のタイトル位置に表示されます。'
+      ]]
+    }
+  },
   {
     id: '2026-10-11-genshin', date: '2026-10-11', content: {
       'zh-CN': ['原神专区更新', [
@@ -213,14 +230,17 @@ const localized = resource => resource.content[language] || resource.content['zh
 const persist = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
 
 function renderAnnouncements() {
-  const latest = announcements[0];
+  const orderedAnnouncements = [...announcements].sort((left, right) =>
+    Number(Boolean(right.pinned)) - Number(Boolean(left.pinned)) || right.date.localeCompare(left.date)
+  );
+  const latest = orderedAnnouncements[0];
   if (!latest) { $('#top').hidden = true; $('.brand').href = '#hero-top'; return; }
   $('#top').hidden = false;
   $('.brand').href = '#top';
   $('#announcement-title').textContent = (latest.content[language] || latest.content['zh-CN'])[0];
   $('#announcement-date').textContent = latest.date.slice(5).replace('-', '.');
   $('#announcement-date').dateTime = latest.date;
-  $('#announcement-list').innerHTML = announcements.map(entry => {
+  $('#announcement-list').innerHTML = orderedAnnouncements.map(entry => {
     const [title, details] = entry.content[language] || entry.content['zh-CN'];
     return '<article class="announcement-entry"><time datetime="' + escapeHtml(entry.date) + '">' +
       escapeHtml(entry.date.replaceAll('-', '.')) + '</time><h2>' + escapeHtml(title) + '</h2><ul>' +
