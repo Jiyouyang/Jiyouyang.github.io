@@ -143,10 +143,17 @@ const resources = [
     'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽國際版下載與之後加入的更多相關內容。'],
     en: ['Minecraft', 'Open the Minecraft hub for downloads and more Minecraft resources added over time.'],
     ja: ['Minecraft', 'Minecraft 専用ページで、ダウンロードや今後追加されるコンテンツを確認できます。']
+  }},
+  { id: 'genshin', category: 'games', url: '/genshin.html', domain: 'jiyouyang.github.io/genshin', glyph: 'GI', x: '24%', y: '24%', internal: true, content: {
+    'zh-CN': ['原神', '进入原神专区，浏览之后加入的下载与相关资源。'],
+    'zh-TW': ['原神', '進入原神專區，瀏覽之後加入的下載與相關資源。'],
+    en: ['Genshin Impact', 'Open the Genshin Impact hub for future downloads and related resources.'],
+    ja: ['原神', '原神専用ページで、今後追加されるダウンロードや関連リソースを確認できます。']
   }}
 ];
 
-resources.sort((left, right) => left.id === 'minecraft' ? -1 : right.id === 'minecraft' ? 1 : 0);
+const featuredOrder = { minecraft: 0, genshin: 1 };
+resources.sort((left, right) => (featuredOrder[left.id] ?? 2) - (featuredOrder[right.id] ?? 2));
 
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');
