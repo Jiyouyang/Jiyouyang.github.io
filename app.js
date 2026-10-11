@@ -3,6 +3,7 @@ const i18n = {
     'meta.title': 'Jiyouyang · 好用的，值得分享。',
     'meta.description': 'Jiyouyang 的精选资源分享站。收藏开发、学习、工具与游戏资源。',
     'nav.label': '主导航', 'nav.resources': '资源分享', 'nav.search': '搜索资源',
+    'announcement.label': '公告',
     'hero.line1': '好用的，', 'hero.line2': '值得分享。',
     'hero.intro': '认真收藏每一个好工具与好入口。<br>少一点寻找，多一点创造。',
     'hero.explore': '浏览资源', 'hero.resources': '个精选资源', 'hero.categories': '个分类',
@@ -25,6 +26,7 @@ const i18n = {
     'meta.title': 'Jiyouyang · 好用的，值得分享。',
     'meta.description': 'Jiyouyang 的精選資源分享站。收藏開發、學習、工具與遊戲資源。',
     'nav.label': '主導覽', 'nav.resources': '資源分享', 'nav.search': '搜尋資源',
+    'announcement.label': '公告',
     'hero.line1': '好用的，', 'hero.line2': '值得分享。',
     'hero.intro': '認真收藏每一個好工具與好入口。<br>少一點尋找，多一點創造。',
     'hero.explore': '瀏覽資源', 'hero.resources': '個精選資源', 'hero.categories': '個分類',
@@ -47,6 +49,7 @@ const i18n = {
     'meta.title': 'Jiyouyang · Useful things, shared.',
     'meta.description': 'Jiyouyang’s curated collection of development, learning, utility, and gaming resources.',
     'nav.label': 'Main navigation', 'nav.resources': 'Resources', 'nav.search': 'Search resources',
+    'announcement.label': 'Updates',
     'hero.line1': 'Useful things,', 'hero.line2': 'worth sharing.',
     'hero.intro': 'A considered collection of useful tools and places.<br>Spend less time searching and more time creating.',
     'hero.explore': 'Browse resources', 'hero.resources': 'curated resources', 'hero.categories': 'categories',
@@ -69,6 +72,7 @@ const i18n = {
     'meta.title': 'Jiyouyang · 便利なものを、分かち合う。',
     'meta.description': '開発、学習、ツール、ゲームの厳選リソースを集めた Jiyouyang のサイトです。',
     'nav.label': 'メインナビゲーション', 'nav.resources': 'リソース', 'nav.search': 'リソースを検索',
+    'announcement.label': 'お知らせ',
     'hero.line1': '便利なものを、', 'hero.line2': '分かち合う。',
     'hero.intro': '役立つツールと入口を、丁寧に集めました。<br>探す時間を減らして、つくる時間を増やそう。',
     'hero.explore': 'リソースを見る', 'hero.resources': '件の厳選リソース', 'hero.categories': 'カテゴリー',
@@ -152,6 +156,34 @@ const resources = [
   }}
 ];
 
+// Add future update summaries at the start of this list; remove an entry by id when requested.
+const announcements = [
+  {
+    id: '2026-10-11-genshin', date: '2026-10-11', content: {
+      'zh-CN': ['原神专区更新', [
+        '新增原神独立专区：国际版支持 Android、iOS 与 Windows，国服卡片直达官网。',
+        'Android 提供 Google Play 与 APK，iOS 前往 App Store，Windows 前往 HoYoPlay。',
+        '统一下载按钮与卡片箭头，并新增可展开的首页公告。'
+      ]],
+      'zh-TW': ['原神專區更新', [
+        '新增原神獨立專區：國際版支援 Android、iOS 與 Windows，國服卡片直達官網。',
+        'Android 提供 Google Play 與 APK，iOS 前往 App Store，Windows 前往 HoYoPlay。',
+        '統一下載按鈕與卡片箭頭，並新增可展開的首頁公告。'
+      ]],
+      en: ['Genshin Impact hub update', [
+        'Added a Genshin Impact hub: the global edition supports Android, iOS, and Windows, while the China card opens the official site directly.',
+        'Android offers Google Play and APK; iOS links to the App Store; Windows links to HoYoPlay.',
+        'Refined download buttons and card arrows, and added this expandable home-page notice.'
+      ]],
+      ja: ['原神ページの更新', [
+        '原神専用ページを追加。グローバル版は Android・iOS・Windows に対応し、中国版カードは公式サイトへ直接移動します。',
+        'Android は Google Play と APK、iOS は App Store、Windows は HoYoPlay への入口を用意しました。',
+        'ダウンロードボタンとカードの矢印を整え、展開できるホームページのお知らせを追加しました。'
+      ]]
+    }
+  }
+];
+
 const featuredOrder = { minecraft: 0, genshin: 1 };
 resources.sort((left, right) => (featuredOrder[left.id] ?? 2) - (featuredOrder[right.id] ?? 2));
 
@@ -179,6 +211,22 @@ const t = (key, variables = {}) => Object.entries(variables).reduce(
 );
 const localized = resource => resource.content[language] || resource.content['zh-CN'];
 const persist = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
+
+function renderAnnouncements() {
+  const latest = announcements[0];
+  if (!latest) { $('#top').hidden = true; $('.brand').href = '#hero-top'; return; }
+  $('#top').hidden = false;
+  $('.brand').href = '#top';
+  $('#announcement-title').textContent = (latest.content[language] || latest.content['zh-CN'])[0];
+  $('#announcement-date').textContent = latest.date.slice(5).replace('-', '.');
+  $('#announcement-date').dateTime = latest.date;
+  $('#announcement-list').innerHTML = announcements.map(entry => {
+    const [title, details] = entry.content[language] || entry.content['zh-CN'];
+    return '<article class="announcement-entry"><time datetime="' + escapeHtml(entry.date) + '">' +
+      escapeHtml(entry.date.replaceAll('-', '.')) + '</time><h2>' + escapeHtml(title) + '</h2><ul>' +
+      details.map(detail => '<li>' + escapeHtml(detail) + '</li>').join('') + '</ul></article>';
+  }).join('');
+}
 
 function renderResources() {
   const query = $('#search').value.trim().toLocaleLowerCase();
@@ -237,6 +285,7 @@ function applyLanguage() {
     button.classList.toggle('active', buttonIndex === index);
     button.setAttribute('aria-pressed', String(buttonIndex === index));
   });
+  renderAnnouncements();
   renderResources();
   persist('jy-language', language);
 }
