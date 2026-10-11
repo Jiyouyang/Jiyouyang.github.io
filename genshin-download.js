@@ -3,7 +3,7 @@ const i18n = {
     'meta.title':'原神国际版下载 · Jiyouyang','meta.description':'原神国际版 Android 与 iOS 下载入口。','nav.label':'原神下载页面导航','nav.back':'返回原神专区','nav.title':'下载中心',
     'hero.title':'原神国际版下载','hero.intro':'选择 Android 或 iOS 查看下载方式。<br>选项卡只切换平台，下方按钮才会打开下载网页。','hero.status':'Android 与 iOS 下载入口已接入',
     'platform.title':'选择移动平台','platform.subtitle':'点击选项卡切换平台，再使用下方按钮前往对应下载页面。','platform.label':'移动平台',
-    'download.google':'Google Play 下载','download.apk':'APK 下载','download.ios':'App Store 下载',
+    'download.google':'Google Play','download.apk':'APK 下载','download.ios':'App Store 下载',
     'footer.motto':'把好用的，分享给需要的人。','footer.back':'返回原神专区 ↗',
     'settings.open':'打开网站设置','settings.short':'网站设置','settings.title':'外观与语言','settings.close':'关闭设置','settings.color':'主题颜色','settings.mode':'深浅模式','settings.language':'翻译语言',
     'color.graphite':'石墨','color.blue':'蓝色','color.violet':'紫色','color.green':'绿色','color.orange':'橙色','mode.auto':'跟随系统','mode.light':'浅色','mode.dark':'深色'
@@ -12,7 +12,7 @@ const i18n = {
     'meta.title':'原神國際版下載 · Jiyouyang','meta.description':'原神國際版 Android 與 iOS 下載入口。','nav.label':'原神下載頁面導覽','nav.back':'返回原神專區','nav.title':'下載中心',
     'hero.title':'原神國際版下載','hero.intro':'選擇 Android 或 iOS 查看下載方式。<br>選項卡只切換平台，下方按鈕才會開啟下載網頁。','hero.status':'Android 與 iOS 下載入口已接入',
     'platform.title':'選擇行動平台','platform.subtitle':'點擊選項卡切換平台，再使用下方按鈕前往對應下載頁面。','platform.label':'行動平台',
-    'download.google':'Google Play 下載','download.apk':'APK 下載','download.ios':'App Store 下載',
+    'download.google':'Google Play','download.apk':'APK 下載','download.ios':'App Store 下載',
     'footer.motto':'把好用的，分享給需要的人。','footer.back':'返回原神專區 ↗',
     'settings.open':'開啟網站設定','settings.short':'網站設定','settings.title':'外觀與語言','settings.close':'關閉設定','settings.color':'主題顏色','settings.mode':'深淺模式','settings.language':'翻譯語言',
     'color.graphite':'石墨','color.blue':'藍色','color.violet':'紫色','color.green':'綠色','color.orange':'橙色','mode.auto':'跟隨系統','mode.light':'淺色','mode.dark':'深色'
@@ -21,7 +21,7 @@ const i18n = {
     'meta.title':'Genshin Impact Global Download · Jiyouyang','meta.description':'Android and iOS download links for Genshin Impact global edition.','nav.label':'Genshin Impact download navigation','nav.back':'Back to Genshin Impact','nav.title':'Downloads',
     'hero.title':'Genshin Impact Global Download','hero.intro':'Choose Android or iOS to view download options.<br>The tabs only switch platforms; the buttons below open download pages.','hero.status':'Android and iOS download options are available',
     'platform.title':'Choose a mobile platform','platform.subtitle':'Switch platforms with the tabs, then use a button below to open a download page.','platform.label':'Mobile platform',
-    'download.google':'Google Play','download.apk':'Download APK','download.ios':'App Store',
+    'download.google':'Google Play','download.apk':'APK','download.ios':'App Store',
     'footer.motto':'Share useful things with people who need them.','footer.back':'Back to Genshin Impact ↗',
     'settings.open':'Open site settings','settings.short':'Site settings','settings.title':'Appearance & Language','settings.close':'Close settings','settings.color':'Accent color','settings.mode':'Appearance mode','settings.language':'Translation language',
     'color.graphite':'Graphite','color.blue':'Blue','color.violet':'Violet','color.green':'Green','color.orange':'Orange','mode.auto':'System','mode.light':'Light','mode.dark':'Dark'
@@ -30,7 +30,7 @@ const i18n = {
     'meta.title':'原神グローバル版ダウンロード · Jiyouyang','meta.description':'原神グローバル版の Android・iOS ダウンロード先です。','nav.label':'原神ダウンロードページナビゲーション','nav.back':'原神へ戻る','nav.title':'ダウンロード',
     'hero.title':'原神グローバル版ダウンロード','hero.intro':'Android または iOS を選んでダウンロード先を確認できます。<br>タブは切り替え専用で、下のボタンからダウンロードページを開きます。','hero.status':'Android・iOS のダウンロード先を接続済み',
     'platform.title':'モバイル環境を選択','platform.subtitle':'タブで切り替え、下のボタンから対応するページへ進みます。','platform.label':'モバイル環境',
-    'download.google':'Google Play','download.apk':'APK ダウンロード','download.ios':'App Store',
+    'download.google':'Google Play','download.apk':'APK','download.ios':'App Store',
     'footer.motto':'便利なものを、必要な人へ。','footer.back':'原神へ戻る ↗',
     'settings.open':'サイト設定を開く','settings.short':'サイト設定','settings.title':'外観と言語','settings.close':'設定を閉じる','settings.color':'テーマカラー','settings.mode':'表示モード','settings.language':'翻訳言語',
     'color.graphite':'グラファイト','color.blue':'ブルー','color.violet':'バイオレット','color.green':'グリーン','color.orange':'オレンジ','mode.auto':'システム','mode.light':'ライト','mode.dark':'ダーク'
