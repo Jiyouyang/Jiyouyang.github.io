@@ -16,11 +16,11 @@
 
 ## 内容维护
 
-首页资源数据位于 `app.js` 的 `resources` 数组，公告位于同文件的 `announcements` 数组。每项资源包含链接、域名、分类、封面字符以及四种语言的标题与说明。
+首页资源数据位于 `scripts/app.js` 的 `resources` 数组，公告位于同文件的 `announcements` 数组。每项资源包含链接、域名、分类、封面字符以及四种语言的标题与说明。
 
-Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.html`、`minecraft-mods.html`、`minecraft-launchers.html` 和 `minecraft-mobile.html`，分别由同名 JS（专区由 `minecraft-hub.js`）管理。原神专区由 `genshin.html` / `genshin.js` 提供，下载页由 `genshin-download.html` / `genshin-download.js` 提供。`minecraft.js` 与 `preview.html` 仅是旧版遗留文件，不参与正式页面。详细维护约定见 `CODEX_HANDOFF.md`。
+Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.html`、`minecraft-mods.html`、`minecraft-launchers.html` 和 `minecraft-mobile.html`，对应逻辑集中在 `scripts/`（专区使用 `scripts/minecraft-hub.js`）。原神专区与下载页逻辑同样位于 `scripts/`。旧版 `minecraft.js` 与 `preview.html` 已归档到 `archive/legacy/`，不参与正式页面。详细维护约定见 `CODEX_HANDOFF.md`。
 
-八个正式页面共用 `card-controls.css` 中的卡片图片区样式；首页“每周精选”在其中使用单块浅色底板与右上角图形布局，资源库普通卡片不受该规则影响。新的浅色玻璃选择器只用于下载页面的 `.platform-tabs` 平台/渠道选择，不覆盖主页分类或设置面板等其他分段控件。页面其余基础样式仍在各自 HTML 中。修改这份共享样式后，须同步更新八个页面的 CSS 缓存版本号。
+八个正式页面共用 `styles/card-controls.css` 中的卡片图片区样式；首页“每周精选”在其中使用单块浅色底板与右上角图形布局，资源库普通卡片不受该规则影响。新的浅色玻璃选择器只用于下载页面的 `.platform-tabs` 平台/渠道选择，不覆盖主页分类或设置面板等其他分段控件。页面其余基础样式仍在各自 HTML 中。修改这份共享样式后，须同步更新八个页面的 CSS 缓存版本号。
 
 ## 部署
 

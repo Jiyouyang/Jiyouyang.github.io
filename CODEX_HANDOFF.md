@@ -23,7 +23,7 @@
 ### “滚回上一个版本”的范围（强制）
 
 - 用户说“滚回上一个版本”时，默认**只恢复实际网站相关文件**：正式页面、页面正在使用的 CSS/JavaScript、网站图片与图标、PWA 文件，以及确有必要的发布配置。先确认目标版本和具体文件清单，再逐一恢复；不要对仓库根目录执行无差别的 `git restore -- .`、`git reset --hard` 或等效操作。
-- 非网站文件及其最新内容必须保留，包括但不限于 `CODEX_HANDOFF.md`、`ROLLBACK.md`、`README.md`、测试/维护脚本和其他项目文档；GitHub 备份分支与标签也必须保留。若某文件是否属于网站运行范围不明确，先核实用途，不擅自回滚。
+- 非网站文件及其最新内容必须保留，包括但不限于 `CODEX_HANDOFF.md`、`docs/ROLLBACK.md`、`README.md`、测试/维护脚本和其他项目文档；GitHub 备份分支与标签也必须保留。若某文件是否属于网站运行范围不明确，先核实用途，不擅自回滚。
 - 回滚后只向当前版 `CODEX_HANDOFF.md` 追加回滚原因、目标版本、改动范围、备份和验证记录；不得用旧版本的交接文档覆盖现行规则。用户明确指定文档也要回滚时，才单独处理其点名的文件。
 
 ## 1. 项目目标与当前定位
@@ -32,7 +32,7 @@
 
 - 升级前完整基线：`dcc9d01b0e9c9e024b48fb1242ad54c86e420242`。
 - 已推送远端备份分支 `backup/pre-visual-upgrade-20261011` 与固定标签 `pre-visual-upgrade-20261011`。
-- **2026-10-11 已按用户要求恢复到该视觉版本。** 恢复通过新提交保留 Git 历史，没有强制推送。操作步骤见 `ROLLBACK.md`。
+- **2026-10-11 已按用户要求恢复到该视觉版本。** 恢复通过新提交保留 Git 历史，没有强制推送。操作步骤见 `docs/ROLLBACK.md`。
 - 恢复前的升级版另外保存在 `backup/pre-change-2026-10-11_10-08-23_UTC`，基线提交 `89a16cad9c5f3cd909c6df282c2ec06a0fe4c0c2`；需要重回升级版时可从此分支恢复。
 
 本站已经从最初的个人博客/资源混合页面，收敛为一个简洁的“资源分享站”。博客入口与博客内容已移除，首页只保留资源发现和筛选功能。Minecraft 被提升为资源库中的第一个重点入口，并拥有独立的站内内容专区，方便未来继续增加 Minecraft 相关入口。
@@ -61,7 +61,7 @@
 - Minecraft 资源卡片位于资源列表第一位，并进入站内 `/minecraft.html`。
 - 首页 Minecraft 与原神卡片的简介按当前实际入口描述，已去除“以后才会加入下载”的旧状态文案。
 
-首页当前资源数据在 `app.js` 的 `resources` 数组中，包括 Minecraft、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
+首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
 
 ### Minecraft 专区 `/minecraft.html`
 
@@ -156,7 +156,7 @@
 - 默认主题色为石墨，不使用高饱和渐变作为默认视觉。
 - 保持大圆角、充足留白、粗体大标题、简短说明和轻阴影。
 - 当前已恢复升级前设计：8 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
-- 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增 `card-controls.css`，统一主页精选/资源卡片、Minecraft 与原神专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
+- 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增现位于 `styles/card-controls.css` 的共享样式，统一主页精选/资源卡片、Minecraft 与原神专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
 - 升级版曾调整深色背景及强调色对比度；当前回滚版沿用升级前的颜色实现，后续须以页面现存 CSS 为准。
 - 卡片头图为抽象文字/字形构图（如 MC、MOD），不是写实封面图。
 - 用户曾要求移除首页 Hero 下方三个装饰图标；不要恢复。
@@ -241,32 +241,32 @@
 | --- | --- |
 | `.nojekyll` | 让 GitHub Pages 直接发布静态文件 |
 | `index.html` | 首页结构、样式、导航、资源区和设置弹窗 |
-| `app.js` | 首页四语言文案、资源数据、搜索/筛选、主题与设置逻辑 |
-| `card-controls.css` | 全站卡片图区和平台/渠道/设置分段选择器的共享视觉样式 |
+| `scripts/app.js` | 首页四语言文案、资源数据、搜索/筛选、主题与设置逻辑 |
+| `styles/card-controls.css` | 全站卡片图区和下载页平台/渠道选择器的共享视觉样式 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
-| `minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
+| `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
-| `minecraft-download.js` | 基岩版平台数据、按钮链接、多语言和设置逻辑 |
+| `scripts/minecraft-download.js` | 基岩版平台数据、按钮链接、多语言和设置逻辑 |
 | `minecraft-mods.html` | Java 模组平台选择页 |
-| `minecraft-mods.js` | CurseForge/Modrinth 数据、多语言和设置逻辑 |
+| `scripts/minecraft-mods.js` | CurseForge/Modrinth 数据、多语言和设置逻辑 |
 | `minecraft-launchers.html` | Java 启动器选择页 |
-| `minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
+| `scripts/minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
 | `minecraft-mobile.html` | Java 版 Android/iOS 移动端选择页 |
-| `minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
+| `scripts/minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
 | `genshin.html` | 原神内容专区、国际版站内卡片、国服直达卡片和设置弹窗 |
-| `genshin.js` | 原神专区四语言与主题设置逻辑 |
+| `scripts/genshin.js` | 原神专区四语言与主题设置逻辑 |
 | `genshin-download.html` | 原神国际版 Android/iOS/Windows 下载选择页 |
-| `genshin-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
+| `scripts/genshin-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
 | `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
 | `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
-| `preview.html` | 历史预览文件；不是当前正式入口 |
-| `minecraft.js` | 旧版“Minecraft 国际版”实现；已加弃用注释，当前正式页面不引用 |
+| `archive/legacy/preview.html` | 历史预览文件；不是当前正式入口 |
+| `archive/legacy/minecraft.js` | 旧版“Minecraft 国际版”实现；已加弃用注释，当前正式页面不引用 |
 | `README.md` | 已更新的项目概览与正式页面维护入口；详细约定仍以本文件为准 |
-| `ROLLBACK.md` | 备份标签、下载 ZIP 入口及保留历史的回滚步骤 |
+| `docs/ROLLBACK.md` | 备份标签、下载 ZIP 入口及保留历史的回滚步骤 |
 
 当前 HTML 通过查询参数给 JS/图标做缓存更新。修改正式 JS 后应同步递增对应 HTML 的 `?v=`，避免 GitHub Pages/Safari 使用旧缓存。
 
-当前正式 HTML 保留各页内嵌基础样式，另在 8 个页面末尾引用 `card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
+当前正式 HTML 保留各页内嵌基础样式，另在 8 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
 
 ## 7. 已完成的主要需求历史
 
@@ -305,7 +305,7 @@
 当前没有已确认阻断使用的错误；最近一次部署已验证页面标题、设备范围简介和四语言翻译正确上线。但存在以下维护风险：
 
 1. `README.md` 的旧入口说明已更新；以后增删页面仍需保持 README 与本文件一致。
-2. 根目录旧文件 `minecraft.js` 与 `preview.html` 已加遗留标记，当前正式页面不引用。仍保留作历史参考，确认无需回溯后可再考虑归档或删除。
+2. 旧文件 `archive/legacy/minecraft.js` 与 `archive/legacy/preview.html` 已加遗留标记，当前正式页面不引用，仅保留作历史参考。
 3. 回滚后，各页视觉样式、字典、设置逻辑和弹窗 HTML 仍独立维护；未来新增设置项时须检查全部页面。升级版的共享 CSS/JS 可在备份分支查阅，不应误认为仍在当前 `main` 中。
 4. 升级版曾加入 Chromium 浏览器回归脚本，但当前版本已随回滚移除；真实 iPhone Safari、Android Chrome 设备测试仍未完成。
 5. JPEG favicon 在部分旧浏览器或平台可能不如 PNG/ICO 稳定；目前 Safari/Apple Touch Icon 是用户最关心的场景。
@@ -321,7 +321,7 @@
 
 1. 根据用户下一次提供的 Minecraft 内容类型，在 `/minecraft.html` 增加同视觉体系的新卡片和独立站内页。
 2. 今后扩展专区时，同步更新 `README.md`、首页入口简介与本交接文档。
-3. 如确定不再需要历史预览，另行评估是否归档旧 `minecraft.js` 和 `preview.html`；目前不删除。
+3. 如确定不再需要历史预览，另行评估是否删除 `archive/legacy/minecraft.js` 和 `archive/legacy/preview.html`；目前只归档、不删除。
 4. 目前页面采用各页内嵌样式；除非用户再次要求升级，不要自行把已回滚的 `site.css` / `site.js` 共用体系加回当前站点。
 5. 对 iPhone Safari、Android Chrome 和桌面浏览器进行一次系统视觉/键盘/滚动/深色模式回归。
 6. 视用户意愿为 favicon 生成标准多尺寸 PNG/ICO，同时保留原图构图。
@@ -435,7 +435,7 @@
 
 - 首页固定导航下方新增与导航近似宽高的液态玻璃公告横条，点按可展开更新详情；收起状态只显示公告标题和日期。
 - 首条公告总结 2026-10-11 的原神专区、国际版三平台、国服直达、按钮与箭头调整。四语言、五种主题色、深浅模式沿用现有设置。
-- 公告数据在 `app.js` 的 `announcements` 数组中，按最新在前排列。此后每次用户要求更新网站，应在同一次提交中加入一条简要更新记录（简中、繁中、英语、日语），除非用户明确要求不记录；用户指定删除时按 `id` 移除。不要把删除/修改公告的请求又追加成公告。
+- 公告数据在 `scripts/app.js` 的 `announcements` 数组中，按最新在前排列。此后每次用户要求更新网站，应在同一次提交中加入一条简要更新记录（简中、繁中、英语、日语），除非用户明确要求不记录；用户指定删除时按 `id` 移除。不要把删除/修改公告的请求又追加成公告。
 - 每条新增或修改的公告不仅要同步简中、繁中、英语、日语，还必须逐一适配石墨、蓝、紫、绿、橙五种主题色，并检查浅色、深色与跟随系统模式下的文字、图标、活动状态和玻璃背景对比度。此项为每次公告维护的必做项，不能只完成翻译。
 - 公告为空时隐藏横条；`CODEX_HANDOFF.md` 仍须随每次网站改动一并更新。
 
@@ -561,4 +561,13 @@
 - `card-controls.css` 仅移除对 `.featured-card` / `.featured-glyph` 的分段图片区覆盖，并为精选卡片伪元素设置更浅的连续渐变；布局由首页原有精选卡片规则负责。未修改 `.resource-card`、`.resource-visual`、专区卡片、下载卡片或任何滑块规则。
 - 8 个正式页面同步提升共享 CSS 缓存版本；首页新增四语言更新公告并提升 `app.js` 缓存版本；`README.md` 同步说明精选卡片的独立样式边界。
 - 后续规则：首页“每周精选”可使用独立的 `.featured-*` 视觉；调整它时不得连带修改资源库 `.resource-*` 或其他页面卡片，除非用户明确扩大范围。
+
+### 2026-10-11：整理仓库根目录文件
+
+- 用户要求减少 GitHub 根目录中平铺的文件，并明确不得改动网站实际内容、外观或功能。
+- 修改前已于 **2026-10-11 11:09:43 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_11-09-43_UTC` 与带注释标签 `backup-2026-10-11_11-09-43_UTC`；两者均指向基线提交 `952de25b1ab8721ee60a788d37da831dfc9046f4`。
+- 8 个正式 JavaScript 文件原样移动到 `scripts/`，共享样式原样移动到 `styles/`，未使用的旧版 `minecraft.js` / `preview.html` 移动到 `archive/legacy/`，回滚文档移动到 `docs/ROLLBACK.md`。正式 HTML 继续位于根目录，因此现有页面 URL 全部不变。
+- 正式 HTML 只更新静态资源引用路径；脚本与 CSS 文件内容、查询参数版本、页面结构、文案、链接、视觉和交互均不改变。本次不新增网站公告。
+- 验证：逐文件以 `cmp` 对比移动前的 Git 基线，12 个移动文件内容完全一致；8 个正式页面均指向存在的 `/scripts/` 与 `/styles/` 文件；全部脚本通过 `node --check`，`git diff --check` 通过。
+- 后续新增正式 JavaScript 放入 `scripts/`，共享样式放入 `styles/`，维护文档优先放入 `docs/`；`CODEX_HANDOFF.md`、`README.md`、正式 HTML、`.nojekyll`、PWA 清单与 `assets/` 保持现有位置。
 
