@@ -35,6 +35,7 @@
 - 分类：全部、开发、学习、工具、游戏。
 - 资源支持按标题、简介、域名和分类即时检索。
 - Minecraft 资源卡片位于资源列表第一位，并进入站内 `/minecraft.html`。
+- 首页 Minecraft 与原神卡片的简介按当前实际入口描述，已去除“以后才会加入下载”的旧状态文案。
 
 首页当前资源数据在 `app.js` 的 `resources` 数组中，包括 Minecraft、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
 
@@ -101,21 +102,23 @@
 
 ### 原神专区 `/genshin.html`
 
-主页中的“原神”入口紧随 Minecraft，进入独立原神专区。当前已加入一张站内卡片：
+主页中的“原神”入口紧随 Minecraft，进入独立原神专区。当前包含两张卡片：
 
 - **原神国际版下载** → `/genshin-download.html`
+- **原神国服下载** → 直接打开 <https://ys.mihoyo.com/main/m/?from_fab=1>
 - 卡片、专区与下载页沿用黑白基调、五种主题色、深浅模式及四语言。
 - 今后可以继续加入其他原神资源卡片。
 
 ### 原神国际版下载页 `/genshin-download.html`
 
-- 平台页签从左到右为 Android、iOS。页签只切换展示内容，不导航到外部网站。
+- 平台页签从左到右为 Android、iOS、Windows。页签只切换展示内容，不导航到外部网站。
 - Android 有两个同等重要、同样视觉权重的下载按钮：
   - Google Play 官方下载：<https://play.google.com/store/apps/details/Genshin_Impact?id=com.miHoYo.GenshinImpact&hl=en_NZ&pli=1>
   - APK 下载：<https://genshin-impact.cn.uptodown.com/android/dw/1218436799-x>
 - Android 简介明确写有“如无法打开，请使用科学上网”。
 - iOS 下载按钮前往：<https://apps.apple.com/us/app/genshin-impact-6th-anniversary/id1517783697>
 - iOS 简介明确写有“请使用非中国大陆地区 Apple 账号”。
+- Windows 下载按钮前往 HoYoPlay 官方启动器：<https://hoyoplay.hoyoverse.com>
 - 只有下载按钮打开外链。APK 地址由用户指定，可能指向特定版本；以后改版本时要检查地址是否仍有效。
 
 ## 3. 视觉与设计系统
@@ -217,15 +220,15 @@
 | `minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
 | `minecraft-mobile.html` | Java 版 Android/iOS 移动端选择页 |
 | `minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
-| `genshin.html` | 原神内容专区、下载子卡片和设置弹窗 |
+| `genshin.html` | 原神内容专区、国际版站内卡片、国服直达卡片和设置弹窗 |
 | `genshin.js` | 原神专区四语言与主题设置逻辑 |
 | `genshin-download.html` | 原神国际版 Android/iOS 下载选择页 |
-| `genshin-download.js` | 三个下载链接、平台切换、四语言与设置逻辑 |
+| `genshin-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
 | `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
 | `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
 | `preview.html` | 历史预览文件；不是当前正式入口 |
-| `minecraft.js` | 旧版“Minecraft 国际版”实现；当前正式页面不引用，属于遗留文件 |
-| `README.md` | 基础项目说明，但部分内容已落后，应以本文件和实际代码为准 |
+| `minecraft.js` | 旧版“Minecraft 国际版”实现；已加弃用注释，当前正式页面不引用 |
+| `README.md` | 已更新的项目概览与正式页面维护入口；详细约定仍以本文件为准 |
 
 当前 HTML 通过查询参数给 JS/图标做缓存更新。修改正式 JS 后应同步递增对应 HTML 的 `?v=`，避免 GitHub Pages/Safari 使用旧缓存。
 
@@ -265,8 +268,8 @@
 
 当前没有已确认阻断使用的错误；最近一次部署已验证页面标题、设备范围简介和四语言翻译正确上线。但存在以下维护风险：
 
-1. `README.md` 仍写着“Minecraft 国际版”，并把 `minecraft.js` 描述为正式实现，内容已经落后。
-2. 根目录旧文件 `minecraft.js` 仍保留国际版旧文案和旧实现，当前正式页面不引用。后续应确认无历史依赖后删除，或加明显弃用注释。
+1. `README.md` 的旧入口说明已更新；以后增删页面仍需保持 README 与本文件一致。
+2. 根目录旧文件 `minecraft.js` 与 `preview.html` 已加遗留标记，当前正式页面不引用。仍保留作历史参考，确认无需回溯后可再考虑归档或删除。
 3. 多个页面复制了大段设置 CSS、弹窗 HTML 和主题/翻译 JS，未来改设计时容易漏改某页。可在不破坏 GitHub Pages 静态部署的前提下抽取共享 CSS/JS。
 4. 目前主要验证为静态语法、字符串、链接与线上内容检查；没有完整的多设备视觉回归测试。
 5. JPEG favicon 在部分旧浏览器或平台可能不如 PNG/ICO 稳定；目前 Safari/Apple Touch Icon 是用户最关心的场景。
@@ -281,8 +284,8 @@
 建议的下一步按优先级排列：
 
 1. 根据用户下一次提供的 Minecraft 内容类型，在 `/minecraft.html` 增加同视觉体系的新卡片和独立站内页。
-2. 更新 `README.md`，删除“国际版”旧说明，并准确描述当前四个正式入口。
-3. 确认后清理或归档旧 `minecraft.js` 和 `preview.html`，减少误改风险。
+2. 今后扩展专区时，同步更新 `README.md`、首页入口简介与本交接文档。
+3. 如确定不再需要历史预览，另行评估是否归档旧 `minecraft.js` 和 `preview.html`；目前不删除。
 4. 抽取共享 `theme.css`、`settings.js`、`i18n` 辅助逻辑，降低多页同步成本。
 5. 对 iPhone Safari、Android Chrome 和桌面浏览器进行一次系统视觉/键盘/滚动/深色模式回归。
 6. 视用户意愿为 favicon 生成标准多尺寸 PNG/ICO，同时保留原图构图。
@@ -303,6 +306,15 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-11：小范围修正过时文案与维护说明
+
+- 需求：阅读交接文档，修复可确认的待办与小问题，但不改动网站总体内容与设计。
+- 首页 Minecraft 卡片不再误称“国际版下载”；原神卡片不再暗示现有下载入口尚未加入。简中、繁中、英文、日文同时更新。
+- `README.md` 改为列出现有 Minecraft、原神入口及公告维护位置；`minecraft.js`、`preview.html` 仅加遗留标记，未删除历史文件。
+- 首页公告新增四语言简要更新记录；`index.html` 递增 `app.js` 缓存版本。涉及文件：`app.js`、`index.html`、`README.md`、`minecraft.js`、`preview.html`、本文件。
+- 验证：所有根目录 JS 通过 `node --check`；检查了 10 项资源和 2 条公告的四语言字段、正式 HTML 的站内文件引用，并通过 `git diff --check`。发布后仍须核对线上缓存版本。
+- 设计、版面、主题设置、既有站内路径与外部下载网址均未改。仍未进行真实设备视觉回归，旧浏览器 JPEG favicon 兼容性与第三方链接可用性等风险保留。
 
 ### 2026-10-11：公告横条高度对齐导航栏
 

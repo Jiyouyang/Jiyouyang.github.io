@@ -143,21 +143,29 @@ const resources = [
     ja: ['SteamDB', 'Steam の価格、更新履歴、プレイヤー数、過去データを確認できます。']
   }},
   { id: 'minecraft', category: 'games', url: '/minecraft.html', domain: 'jiyouyang.github.io/minecraft', glyph: 'MC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['Minecraft', '进入 Minecraft 专区，浏览国际版下载与之后加入的更多相关内容。'],
-    'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽國際版下載與之後加入的更多相關內容。'],
-    en: ['Minecraft', 'Open the Minecraft hub for downloads and more Minecraft resources added over time.'],
-    ja: ['Minecraft', 'Minecraft 専用ページで、ダウンロードや今後追加されるコンテンツを確認できます。']
+    'zh-CN': ['Minecraft', '进入 Minecraft 专区，浏览基岩版下载、Java 版模组与启动器等内容。'],
+    'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽基岩版下載、Java 版模組與啟動器等內容。'],
+    en: ['Minecraft', 'Explore Bedrock downloads, Java mods, launchers, and more in the Minecraft hub.'],
+    ja: ['Minecraft', 'Minecraft 専用ページで、統合版のダウンロードや Java 版の MOD・ランチャーを探せます。']
   }},
   { id: 'genshin', category: 'games', url: '/genshin.html', domain: 'jiyouyang.github.io/genshin', glyph: 'GI', x: '24%', y: '24%', internal: true, content: {
-    'zh-CN': ['原神', '进入原神专区，浏览之后加入的下载与相关资源。'],
-    'zh-TW': ['原神', '進入原神專區，瀏覽之後加入的下載與相關資源。'],
-    en: ['Genshin Impact', 'Open the Genshin Impact hub for future downloads and related resources.'],
-    ja: ['原神', '原神専用ページで、今後追加されるダウンロードや関連リソースを確認できます。']
+    'zh-CN': ['原神', '进入原神专区，查看国际版多平台下载与国服官网入口。'],
+    'zh-TW': ['原神', '進入原神專區，查看國際版多平台下載與國服官網入口。'],
+    en: ['Genshin Impact', 'Find global-edition downloads and the mainland China official site in the Genshin Impact hub.'],
+    ja: ['原神', '原神専用ページで、グローバル版のダウンロードと中国版の公式サイトを確認できます。']
   }}
 ];
 
 // Add future update summaries at the start of this list; remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-11-maintenance', date: '2026-10-11', content: {
+      'zh-CN': ['站点说明更新', ['修正首页 Minecraft 与原神入口的过时简介。', '更新项目说明并标记旧版预览文件；下载链接与页面布局保持不变。']],
+      'zh-TW': ['網站說明更新', ['修正首頁 Minecraft 與原神入口的過時簡介。', '更新專案說明並標記舊版預覽檔案；下載連結與頁面版面保持不變。']],
+      en: ['Site copy update', ['Refreshed outdated Minecraft and Genshin Impact descriptions on the home page.', 'Updated project documentation and marked legacy previews; download links and layouts are unchanged.']],
+      ja: ['サイト案内の更新', ['トップページの Minecraft と原神の古い説明を更新しました。', 'プロジェクト説明を更新し、旧版プレビューを明示しました。ダウンロード先とレイアウトは変更していません。']]
+    }
+  },
   {
     id: '2026-10-11-genshin', date: '2026-10-11', content: {
       'zh-CN': ['原神专区更新', [

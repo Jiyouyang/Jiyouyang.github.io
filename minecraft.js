@@ -1,3 +1,4 @@
+// Legacy script: no current page loads this file. Active Minecraft pages use minecraft-hub.js and dedicated page scripts.
 const i18n = {
   'zh-CN': {
     'meta.title': 'Minecraft 国际版 · Jiyouyang', 'meta.description': 'Minecraft 国际版 Windows 与 Android 下载入口。',
