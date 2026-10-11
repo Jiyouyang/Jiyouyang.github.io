@@ -1,4 +1,4 @@
-/* Shared card imagery and selection surfaces across the eight published pages. */
+/* Shared card imagery across the eight published pages, plus download-page platform selectors. */
 
 .hub-visual,
 .resource-visual,
@@ -108,15 +108,13 @@
   display: none;
 }
 
-.platform-tabs,
-.segmented {
+.platform-tabs {
   background: color-mix(in srgb, var(--wash) 82%, var(--surface));
   border-color: color-mix(in srgb, var(--line) 90%, var(--accent));
   box-shadow: inset 0 1px 2px #0000000c;
 }
 
-.platform-tabs::before,
-.segmented::before {
+.platform-tabs::before {
   background: color-mix(in srgb, var(--surface) 95%, transparent);
   border: 1px solid color-mix(in srgb, var(--line) 75%, var(--accent));
   box-shadow: 0 4px 12px #00000018, inset 0 1px 0 #ffffff70;
@@ -125,8 +123,7 @@
 }
 
 .platform-tabs button.active,
-.platform-tabs button.active:hover,
-.segmented button.active {
+.platform-tabs button.active:hover {
   color: var(--ink);
 }
 
@@ -135,27 +132,12 @@
   color: var(--accent);
 }
 
-.platform-tabs button:focus-visible,
-.segmented button:focus-visible,
-.filters button:focus-visible {
+.platform-tabs button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -3px;
 }
 
-.filters {
-  background: color-mix(in srgb, var(--wash) 82%, var(--surface));
-  border: 1px solid var(--line);
-}
-
-.filters button.active {
-  color: var(--ink);
-  background: var(--surface);
-  box-shadow: 0 3px 10px #00000016, inset 0 1px 0 #ffffff70;
-}
-
-:root[data-theme=dark] .platform-tabs::before,
-:root[data-theme=dark] .segmented::before,
-:root[data-theme=dark] .filters button.active {
+:root[data-theme=dark] .platform-tabs::before {
   background: color-mix(in srgb, var(--surface) 76%, var(--ink));
   box-shadow: 0 4px 12px #00000045, inset 0 1px 0 #ffffff18;
 }
@@ -167,6 +149,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .platform-tabs::before,
-  .segmented::before { transition-duration: 0.01ms; }
+  .platform-tabs::before { transition-duration: 0.01ms; }
 }

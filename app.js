@@ -160,6 +160,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-11-platform-selectors-only', date: '2026-10-11', content: {
+      'zh-CN': ['选择滑块样式范围已修正', ['新的浅色玻璃滑块现在只用于下载页面的平台与渠道选择；主页分类和网站设置等其他滑块已恢复原先设计。']],
+      'zh-TW': ['選擇滑塊樣式範圍已修正', ['新的淺色玻璃滑塊現在只用於下載頁面的平台與渠道選擇；首頁分類和網站設定等其他滑塊已恢復原先設計。']],
+      en: ['Selector styling scope corrected', ['The new light-glass selector is now limited to platform and channel choices on download pages. Home categories, site settings, and other selectors use their previous design again.']],
+      ja: ['選択スライダーの適用範囲を修正', ['新しいライトガラス調のスライダーはダウンロードページのプラットフォーム／配布元選択だけに適用し、ホームのカテゴリやサイト設定などは以前のデザインに戻しました。']]
+    }
+  },
+  {
     id: '2026-10-11-clean-platform-art', date: '2026-10-11', content: {
       'zh-CN': ['平台标识图更加干净', ['已移除所有平台标识卡片右上角的灰色圆形阴影，其他图形、滑块与下载功能保持不变。']],
       'zh-TW': ['平台標識圖更加乾淨', ['已移除所有平台標識卡片右上角的灰色圓形陰影，其他圖形、滑塊與下載功能維持不變。']],
