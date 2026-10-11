@@ -12,6 +12,13 @@ const i18n = {
     'meta.title':'Minecraft · Jiyouyang','meta.description':'Jiyouyang の Minecraft 専用リソースページです。','nav.label':'Minecraft ページナビゲーション','nav.back':'リソースへ戻る','hero.intro':'Minecraft 関連コンテンツの専用ページです。<br>ダウンロードや今後の追加項目をここにまとめます。','hero.status':'今後も拡張できる専用ページです','hub.title':'Minecraft コンテンツ','hub.subtitle':'項目を選んで進んでください。今後さらに追加します。','card.tag':'ダウンロード · 統合版','card.title':'Minecraft 統合版ダウンロード','card.description':'Windows と Android の両方に対応しています。プラットフォームを選んで進んでください。','mods.tag':'MOD · Java 版','mods.title':'Minecraft Java 版 MOD ダウンロード','mods.description':'CurseForge または Modrinth を選び、対応する MOD サイトへ進みます。','launcher.tag':'ランチャー · Java 版','launcher.title':'Minecraft Java 版ランチャー','launcher.description':'デスクトップ向けです。公式ランチャー、PCL、HMCL から選べます。','mobile.tag':'モバイル · Java 版','mobile.title':'Minecraft Java 版モバイルダウンロード','mobile.description':'Android と iOS に対応し、それぞれのモバイルランチャーを選べます。','footer.motto':'便利なものを、必要な人へ。','footer.back':'リソースへ戻る ↗','settings.open':'サイト設定を開く','settings.short':'サイト設定','settings.title':'外観と言語','settings.close':'設定を閉じる','settings.color':'テーマカラー','settings.mode':'表示モード','settings.language':'翻訳言語','color.graphite':'グラファイト','color.blue':'ブルー','color.violet':'バイオレット','color.green':'グリーン','color.orange':'オレンジ','mode.auto':'システム','mode.light':'ライト','mode.dark':'ダーク'
   }
 };
+const seedI18n = {
+  'zh-CN': { 'seed.tag': '种子 · 查询', 'seed.title': 'Minecraft 种子查询', 'seed.description': '可输入自己想查的种子号。' },
+  'zh-TW': { 'seed.tag': '種子 · 查詢', 'seed.title': 'Minecraft 種子查詢', 'seed.description': '可輸入想查詢的種子編號。' },
+  en: { 'seed.tag': 'SEED · LOOKUP', 'seed.title': 'Minecraft Seed Lookup', 'seed.description': 'Enter the seed number you want to look up.' },
+  ja: { 'seed.tag': 'シード · 検索', 'seed.title': 'Minecraft シード検索', 'seed.description': '調べたいシード値を入力できます。' }
+};
+Object.keys(seedI18n).forEach(language => Object.assign(i18n[language], seedI18n[language]));
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');
 const systemTheme = matchMedia('(prefers-color-scheme: dark)');

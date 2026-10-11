@@ -160,6 +160,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-11-minecraft-seed-lookup', date: '2026-10-11', content: {
+      'zh-CN': ['Minecraft 种子查询已加入', ['Minecraft 专区新增种子查询入口，可输入想查的种子号，前往 Chunkbase 查询。']],
+      'zh-TW': ['Minecraft 種子查詢已加入', ['Minecraft 專區新增種子查詢入口，可輸入想查詢的種子編號，前往 Chunkbase 查詢。']],
+      en: ['Minecraft seed lookup added', ['The Minecraft hub now links to Chunkbase, where you can enter a seed number to look it up.']],
+      ja: ['Minecraft のシード検索を追加', ['Minecraft ページから Chunkbase に進み、調べたいシード値を入力できるようになりました。']]
+    }
+  },
+  {
     id: '2026-10-11-weekly-picks-layout', date: '2026-10-11', content: {
       'zh-CN': ['每周精选卡片已重新整理', ['仅将每周精选改为更轻盈的单块浅色卡片，图形位于右上方、内容集中在左下方；资源库及其他卡片保持不变。']],
       'zh-TW': ['每週精選卡片已重新整理', ['僅將每週精選改為更輕盈的單塊淺色卡片，圖形位於右上方、內容集中在左下方；資源庫及其他卡片維持不變。']],

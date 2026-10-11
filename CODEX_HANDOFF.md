@@ -65,7 +65,7 @@
 
 ### Minecraft 专区 `/minecraft.html`
 
-这是 Minecraft 的“大选项”/内容聚合页。当前包含四张站内卡片：
+这是 Minecraft 的“大选项”/内容聚合页。当前包含四张站内卡片和一张外部直达卡片：
 
 1. **Minecraft 基岩版下载** → `/minecraft-download.html`
    - 标题不再写“国际”“双端”或“启动器双端”。
@@ -82,6 +82,10 @@
    - 提供 Android 与 iOS 两个移动端入口。
    - Android 对应 Fold Craft Launcher，iOS 对应 Amethyst iOS。
    - 选项卡只切换内容，下方按钮才打开下载网页。
+5. **Minecraft 种子查询** → <https://www.chunkbase.com/apps/>
+   - 卡片直接打开 Chunkbase，使用外链箭头 ↗；没有中转页或选项卡。
+   - 简体中文简介：`可输入自己想查的种子号。`
+   - 标题、简介、标签和首页更新公告均提供简中、繁中、英文、日文；卡片继承五种主题色与深浅模式。
 
 专区的目的不是只放一个下载卡片，而是作为可持续扩充的 Minecraft 内容容器；以后用户还会加入更多 Minecraft 相关跳转选项。
 
@@ -315,11 +319,11 @@
 
 ## 10. 尚未完成/未来方向
 
-用户明确表示 Minecraft 专区以后还会增加更多 Minecraft 相关跳转选项，但尚未提供下一批具体内容。当前无需创建 Java 游戏本体下载页，也不要把“Java 版启动器下载”误解成 Java 游戏安装包下载。
+用户明确表示 Minecraft 专区以后还会增加更多 Minecraft 相关跳转选项；种子查询已于 2026-10-11 加入，下一批具体内容尚未提供。当前无需创建 Java 游戏本体下载页，也不要把“Java 版启动器下载”误解成 Java 游戏安装包下载。
 
 建议的下一步按优先级排列：
 
-1. 根据用户下一次提供的 Minecraft 内容类型，在 `/minecraft.html` 增加同视觉体系的新卡片和独立站内页。
+1. 根据用户下一次提供的 Minecraft 内容类型，在 `/minecraft.html` 增加同视觉体系的新卡片；仅在需要站内选择或详情时建立独立页面。
 2. 今后扩展专区时，同步更新 `README.md`、首页入口简介与本交接文档。
 3. 如确定不再需要历史预览，另行评估是否删除 `archive/legacy/minecraft.js` 和 `archive/legacy/preview.html`；目前只归档、不删除。
 4. 目前页面采用各页内嵌样式；除非用户再次要求升级，不要自行把已回滚的 `site.css` / `site.js` 共用体系加回当前站点。
@@ -344,6 +348,14 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-11：Minecraft 专区新增种子查询
+
+- 需求：在 Minecraft 大专区增加“Minecraft 种子查询”选项，导向 `https://www.chunkbase.com/apps/`，简介写明“可输入自己想查的种子号”。
+- 修改前于 **2026-10-11 23:03:43 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_23-03-43_UTC` 与带注释标签 `backup-2026-10-11_23-03-43_UTC`；标签剥离后与分支均指向基线提交 `c55c2cae43e5dfa9697efde56fef957e59810da0`。当时本地工作区干净，且与 GitHub `main` 一致。
+- Minecraft 专区新增第五张卡片，整卡外部直达 Chunkbase，标识为 `SEED`，使用外链箭头 ↗。简中、繁中、英文、日文均补全标签、标题和简介；卡片继续使用既有主题变量，适配石墨、蓝、紫、绿、橙及浅色、深色、跟随系统模式。
+- 首页新增四语言更新公告；`minecraft.html`、`index.html` 提升业务脚本缓存版本；`README.md` 与本文件同步记录。涉及文件：`minecraft.html`、`scripts/minecraft-hub.js`、`scripts/app.js`、`index.html`、`README.md`、`CODEX_HANDOFF.md`。
+- 验证：`node --check` 检查两个修改的脚本通过，`git diff --check` 通过；Chromium 在 390px 宽度下检查了四语言 × 五色调 × 浅/深模式共 40 组，卡片文字、主题标识色、外链属性和页面水平溢出检查均通过；跟随系统模式的浅/深实时切换与首页公告渲染也通过。Chunkbase 目标地址返回 HTTP 200。真实 iPhone Safari、Android Chrome 的视觉表现仍需设备端确认。
 
 ### 2026-10-11：新增原神可用兑换码查询
 
