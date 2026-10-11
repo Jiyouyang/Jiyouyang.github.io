@@ -160,6 +160,22 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-11-jiyouyang', date: '2026-10-11', pinned: true, content: {
+      'zh-CN': ['jiyouyang也是可爱傲娇小男娘喵', [
+        '与 Eghver 置顶公告每 3 秒上下滚动切换显示。'
+      ]],
+      'zh-TW': ['jiyouyang也是可愛傲嬌小男娘喵', [
+        '與 Eghver 置頂公告每 3 秒上下滾動切換顯示。'
+      ]],
+      en: ['jiyouyang is also a cute, tsundere femboy, meow', [
+        'This and the pinned Eghver notice rotate vertically every 3 seconds.'
+      ]],
+      ja: ['jiyouyangも可愛いツンデレ男の娘にゃ', [
+        'Eghverの固定お知らせと3秒ごとに上下へ切り替わります。'
+      ]]
+    }
+  },
+  {
     id: '2026-10-11-eghver', date: '2026-10-11', pinned: true, content: {
       'zh-CN': ['Eghver恶魔是可爱傲娇小男娘喵', [
         '此公告已置顶，将持续显示在首页公告栏的标题位置。'
@@ -211,6 +227,11 @@ let category = 'all';
 let preference = 'auto';
 let accentPreference = 'graphite';
 let language = 'zh-CN';
+let announcementTimer;
+let announcementTransitionTimer;
+let rotatingAnnouncements = [];
+let activeAnnouncementIndex = 0;
+const announcementRotationDelay = 3000;
 
 try {
   preference = localStorage.getItem('jy-theme') || 'auto';
@@ -230,6 +251,9 @@ const localized = resource => resource.content[language] || resource.content['zh
 const persist = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
 
 function renderAnnouncements() {
+  clearInterval(announcementTimer);
+  clearTimeout(announcementTransitionTimer);
+  $('#announcement-title').classList.remove('is-leaving', 'is-entering');
   const orderedAnnouncements = [...announcements].sort((left, right) =>
     Number(Boolean(right.pinned)) - Number(Boolean(left.pinned)) || right.date.localeCompare(left.date)
   );
@@ -237,15 +261,44 @@ function renderAnnouncements() {
   if (!latest) { $('#top').hidden = true; $('.brand').href = '#hero-top'; return; }
   $('#top').hidden = false;
   $('.brand').href = '#top';
-  $('#announcement-title').textContent = (latest.content[language] || latest.content['zh-CN'])[0];
-  $('#announcement-date').textContent = latest.date.slice(5).replace('-', '.');
-  $('#announcement-date').dateTime = latest.date;
+  rotatingAnnouncements = orderedAnnouncements.filter(entry => entry.pinned);
+  activeAnnouncementIndex = 0;
+  setAnnouncementSummary(latest);
   $('#announcement-list').innerHTML = orderedAnnouncements.map(entry => {
     const [title, details] = entry.content[language] || entry.content['zh-CN'];
     return '<article class="announcement-entry"><time datetime="' + escapeHtml(entry.date) + '">' +
       escapeHtml(entry.date.replaceAll('-', '.')) + '</time><h2>' + escapeHtml(title) + '</h2><ul>' +
       details.map(detail => '<li>' + escapeHtml(detail) + '</li>').join('') + '</ul></article>';
   }).join('');
+  if (rotatingAnnouncements.length > 1) {
+    announcementTimer = setInterval(rotateAnnouncementSummary, announcementRotationDelay);
+  }
+}
+
+function setAnnouncementSummary(entry) {
+  $('#announcement-title').textContent = (entry.content[language] || entry.content['zh-CN'])[0];
+  $('#announcement-date').textContent = entry.date.slice(5).replace('-', '.');
+  $('#announcement-date').dateTime = entry.date;
+}
+
+function rotateAnnouncementSummary() {
+  if (rotatingAnnouncements.length < 2) return;
+  activeAnnouncementIndex = (activeAnnouncementIndex + 1) % rotatingAnnouncements.length;
+  const next = rotatingAnnouncements[activeAnnouncementIndex];
+  const title = $('#announcement-title');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setAnnouncementSummary(next);
+    return;
+  }
+  title.classList.add('is-leaving');
+  clearTimeout(announcementTransitionTimer);
+  announcementTransitionTimer = setTimeout(() => {
+    setAnnouncementSummary(next);
+    title.classList.remove('is-leaving');
+    title.classList.add('is-entering');
+    void title.offsetWidth;
+    title.classList.remove('is-entering');
+  }, 280);
 }
 
 function renderResources() {
