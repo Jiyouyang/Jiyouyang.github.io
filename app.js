@@ -160,6 +160,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-11-weekly-picks-layout', date: '2026-10-11', content: {
+      'zh-CN': ['每周精选卡片已重新整理', ['仅将每周精选改为更轻盈的单块浅色卡片，图形位于右上方、内容集中在左下方；资源库及其他卡片保持不变。']],
+      'zh-TW': ['每週精選卡片已重新整理', ['僅將每週精選改為更輕盈的單塊淺色卡片，圖形位於右上方、內容集中在左下方；資源庫及其他卡片維持不變。']],
+      en: ['Weekly Picks cards refined', ['Only the Weekly Picks now use lighter single-panel cards, with artwork at the top right and content grouped at the lower left. Library and all other cards remain unchanged.']],
+      ja: ['今週のおすすめカードを調整', ['今週のおすすめだけを明るい一枚パネル型に変更し、図形を右上、内容を左下にまとめました。リソース一覧など他のカードは変更していません。']]
+    }
+  },
+  {
     id: '2026-10-11-genshin-codes', date: '2026-10-11', content: {
       'zh-CN': ['原神兑换码查询已加入', ['原神专区新增“原神兑换码”选择项，可直接查询当前可用兑换码。']],
       'zh-TW': ['原神兌換碼查詢已加入', ['原神專區新增「原神兌換碼」選項，可直接查詢目前可用的兌換碼。']],

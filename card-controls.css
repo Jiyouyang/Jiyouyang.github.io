@@ -1,8 +1,7 @@
 /* Shared card imagery across the eight published pages, plus download-page platform selectors. */
 
 .hub-visual,
-.resource-visual,
-.featured-card::before {
+.resource-visual {
   background:
     radial-gradient(circle at 75% 22%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
     linear-gradient(140deg,
@@ -15,8 +14,7 @@
 }
 
 .hub-mark,
-.resource-visual::after,
-.featured-glyph {
+.resource-visual::after {
   background: color-mix(in srgb, var(--surface) 93%, transparent);
   border: 1px solid color-mix(in srgb, var(--line) 85%, var(--accent));
   box-shadow: 0 16px 32px #00000017, inset 0 1px 0 #ffffff55;
@@ -51,42 +49,17 @@
   letter-spacing: -2px;
 }
 
-.featured-card {
-  min-height: 345px;
-  padding: 190px 28px 28px;
-  justify-content: flex-end;
-  background: var(--surface);
-}
-
+/* Weekly picks use one light, continuous panel with artwork in the top-right. */
 .featured-card::before,
 .featured-card.secondary::before {
-  z-index: 0;
-  inset: 0 0 auto;
-  height: 165px;
-}
-
-.featured-glyph,
-.featured-card.secondary .featured-glyph {
-  z-index: 1;
-  top: 24px;
-  right: calc(50% - 58px);
-  width: 116px;
-  height: 116px;
-  display: grid;
-  place-items: center;
-  border-radius: 33px;
-  transform: rotate(-6deg);
-  color: var(--accent);
-  font-size: 43px;
-  letter-spacing: -3px;
-}
-
-.featured-tag,
-.featured-card h3,
-.featured-card p,
-.featured-domain {
-  position: relative;
-  z-index: 1;
+  z-index: -2;
+  inset: 0;
+  height: auto;
+  background:
+    radial-gradient(circle at 84% 15%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 48%),
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--surface) 98%, var(--wash)),
+      color-mix(in srgb, var(--surface) 88%, var(--wash)));
 }
 
 .platform-art {
@@ -144,7 +117,6 @@
 
 @media (max-width: 650px) {
   .hub-visual { height: 210px; }
-  .featured-card { min-height: 330px; }
   .platform-art { min-height: 176px; height: 176px; }
 }
 
