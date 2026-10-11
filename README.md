@@ -20,6 +20,8 @@
 
 Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.html`、`minecraft-mods.html`、`minecraft-launchers.html` 和 `minecraft-mobile.html`，分别由同名 JS（专区由 `minecraft-hub.js`）管理。原神专区由 `genshin.html` / `genshin.js` 提供，下载页由 `genshin-download.html` / `genshin-download.js` 提供。`minecraft.js` 与 `preview.html` 仅是旧版遗留文件，不参与正式页面。详细维护约定见 `CODEX_HANDOFF.md`。
 
+八个正式页面共用 `card-controls.css` 中的卡片图片区与平台/渠道选择器样式；页面其余基础样式仍在各自 HTML 中。修改这份共享样式后，须同步更新八个页面的 CSS 缓存版本号。
+
 ## 部署
 
 仓库根目录保留 `.nojekyll`，GitHub Pages 使用 `main` 分支根目录发布。

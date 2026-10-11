@@ -1,0 +1,167 @@
+/* Shared card imagery and selection surfaces across the eight published pages. */
+
+.hub-visual,
+.resource-visual,
+.featured-card::before {
+  background:
+    radial-gradient(circle at 75% 22%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+    linear-gradient(140deg,
+      color-mix(in srgb, var(--surface) 97%, var(--wash)),
+      color-mix(in srgb, var(--surface) 67%, var(--wash)));
+}
+
+.hub-visual {
+  height: 245px;
+}
+
+.hub-mark,
+.resource-visual::after,
+.featured-glyph {
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 85%, var(--accent));
+  box-shadow: 0 16px 32px #00000017, inset 0 1px 0 #ffffff55;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hub-mark {
+  width: 116px;
+  height: 116px;
+  border-radius: 33px;
+  transform: rotate(-6deg);
+  color: var(--accent);
+  font-size: 39px;
+  letter-spacing: -1.5px;
+}
+
+.resource-visual {
+  height: 170px;
+}
+
+.resource-visual::after {
+  width: 108px;
+  height: 108px;
+  border-radius: 31px;
+  transform: rotate(-6deg);
+}
+
+.resource-glyph {
+  color: var(--accent);
+  font-size: 41px;
+  letter-spacing: -2px;
+}
+
+.featured-card {
+  min-height: 345px;
+  padding: 190px 28px 28px;
+  justify-content: flex-end;
+  background: var(--surface);
+}
+
+.featured-card::before,
+.featured-card.secondary::before {
+  z-index: 0;
+  inset: 0 0 auto;
+  height: 165px;
+}
+
+.featured-glyph,
+.featured-card.secondary .featured-glyph {
+  z-index: 1;
+  top: 24px;
+  right: calc(50% - 58px);
+  width: 116px;
+  height: 116px;
+  display: grid;
+  place-items: center;
+  border-radius: 33px;
+  transform: rotate(-6deg);
+  color: var(--accent);
+  font-size: 43px;
+  letter-spacing: -3px;
+}
+
+.featured-tag,
+.featured-card h3,
+.featured-card p,
+.featured-domain {
+  position: relative;
+  z-index: 1;
+}
+
+.platform-art {
+  min-height: 150px;
+  height: 150px;
+  border-radius: 27px;
+  background:
+    radial-gradient(circle at 70% 20%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 55%),
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--surface) 97%, var(--wash)),
+      color-mix(in srgb, var(--surface) 76%, var(--wash)));
+  border: 1px solid color-mix(in srgb, var(--line) 88%, var(--accent));
+  color: var(--accent);
+  box-shadow: inset 0 1px 0 #ffffff70;
+}
+
+.platform-tabs,
+.segmented {
+  background: color-mix(in srgb, var(--wash) 82%, var(--surface));
+  border-color: color-mix(in srgb, var(--line) 90%, var(--accent));
+  box-shadow: inset 0 1px 2px #0000000c;
+}
+
+.platform-tabs::before,
+.segmented::before {
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 75%, var(--accent));
+  box-shadow: 0 4px 12px #00000018, inset 0 1px 0 #ffffff70;
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+.platform-tabs button.active,
+.platform-tabs button.active:hover,
+.segmented button.active {
+  color: var(--ink);
+}
+
+.platform-tabs button.active svg,
+.platform-tabs button.active .tab-apple {
+  color: var(--accent);
+}
+
+.platform-tabs button:focus-visible,
+.segmented button:focus-visible,
+.filters button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.filters {
+  background: color-mix(in srgb, var(--wash) 82%, var(--surface));
+  border: 1px solid var(--line);
+}
+
+.filters button.active {
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 3px 10px #00000016, inset 0 1px 0 #ffffff70;
+}
+
+:root[data-theme=dark] .platform-tabs::before,
+:root[data-theme=dark] .segmented::before,
+:root[data-theme=dark] .filters button.active {
+  background: color-mix(in srgb, var(--surface) 76%, var(--ink));
+  box-shadow: 0 4px 12px #00000045, inset 0 1px 0 #ffffff18;
+}
+
+@media (max-width: 650px) {
+  .hub-visual { height: 210px; }
+  .featured-card { min-height: 330px; }
+  .platform-art { min-height: 176px; height: 176px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-tabs::before,
+  .segmented::before { transition-duration: 0.01ms; }
+}
