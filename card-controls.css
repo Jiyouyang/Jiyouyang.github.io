@@ -103,6 +103,11 @@
   box-shadow: inset 0 1px 0 #ffffff70;
 }
 
+/* Keep platform artwork clean: the old accent orb read as a gray corner shadow. */
+.download-card::before {
+  display: none;
+}
+
 .platform-tabs,
 .segmented {
   background: color-mix(in srgb, var(--wash) 82%, var(--surface));

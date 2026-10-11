@@ -160,6 +160,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-11-clean-platform-art', date: '2026-10-11', content: {
+      'zh-CN': ['平台标识图更加干净', ['已移除所有平台标识卡片右上角的灰色圆形阴影，其他图形、滑块与下载功能保持不变。']],
+      'zh-TW': ['平台標識圖更加乾淨', ['已移除所有平台標識卡片右上角的灰色圓形陰影，其他圖形、滑塊與下載功能維持不變。']],
+      en: ['Cleaner platform artwork', ['The gray circular shadow in the top-right corner of every platform artwork card has been removed. Other artwork, selectors, and download functions remain unchanged.']],
+      ja: ['プラットフォーム画像をすっきり調整', ['すべてのプラットフォーム画像カード右上にあった灰色の円形シャドウを削除しました。その他の画像、選択スライダー、ダウンロード機能は変更していません。']]
+    }
+  },
+  {
     id: '2026-10-11-card-visuals', date: '2026-10-11', content: {
       'zh-CN': ['卡片与选择滑块已统一', ['全站资源卡片的图形区域改为柔和底板与居中标识；平台和渠道选择滑块改为更清晰的浅色玻璃样式。', '保留原有资源、下载链接及主题和语言设置。']],
       'zh-TW': ['卡片與選擇滑塊已統一', ['全站資源卡片的圖形區域改為柔和底板與置中標識；平台和渠道選擇滑塊改為更清楚的淺色玻璃樣式。', '保留原有資源、下載連結及主題和語言設定。']],
