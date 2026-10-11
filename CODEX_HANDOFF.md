@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-10  
+> 最后更新：2026-10-11  
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -98,6 +98,25 @@
 - Android / Fold Craft Launcher：<https://foldcraftlaunch.com/download/>
 - iOS / Amethyst iOS：<https://github.com/herbrine8403/Amethyst-iOS-MyRemastered/releases>
 - 页面继承五种主题色、深浅模式及简中、繁中、英文、日文翻译。
+
+### 原神专区 `/genshin.html`
+
+主页中的“原神”入口紧随 Minecraft，进入独立原神专区。当前已加入一张站内卡片：
+
+- **原神国际版下载** → `/genshin-download.html`
+- 卡片、专区与下载页沿用黑白基调、五种主题色、深浅模式及四语言。
+- 今后可以继续加入其他原神资源卡片。
+
+### 原神国际版下载页 `/genshin-download.html`
+
+- 平台页签从左到右为 Android、iOS。页签只切换展示内容，不导航到外部网站。
+- Android 有两个同等重要、同样视觉权重的下载按钮：
+  - Google Play 官方下载：<https://play.google.com/store/apps/details/Genshin_Impact?id=com.miHoYo.GenshinImpact&hl=en_NZ&pli=1>
+  - APK 下载：<https://genshin-impact.cn.uptodown.com/android/dw/1218436799-x>
+- Android 简介明确写有“如无法打开，请使用科学上网”。
+- iOS 下载按钮前往：<https://apps.apple.com/us/app/genshin-impact-6th-anniversary/id1517783697>
+- iOS 简介明确写有“请使用非中国大陆地区 Apple 账号”。
+- 只有下载按钮打开外链。APK 地址由用户指定，可能指向特定版本；以后改版本时要检查地址是否仍有效。
 
 ## 3. 视觉与设计系统
 
@@ -198,6 +217,10 @@
 | `minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
 | `minecraft-mobile.html` | Java 版 Android/iOS 移动端选择页 |
 | `minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
+| `genshin.html` | 原神内容专区、下载子卡片和设置弹窗 |
+| `genshin.js` | 原神专区四语言与主题设置逻辑 |
+| `genshin-download.html` | 原神国际版 Android/iOS 下载选择页 |
+| `genshin-download.js` | 三个下载链接、平台切换、四语言与设置逻辑 |
 | `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
 | `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
 | `preview.html` | 历史预览文件；不是当前正式入口 |
@@ -281,10 +304,18 @@
 
 ## 12. 最近部署基线
 
+### 2026-10-11：新增原神国际版下载
+
+- 原神专区新增“原神国际版下载”站内卡片与独立下载页。
+- Android / iOS 页签仅切换内容；Android 的 Google Play 与 APK 按钮同等醒目；iOS 使用 App Store 按钮。
+- 平台说明加入用户指定的网络访问与 Apple 账号提示，四语言同步。
+- 保留五种主题色、深浅模式与站点共享偏好。
+
+
 ### 2026-10-11：新增原神顶级专区
 
 - 主页资源库新增“原神”大型站内入口，固定排列在 Minecraft 下方、其余资源之前。
-- 新增 `/genshin.html` 原神独立专区，暂不擅自加入下载或外部资源，保留后续扩展位置。
+- 新增 `/genshin.html` 原神独立专区；当时预留扩展位置，随后已加入国际版下载卡片。
 - 原神入口与专区完整继承五种主题色、深浅模式及简中、繁中、英文、日文。
 
 ### 2026-10-10：修正 Java 移动端 iOS 图标
