@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-11  
+> 最后更新：2026-10-12
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -65,7 +65,7 @@
 
 ### Minecraft 专区 `/minecraft.html`
 
-这是 Minecraft 的“大选项”/内容聚合页。当前包含四张站内卡片和一张外部直达卡片：
+这是 Minecraft 的“大选项”/内容聚合页。当前包含五张站内卡片：
 
 1. **Minecraft 基岩版下载** → `/minecraft-download.html`
    - 标题不再写“国际”“双端”或“启动器双端”。
@@ -82,12 +82,20 @@
    - 提供 Android 与 iOS 两个移动端入口。
    - Android 对应 Fold Craft Launcher，iOS 对应 Amethyst iOS。
    - 选项卡只切换内容，下方按钮才打开下载网页。
-5. **Minecraft 种子查询** → <https://www.chunkbase.com/apps/>
-   - 卡片直接打开 Chunkbase，使用外链箭头 ↗；没有中转页或选项卡。
-   - 简体中文简介：`可输入自己想查的种子号。`
-   - 标题、简介、标签和首页更新公告均提供简中、繁中、英文、日文；卡片继承五种主题色与深浅模式。
+5. **Minecraft 种子查询** → `/minecraft-seed.html`
+   - 专区卡片进入站内详情页，使用站内箭头 →。
+   - 简体中文简介：`可输入自己想查的种子号，选择查询网站查看种子地图。`
+   - 详情页不设选项卡；只有“查询网站 1”和“查询网站 2”两个按钮打开外链。四语言、五种主题色和深浅模式均须同步。
 
 专区的目的不是只放一个下载卡片，而是作为可持续扩充的 Minecraft 内容容器；以后用户还会加入更多 Minecraft 相关跳转选项。
+
+### 种子查询页 `/minecraft-seed.html`
+
+- 页面采用与其他 Minecraft 详情页一致的导航、卡片、按钮和网站设置；没有平台选项卡。
+- 两个按钮参照基岩版 Android 双下载按钮：同一行优先并排，网站 1 为主按钮、网站 2 为柔和底色的次按钮；空间不足时可换行。
+- 查询网站 1：<https://minecraftsearch.com/zh-CN/工具/种子地图#seed=123&platform=bedrock_26.50&dimension=overworld&x=0&z=0&zoom=16.000>
+- 查询网站 2：<https://www.chunkbase.com/apps/>
+- 两个外链仅由明确的查询按钮打开；页面本身不输入或保存种子号。站点 1 链接包含用户提供的 `seed=123` 等初始参数。
 
 ### 基岩版下载页 `/minecraft-download.html`
 
@@ -257,6 +265,8 @@
 | `scripts/minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
 | `minecraft-mobile.html` | Java 版 Android/iOS 移动端选择页 |
 | `scripts/minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
+| `minecraft-seed.html` | 无选项卡的 Minecraft 种子查询详情页与双网站按钮 |
+| `scripts/minecraft-seed.js` | 种子查询页四语言、主题与设置逻辑 |
 | `genshin.html` | 原神内容专区、国际版站内卡片、国服直达卡片和设置弹窗 |
 | `scripts/genshin.js` | 原神专区四语言与主题设置逻辑 |
 | `genshin-download.html` | 原神国际版 Android/iOS/Windows 下载选择页 |
@@ -348,6 +358,14 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-12：种子查询改为站内双网站页面
+
+- 需求：Minecraft 种子查询卡片先进入与其他板块一致的详情页，不再直跳外链；详情页无选项卡，以基岩版 Android 双下载按钮为参照，提供“查询网站 1”和“查询网站 2”，并在原简介意思上稍作优化。
+- 修改前于 **2026-10-12 13:13:59 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-12_13-13-59_UTC` 与带注释标签 `backup-2026-10-12_13-13-59_UTC`；标签剥离后与分支均指向基线提交 `665f6487a73c0f5bd2a6795717dfb7f6ace64b60`。当时本地工作区干净，且与 GitHub `main` 一致。
+- 专区卡片改为站内链接与 → 箭头；新增 `/minecraft-seed.html` 和 `scripts/minecraft-seed.js`，页面两个按钮分别通往用户指定的 Minecraft Search 种子地图链接及原 Chunkbase 链接。卡片简介改为“可输入自己想查的种子号，选择查询网站查看种子地图。”两按钮沿用基岩版 Android 的主次按钮布局，没有选项卡。
+- 简中、繁中、英文、日文的页面标题、简介、按钮、设置与可访问性文案已补全；石墨、蓝、紫、绿、橙五种主题色和跟随系统、浅色、深色模式沿用站点体系。首页增加四语言更新公告，两个业务脚本引用提升缓存版本；`README.md` 同步说明九个正式页面。
+- 涉及文件：`minecraft.html`、`minecraft-seed.html`、`scripts/minecraft-hub.js`、`scripts/minecraft-seed.js`、`scripts/app.js`、`index.html`、`README.md` 和本文件。验证：三个修改的 JS 均通过 `node --check`，`git diff --check` 通过；新页 32 个翻译键在四语言中齐全。Chromium 在 390px 下通过四语言 × 五色调 × 浅/深模式共 40 组检查，两个按钮同行、外链与卡片站内跳转正确且页面无水平溢出；320px 下四语言的双按钮样式与基岩版 Android 页逐项一致且无水平溢出，跟随系统深色切换和四语言公告渲染通过。首页公告在五色调 × 浅/深模式的 10 组检查中正常。查询网站 1 返回 HTTP 200；真实 iPhone Safari 与 Android Chrome 的视觉表现仍需设备端确认。
 
 ### 2026-10-11：Minecraft 专区新增种子查询
 

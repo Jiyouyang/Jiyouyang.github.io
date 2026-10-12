@@ -13,10 +13,10 @@ const i18n = {
   }
 };
 const seedI18n = {
-  'zh-CN': { 'seed.tag': '种子 · 查询', 'seed.title': 'Minecraft 种子查询', 'seed.description': '可输入自己想查的种子号。' },
-  'zh-TW': { 'seed.tag': '種子 · 查詢', 'seed.title': 'Minecraft 種子查詢', 'seed.description': '可輸入想查詢的種子編號。' },
-  en: { 'seed.tag': 'SEED · LOOKUP', 'seed.title': 'Minecraft Seed Lookup', 'seed.description': 'Enter the seed number you want to look up.' },
-  ja: { 'seed.tag': 'シード · 検索', 'seed.title': 'Minecraft シード検索', 'seed.description': '調べたいシード値を入力できます。' }
+  'zh-CN': { 'seed.tag': '种子 · 查询', 'seed.title': 'Minecraft 种子查询', 'seed.description': '可输入自己想查的种子号，选择查询网站查看种子地图。' },
+  'zh-TW': { 'seed.tag': '種子 · 查詢', 'seed.title': 'Minecraft 種子查詢', 'seed.description': '可輸入想查詢的種子編號，選擇網站查看種子地圖。' },
+  en: { 'seed.tag': 'SEED · LOOKUP', 'seed.title': 'Minecraft Seed Lookup', 'seed.description': 'Enter the seed number you want to check and choose a site to view its map.' },
+  ja: { 'seed.tag': 'シード · 検索', 'seed.title': 'Minecraft シード検索', 'seed.description': '調べたいシード値を入力し、サイトを選んでマップを確認できます。' }
 };
 Object.keys(seedI18n).forEach(language => Object.assign(i18n[language], seedI18n[language]));
 const $ = selector => document.querySelector(selector);

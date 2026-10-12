@@ -160,6 +160,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-12-minecraft-seed-sites', date: '2026-10-12', content: {
+      'zh-CN': ['Minecraft 种子查询新增双网站页面', ['进入 Minecraft 种子查询页后，可用两个并列按钮选择查询网站 1 或查询网站 2，再输入想查的种子号。']],
+      'zh-TW': ['Minecraft 種子查詢新增雙網站頁面', ['進入 Minecraft 種子查詢頁後，可用兩個並排按鈕選擇查詢網站 1 或查詢網站 2，再輸入想查詢的種子編號。']],
+      en: ['Two Minecraft seed lookup sites', ['Open the seed lookup page, choose lookup site 1 or 2 with the paired buttons, then enter the seed you want to check.']],
+      ja: ['Minecraft のシード検索に2サイトを追加', ['シード検索ページで並んだボタンから検索サイト 1 または 2 を選び、調べたいシード値を入力できます。']]
+    }
+  },
+  {
     id: '2026-10-11-minecraft-seed-lookup', date: '2026-10-11', content: {
       'zh-CN': ['Minecraft 种子查询已加入', ['Minecraft 专区新增种子查询入口，可输入想查的种子号，前往 Chunkbase 查询。']],
       'zh-TW': ['Minecraft 種子查詢已加入', ['Minecraft 專區新增種子查詢入口，可輸入想查詢的種子編號，前往 Chunkbase 查詢。']],
