@@ -153,12 +153,26 @@ const resources = [
     'zh-TW': ['原神', '進入原神專區，查看多平台下載、國服官網與可用兌換碼。'],
     en: ['Genshin Impact', 'Find downloads, the mainland China official site, and available redemption codes in the Genshin Impact hub.'],
     ja: ['原神', '原神専用ページで、ダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
+  }},
+  { id: 'zzz', category: 'games', url: '/zzz.html', domain: 'jiyouyang.github.io/zzz', glyph: 'ZZZ', x: '78%', y: '24%', internal: true, content: {
+    'zh-CN': ['绝区零', '进入绝区零专区，查看国际版多平台下载、国服官网与可用兑换码。'],
+    'zh-TW': ['絕區零', '進入絕區零專區，查看國際版多平台下載、國服官網與可用兌換碼。'],
+    en: ['Zenless Zone Zero', 'Find global downloads, the mainland China official site, and available redemption codes in the Zenless Zone Zero hub.'],
+    ja: ['ゼンレスゾーンゼロ', '専用ページでグローバル版のダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
   }}
 ];
 
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-12-zzz-hub', date: '2026-10-12', content: {
+      'zh-CN': ['绝区零专区已加入', ['新增国际版 Android、iOS、Windows 下载选择页，以及国服官网和可用兑换码查询入口。']],
+      'zh-TW': ['絕區零專區已加入', ['新增國際版 Android、iOS、Windows 下載選擇頁，以及國服官網和可用兌換碼查詢入口。']],
+      en: ['Zenless Zone Zero hub added', ['Find global Android, iOS, and Windows downloads, the official China site, and a redemption code tracker.']],
+      ja: ['ゼンレスゾーンゼロの専用ページを追加', ['グローバル版の Android・iOS・Windows ダウンロード、中国版公式サイト、交換コード確認先をまとめました。']]
+    }
+  },
   {
     id: '2026-10-12-minecraft-seed-sites', date: '2026-10-12', content: {
       'zh-CN': ['Minecraft 种子查询新增双网站页面', ['进入 Minecraft 种子查询页后，可用两个并列按钮选择查询网站 1 或查询网站 2，再输入想查的种子号。']],
@@ -289,8 +303,8 @@ const announcements = [
   }
 ];
 
-const featuredOrder = { minecraft: 0, genshin: 1 };
-resources.sort((left, right) => (featuredOrder[left.id] ?? 2) - (featuredOrder[right.id] ?? 2));
+const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2 };
+resources.sort((left, right) => (featuredOrder[left.id] ?? 3) - (featuredOrder[right.id] ?? 3));
 
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');

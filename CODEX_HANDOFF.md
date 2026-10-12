@@ -35,7 +35,7 @@
 - **2026-10-11 已按用户要求恢复到该视觉版本。** 恢复通过新提交保留 Git 历史，没有强制推送。操作步骤见 `docs/ROLLBACK.md`。
 - 恢复前的升级版另外保存在 `backup/pre-change-2026-10-11_10-08-23_UTC`，基线提交 `89a16cad9c5f3cd909c6df282c2ec06a0fe4c0c2`；需要重回升级版时可从此分支恢复。
 
-本站已经从最初的个人博客/资源混合页面，收敛为一个简洁的“资源分享站”。博客入口与博客内容已移除，首页只保留资源发现和筛选功能。Minecraft 被提升为资源库中的第一个重点入口，并拥有独立的站内内容专区，方便未来继续增加 Minecraft 相关入口。
+本站已经从最初的个人博客/资源混合页面，收敛为一个简洁的“资源分享站”。博客入口与博客内容已移除，首页只保留资源发现和筛选功能。Minecraft、原神与绝区零拥有独立的站内内容专区，方便未来继续增加相关入口。
 
 整体目标：
 
@@ -58,10 +58,10 @@
 - 分类：全部、开发、学习、工具、游戏。
 - 资源支持按标题、简介、域名和分类即时检索。
 - 搜索支持按资源名称、简介、域名及分类即时筛选；升级版特有的搜索清空按钮和键盘快捷聚焦已随回滚移除。
-- Minecraft 资源卡片位于资源列表第一位，并进入站内 `/minecraft.html`。
-- 首页 Minecraft 与原神卡片的简介按当前实际入口描述，已去除“以后才会加入下载”的旧状态文案。
+- Minecraft、原神、绝区零资源卡片依次位于资源列表前列，分别进入站内专区。
+- 首页 Minecraft、原神与绝区零卡片的简介均按当前实际入口描述。
 
-首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
+首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、原神、绝区零、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
 
 ### Minecraft 专区 `/minecraft.html`
 
@@ -159,6 +159,21 @@
 - Windows 下载按钮前往 HoYoPlay 官方启动器：<https://hoyoplay.hoyoverse.com>
 - 只有下载按钮打开外链。APK 地址由用户指定，可能指向特定版本；以后改版本时要检查地址是否仍有效。
 
+### 绝区零专区 `/zzz.html`
+
+- 首页“绝区零”卡片位于原神之后，进入独立专区。
+- 三张卡片参照原神：**绝区零国际版下载** → `/zzz-download.html`；**绝区零国服下载** → <https://zzz.mihoyo.com/main/>；**绝区零兑换码** → <https://www.crimsonwitch.com/codes/Zenless_Zone_Zero>。
+- 国服官网和兑换码查询为卡片直达外链；国际版下载先进入站内平台选择页。兑换码页面只用于查询，是否有可用码以目标站当时显示为准。
+- 后续如在此对话继续维护绝区零内容，仍先读取本文件并核对 GitHub 最新版本，执行完整备份规则。
+
+### 绝区零国际版下载页 `/zzz-download.html`
+
+- 平台页签从左到右为 Android、iOS、Windows；页签只切换内容，下载按钮才打开外链。
+- Android 两个按钮：Google Play 官方页面 <https://play.google.com/store/apps/details?id=com.HoYoverse.Nap>；APKPure 的 XAPK 安装包页面 <https://apkpure.net/zenless-zone-zero/com.HoYoverse.Nap/download>。后者是第三方页面，使用不带版本号的入口，仍需定期核对版本和可用性。
+- iOS：美国区 App Store <https://apps.apple.com/us/app/zenless-zone-zero/id1606356401>；提示使用非中国大陆地区 Apple 账号。
+- Windows：HoYoPlay 官方启动器 <https://hoyoplay.hoyoverse.com/>。
+- 沿用现有黑白基调、五种主题色、深浅模式与简中、繁中、英语、日语四语言。
+
 ## 3. 视觉与设计系统
 
 ### 基调
@@ -167,8 +182,8 @@
 - 浅色背景接近 `#f5f5f7`，深色背景为黑色；表面、描边和文字使用 Apple 风格中性色阶。
 - 默认主题色为石墨，不使用高饱和渐变作为默认视觉。
 - 保持大圆角、充足留白、粗体大标题、简短说明和轻阴影。
-- 当前已恢复升级前设计：8 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
-- 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增现位于 `styles/card-controls.css` 的共享样式，统一主页精选/资源卡片、Minecraft 与原神专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
+- 当前 11 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
+- 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增现位于 `styles/card-controls.css` 的共享样式，统一主页精选/资源卡片、Minecraft、原神与绝区零专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
 - 升级版曾调整深色背景及强调色对比度；当前回滚版沿用升级前的颜色实现，后续须以页面现存 CSS 为准。
 - 卡片头图为抽象文字/字形构图（如 MC、MOD），不是写实封面图。
 - 用户曾要求移除首页 Hero 下方三个装饰图标；不要恢复。
@@ -271,6 +286,10 @@
 | `scripts/genshin.js` | 原神专区四语言与主题设置逻辑 |
 | `genshin-download.html` | 原神国际版 Android/iOS/Windows 下载选择页 |
 | `scripts/genshin-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
+| `zzz.html` | 绝区零内容专区、国际版站内卡片、国服与兑换码直达卡片 |
+| `scripts/zzz.js` | 绝区零专区四语言与主题设置逻辑 |
+| `zzz-download.html` | 绝区零国际版 Android/iOS/Windows 下载选择页 |
+| `scripts/zzz-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
 | `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
 | `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
 | `archive/legacy/preview.html` | 历史预览文件；不是当前正式入口 |
@@ -280,7 +299,7 @@
 
 当前 HTML 通过查询参数给 JS/图标做缓存更新。修改正式 JS 后应同步递增对应 HTML 的 `?v=`，避免 GitHub Pages/Safari 使用旧缓存。
 
-当前正式 HTML 保留各页内嵌基础样式，另在 8 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
+当前正式 HTML 保留各页内嵌基础样式，另在 11 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
 
 ## 7. 已完成的主要需求历史
 
@@ -358,6 +377,15 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-12：新增绝区零专区与国际版下载页
+
+- 需求：在游戏大类新增绝区零入口，按原神专区结构提供国际版下载、国服下载和可用兑换码查询；由 Codex 自行查找网址，并供后续绝区零更新沿用本交接文档。
+- 编辑前于 **2026-10-12 13:51:53 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-12_13-51-53_UTC` 与带注释标签 `backup-2026-10-12_13-51-53_UTC`。远端分支与标签剥离后均指向基线提交 `75b02e05778707c67a8022e285333cc16e57dbd2`；克隆后的工作区原本干净，基线提交包含当时完整仓库树。
+- 实现：首页新增绝区零卡片和四语言公告；新增 `/zzz.html` 三卡片专区及 `/zzz-download.html` Android/iOS/Windows 下载选择页。国服、兑换码与四个国际版下载网址详见上文；Android 第三方页面实际提供 XAPK，按钮如实标注。四语言、五种主题色、深浅模式沿用现有设置。
+- 涉及文件：`scripts/app.js`、`index.html`、`zzz.html`、`scripts/zzz.js`、`zzz-download.html`、`scripts/zzz-download.js`、`README.md` 与本文件。
+- 验证：三个修改或新增的 JS 均通过 `node --check`；两个新页面引用的翻译键已检查四语言完整；本地站内页面引用已核对，`git diff --check` 通过。六个外部目标（国服官网、兑换码、Google Play、APKPure、App Store、HoYoPlay）检查时均返回 HTTP 200。真实设备视觉表现仍待设备端确认。
+- 决策：Android 第三方安装包链接使用不带版本号的 APKPure 页面，避免固定版本地址过期。第三方展示版本与提供的文件格式可能变化，今后更新时需重新核对。
 
 ### 2026-10-12：种子查询改为站内双网站页面
 
