@@ -238,22 +238,6 @@ const announcements = [
     }
   },
   {
-    id: '2026-10-11-jiyouyang', date: '2026-10-11', pinned: true, content: {
-      'zh-CN': ['jiyouyang也是可爱傲娇小男娘喵', [
-        '与 Eghver 置顶公告每 3 秒上下滚动切换显示。'
-      ]],
-      'zh-TW': ['jiyouyang也是可愛傲嬌小男娘喵', [
-        '與 Eghver 置頂公告每 3 秒上下滾動切換顯示。'
-      ]],
-      en: ['jiyouyang is also a cute, tsundere femboy, meow', [
-        'This and the pinned Eghver notice rotate vertically every 3 seconds.'
-      ]],
-      ja: ['jiyouyangも可愛いツンデレ男の娘にゃ', [
-        'Eghverの固定お知らせと3秒ごとに上下へ切り替わります。'
-      ]]
-    }
-  },
-  {
     id: '2026-10-11-eghver', date: '2026-10-11', pinned: true, content: {
       'zh-CN': ['Eghver恶魔是可爱傲娇小男娘喵', [
         '此公告已置顶，将持续显示在首页公告栏的标题位置。'

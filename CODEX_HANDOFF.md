@@ -629,3 +629,11 @@
 - 验证：逐文件以 `cmp` 对比移动前的 Git 基线，12 个移动文件内容完全一致；8 个正式页面均指向存在的 `/scripts/` 与 `/styles/` 文件；全部脚本通过 `node --check`，`git diff --check` 通过。
 - 后续新增正式 JavaScript 放入 `scripts/`，共享样式放入 `styles/`，维护文档优先放入 `docs/`；`CODEX_HANDOFF.md`、`README.md`、正式 HTML、`.nojekyll`、PWA 清单与 `assets/` 保持现有位置。
 
+### 2026-10-13：移除 jiyouyang 置顶公告
+
+- 用户要求删除公告栏中“jiyouyang 是小男娘”的置顶公告；保留 Eghver 置顶公告和其他普通更新公告。
+- 开始修改前发现远端 `main` 已新增 Minecraft 种子查询与绝区零专区，先通过 `git pull --ff-only` 同步至提交 `c4a2c03af5bb0171f781fdcadec3f089d13b3534`，未覆盖这些更新。
+- 修改前已于 **2026-10-13 09:58:47 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-13_09-58-47_UTC` 与带注释标签 `backup-2026-10-13_09-58-47_UTC`；两者均指向上述最新基线提交。
+- 从 `scripts/app.js` 的 `announcements` 数组中完整移除 `2026-10-11-jiyouyang` 四语言记录；首页静态回退标题与展开内容改为仍保留的 Eghver 置顶公告，并提升首页脚本缓存版本。
+- 按公告维护规则，删除或修改公告的请求不再额外生成一条网站更新公告；页面其他公告、资源、样式和交互保持不变。
+
