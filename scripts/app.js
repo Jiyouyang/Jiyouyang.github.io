@@ -165,12 +165,26 @@ const resources = [
     'zh-TW': ['絕區零', '進入絕區零專區，查看國際版多平台下載、國服官網與可用兌換碼。'],
     en: ['Zenless Zone Zero', 'Find global downloads, the mainland China official site, and available redemption codes in the Zenless Zone Zero hub.'],
     ja: ['ゼンレスゾーンゼロ', '専用ページでグローバル版のダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
+  }},
+  { id: 'endfield', category: 'games', url: '/endfield.html', domain: 'jiyouyang.github.io/endfield', glyph: 'AE', x: '76%', y: '72%', internal: true, content: {
+    'zh-CN': ['明日方舟：终末地', '进入终末地专区，查看国际版多平台下载、国服官网与兑换码查询。'],
+    'zh-TW': ['明日方舟：終末地', '進入終末地專區，查看國際版多平台下載、國服官網與兌換碼查詢。'],
+    en: ['Arknights: Endfield', 'Find global downloads, the mainland China official site, and redemption codes in the Endfield hub.'],
+    ja: ['アークナイツ：エンドフィールド', '専用ページでグローバル版のダウンロード、中国版公式サイト、交換コードの確認先を探せます。']
   }}
 ];
 
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-13-endfield-hub', date: '2026-10-13', content: {
+      'zh-CN': ['终末地专区已加入', ['新增国际版 Android、iOS、Windows 下载选择页，以及国服官网和兑换码查询入口。']],
+      'zh-TW': ['終末地專區已加入', ['新增國際版 Android、iOS、Windows 下載選擇頁，以及國服官網和兌換碼查詢入口。']],
+      en: ['Arknights: Endfield hub added', ['Find global Android, iOS, and Windows downloads, the official China site, and a redemption code tracker.']],
+      ja: ['アークナイツ：エンドフィールドの専用ページを追加', ['グローバル版の Android・iOS・Windows ダウンロード、中国版公式サイト、交換コードの確認先をまとめました。']]
+    }
+  },
   {
     id: '2026-10-13-hsr-hub', date: '2026-10-13', content: {
       'zh-CN': ['崩铁专区已加入', ['新增国际版 Android、iOS、Windows 下载选择页，以及国服官网和可用兑换码查询入口。']],
@@ -301,8 +315,8 @@ const announcements = [
   }
 ];
 
-const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2, hsr: 3 };
-resources.sort((left, right) => (featuredOrder[left.id] ?? 4) - (featuredOrder[right.id] ?? 4));
+const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2, hsr: 3, endfield: 4 };
+resources.sort((left, right) => (featuredOrder[left.id] ?? 5) - (featuredOrder[right.id] ?? 5));
 
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');

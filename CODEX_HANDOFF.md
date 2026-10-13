@@ -35,7 +35,7 @@
 - **2026-10-11 已按用户要求恢复到该视觉版本。** 恢复通过新提交保留 Git 历史，没有强制推送。操作步骤见 `docs/ROLLBACK.md`。
 - 恢复前的升级版另外保存在 `backup/pre-change-2026-10-11_10-08-23_UTC`，基线提交 `89a16cad9c5f3cd909c6df282c2ec06a0fe4c0c2`；需要重回升级版时可从此分支恢复。
 
-本站已经从最初的个人博客/资源混合页面，收敛为一个简洁的“资源分享站”。博客入口与博客内容已移除，首页只保留资源发现和筛选功能。Minecraft、原神、绝区零与崩坏：星穹铁道拥有独立的站内内容专区，方便未来继续增加相关入口。
+本站已经从最初的个人博客/资源混合页面，收敛为一个简洁的“资源分享站”。博客入口与博客内容已移除，首页只保留资源发现和筛选功能。Minecraft、原神、绝区零、崩坏：星穹铁道与明日方舟：终末地拥有独立的站内内容专区，方便未来继续增加相关入口。
 
 整体目标：
 
@@ -58,10 +58,10 @@
 - 分类：全部、开发、学习、工具、游戏。
 - 资源支持按标题、简介、域名和分类即时检索。
 - 搜索支持按资源名称、简介、域名及分类即时筛选；升级版特有的搜索清空按钮和键盘快捷聚焦已随回滚移除。
-- Minecraft、原神、绝区零、崩坏：星穹铁道资源卡片依次位于资源列表前列，分别进入站内专区。
-- 首页 Minecraft、原神、绝区零与崩铁卡片的简介均按当前实际入口描述。
+- Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地资源卡片依次位于资源列表前列，分别进入站内专区。
+- 首页 Minecraft、原神、绝区零、崩铁与终末地卡片的简介均按当前实际入口描述。
 
-首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、原神、绝区零、崩铁、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
+首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、原神、绝区零、崩铁、终末地、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
 
 ### Minecraft 专区 `/minecraft.html`
 
@@ -189,6 +189,21 @@
 - Windows：HoYoPlay 官方启动器 <https://hoyoplay.hoyoverse.com/>。
 - 沿用现有黑白基调、五种主题色、深浅模式与简中、繁中、英语、日语四语言。
 
+### 明日方舟：终末地（终末地）专区 `/endfield.html`
+
+- 首页“明日方舟：终末地”卡片位于崩铁之后，进入独立专区；搜索“终末地”也可找到。
+- 三张卡片沿用原神、绝区零与崩铁的层级：**国际版下载** → `/endfield-download.html`；**国服下载** → <https://endfield.hypergryph.com/>；**兑换码查询** → <https://www.redeem-code-tracker.com/games/arknights-endfield>。
+- 国服官网与兑换码列表为卡片直达外链；国际版先进入站内下载选择页。兑换码列表由第三方维护，实际可用性以页面当时信息和游戏内兑换结果为准。
+- 后续在此对话继续维护终末地内容时，先读取本交接文档、核对 GitHub 最新版本并执行完整备份规则。
+
+### 明日方舟：终末地国际版下载页 `/endfield-download.html`
+
+- 平台页签依次为 Android、iOS、Windows；页签只切换内容，下载按钮才打开外链。
+- Android：Google Play 官方页面 <https://play.google.com/store/apps/details?id=com.gryphline.endfield.gp>；APKPure 无版本号的 APK 下载页面 <https://apkpure.net/arknights-endfield/com.gryphline.endfield.gp/download>。APKPure 为第三方页面，包格式和版本仍需定期核对。
+- iOS：美国区 App Store <https://apps.apple.com/us/app/arknights-endfield/id6752642477>；提示使用非中国大陆地区 Apple 账号。
+- Windows：GRYPHLINE 国际服官网 <https://endfield.gryphline.com/en-us>，从官方页面获取 Windows 启动器。
+- 沿用现有黑白基调、五种主题色、深浅模式与简中、繁中、英语、日语四语言。
+
 ## 3. 视觉与设计系统
 
 ### 基调
@@ -197,7 +212,7 @@
 - 浅色背景接近 `#f5f5f7`，深色背景为黑色；表面、描边和文字使用 Apple 风格中性色阶。
 - 默认主题色为石墨，不使用高饱和渐变作为默认视觉。
 - 保持大圆角、充足留白、粗体大标题、简短说明和轻阴影。
-- 当前 13 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
+- 当前 15 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
 - 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增现位于 `styles/card-controls.css` 的共享样式，统一主页精选/资源卡片、Minecraft、原神与绝区零专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
 - 升级版曾调整深色背景及强调色对比度；当前回滚版沿用升级前的颜色实现，后续须以页面现存 CSS 为准。
 - 卡片头图为抽象文字/字形构图（如 MC、MOD），不是写实封面图。
@@ -309,6 +324,10 @@
 | `scripts/hsr.js` | 崩铁专区四语言与主题设置逻辑 |
 | `hsr-download.html` | 崩铁国际版 Android/iOS/Windows 下载选择页 |
 | `scripts/hsr-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
+| `endfield.html` | 终末地内容专区、国际版站内卡片、国服与兑换码直达卡片 |
+| `scripts/endfield.js` | 终末地专区四语言与主题设置逻辑 |
+| `endfield-download.html` | 终末地国际版 Android/iOS/Windows 下载选择页 |
+| `scripts/endfield-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
 | `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
 | `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
 | `archive/legacy/preview.html` | 历史预览文件；不是当前正式入口 |
@@ -318,7 +337,7 @@
 
 当前 HTML 通过查询参数给 JS/图标做缓存更新。修改正式 JS 后应同步递增对应 HTML 的 `?v=`，避免 GitHub Pages/Safari 使用旧缓存。
 
-当前正式 HTML 保留各页内嵌基础样式，另在 13 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
+当前正式 HTML 保留各页内嵌基础样式，另在 15 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
 
 ## 7. 已完成的主要需求历史
 
@@ -396,6 +415,16 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-13：新增明日方舟：终末地专区
+
+- 需求：以后在此对话维护终末地时读取本交接文档；首页新增明日方舟：终末地大类入口，分项参照原神与绝区零，包含国际版下载、国服下载和兑换码查询，链接由 Codex 查询选定。
+- 修改前于 **2026-10-13 22:55:27 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-13_22-55-27_UTC` 与带注释标签 `backup-2026-10-13_22-55-27_UTC`。两者剥离后均指向基线提交 `64a59746cf06410b01139e37173812d904b8a235`；修改前工作区干净，远端 `main` 同为该提交。
+- 首页资源库新增“明日方舟：终末地”（简介含“终末地”以供搜索），排序在崩铁之后；新增四语言更新公告并提升 `app.js` 缓存号。两个新页面沿用崩铁专区与下载页结构、五种主题色、深浅模式和四语言设置；Android、iOS、Windows 选项卡只切换内容，按钮打开外链。移动导航使用“终末地”等短标题。
+- 链接：国服 <https://endfield.hypergryph.com/>；兑换码查询 <https://www.redeem-code-tracker.com/games/arknights-endfield>；Google Play <https://play.google.com/store/apps/details?id=com.gryphline.endfield.gp>；APKPure APK <https://apkpure.net/arknights-endfield/com.gryphline.endfield.gp/download>；美国区 App Store <https://apps.apple.com/us/app/arknights-endfield/id6752642477>；Windows 国际服官网 <https://endfield.gryphline.com/en-us>。APKPure 与兑换码查询是第三方入口。
+- 涉及文件：`index.html`、`scripts/app.js`、`endfield.html`、`scripts/endfield.js`、`endfield-download.html`、`scripts/endfield-download.js`、`README.md` 和本文件。首页静态资源数同步为 13，正式页面总数为 15。
+- 验证：`scripts/app.js`、`scripts/endfield.js`、`scripts/endfield-download.js` 通过 `node --check`；检查了 13 条首页资源、四语言翻译键、三平台内容与站内文件引用，平台按钮没有导航链接，`git diff --check` 通过。六个外部目标在 2026-10-13 均返回 HTTP 200，APKPure 当时标为 APK；未提供浏览器控制工具，真实设备视觉表现仍待设备端确认。
+- 新决策：终末地后续更新沿用本交接文档的备份与同步维护约定；Windows 使用国际服官方入口，Android 第三方链接不固定版本号，兑换码列表不承诺始终有可用码。
 
 ### 2026-10-12：新增绝区零专区与国际版下载页
 
