@@ -154,6 +154,12 @@ const resources = [
     en: ['Genshin Impact', 'Find downloads, the mainland China official site, and available redemption codes in the Genshin Impact hub.'],
     ja: ['原神', '原神専用ページで、ダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
   }},
+  { id: 'hsr', category: 'games', url: '/hsr.html', domain: 'jiyouyang.github.io/hsr', glyph: 'HSR', x: '24%', y: '76%', internal: true, content: {
+    'zh-CN': ['崩坏：星穹铁道', '进入崩铁专区，查看国际版多平台下载、国服官网与可用兑换码。'],
+    'zh-TW': ['崩壞：星穹鐵道', '進入星穹鐵道專區，查看國際版多平台下載、國服官網與可用兌換碼。'],
+    en: ['Honkai: Star Rail', 'Find global downloads, the mainland China official site, and available redemption codes in the Honkai: Star Rail hub.'],
+    ja: ['崩壊：スターレイル', '専用ページでグローバル版のダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
+  }},
   { id: 'zzz', category: 'games', url: '/zzz.html', domain: 'jiyouyang.github.io/zzz', glyph: 'ZZZ', x: '78%', y: '24%', internal: true, content: {
     'zh-CN': ['绝区零', '进入绝区零专区，查看国际版多平台下载、国服官网与可用兑换码。'],
     'zh-TW': ['絕區零', '進入絕區零專區，查看國際版多平台下載、國服官網與可用兌換碼。'],
@@ -165,6 +171,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-13-hsr-hub', date: '2026-10-13', content: {
+      'zh-CN': ['崩铁专区已加入', ['新增国际版 Android、iOS、Windows 下载选择页，以及国服官网和可用兑换码查询入口。']],
+      'zh-TW': ['星穹鐵道專區已加入', ['新增國際版 Android、iOS、Windows 下載選擇頁，以及國服官網和可用兌換碼查詢入口。']],
+      en: ['Honkai: Star Rail hub added', ['Find global Android, iOS, and Windows downloads, the official China site, and a redemption code tracker.']],
+      ja: ['崩壊：スターレイルの専用ページを追加', ['グローバル版の Android・iOS・Windows ダウンロード、中国版公式サイト、交換コード確認先をまとめました。']]
+    }
+  },
   {
     id: '2026-10-12-zzz-hub', date: '2026-10-12', content: {
       'zh-CN': ['绝区零专区已加入', ['新增国际版 Android、iOS、Windows 下载选择页，以及国服官网和可用兑换码查询入口。']],
@@ -287,8 +301,8 @@ const announcements = [
   }
 ];
 
-const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2 };
-resources.sort((left, right) => (featuredOrder[left.id] ?? 3) - (featuredOrder[right.id] ?? 3));
+const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2, hsr: 3 };
+resources.sort((left, right) => (featuredOrder[left.id] ?? 4) - (featuredOrder[right.id] ?? 4));
 
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');
