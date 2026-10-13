@@ -266,17 +266,17 @@ const announcements = [
     }
   },
   {
-    id: '2026-10-11-eghver', date: '2026-10-11', pinned: true, content: {
-      'zh-CN': ['Eghver恶魔是可爱傲娇小男娘喵', [
+    id: '2026-10-13-site-author', date: '2026-10-13', pinned: true, content: {
+      'zh-CN': ['本站作者是可爱傲娇小男娘喵', [
         '此公告已置顶，将持续显示在首页公告栏的标题位置。'
       ]],
-      'zh-TW': ['Eghver惡魔是可愛傲嬌小男娘喵', [
+      'zh-TW': ['本站作者是可愛傲嬌小男娘喵', [
         '此公告已置頂，將持續顯示在首頁公告列的標題位置。'
       ]],
-      en: ['Eghver the demon is a cute, tsundere femboy, meow', [
+      en: ['The site author is a cute, tsundere femboy, meow', [
         'This pinned notice will remain in the title position of the home-page announcement bar.'
       ]],
-      ja: ['悪魔のEghverは可愛いツンデレ男の娘にゃ', [
+      ja: ['このサイトの作者は可愛いツンデレ男の娘にゃ', [
         'このお知らせは固定され、ホームページのお知らせ欄のタイトル位置に表示されます。'
       ]]
     }
