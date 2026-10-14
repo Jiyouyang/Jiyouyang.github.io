@@ -136,29 +136,11 @@ const resources = [
     en: ['Can I use', 'Check browser support for web features across versions and platforms.'],
     ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
   }},
-  { id: 'chrome', category: 'computer', url: 'https://www.google.com/chrome/', domain: 'google.com/chrome', glyph: 'C', x: '78%', y: '22%', content: {
-    'zh-CN': ['Google Chrome', '前往 Google 官方页面，下载适合电脑的 Chrome 浏览器。'],
-    'zh-TW': ['Google Chrome', '前往 Google 官方頁面，下載適合電腦的 Chrome 瀏覽器。'],
-    en: ['Google Chrome', 'Get the Chrome browser for your computer from Google’s official page.'],
-    ja: ['Google Chrome', 'Google 公式ページからパソコン用 Chrome ブラウザーをダウンロード。']
-  }},
-  { id: 'steam', category: 'computer', url: 'https://store.steampowered.com/', domain: 'store.steampowered.com', glyph: 'ST', x: '24%', y: '70%', content: {
-    'zh-CN': ['Steam', '前往 Steam 官方网站，浏览游戏或获取客户端。'],
-    'zh-TW': ['Steam', '前往 Steam 官方網站，瀏覽遊戲或取得用戶端。'],
-    en: ['Steam', 'Visit the official Steam site to browse games or get the desktop client.'],
-    ja: ['Steam', 'Steam の公式サイトでゲームを探し、PC クライアントを入手できます。']
-  }},
-  { id: 'tbtool', category: 'computer', url: 'https://www.tbtool.cn/download/index.html', domain: 'tbtool.cn', glyph: 'TB', x: '76%', y: '76%', content: {
-    'zh-CN': ['图吧工具箱', '前往图吧工具箱官方下载页，获取硬件检测与测试工具合集。'],
-    'zh-TW': ['圖吧工具箱', '前往圖吧工具箱官方下載頁，取得硬體檢測與測試工具合集。'],
-    en: ['Tuba Toolbox', 'Get this hardware diagnostics toolkit from its official download page.'],
-    ja: ['図吧ツールボックス', '公式ダウンロードページからハードウェア診断ツール集を入手できます。']
-  }},
-  { id: 'idm', category: 'computer', url: 'https://www.internetdownloadmanager.com/', domain: 'internetdownloadmanager.com', glyph: 'IDM', x: '22%', y: '26%', content: {
-    'zh-CN': ['IDM 下载器', '前往 Internet Download Manager 官网，了解功能并获取 Windows 试用版。'],
-    'zh-TW': ['IDM 下載器', '前往 Internet Download Manager 官網，了解功能並取得 Windows 試用版。'],
-    en: ['Internet Download Manager (IDM)', 'Visit the official site to explore IDM and download the Windows trial.'],
-    ja: ['Internet Download Manager (IDM)', '公式サイトで機能を確認し、Windows 向け試用版をダウンロードできます。']
+  { id: 'computer', category: 'computer', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
+    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Google Chrome、Steam、图吧工具箱和 IDM 下载器。'],
+    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Google Chrome、Steam、圖吧工具箱和 IDM 下載器。'],
+    en: ['PC Tools', 'Open the PC Tools hub for Google Chrome, Steam, Tuba Toolbox, and IDM.'],
+    ja: ['PC ツール', 'PC ツールのページで Google Chrome、Steam、図吧ツールボックス、IDM を確認できます。']
   }},
   { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
     'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
@@ -201,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-14-computer-hub', date: '2026-10-14', content: {
+      'zh-CN': ['电脑工具已整合为专区', ['首页现在只有一张电脑工具入口卡片；进入专区后可点击 Chrome、Steam、图吧工具箱或 IDM 卡片直达官方网页。']],
+      'zh-TW': ['電腦工具已整合為專區', ['首頁現在只有一張電腦工具入口卡片；進入專區後可點擊 Chrome、Steam、圖吧工具箱或 IDM 卡片直達官方網頁。']],
+      en: ['PC Tools now has its own hub', ['The home page has one PC Tools card. Open it to find direct cards for the official Chrome, Steam, Tuba Toolbox, and IDM pages.']],
+      ja: ['PC ツールを専用ページにまとめました', ['ホームには PC ツールの入口カードを 1 枚表示し、専用ページから Chrome、Steam、図吧ツールボックス、IDM の公式サイトを直接開けます。']]
+    }
+  },
   {
     id: '2026-10-14-computer-tools', date: '2026-10-14', content: {
       'zh-CN': ['电脑工具分类已加入', ['Google Chrome、Steam、图吧工具箱与 IDM 下载器卡片均可直接前往对应官网或官方下载页。']],
@@ -360,8 +350,8 @@ const announcements = [
   }
 ];
 
-const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2, hsr: 3, endfield: 4 };
-resources.sort((left, right) => (featuredOrder[left.id] ?? 5) - (featuredOrder[right.id] ?? 5));
+const featuredOrder = { minecraft: 0, genshin: 1, zzz: 2, hsr: 3, endfield: 4, computer: 5 };
+resources.sort((left, right) => (featuredOrder[left.id] ?? 6) - (featuredOrder[right.id] ?? 6));
 
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');
