@@ -178,7 +178,12 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
-    id: '2026-10-14-jiyouyang-codex', date: '2026-10-14', pinned: true, content: {
+    id: '2026-10-14-jiyouyang-codex', date: '2026-10-14', pinned: true, summary: {
+      'zh-CN': '本站由Jiyouyang & Codex制作',
+      'zh-TW': '本站由Jiyouyang & Codex製作',
+      en: 'Made by Jiyouyang & Codex',
+      ja: 'JiyouyangとCodexが制作'
+    }, content: {
       'zh-CN': ['本站由Jiyouyang & Codex（基于ChatGPT 6Astra & 6Sol)制作', ['本站由 Jiyouyang 与 Codex 共同制作。']],
       'zh-TW': ['本站由Jiyouyang & Codex（基於ChatGPT 6Astra & 6Sol)製作', ['本站由 Jiyouyang 與 Codex 共同製作。']],
       en: ['Made by Jiyouyang & Codex (powered by ChatGPT 6Astra & 6Sol)', ['This site was made by Jiyouyang and Codex.']],
@@ -382,7 +387,7 @@ function renderAnnouncements() {
 }
 
 function setAnnouncementSummary(entry) {
-  $('#announcement-title').textContent = (entry.content[language] || entry.content['zh-CN'])[0];
+  $('#announcement-title').textContent = entry.summary?.[language] || (entry.content[language] || entry.content['zh-CN'])[0];
   $('#announcement-date').textContent = entry.date.slice(5).replace('-', '.');
   $('#announcement-date').dateTime = entry.date;
 }
