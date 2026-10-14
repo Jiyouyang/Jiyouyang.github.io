@@ -14,7 +14,7 @@ const i18n = {
     'library.title': '资源库。慢慢挑。', 'library.subtitle': '开发、学习、工具与游戏，都是认真筛选过的入口。',
     'library.categories': '资源分类', 'library.search': '搜索资源名称或用途', 'library.count': '{n} 个资源',
     'library.empty': '没有找到匹配的资源，试试其他关键词。',
-    'category.all': '全部', 'category.development': '开发', 'category.learning': '学习', 'category.tools': '工具', 'category.games': '游戏',
+    'category.all': '全部', 'category.development': '开发', 'category.learning': '学习', 'category.tools': '工具', 'category.computer': '电脑工具', 'category.games': '游戏',
     'resource.open': '打开 {title}',
     'footer.motto': '把好用的，分享给需要的人。', 'footer.github': 'GitHub ↗',
     'settings.open': '打开网站设置', 'settings.short': '网站设置', 'settings.title': '外观与语言', 'settings.close': '关闭设置',
@@ -37,7 +37,7 @@ const i18n = {
     'library.title': '資源庫。慢慢挑。', 'library.subtitle': '開發、學習、工具與遊戲，都是認真篩選過的入口。',
     'library.categories': '資源分類', 'library.search': '搜尋資源名稱或用途', 'library.count': '{n} 個資源',
     'library.empty': '沒有找到相符的資源，試試其他關鍵字。',
-    'category.all': '全部', 'category.development': '開發', 'category.learning': '學習', 'category.tools': '工具', 'category.games': '遊戲',
+    'category.all': '全部', 'category.development': '開發', 'category.learning': '學習', 'category.tools': '工具', 'category.computer': '電腦工具', 'category.games': '遊戲',
     'resource.open': '開啟 {title}',
     'footer.motto': '把好用的，分享給需要的人。', 'footer.github': 'GitHub ↗',
     'settings.open': '開啟網站設定', 'settings.short': '網站設定', 'settings.title': '外觀與語言', 'settings.close': '關閉設定',
@@ -60,7 +60,7 @@ const i18n = {
     'library.title': 'The collection.', 'library.subtitle': 'Carefully selected resources for development, learning, utilities, and games.',
     'library.categories': 'Resource categories', 'library.search': 'Search by name or purpose', 'library.count': '{n} resources',
     'library.empty': 'No matching resources. Try another keyword.',
-    'category.all': 'All', 'category.development': 'Dev', 'category.learning': 'Learn', 'category.tools': 'Tools', 'category.games': 'Games',
+    'category.all': 'All', 'category.development': 'Dev', 'category.learning': 'Learn', 'category.tools': 'Tools', 'category.computer': 'PC Tools', 'category.games': 'Games',
     'resource.open': 'Open {title}',
     'footer.motto': 'Share useful things with people who need them.', 'footer.github': 'GitHub ↗',
     'settings.open': 'Open site settings', 'settings.short': 'Site settings', 'settings.title': 'Appearance & Language', 'settings.close': 'Close settings',
@@ -83,7 +83,7 @@ const i18n = {
     'library.title': 'リソース集。', 'library.subtitle': '開発、学習、ツール、ゲームから、丁寧に選んだ入口です。',
     'library.categories': 'リソースカテゴリー', 'library.search': '名前や用途から検索', 'library.count': '{n} 件',
     'library.empty': '該当するリソースがありません。別の言葉で検索してみてください。',
-    'category.all': 'すべて', 'category.development': '開発', 'category.learning': '学習', 'category.tools': 'ツール', 'category.games': 'ゲーム',
+    'category.all': 'すべて', 'category.development': '開発', 'category.learning': '学習', 'category.tools': 'ツール', 'category.computer': 'PC ツール', 'category.games': 'ゲーム',
     'resource.open': '{title} を開く',
     'footer.motto': '便利なものを、必要な人へ。', 'footer.github': 'GitHub ↗',
     'settings.open': 'サイト設定を開く', 'settings.short': 'サイト設定', 'settings.title': '外観と言語', 'settings.close': '設定を閉じる',
@@ -136,6 +136,24 @@ const resources = [
     en: ['Can I use', 'Check browser support for web features across versions and platforms.'],
     ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
   }},
+  { id: 'chrome', category: 'computer', url: 'https://www.google.com/chrome/', domain: 'google.com/chrome', glyph: 'C', x: '78%', y: '22%', content: {
+    'zh-CN': ['Google Chrome', '前往 Google 官方页面，下载适合电脑的 Chrome 浏览器。'],
+    'zh-TW': ['Google Chrome', '前往 Google 官方頁面，下載適合電腦的 Chrome 瀏覽器。'],
+    en: ['Google Chrome', 'Get the Chrome browser for your computer from Google’s official page.'],
+    ja: ['Google Chrome', 'Google 公式ページからパソコン用 Chrome ブラウザーをダウンロード。']
+  }},
+  { id: 'steam', category: 'computer', url: 'https://store.steampowered.com/', domain: 'store.steampowered.com', glyph: 'ST', x: '24%', y: '70%', content: {
+    'zh-CN': ['Steam', '前往 Steam 官方网站，浏览游戏或获取客户端。'],
+    'zh-TW': ['Steam', '前往 Steam 官方網站，瀏覽遊戲或取得用戶端。'],
+    en: ['Steam', 'Visit the official Steam site to browse games or get the desktop client.'],
+    ja: ['Steam', 'Steam の公式サイトでゲームを探し、PC クライアントを入手できます。']
+  }},
+  { id: 'tbtool', category: 'computer', url: 'https://www.tbtool.cn/download/index.html', domain: 'tbtool.cn', glyph: 'TB', x: '76%', y: '76%', content: {
+    'zh-CN': ['图吧工具箱', '前往图吧工具箱官方下载页，获取硬件检测与测试工具合集。'],
+    'zh-TW': ['圖吧工具箱', '前往圖吧工具箱官方下載頁，取得硬體檢測與測試工具合集。'],
+    en: ['Tuba Toolbox', 'Get this hardware diagnostics toolkit from its official download page.'],
+    ja: ['図吧ツールボックス', '公式ダウンロードページからハードウェア診断ツール集を入手できます。']
+  }},
   { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
     'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
     'zh-TW': ['SteamDB', '查詢 Steam 遊戲價格、更新記錄、線上人數與歷史資料。'],
@@ -177,6 +195,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-14-computer-tools', date: '2026-10-14', content: {
+      'zh-CN': ['电脑工具分类已加入', ['新增 Google Chrome、Steam 与图吧工具箱卡片，点击卡片可直接前往对应官网或官方下载页。']],
+      'zh-TW': ['電腦工具分類已加入', ['新增 Google Chrome、Steam 與圖吧工具箱卡片，點擊卡片可直接前往對應官網或官方下載頁。']],
+      en: ['PC Tools category added', ['Open the official Chrome, Steam, and Tuba Toolbox pages directly from their cards.']],
+      ja: ['PC ツールカテゴリーを追加', ['Google Chrome、Steam、図吧ツールボックスのカードから公式サイトや公式ダウンロードページに直接移動できます。']]
+    }
+  },
   {
     id: '2026-10-14-jiyouyang-codex', date: '2026-10-14', pinned: true, summary: {
       'zh-CN': '本站由Jiyouyang & Codex制作',
