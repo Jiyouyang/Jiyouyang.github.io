@@ -56,13 +56,13 @@
 - 手机端导航的搜索和齿轮按钮均有 44px 点按区域；设置入口在窄屏显示齿轮图标，可访问性名称仍为“网站设置”。
 - 点击顶部搜索按钮会平滑滚动到资源搜索栏并主动聚焦输入框，以唤起系统键盘。
 - 分类：全部、开发、学习、工具、电脑工具、游戏。
-- 电脑工具分类目前有 Google Chrome、Steam、图吧工具箱三张卡片；点击整张卡片直接打开外部网站。Chrome 前往 Google 官方下载引导页 <https://www.google.com/chrome/>，Steam 前往官网 <https://store.steampowered.com/>，图吧工具箱前往已核对的原版官方下载页 <https://www.tbtool.cn/download/index.html>。
+- 电脑工具分类目前有 Google Chrome、Steam、图吧工具箱、IDM 下载器四张卡片；点击整张卡片直接打开外部网站。Chrome 前往 Google 官方下载引导页 <https://www.google.com/chrome/>，Steam 前往官网 <https://store.steampowered.com/>，图吧工具箱前往已核对的原版官方下载页 <https://www.tbtool.cn/download/index.html>，IDM 前往 Internet Download Manager 官网 <https://www.internetdownloadmanager.com/>。
 - 资源支持按标题、简介、域名和分类即时检索。
 - 搜索支持按资源名称、简介、域名及分类即时筛选；升级版特有的搜索清空按钮和键盘快捷聚焦已随回滚移除。
 - Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地资源卡片依次位于资源列表前列，分别进入站内专区。
 - 首页 Minecraft、原神、绝区零、崩铁与终末地卡片的简介均按当前实际入口描述。
 
-首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、原神、绝区零、崩铁、终末地、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、Google Chrome、Steam、图吧工具箱、SteamDB 等。
+首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、原神、绝区零、崩铁、终末地、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、Google Chrome、Steam、图吧工具箱、IDM 下载器、SteamDB 等。
 
 ### Minecraft 专区 `/minecraft.html`
 
@@ -416,6 +416,14 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-14：电脑工具新增 IDM 下载器官网卡片
+
+- 需求：在“电脑工具”分类增加 IDM 下载器官网卡片，延续整张卡片直接跳转的交互。
+- 编辑前于 **2026-10-14 22:58:12 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_22-58-12_UTC` 与带注释标签 `backup-2026-10-14_22-58-12_UTC`；两者剥离后均指向基线提交 `79ea768c19ca0aff8cde93ca0787229ef08b57d2`。当时 `main` 与远端一致、工作区干净，仓库有 39 个受版本控制文件。
+- `scripts/app.js` 新增 IDM 四语言资源卡片，整卡直达官方主站 <https://www.internetdownloadmanager.com/>；同日电脑工具公告补上 IDM。`index.html` 的静态资源数从 16 调整到 17 并更新脚本缓存号；`README.md` 同步功能清单。
+- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；数据检查确认首页 17 条资源、电脑工具分类 4 张卡片、IDM 四语言标题与简介及公告均齐全、静态数量和脚本缓存版本匹配。IDM 官网在 2026-10-14 返回 HTTP 200；发布后核对 GitHub Pages 实际文件。
+- 遗留与决策：卡片直接指向 IDM 官方主站，由官网提供下载入口；未另建站内下载页。当前没有浏览器控制工具，真实手机端视觉仍待设备验证。
 
 ### 2026-10-14：新增电脑工具分类与三个官网卡片
 

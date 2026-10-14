@@ -154,6 +154,12 @@ const resources = [
     en: ['Tuba Toolbox', 'Get this hardware diagnostics toolkit from its official download page.'],
     ja: ['図吧ツールボックス', '公式ダウンロードページからハードウェア診断ツール集を入手できます。']
   }},
+  { id: 'idm', category: 'computer', url: 'https://www.internetdownloadmanager.com/', domain: 'internetdownloadmanager.com', glyph: 'IDM', x: '22%', y: '26%', content: {
+    'zh-CN': ['IDM 下载器', '前往 Internet Download Manager 官网，了解功能并获取 Windows 试用版。'],
+    'zh-TW': ['IDM 下載器', '前往 Internet Download Manager 官網，了解功能並取得 Windows 試用版。'],
+    en: ['Internet Download Manager (IDM)', 'Visit the official site to explore IDM and download the Windows trial.'],
+    ja: ['Internet Download Manager (IDM)', '公式サイトで機能を確認し、Windows 向け試用版をダウンロードできます。']
+  }},
   { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
     'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
     'zh-TW': ['SteamDB', '查詢 Steam 遊戲價格、更新記錄、線上人數與歷史資料。'],
@@ -197,10 +203,10 @@ const resources = [
 const announcements = [
   {
     id: '2026-10-14-computer-tools', date: '2026-10-14', content: {
-      'zh-CN': ['电脑工具分类已加入', ['新增 Google Chrome、Steam 与图吧工具箱卡片，点击卡片可直接前往对应官网或官方下载页。']],
-      'zh-TW': ['電腦工具分類已加入', ['新增 Google Chrome、Steam 與圖吧工具箱卡片，點擊卡片可直接前往對應官網或官方下載頁。']],
-      en: ['PC Tools category added', ['Open the official Chrome, Steam, and Tuba Toolbox pages directly from their cards.']],
-      ja: ['PC ツールカテゴリーを追加', ['Google Chrome、Steam、図吧ツールボックスのカードから公式サイトや公式ダウンロードページに直接移動できます。']]
+      'zh-CN': ['电脑工具分类已加入', ['Google Chrome、Steam、图吧工具箱与 IDM 下载器卡片均可直接前往对应官网或官方下载页。']],
+      'zh-TW': ['電腦工具分類已加入', ['Google Chrome、Steam、圖吧工具箱與 IDM 下載器卡片均可直接前往對應官網或官方下載頁。']],
+      en: ['PC Tools category added', ['Open the official Chrome, Steam, Tuba Toolbox, and IDM pages directly from their cards.']],
+      ja: ['PC ツールカテゴリーを追加', ['Google Chrome、Steam、図吧ツールボックス、IDM のカードから公式サイトや公式ダウンロードページに直接移動できます。']]
     }
   },
   {
