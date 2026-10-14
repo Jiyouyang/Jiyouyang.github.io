@@ -186,14 +186,6 @@ const announcements = [
     }
   },
   {
-    id: '2026-10-14-author-name', date: '2026-10-14', pinned: true, content: {
-      'zh-CN': ['本站作者：ji you yang', ['作者署名：ji you yang。']],
-      'zh-TW': ['本站作者：ji you yang', ['作者署名：ji you yang。']],
-      en: ['Site author: ji you yang', ['Author: ji you yang.']],
-      ja: ['このサイトの作者：ji you yang', ['作者名：ji you yang。']]
-    }
-  },
-  {
     id: '2026-10-13-endfield-hub', date: '2026-10-13', content: {
       'zh-CN': ['终末地专区已加入', ['新增国际版 Android、iOS、Windows 下载选择页，以及国服官网和兑换码查询入口。']],
       'zh-TW': ['終末地專區已加入', ['新增國際版 Android、iOS、Windows 下載選擇頁，以及國服官網和兌換碼查詢入口。']],
