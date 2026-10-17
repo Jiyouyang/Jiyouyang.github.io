@@ -5,7 +5,7 @@
 ## 功能
 
 - 开发、学习、工具、电脑工具、游戏资源分类
-- 首页“电脑工具”卡片进入独立专区，专区内可整卡前往 Google Chrome、Steam、图吧工具箱、IDM、Watt 工具箱和 v2rayN 的官方页面，以及 IDM_Cracker GitHub 项目
+- 首页“电脑工具”卡片进入独立专区，专区内可整卡前往 Google Chrome、Steam、图吧工具箱、IDM、Watt 工具箱和 v2rayN 的官方页面，以及 IDM_Cracker GitHub 项目、The Pirate Bay 和 Nyaa 的原站
 - 资源名称、说明与域名即时搜索
 - 石墨、蓝、紫、绿、橙五种主题色
 - 跟随系统、浅色、深色外观

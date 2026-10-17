@@ -137,10 +137,10 @@ const resources = [
     ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
   }},
   { id: 'computer', category: 'computer', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker、Watt 工具箱和 v2rayN。'],
-    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Steam、圖吧工具箱、IDM、IDM_Cracker、Watt 工具箱和 v2rayN。'],
-    en: ['PC Tools', 'Open the PC Tools hub for Chrome, Steam, Tuba Toolbox, IDM, IDM_Cracker, Watt Toolkit, and v2rayN.'],
-    ja: ['PC ツール', 'PC ツールのページで Chrome、Steam、図吧ツールボックス、IDM、IDM_Cracker、Watt Toolkit、v2rayN を確認できます。']
+    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盗船 BT 下载和 Nyaa BT 下载。'],
+    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Steam、圖吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盜船 BT 下載和 Nyaa BT 下載。'],
+    en: ['PC Tools', 'Open the PC Tools hub for Chrome, Steam, Tuba Toolbox, IDM, IDM_Cracker, Watt Toolkit, v2rayN, The Pirate Bay, and Nyaa.'],
+    ja: ['PC ツール', 'PC ツールのページで Chrome、Steam、図吧ツールボックス、IDM、IDM_Cracker、Watt Toolkit、v2rayN、The Pirate Bay、Nyaa を確認できます。']
   }},
   { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
     'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
@@ -183,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-17-bt-links', date: '2026-10-17', content: {
+      'zh-CN': ['电脑工具新增两个 BT 站点', ['电脑工具专区新增海盗船 BT 下载（The Pirate Bay）与 Nyaa BT 下载卡片，点击即可前往各自原站。']],
+      'zh-TW': ['電腦工具新增兩個 BT 網站', ['電腦工具專區新增海盜船 BT 下載（The Pirate Bay）與 Nyaa BT 下載卡片，點擊即可前往各自原站。']],
+      en: ['Two BT sites added to PC Tools', ['Open the new cards for The Pirate Bay and Nyaa in PC Tools to visit their original domains.']],
+      ja: ['PC ツールに BT サイトを追加', ['PC ツールの The Pirate Bay と Nyaa の新しいカードから、それぞれの元のドメインを開けます。']]
+    }
+  },
   {
     id: '2026-10-17-home-tools-label', date: '2026-10-17', content: {
       'zh-CN': ['首页分类名称调整', ['首页筛选栏中的“电脑工具”现显示为“工具”；专区卡片名称和原有筛选内容保持不变。']],
