@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-17-terminal-style', date: '2026-10-17', content: {
+      'zh-CN': ['全新终端风格上线', ['在网站设置的“风格调整”中切换经典与终端风格。终端风格带来荧光描边、等宽字体和面板布局，覆盖首页、专区与下载页。', '两种风格各自记住颜色与深浅模式，四语言、搜索和下载功能继续可用。']],
+      'zh-TW': ['全新終端風格上線', ['在網站設定的「風格調整」中切換經典與終端風格。終端風格帶來螢光描邊、等寬字型與面板佈局，涵蓋首頁、專區及下載頁。', '兩種風格各自記住配色與深淺模式，四語言、搜尋和下載功能持續可用。']],
+      en: ['Meet the new Terminal style', ['Choose Classic or Terminal under Visual style in site settings. Neon outlines, monospace type and framed panels extend across the home page, hubs and downloads.', 'Each style remembers its color and appearance mode. All four languages, search and downloads remain available.']],
+      ja: ['新しいターミナルスタイル', ['サイト設定の「スタイル」からクラシックとターミナルを切り替えられます。ネオンの輪郭、等幅フォント、パネル構成をホーム・各カテゴリ・ダウンロードページに適用しました。', '配色と表示モードはスタイルごとに保存されます。4言語、検索、ダウンロードの機能も引き続き使えます。']]
+    }
+  },
+  {
     id: '2026-10-17-bt-links', date: '2026-10-17', content: {
       'zh-CN': ['电脑工具新增两个 BT 站点', ['电脑工具专区新增海盗船 BT 下载（The Pirate Bay）与 Nyaa BT 下载卡片，点击即可前往各自原站。']],
       'zh-TW': ['電腦工具新增兩個 BT 網站', ['電腦工具專區新增海盜船 BT 下載（The Pirate Bay）與 Nyaa BT 下載卡片，點擊即可前往各自原站。']],

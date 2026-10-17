@@ -1,0 +1,163 @@
+/* Run against a local static server: node tests/site-style.cjs [base URL]. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { chromium } = require('playwright');
+const base = process.argv[2] || 'http://127.0.0.1:8765';
+const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
+const problems = [];
+
+async function snapshot(page) {
+  return page.evaluate(() => {
+    const selectors = ['.nav', '.hero', '.hero h1', '.featured-card', '.hub-card', '.resource-card', '.download-card', '.platform-art', '.platform-tabs', '.filters', '.search', 'footer'];
+    const properties = ['backgroundColor', 'color', 'fontFamily', 'fontSize', 'borderRadius', 'padding', 'gap', 'boxShadow'];
+    return Object.fromEntries(selectors.map(selector => {
+      const element = document.querySelector(selector);
+      if (!element) return [selector, null];
+      const css = getComputedStyle(element);
+      return [selector, Object.fromEntries(properties.map(property => [property, css[property]]))];
+    }));
+  });
+}
+
+(async () => {
+  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
+  try {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', colorScheme: 'light' });
+    const page = await context.newPage();
+    page.on('pageerror', error => problems.push(error.message));
+    page.on('response', response => { if (response.status() >= 400) problems.push(response.url() + ': ' + response.status()); });
+    const baseline = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', colorScheme: 'light' });
+    await baseline.route('**/site-style.*', route => route.fulfill({ body: '', contentType: route.request().url().includes('.css') ? 'text/css' : 'text/javascript' }));
+
+    // Classic visual parity, all page families, persistence, tabs and small screens.
+    for (const file of pages) {
+      await page.goto(base + '/' + file);
+      await page.evaluate(() => localStorage.clear());
+      await page.reload();
+      await baseline.goto(base + '/' + file);
+      assert.deepEqual(await snapshot(page), await snapshot(baseline), file + ': classic visuals changed');
+      const links = await page.locator('main a').evaluateAll(elements => elements.map(element => element.href));
+      await page.locator('#settings-trigger').click();
+      await page.locator('[data-style-choice=terminal]').click();
+      assert.equal(await page.locator('#settings').evaluate(element => element.open), true, file + ': dialog closed during switch');
+      assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'green', style: 'terminal' });
+      await page.locator('#close-settings').click();
+      assert.deepEqual(await page.locator('main a').evaluateAll(elements => elements.map(element => element.href)), links, file + ': changed destinations');
+      const url = page.url();
+      for (const tab of await page.locator('[data-platform]').all()) {
+        await tab.click();
+        assert.equal(page.url(), url, file + ': platform navigated');
+        assert.equal(await tab.getAttribute('aria-selected'), 'true');
+        for (const href of await page.locator('.download-button:visible').evaluateAll(elements => elements.map(element => element.href))) assert.match(href, /^https:\/\//);
+      }
+      for (const width of [320, 390, 768, 1440]) {
+        await page.setViewportSize({ width, height: 844 });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, file + ': overflow at ' + width);
+      }
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.reload();
+      assert.equal(await page.locator('html').getAttribute('data-style'), 'terminal', file + ': style not restored');
+      console.log('PAGE PASS', file);
+    }
+    await baseline.close();
+
+    // Per-style preference isolation across page navigation, plus global language.
+    await page.goto(base + '/index.html');
+    await page.locator('#settings-trigger').click();
+    await page.locator('[data-style-choice=classic]').click();
+    await page.locator('[data-accent-choice=blue]').click();
+    await page.locator('[data-mode=light]').click();
+    await page.locator('[data-style-choice=terminal]').click();
+    await page.locator('[data-accent-choice=violet]').click();
+    await page.locator('[data-mode=dark]').click();
+    await page.locator('[data-language=en]').click();
+    await page.goto(base + '/minecraft-mobile.html');
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'violet', style: 'terminal' });
+    await page.locator('#settings-trigger').click();
+    assert.equal(await page.locator('#style-label').textContent(), 'Visual style');
+    await page.locator('[data-style-choice=classic]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'blue', style: 'classic' });
+    assert.equal(await page.locator('html').getAttribute('lang'), 'en');
+    await page.locator('[data-style-choice=terminal]').click();
+    assert.equal(await page.locator('html').getAttribute('data-accent'), 'violet');
+    console.log('PASS preference isolation and cross-page language');
+
+    await page.evaluate(() => {
+      localStorage.setItem('jy-style', 'classic');
+      localStorage.setItem('jy-style-classic', JSON.stringify({ accent: 'orange', theme: 'light' }));
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+    });
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'orange', style: 'classic' });
+    await page.locator('[data-style-choice=terminal]').click();
+    console.log('PASS back/forward cache preference restoration');
+
+    // Palette contrast and translated settings for every accent/language/mode combination.
+    for (const file of ['index.html', 'minecraft.html', 'minecraft-launchers.html', 'genshin-download.html', 'minecraft-seed.html']) {
+      await page.goto(base + '/' + file);
+      await page.locator('#settings-trigger').click();
+      for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
+        await page.locator('[data-language="' + language + '"]').click();
+        for (const mode of ['light', 'dark', 'auto']) for (const accent of ['graphite', 'blue', 'violet', 'green', 'orange']) {
+          await page.evaluate(({ mode, accent }) => {
+            document.querySelector('[data-mode="' + mode + '"]').click();
+            document.querySelector('[data-accent-choice="' + accent + '"]').click();
+          }, { mode, accent });
+          const result = await page.evaluate(() => {
+            const css = getComputedStyle(document.documentElement);
+            const color = key => css.getPropertyValue(key).trim();
+            const canvas = document.createElement('canvas');
+            canvas.width = canvas.height = 1;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            function luminance(value) {
+              ctx.fillStyle = value; ctx.fillRect(0, 0, 1, 1);
+              const linear = Array.from(ctx.getImageData(0, 0, 1, 1).data).slice(0, 3).map(c => { c /= 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; });
+              return linear[0] * .2126 + linear[1] * .7152 + linear[2] * .0722;
+            }
+            function contrast(a, b) { const x = luminance(color(a)), y = luminance(color(b)); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+            return { text: contrast('--ink', '--surface'), muted: contrast('--muted', '--surface'), accent: contrast('--accent', '--surface'), button: contrast('--on-accent', '--accent'), meta: document.querySelector('meta[name="theme-color"]').content, bg: color('--bg'), label: document.querySelector('#style-label').textContent, overflowing: document.querySelector('.settings-body').scrollWidth > document.querySelector('.settings-body').clientWidth };
+          });
+          for (const key of ['text', 'muted', 'accent', 'button']) assert.ok(result[key] >= 4.5, [file, language, mode, accent, key, result[key]].join(' '));
+          assert.equal(result.meta, result.bg);
+          assert.equal(result.overflowing, false, file + ': settings overflow');
+          assert.equal(result.label, { 'zh-CN': '风格调整', 'zh-TW': '風格調整', en: 'Visual style', ja: 'スタイル' }[language]);
+        }
+      }
+      await page.locator('[data-mode=auto]').click();
+      await page.emulateMedia({ colorScheme: 'dark' });
+      await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
+      await page.emulateMedia({ colorScheme: 'light' });
+      await page.waitForFunction(() => document.documentElement.dataset.theme === 'light');
+      await page.locator('#close-settings').click();
+      console.log('MATRIX PASS', file);
+    }
+
+    // Existing home search/filter/announcement interaction in the new style.
+    await page.goto(base + '/index.html');
+    await page.locator('#search-jump').click();
+    assert.equal(await page.locator('#search').evaluate(element => element === document.activeElement), true);
+    await page.locator('#search').fill('Minecraft');
+    assert.equal(await page.locator('.resource-card').count(), 1);
+    await page.locator('#search').fill('');
+    await page.locator('[data-category=computer]').click();
+    assert.equal(await page.locator('.resource-card').count(), 1);
+    await page.locator('[data-category=all]').click();
+    await page.locator('.announcement summary').click();
+    assert.equal(await page.locator('.announcement').getAttribute('open'), '');
+    assert.ok((await page.locator('#announcement-list').textContent()).includes('ターミナル'));
+
+    // Storage denied must not break either style or navigation controls.
+    const denied = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    await denied.addInitScript(() => { Object.defineProperty(window, 'localStorage', { get() { throw new DOMException('Blocked', 'SecurityError'); } }); });
+    const deniedPage = await denied.newPage();
+    deniedPage.on('pageerror', error => problems.push('storage denied: ' + error.message));
+    await deniedPage.goto(base + '/index.html');
+    await deniedPage.locator('#settings-trigger').click();
+    await deniedPage.locator('[data-style-choice=terminal]').click();
+    await deniedPage.locator('[data-style-choice=classic]').click();
+    assert.equal(await deniedPage.locator('html').getAttribute('data-style'), 'classic');
+    await denied.close();
+    assert.deepEqual(problems, []);
+    console.log('PASS all 17 pages; classic parity; 300 terminal palette/language/mode combinations; search, tabs, storage and system theme');
+  } finally { await browser.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });
