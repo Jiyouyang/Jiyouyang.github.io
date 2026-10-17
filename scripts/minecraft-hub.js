@@ -19,6 +19,13 @@ const seedI18n = {
   ja: { 'seed.tag': 'シード · 検索', 'seed.title': 'Minecraft シード検索', 'seed.description': '調べたいシード値を入力し、サイトを選んでマップを確認できます。' }
 };
 Object.keys(seedI18n).forEach(language => Object.assign(i18n[language], seedI18n[language]));
+const chinaI18n = {
+  'zh-CN': { 'china.tag': '下载 · 国服', 'china.title': 'Minecraft 国服下载', 'china.description': '提供安卓端、电脑端与 iOS 端，选择平台后前往官方页面下载。' },
+  'zh-TW': { 'china.tag': '下載 · 中國版', 'china.title': 'Minecraft 中國版下載', 'china.description': '提供 Android、電腦與 iOS 版本，選擇平台後前往官方頁面下載。' },
+  en: { 'china.tag': 'DOWNLOAD · CHINA EDITION', 'china.title': 'Minecraft China Downloads', 'china.description': 'Choose Android, PC, or iOS, then continue to its official download page.' },
+  ja: { 'china.tag': 'ダウンロード · 中国版', 'china.title': 'Minecraft 中国版ダウンロード', 'china.description': 'Android・PC・iOS から選び、公式ダウンロードページへ進めます。' }
+};
+Object.keys(chinaI18n).forEach(locale => Object.assign(i18n[locale], chinaI18n[locale]));
 const $ = selector => document.querySelector(selector);
 const settings = $('#settings');
 const systemTheme = matchMedia('(prefers-color-scheme: dark)');

@@ -149,10 +149,10 @@ const resources = [
     ja: ['SteamDB', 'Steam の価格、更新履歴、プレイヤー数、過去データを確認できます。']
   }},
   { id: 'minecraft', category: 'games', url: '/minecraft.html', domain: 'jiyouyang.github.io/minecraft', glyph: 'MC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['Minecraft', '进入 Minecraft 专区，浏览基岩版下载、Java 版模组与启动器等内容。'],
-    'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽基岩版下載、Java 版模組與啟動器等內容。'],
-    en: ['Minecraft', 'Explore Bedrock downloads, Java mods, launchers, and more in the Minecraft hub.'],
-    ja: ['Minecraft', 'Minecraft 専用ページで、統合版のダウンロードや Java 版の MOD・ランチャーを探せます。']
+    'zh-CN': ['Minecraft', '进入 Minecraft 专区，浏览国服与基岩版下载、Java 版模组、启动器等内容。'],
+    'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽中國版與基岩版下載、Java 版模組、啟動器等內容。'],
+    en: ['Minecraft', 'Explore Minecraft China and Bedrock downloads, Java mods, launchers, and more.'],
+    ja: ['Minecraft', 'Minecraft 専用ページで、中国版・統合版のダウンロードや Java 版の MOD・ランチャーを探せます。']
   }},
   { id: 'genshin', category: 'games', url: '/genshin.html', domain: 'jiyouyang.github.io/genshin', glyph: 'GI', x: '24%', y: '24%', internal: true, content: {
     'zh-CN': ['原神', '进入原神专区，查看多平台下载、国服官网与可用兑换码。'],
@@ -183,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-17-minecraft-china', date: '2026-10-17', content: {
+      'zh-CN': ['Minecraft 国服下载入口已加入', ['Minecraft 专区新增国服下载页，可选择安卓端、电脑端或 iOS 端，前往对应的官方下载页面。']],
+      'zh-TW': ['Minecraft 中國版下載入口已加入', ['Minecraft 專區新增中國版下載頁，可選擇 Android、電腦或 iOS，前往對應的官方下載頁面。']],
+      en: ['Minecraft China downloads added', ['Choose Android, PC, or iOS in the new Minecraft China download page to open the official destination.']],
+      ja: ['Minecraft 中国版のダウンロードを追加', ['Minecraft 専用ページから Android・PC・iOS を選び、対応する公式ダウンロードページを開けます。']]
+    }
+  },
   {
     id: '2026-10-17-v2rayn', date: '2026-10-17', content: {
       'zh-CN': ['电脑工具新增 v2rayN', ['电脑工具专区新增 v2rayN 卡片，点击即可前往项目维护者列出的官方主页。']],

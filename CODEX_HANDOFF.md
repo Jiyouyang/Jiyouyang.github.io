@@ -72,7 +72,7 @@
 
 ### Minecraft 专区 `/minecraft.html`
 
-这是 Minecraft 的“大选项”/内容聚合页。当前包含五张站内卡片：
+这是 Minecraft 的“大选项”/内容聚合页。当前包含六张站内卡片：
 
 1. **Minecraft 基岩版下载** → `/minecraft-download.html`
    - 标题不再写“国际”“双端”或“启动器双端”。
@@ -93,6 +93,10 @@
    - 专区卡片进入站内详情页，使用站内箭头 →。
    - 简体中文简介：`可输入自己想查的种子号，选择查询网站查看种子地图。`
    - 详情页不设选项卡；只有“查询网站 1”和“查询网站 2”两个按钮打开外链。四语言、五种主题色和深浅模式均须同步。
+6. **Minecraft 国服下载** → `/minecraft-china.html`
+   - 专区卡片进入站内下载选择页，使用站内箭头 →。
+   - 三个平台为 Android、Windows 电脑与 iOS；选项卡只切换内容，只有下载按钮打开对应外链。
+   - 简中、繁中、英语、日语以及五种主题色、三档深浅模式同步维护。
 
 专区的目的不是只放一个下载卡片，而是作为可持续扩充的 Minecraft 内容容器；以后用户还会加入更多 Minecraft 相关跳转选项。
 
@@ -116,6 +120,14 @@
 - Android 下载页面 2：<https://mcapks.net>
 - Android 简介需说明：如果下载页面 1 没有想要的版本，请尝试链接 2。
 - 已按用户要求移除页面底部额外的“页面说明”卡片，只保留必要内容与页脚。
+
+### 国服下载页 `/minecraft-china.html`
+
+- 平台选项卡：Windows 电脑、Android、iOS；选项卡只切换站内内容，下方下载按钮才打开外部页面。
+- Windows：网易官网提供的电脑端下载入口 <https://adl.netease.com/d/g/mc/c/gw?type=pc>。
+- Android：网易官网提供的安卓端下载入口 <https://adl.netease.com/d/g/mc/c/gwnew?type=android>。
+- iOS：中国区 App Store 的《我的世界：移动版》页面 <https://apps.apple.com/cn/app/%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C-%E7%A7%BB%E5%8A%A8%E7%89%88/id1243986797>，由下载按钮直接前往。
+- 网易链接是官方网站的下载引导入口，不承诺浏览器会直接得到安装文件；iOS 入口可能要求中国区 Apple 账号。
 
 ### Java 模组页 `/minecraft-mods.html`
 
@@ -219,7 +231,7 @@
 - 浅色背景接近 `#f5f5f7`，深色背景为黑色；表面、描边和文字使用 Apple 风格中性色阶。
 - 默认主题色为石墨，不使用高饱和渐变作为默认视觉。
 - 保持大圆角、充足留白、粗体大标题、简短说明和轻阴影。
-- 当前 16 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
+- 当前 17 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
 - 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增现位于 `styles/card-controls.css` 的共享样式，统一主页精选/资源卡片、Minecraft、原神与绝区零专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
 - 升级版曾调整深色背景及强调色对比度；当前回滚版沿用升级前的颜色实现，后续须以页面现存 CSS 为准。
 - 卡片头图为抽象文字/字形构图（如 MC、MOD），不是写实封面图。
@@ -313,6 +325,8 @@
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
 | `scripts/minecraft-download.js` | 基岩版平台数据、按钮链接、多语言和设置逻辑 |
+| `minecraft-china.html` | 国服 Windows/Android/iOS 下载选择页 |
+| `scripts/minecraft-china.js` | 国服三平台官方链接、四语言和设置逻辑 |
 | `minecraft-mods.html` | Java 模组平台选择页 |
 | `scripts/minecraft-mods.js` | CurseForge/Modrinth 数据、多语言和设置逻辑 |
 | `minecraft-launchers.html` | Java 启动器选择页 |
@@ -346,7 +360,7 @@
 
 当前 HTML 通过查询参数给 JS/图标做缓存更新。修改正式 JS 后应同步递增对应 HTML 的 `?v=`，避免 GitHub Pages/Safari 使用旧缓存。
 
-当前正式 HTML 保留各页内嵌基础样式，另在 16 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
+当前正式 HTML 保留各页内嵌基础样式，另在 17 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
 
 ## 7. 已完成的主要需求历史
 
@@ -395,7 +409,7 @@
 
 ## 10. 尚未完成/未来方向
 
-用户明确表示 Minecraft 专区以后还会增加更多 Minecraft 相关跳转选项；种子查询已于 2026-10-11 加入，下一批具体内容尚未提供。当前无需创建 Java 游戏本体下载页，也不要把“Java 版启动器下载”误解成 Java 游戏安装包下载。
+用户明确表示 Minecraft 专区以后还会增加更多 Minecraft 相关跳转选项；种子查询与国服下载已加入。当前无需创建 Java 游戏本体下载页，也不要把“Java 版启动器下载”误解成 Java 游戏安装包下载。
 
 建议的下一步按优先级排列：
 
@@ -424,6 +438,15 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-17：新增 Minecraft 国服三端下载引导
+
+- 需求：Minecraft 大专区新增国服下载卡片，先进入站内页面；页面提供 Android、电脑端与后续追加的 iOS 端，其中 iOS 的下载按钮直接前往中国区 App Store 对应的《我的世界：移动版》页面。
+- 编辑前于 **2026-10-17 00:11:26 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-11-26_UTC` 与带注释标签 `backup-2026-10-17_00-11-26_UTC`；分支及标签剥离后均指向基线提交 `a724fb9ca35365507908b702e6b43650e8d55c1a`，当时远端 `main` 一致、工作区干净。
+- 发布前远端 `main` 新增 Watt 工具箱与 v2rayN 更新；合并前于 **2026-10-17 00:19:52 UTC** 额外建立并核验完整备份分支 `backup/pre-change-2026-10-17_00-19-52_UTC` 与带注释标签 `backup-2026-10-17_00-19-52_UTC`，二者剥离后均指向远端新基线 `349ccd1b9e88a058a0f9fef4ba289426d2b89fec`。本次国服改动作为独立提交与这两项更新合并，没有覆盖它们。
+- `minecraft.html` 新增第六张站内卡片；新增 `minecraft-china.html` 与 `scripts/minecraft-china.js`，延续已有下载页视觉与设置，Windows、Android、iOS 选项卡只切换展示内容，下载按钮分别前往网易电脑端、网易安卓端与中国区 App Store。四语言、五种主题色和跟随系统/浅色/深色均已同步；`scripts/minecraft-hub.js`、`scripts/app.js`、`index.html`、`README.md` 和本文件同步更新，首页新增四语言公告并提升脚本缓存版本。
+- 验证：三个涉及的 JS 均通过 `node --check`，`git diff --check` 通过；三条外链在 2026-10-17 均返回 HTTP 200。无界面 Chromium 检查国服页四语言 × 五色调 × 三档外观共 60 组、三平台切换与按钮目标 180 项；合并后首页检查 60 组语言/色调/深浅组合，确认国服、Watt、v2rayN 公告同时存在；专区卡片检查四语言，320px 宽度下检查四语言 iOS 页面均无横向溢出，未发现页面 JS 报错。
+- 遗留与决策：网易地址取自官方 Minecraft 中国版页面，是官方**下载引导入口**，不承诺直接返回安装包；iOS 使用中国区 App Store 页面，可能需要对应地区 Apple 账号。真实 iPhone Safari 与 Android Chrome 仍待设备端验证。
 
 ### 2026-10-17：电脑工具专区新增 v2rayN
 
