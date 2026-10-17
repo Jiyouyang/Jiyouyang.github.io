@@ -137,10 +137,10 @@ const resources = [
     ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
   }},
   { id: 'computer', category: 'computer', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Google Chrome、Steam、图吧工具箱、IDM 下载器和 IDM_Cracker。'],
-    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Google Chrome、Steam、圖吧工具箱、IDM 下載器和 IDM_Cracker。'],
-    en: ['PC Tools', 'Open the PC Tools hub for Google Chrome, Steam, Tuba Toolbox, IDM, and IDM_Cracker.'],
-    ja: ['PC ツール', 'PC ツールのページで Google Chrome、Steam、図吧ツールボックス、IDM、IDM_Cracker を確認できます。']
+    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker 和 Watt 工具箱。'],
+    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Steam、圖吧工具箱、IDM、IDM_Cracker 和 Watt 工具箱。'],
+    en: ['PC Tools', 'Open the PC Tools hub for Chrome, Steam, Tuba Toolbox, IDM, IDM_Cracker, and Watt Toolkit.'],
+    ja: ['PC ツール', 'PC ツールのページで Chrome、Steam、図吧ツールボックス、IDM、IDM_Cracker、Watt Toolkit を確認できます。']
   }},
   { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
     'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
@@ -183,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-17-watt-toolkit', date: '2026-10-17', content: {
+      'zh-CN': ['电脑工具新增 Watt 工具箱', ['电脑工具专区新增 Watt 工具箱卡片，点击即可前往项目官网 steampp.net。']],
+      'zh-TW': ['電腦工具新增 Watt 工具箱', ['電腦工具專區新增 Watt 工具箱卡片，點擊即可前往專案官網 steampp.net。']],
+      en: ['Watt Toolkit added to PC Tools', ['Open the new Watt Toolkit card in PC Tools to visit its official site, steampp.net.']],
+      ja: ['PC ツールに Watt Toolkit を追加', ['PC ツールの新しい Watt Toolkit カードから公式サイト steampp.net を開けます。']]
+    }
+  },
   {
     id: '2026-10-15-idm-cracker', date: '2026-10-15', content: {
       'zh-CN': ['电脑工具新增 IDM_Cracker', ['电脑工具专区新增 IDM_Cracker 卡片，点击即可前往 YuHuanTin 的 GitHub 仓库。']],
