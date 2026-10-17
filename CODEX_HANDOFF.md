@@ -71,7 +71,7 @@
 
 ### 电脑工具专区 `/computer-tools.html`
 
-- 首页“电脑工具”大卡片进入独立专区；首页筛选“电脑工具”时也只显示这张站内入口卡片。首页搜索仍可通过 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker、Watt、v2rayN 等名称找到入口。
+- 首页“电脑工具”大卡片进入独立专区；该卡片所属的首页筛选按钮现显示为“工具”，筛选时仍只显示这张站内入口卡片。首页原本另有一个“工具”筛选按钮，两个按钮目前同名但筛选内容不同；本次按用户要求只改显示名称，不合并分类。首页搜索仍可通过 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker、Watt、v2rayN 等名称找到入口。
 - 专区内有七张整卡可点击的外部入口：Google Chrome 官方下载引导页 <https://www.google.com/chrome/>、Steam 官网 <https://store.steampowered.com/>、图吧工具箱原版官方下载页 <https://www.tbtool.cn/download/index.html>、Internet Download Manager 官网 <https://www.internetdownloadmanager.com/>、用户指定的 IDM_Cracker GitHub 仓库 <https://github.com/YuHuanTin/IDM_Cracker>、Watt Toolkit 官网 <https://steampp.net/>、v2rayN 维护者 GitHub 仓库列出的主页 <https://v2rayn.2dust.link/>。IDM_Cracker 为 GitHub 项目，不标作 IDM 官方下载地址。
 - 七张卡片不设页内切换选项卡；点击卡片才打开外部网页。专区沿用五种主题色、深浅模式及简中、繁中、英语、日语四语言设置。
 
@@ -444,6 +444,14 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-17：首页“电脑工具”分类按钮改显示为“工具”
+
+- 需求：仅将首页分类筛选栏里的“电脑工具”改显示为“工具”，为日后加入手机工具预留更通用的名称；不改专区卡片标题、现有资源或筛选逻辑。
+- 编辑前于 **2026-10-17 05:21:25 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_05-21-25_UTC` 与带注释标签 `backup-2026-10-17_05-21-25_UTC`，两者剥离后均指向基线提交 `9b2134a6af7b0629992a03c0484cb633a41fe937`；编辑前工作区干净，基线为当时远端 `main` 的完整仓库树。
+- `scripts/app.js` 的 `category.computer` 四语言显示文案改为“工具”及其对应翻译，并按公告规则增加四语言简要更新记录；`index.html` 同步静态回退文字并递增脚本缓存版本。`category.computer` 键、`data-category="computer"` 值、资源类别及“电脑工具”专区卡片保持原样。
+- 遗留与决策：首页已有另一枚“工具”筛选按钮，本次按用户“只改名称”的范围保留两枚同名但筛选不同内容的按钮；未来若需真正合并工具分类，必须另行调整数据与筛选交互。
+- 验证：`node --check scripts/app.js`、`git diff --check` 与静态断言通过；确认四语言分类文案、HTML 回退文字、原有“工具”筛选键和四语言公告均存在。当前沙箱禁止本地监听端口及启动 Chromium，未进行浏览器可视回归。
 
 ### 2026-10-17：新增 jiyoyang 与 Eghver 置顶公告
 

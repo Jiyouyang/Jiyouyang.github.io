@@ -14,7 +14,7 @@ const i18n = {
     'library.title': '资源库。慢慢挑。', 'library.subtitle': '开发、学习、工具与游戏，都是认真筛选过的入口。',
     'library.categories': '资源分类', 'library.search': '搜索资源名称或用途', 'library.count': '{n} 个资源',
     'library.empty': '没有找到匹配的资源，试试其他关键词。',
-    'category.all': '全部', 'category.development': '开发', 'category.learning': '学习', 'category.tools': '工具', 'category.computer': '电脑工具', 'category.games': '游戏',
+    'category.all': '全部', 'category.development': '开发', 'category.learning': '学习', 'category.tools': '工具', 'category.computer': '工具', 'category.games': '游戏',
     'resource.open': '打开 {title}',
     'footer.motto': '把好用的，分享给需要的人。', 'footer.github': 'GitHub ↗',
     'settings.open': '打开网站设置', 'settings.short': '网站设置', 'settings.title': '外观与语言', 'settings.close': '关闭设置',
@@ -37,7 +37,7 @@ const i18n = {
     'library.title': '資源庫。慢慢挑。', 'library.subtitle': '開發、學習、工具與遊戲，都是認真篩選過的入口。',
     'library.categories': '資源分類', 'library.search': '搜尋資源名稱或用途', 'library.count': '{n} 個資源',
     'library.empty': '沒有找到相符的資源，試試其他關鍵字。',
-    'category.all': '全部', 'category.development': '開發', 'category.learning': '學習', 'category.tools': '工具', 'category.computer': '電腦工具', 'category.games': '遊戲',
+    'category.all': '全部', 'category.development': '開發', 'category.learning': '學習', 'category.tools': '工具', 'category.computer': '工具', 'category.games': '遊戲',
     'resource.open': '開啟 {title}',
     'footer.motto': '把好用的，分享給需要的人。', 'footer.github': 'GitHub ↗',
     'settings.open': '開啟網站設定', 'settings.short': '網站設定', 'settings.title': '外觀與語言', 'settings.close': '關閉設定',
@@ -60,7 +60,7 @@ const i18n = {
     'library.title': 'The collection.', 'library.subtitle': 'Carefully selected resources for development, learning, utilities, and games.',
     'library.categories': 'Resource categories', 'library.search': 'Search by name or purpose', 'library.count': '{n} resources',
     'library.empty': 'No matching resources. Try another keyword.',
-    'category.all': 'All', 'category.development': 'Dev', 'category.learning': 'Learn', 'category.tools': 'Tools', 'category.computer': 'PC Tools', 'category.games': 'Games',
+    'category.all': 'All', 'category.development': 'Dev', 'category.learning': 'Learn', 'category.tools': 'Tools', 'category.computer': 'Tools', 'category.games': 'Games',
     'resource.open': 'Open {title}',
     'footer.motto': 'Share useful things with people who need them.', 'footer.github': 'GitHub ↗',
     'settings.open': 'Open site settings', 'settings.short': 'Site settings', 'settings.title': 'Appearance & Language', 'settings.close': 'Close settings',
@@ -83,7 +83,7 @@ const i18n = {
     'library.title': 'リソース集。', 'library.subtitle': '開発、学習、ツール、ゲームから、丁寧に選んだ入口です。',
     'library.categories': 'リソースカテゴリー', 'library.search': '名前や用途から検索', 'library.count': '{n} 件',
     'library.empty': '該当するリソースがありません。別の言葉で検索してみてください。',
-    'category.all': 'すべて', 'category.development': '開発', 'category.learning': '学習', 'category.tools': 'ツール', 'category.computer': 'PC ツール', 'category.games': 'ゲーム',
+    'category.all': 'すべて', 'category.development': '開発', 'category.learning': '学習', 'category.tools': 'ツール', 'category.computer': 'ツール', 'category.games': 'ゲーム',
     'resource.open': '{title} を開く',
     'footer.motto': '便利なものを、必要な人へ。', 'footer.github': 'GitHub ↗',
     'settings.open': 'サイト設定を開く', 'settings.short': 'サイト設定', 'settings.title': '外観と言語', 'settings.close': '設定を閉じる',
@@ -183,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-17-home-tools-label', date: '2026-10-17', content: {
+      'zh-CN': ['首页分类名称调整', ['首页筛选栏中的“电脑工具”现显示为“工具”；专区卡片名称和原有筛选内容保持不变。']],
+      'zh-TW': ['首頁分類名稱調整', ['首頁篩選列中的「電腦工具」現顯示為「工具」；專區卡片名稱及原有篩選內容維持不變。']],
+      en: ['Home category label updated', ['The “PC Tools” filter now displays as “Tools”; the hub card title and filtered content are unchanged.']],
+      ja: ['ホームのカテゴリー名を変更', ['「PC ツール」の絞り込み表示を「ツール」に変更しました。専用ページのカード名と絞り込み内容は変わりません。']]
+    }
+  },
   {
     id: '2026-10-17-jiyoyang-eghver', date: '2026-10-17', pinned: true, content: {
       'zh-CN': ['jiyoyang是Eghver恶魔主人喵', ['此公告已置顶，将在首页公告栏每 3 秒循环显示。']],
