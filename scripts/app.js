@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-17-minecraft-china-ios-icon-match', date: '2026-10-17', content: {
+      'zh-CN': ['Minecraft 国服 iOS 外观已对齐', ['国服下载页现与其他下载页一样，将 iOS 选项放在中间，并在选项与内容卡片使用相同的 Apple 图标样式。']],
+      'zh-TW': ['Minecraft 中國版 iOS 外觀已對齊', ['中國版下載頁現與其他下載頁一樣，將 iOS 選項置中，並在選項與內容卡片使用相同的 Apple 圖示樣式。']],
+      en: ['Minecraft China iOS layout matched', ['The iOS tab is now centered like on other download pages, and both the tab and card use the same Apple icon styling.']],
+      ja: ['Minecraft 中国版の iOS 表示を統一', ['ほかのダウンロードページと同様に iOS タブを中央に配置し、タブとカードの Apple アイコンも同じスタイルにしました。']]
+    }
+  },
+  {
     id: '2026-10-17-minecraft-china-ios-polish', date: '2026-10-17', content: {
       'zh-CN': ['Minecraft 国服 iOS 外观已调整', ['国服下载页的 iOS 选中滑块已留出与 Windows 一致的边距，并统一为其他下载页使用的 Apple 图标。']],
       'zh-TW': ['Minecraft 中國版 iOS 外觀已調整', ['中國版下載頁的 iOS 選取滑塊已與 Windows 保持相同邊距，圖示也統一為其他下載頁使用的 Apple 標誌。']],
