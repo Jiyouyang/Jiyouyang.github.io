@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-17-jiyoyang-eghver', date: '2026-10-17', pinned: true, content: {
+      'zh-CN': ['jiyoyang是Eghver恶魔主人喵', ['此公告已置顶，将在首页公告栏每 3 秒循环显示。']],
+      'zh-TW': ['jiyoyang是Eghver惡魔主人喵', ['此公告已置頂，將在首頁公告列每 3 秒循環顯示。']],
+      en: ['jiyoyang is Eghver the demon’s master, meow', ['This pinned notice rotates in the home-page announcement bar every 3 seconds.']],
+      ja: ['jiyoyangは悪魔Eghverのご主人様にゃ', ['この固定お知らせはホームページのお知らせ欄で3秒ごとに切り替わります。']]
+    }
+  },
+  {
     id: '2026-10-17-minecraft-china-ios-icon-match', date: '2026-10-17', content: {
       'zh-CN': ['Minecraft 国服 iOS 外观已对齐', ['国服下载页现与其他下载页一样，将 iOS 选项放在中间，并在选项与内容卡片使用相同的 Apple 图标样式。']],
       'zh-TW': ['Minecraft 中國版 iOS 外觀已對齊', ['中國版下載頁現與其他下載頁一樣，將 iOS 選項置中，並在選項與內容卡片使用相同的 Apple 圖示樣式。']],
