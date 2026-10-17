@@ -127,6 +127,7 @@
 - Windows：网易官网提供的电脑端下载入口 <https://adl.netease.com/d/g/mc/c/gw?type=pc>。
 - Android：网易官网提供的安卓端下载入口 <https://adl.netease.com/d/g/mc/c/gwnew?type=android>。
 - iOS：中国区 App Store 的《我的世界：移动版》页面 <https://apps.apple.com/cn/app/%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C-%E7%A7%BB%E5%8A%A8%E7%89%88/id1243986797>，由下载按钮直接前往。
+- iOS 选中滑块的右外边距必须与 Windows 选中时的左外边距一致；iOS 页签与下方卡片使用同一个 Apple 轮廓图标，不再用手机轮廓。图标路径取自 Simple Icons Apple（CC0），以 SVG 呈现，避免字体私有字符在部分平台显示方框。
 - 网易链接是官方网站的下载引导入口，不承诺浏览器会直接得到安装文件；iOS 入口可能要求中国区 Apple 账号。
 
 ### Java 模组页 `/minecraft-mods.html`
@@ -438,6 +439,14 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-17：修正 Minecraft 国服 iOS 滑块边距与图标
+
+- 需求：用户截图显示国服下载页 iOS 选中滑块贴近右侧外框；需与 Windows 选中时左侧的距离一致，并把 iOS 页签和卡片图标改成其他下载页使用的 Apple 图标。
+- 修改前于 **2026-10-17 00:37:53 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-37-53_UTC` 与带注释标签 `backup-2026-10-17_00-37-53_UTC`，两者剥离后均指向基线提交 `a0c6c4098483dddcf0bc382fa0d20f0b44fbe4ec`，当时远端 `main` 一致、工作区干净。
+- `minecraft-china.html` 为三列滑块的伪元素显式设置 `box-sizing:border-box`，避免边框在平移三格时累计挤占右边距；iOS 页签与卡片改用同一路径的 Apple 轮廓 SVG。`scripts/minecraft-china.js` 更新卡片图标，`scripts/app.js` 增加四语言公告，`index.html` 和国服下载页提升脚本缓存版本。
+- 验证：`scripts/minecraft-china.js`、`scripts/app.js` 通过 `node --check`，`git diff --check` 通过。无界面 Chromium 在 320/375/390/428/600px 下测得 Windows 左边距与 iOS 右边距均约 6px；国服页四语言 × 五色调 × 三档外观共 60 组、180 次原下载链接检查、60 次边距及双位置图标检查均通过。首页四语言公告在五色调 × 三档外观的 60 组检查中正常；320px 下四语言 iOS 页无横向溢出。推送后仍需核对 GitHub Pages 实际文件，外链目标未变。
+- 遗留与决策：Apple SVG 路径取自 Simple Icons（CC0）；真实 iPhone Safari 仍需用户设备端复核。
 
 ### 2026-10-17：新增 Minecraft 国服三端下载引导
 
