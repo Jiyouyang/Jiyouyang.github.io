@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-17-slider-alignment', date: '2026-10-17', content: {
+      'zh-CN': ['滑块边界与对齐修复', ['修复模式、语言及平台选择滑块靠右时越界的问题，两端留白现在保持一致。已检查经典与终端风格，并完善减少动态效果时的切换表现。']],
+      'zh-TW': ['滑塊邊界與對齊修復', ['修復模式、語言及平台選擇滑塊靠右時超出邊界的問題，兩端留白現在保持一致。已檢查經典與終端風格，並改善減少動態效果時的切換表現。']],
+      en: ['Aligned selector indicators', ['Fixed right-edge overflow in appearance, language and platform selectors, with matching spacing at both ends. Both Classic and Terminal styles were checked, including reduced-motion behavior.']],
+      ja: ['スライダーの位置を修正', ['表示モード・言語・プラットフォームの選択表示が右端からはみ出す問題を修正し、左右の余白を揃えました。両スタイルを確認し、動きを減らす設定にも対応しました。']]
+    }
+  },
+  {
     id: '2026-10-17-terminal-style', date: '2026-10-17', content: {
       'zh-CN': ['全新终端风格上线', ['在网站设置的“风格调整”中切换经典与终端风格。终端风格带来荧光描边、等宽字体和面板布局，覆盖首页、专区与下载页。', '两种风格各自记住颜色与深浅模式，四语言、搜索和下载功能继续可用。']],
       'zh-TW': ['全新終端風格上線', ['在網站設定的「風格調整」中切換經典與終端風格。終端風格帶來螢光描邊、等寬字型與面板佈局，涵蓋首頁、專區及下載頁。', '兩種風格各自記住配色與深淺模式，四語言、搜尋和下載功能持續可用。']],

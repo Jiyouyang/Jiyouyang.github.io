@@ -1,4 +1,22 @@
-/* Shared card imagery across the eight published pages, plus download-page platform selectors. */
+/* Shared card imagery and segmented control geometry across all published pages. */
+
+/* Pseudo-elements are not covered by the pages' * { box-sizing: border-box }.
+   Include the indicator border in its grid-track width, and therefore in each
+   translateX(100%) step, so the first and last positions have equal insets. */
+.segmented::before,
+.platform-tabs::before {
+  box-sizing: border-box;
+}
+
+/* Long translations must not enlarge a single track beyond the indicator width. */
+.segmented button,
+.platform-tabs button,
+.platform-tabs button > span {
+  min-width: 0;
+}
+
+.platform-tabs button { overflow-wrap: anywhere; }
+.platform-tabs svg { flex-shrink: 0; }
 
 .hub-visual,
 .resource-visual {
@@ -120,6 +138,11 @@
   .platform-art { min-height: 176px; height: 176px; }
 }
 
+@media (max-width: 380px) {
+  .platform-tabs button { padding-inline: 6px; gap: 6px; font-size: 12px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .platform-tabs::before { transition-duration: 0.01ms; }
+  .segmented::before,
+  .platform-tabs::before { transition: none !important; }
 }
