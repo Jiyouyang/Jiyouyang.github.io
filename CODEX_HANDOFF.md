@@ -282,7 +282,7 @@
 
 设置按钮使用齿轮图标，文字统一为“网站设置”，不再叫“外观”。设置弹窗包含：
 
-1. 风格调整：经典、终端，附视觉预览和四语言说明。
+1. 风格调整：经典、终端、机甲，附视觉预览和四语言说明。
 2. 主题颜色：石墨、蓝、紫、绿、橙。
 3. 深浅模式：跟随系统、浅色、深色。
 4. 翻译语言：简体中文、繁体中文、英语、日语。
@@ -291,13 +291,15 @@
 
 2026-10-17 的新功能使用独立 `scripts/site-style.js` 与 `styles/site-style.css`，并非恢复此前回滚的 `site.js` / `site.css`。经典是无保存偏好时的默认风格；终端首次选择默认深色与绿色，也支持浅色、跟随系统和其余四色。风格切换通过现有颜色/模式按钮处理函数同步内存状态、存储与 ARIA，不替换搜索、平台选项卡或下载逻辑。切回另一种风格会恢复其配色与模式；语言为全站通用。
 
+2026-10-18 新增第三种“机甲”风格（`mecha`），默认浅色橙色，支持完整五色与三档模式。独立 `styles/mecha.css` 的所有网站视觉规则都限定在 `data-style="mecha"` 下；经典、终端的既有视觉规则不改。风格设置的第三张预览卡独占下一行，以保留前两张的可读宽度。
+
 偏好使用 `localStorage` 跨页面共享：
 
 - `jy-accent`
 - `jy-theme`
 - `jy-language`
-- `jy-style`：`classic` / `terminal`
-- `jy-style-classic`、`jy-style-terminal`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
+- `jy-style`：`classic` / `terminal` / `mecha`
+- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
 
 风格脚本位于各页 `<head>`，先于正文绘制恢复 `data-style`；DOM 就绪后向设置顶部插入风格选项。监听根节点语言、主题、颜色以同步新设置与 Safari `theme-color`，并在后退缓存恢复时读取最新偏好。浏览器禁止 localStorage 时仍能在当前页面切换，无法跨页面持久保存是预期限制。
 
@@ -336,9 +338,11 @@
 | `scripts/computer-tools.js` | 电脑工具专区四语言文案、主题与设置逻辑 |
 | `styles/card-controls.css` | 全站卡片图区和下载页平台/渠道选择器的共享视觉样式 |
 | `styles/site-style.css` | 风格预览控件及全站可选终端视觉；网站视觉覆盖仅在 `data-style="terminal"` 下生效 |
+| `styles/mecha.css` | 独立机甲视觉及其五色/深浅调色板；所有规则限定在 `data-style="mecha"` 下 |
 | `scripts/site-style.js` | 四语言风格设置、首次绘制恢复、分风格偏好保存及后退缓存恢复 |
 | `tests/site-style.cjs` | 本地 Chromium 回归：经典样式对照、17 页布局、平台切换、翻译/配色/模式、搜索与存储 |
 | `tests/slider-geometry.cjs` | 全站滑块几何回归：每个位置的指示块边缘对齐、端点留白、窄屏长文案与减少动态效果 |
+| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端主要组件在各配色模式下的计算样式未变 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
@@ -381,6 +385,8 @@
 当前正式 HTML 保留各页内嵌基础样式，另在 17 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
 
 17 页的 `<head>` 在基础样式后继续加载 `styles/site-style.css` 与 `scripts/site-style.js`。新风格的覆盖按 `data-style` 隔离；经典风格的原有 CSS 继续保留。维护风格文件时须同步递增全部正式页面的这两个资源版本号，新页面也须接入二者。
+
+从 2026-10-18 起，所有正式页还加载 `styles/mecha.css`。机甲样式与风格切换资源的缓存号同为 `20261018-mecha1`；以后改机甲 CSS 时同步更新全部页面的该文件版本。三套风格共用 `card-controls.css` 中的滑块尺寸修正规则，不覆盖伪元素 `border-box`，不改变每步位移和轨道宽度计算。
 
 ## 7. 已完成的主要需求历史
 
@@ -459,6 +465,17 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-18：新增独立机甲风格
+
+- 需求：用户采纳此前“白色机甲”的推荐，要求更帅且与经典/终端不冲突。作为第三种可选风格实现，不改变默认经典风格，不覆盖现有用户偏好。
+- 开始前同步远端新增 Python 官方下载入口；完整备份时间 **2026-10-18 05:31:35 UTC**，分支 `backup/pre-change-2026-10-18_05-31-35_UTC` 与带注释标签 `backup-2026-10-18_05-31-35_UTC` 已核验均指向完整基线 `1da23dfe1249736c377f899bc35350c67a89a71d`，编辑前工作区干净。
+- 设计：浅色陶瓷白/钛灰装甲、深色结构导航、橙色指示点缀、斜切卡片图形、机械环线和面板接缝；深色使用蓝灰机舱配色。导航、公告、首屏、精选、资源/专区卡片、平台插图、滑块、下载按钮、搜索、设置、页脚均适配。全部五色与浅/深/跟随系统、四语言沿用现有功能。
+- 实现：新增独立 `styles/mecha.css`，所有规则使用 `data-style="mecha"` 作用域；`scripts/site-style.js` 扩展风格名单、四语言与独立 `jy-style-mecha` 偏好，首次进入为浅色橙色。`styles/site-style.css` 仅新增第三张设置预览卡，原经典/终端网站视觉规则未改。17 个 HTML 加载新 CSS 并同步风格资源缓存号。`scripts/app.js` 增加四语言公告，首页脚本缓存、README、本交接与回归脚本同步维护。
+- 验证：机甲和终端分别通过 17 页功能/布局检查与 300 组配色×模式×语言检查；正文、次要文字、强调色与主按钮配色对比度至少 4.5:1，页面在 320/390/768/1440 宽度无横向溢出。三种风格各自保存偏好、跨页刷新、后退恢复与禁止存储时降级正常。另以备份基线做 340 组经典/终端主要组件计算样式对照，均完全一致（新增设置预览卡除外）。已查看浅色手机首页/设置/下载页、深色下载页与桌面首页截图。
+- 回归命令：`node tests/site-style.cjs http://127.0.0.1:8765 mecha`（或 `terminal`），`node tests/slider-geometry.cjs`（三种风格），`node tests/style-isolation.cjs http://127.0.0.1:8765 1da23dfe1249736c377f899bc35350c67a89a71d`。均需本地静态服务器、Playwright 与 Chromium。
+- 滑块专项：三风格、17 页、四宽度、四语言共 **7,152** 个指示块/分类位置通过，含左右端点留白、正常动画结束位置与减少动态效果；新增机甲未重新引入右端越界。
+- 限制：尚未在真实 iPhone Safari 上实机验证；iOS 私有 Apple 字符沿用用户已有规范，非 Apple 字体环境显示限制不在此次替换范围。后续新增页面须接入三风格并运行滑块几何检查。
 
 ### 2026-10-18：电脑工具专区新增 Python 官方下载入口
 

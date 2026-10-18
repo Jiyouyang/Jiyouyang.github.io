@@ -4,27 +4,33 @@
   const root = document.documentElement;
   const read = key => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
-  let style = read('jy-style') === 'terminal' ? 'terminal' : 'classic';
+  const styles = ['classic', 'terminal', 'mecha'];
+  const storedStyle = read('jy-style');
+  let style = styles.includes(storedStyle) ? storedStyle : 'classic';
   root.dataset.style = style;
 
   const copy = {
     'zh-CN': {
-      title: '风格调整', classic: '经典', terminal: '终端',
+      title: '风格调整', classic: '经典', terminal: '终端', mecha: '机甲',
+      mechaDescription: '陶瓷装甲 · 精密切角',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
       hint: '即时切换，全站生效。每种风格分别记住配色与深浅模式。'
     },
     'zh-TW': {
-      title: '風格調整', classic: '經典', terminal: '終端',
+      title: '風格調整', classic: '經典', terminal: '終端', mecha: '機甲',
+      mechaDescription: '陶瓷裝甲 · 精密切角',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
       hint: '即時切換，全站套用。每種風格分別記住配色與深淺模式。'
     },
     en: {
-      title: 'Visual style', classic: 'Classic', terminal: 'Terminal',
+      title: 'Visual style', classic: 'Classic', terminal: 'Terminal', mecha: 'Mecha',
+      mechaDescription: 'Ceramic armor · Precision edges',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
       hint: 'Switch instantly across the site. Each style remembers its own color and appearance mode.'
     },
     ja: {
-      title: 'スタイル', classic: 'クラシック', terminal: 'ターミナル',
+      title: 'スタイル', classic: 'クラシック', terminal: 'ターミナル', mecha: 'メカ',
+      mechaDescription: 'セラミック装甲・精密なエッジ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
       hint: 'すぐに切り替わり、サイト全体に適用されます。配色と表示モードはスタイルごとに保存されます。'
     }
@@ -44,7 +50,11 @@
   function savedPreferences(name, fresh = false) {
     let saved = fresh ? null : preferences[name];
     if (!saved) { try { saved = JSON.parse(read('jy-style-' + name)); } catch {} }
-    const defaults = name === 'terminal' ? { accent: 'green', theme: 'dark' } : { accent: 'graphite', theme: 'auto' };
+    const defaults = {
+      classic: { accent: 'graphite', theme: 'auto' },
+      terminal: { accent: 'green', theme: 'dark' },
+      mecha: { accent: 'orange', theme: 'light' }
+    }[name];
     return {
       accent: ['graphite', 'blue', 'violet', 'green', 'orange'].includes(saved?.accent) ? saved.accent : defaults.accent,
       theme: ['auto', 'light', 'dark'].includes(saved?.theme) ? saved.theme : defaults.theme
@@ -58,7 +68,7 @@
     section.className = 'setting-block style-setting';
     section.innerHTML = '<h3 class="setting-label" id="style-label" data-style-text="title"></h3>' +
       '<div class="style-choices" role="group" aria-labelledby="style-label">' +
-      ['classic', 'terminal'].map(name => '<button type="button" class="style-choice" data-style-choice="' + name + '" aria-pressed="false">' +
+      styles.map(name => '<button type="button" class="style-choice" data-style-choice="' + name + '" aria-pressed="false">' +
         '<span class="style-preview style-preview-' + name + '" aria-hidden="true"><i></i><i></i><i></i></span>' +
         '<span class="style-choice-title"><span data-style-text="' + name + '"></span><span class="style-check" aria-hidden="true">✓</span></span>' +
         '<span class="style-choice-description" data-style-text="' + name + 'Description"></span></button>').join('') +
@@ -71,7 +81,7 @@
       section.querySelectorAll('[data-style-choice]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.styleChoice === style));
       });
-      // Run after page-specific applyTheme(), so Safari also matches the terminal palette.
+      // Run after page-specific applyTheme(), so Safari matches the active style's palette.
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.content = getComputedStyle(root).getPropertyValue('--bg').trim();
     }
@@ -103,7 +113,7 @@
     // Safari can restore an old DOM from its back/forward cache after another page changes style.
     window.addEventListener('pageshow', event => {
       const storedStyle = read('jy-style');
-      if (!event.persisted || !['classic', 'terminal'].includes(storedStyle)) return;
+      if (!event.persisted || !styles.includes(storedStyle)) return;
       style = storedStyle;
       root.dataset.style = style;
       const next = savedPreferences(style, true);

@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-18-mecha-style', date: '2026-10-18', content: {
+      'zh-CN': ['全新机甲风格', ['网站设置新增“机甲”风格：陶瓷白与钛灰装甲、精密切角、橙色点缀，并提供深色机甲模式。', '经典、终端与机甲可随时切换，各自保存配色与深浅模式。全站页面、四语言和原有功能均已适配。']],
+      'zh-TW': ['全新機甲風格', ['網站設定新增「機甲」風格：陶瓷白與鈦灰裝甲、精密切角、橙色點綴，並提供深色機甲模式。', '經典、終端與機甲可隨時切換，各自儲存配色與深淺模式。全站頁面、四語言及原有功能皆已適配。']],
+      en: ['Introducing Mecha', ['Choose Mecha in site settings for ceramic-white and titanium-gray panels, precision edges and orange accents, with a matching dark mode.', 'Classic, Terminal and Mecha each remember their own colors and appearance mode. All pages, four languages and existing features are supported.']],
+      ja: ['新しいメカスタイル', ['サイト設定に「メカ」を追加しました。白いセラミックとチタングレーの装甲、精密なエッジ、オレンジのアクセントに、ダークモードも用意しました。', 'クラシック・ターミナル・メカをいつでも切り替えられ、配色と表示モードはそれぞれ保存されます。全ページ、4言語、既存の機能に対応しています。']]
+    }
+  },
+  {
     id: '2026-10-18-python-download', date: '2026-10-18', content: {
       'zh-CN': ['电脑工具新增 Python', ['电脑工具专区新增 Python 卡片，点击即可前往 Python 官方下载页。']],
       'zh-TW': ['電腦工具新增 Python', ['電腦工具專區新增 Python 卡片，點擊即可前往 Python 官方下載頁。']],

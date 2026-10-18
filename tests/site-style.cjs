@@ -1,9 +1,12 @@
-/* Run against a local static server: node tests/site-style.cjs [base URL]. */
+/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha]. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
+const testedStyle = process.argv[3] || 'terminal';
+assert.ok(['terminal', 'mecha'].includes(testedStyle));
+const initial = testedStyle === 'mecha' ? { theme: 'light', accent: 'orange', style: 'mecha' } : { theme: 'dark', accent: 'green', style: 'terminal' };
 const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
 const problems = [];
 
@@ -39,9 +42,9 @@ async function snapshot(page) {
       assert.deepEqual(await snapshot(page), await snapshot(baseline), file + ': classic visuals changed');
       const links = await page.locator('main a').evaluateAll(elements => elements.map(element => element.href));
       await page.locator('#settings-trigger').click();
-      await page.locator('[data-style-choice=terminal]').click();
+      await page.locator('[data-style-choice=' + testedStyle + ']').click();
       assert.equal(await page.locator('#settings').evaluate(element => element.open), true, file + ': dialog closed during switch');
-      assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'green', style: 'terminal' });
+      assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), initial);
       await page.locator('#close-settings').click();
       assert.deepEqual(await page.locator('main a').evaluateAll(elements => elements.map(element => element.href)), links, file + ': changed destinations');
       const url = page.url();
@@ -57,7 +60,7 @@ async function snapshot(page) {
       }
       await page.setViewportSize({ width: 390, height: 844 });
       await page.reload();
-      assert.equal(await page.locator('html').getAttribute('data-style'), 'terminal', file + ': style not restored');
+      assert.equal(await page.locator('html').getAttribute('data-style'), testedStyle, file + ': style not restored');
       console.log('PAGE PASS', file);
     }
     await baseline.close();
@@ -83,6 +86,20 @@ async function snapshot(page) {
     assert.equal(await page.locator('html').getAttribute('data-accent'), 'violet');
     console.log('PASS preference isolation and cross-page language');
 
+    await page.locator('[data-style-choice=mecha]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'orange', style: 'mecha' });
+    await page.locator('[data-accent-choice=green]').click();
+    await page.goto(base + '/genshin-download.html');
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'green', style: 'mecha' });
+    await page.locator('#settings-trigger').click();
+    await page.locator('[data-style-choice=terminal]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'violet', style: 'terminal' });
+    await page.locator('[data-style-choice=classic]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'blue', style: 'classic' });
+    await page.locator('[data-style-choice=mecha]').click();
+    assert.equal(await page.locator('html').getAttribute('data-accent'), 'green');
+    console.log('PASS all three styles keep independent preferences');
+
     await page.evaluate(() => {
       localStorage.setItem('jy-style', 'classic');
       localStorage.setItem('jy-style-classic', JSON.stringify({ accent: 'orange', theme: 'light' }));
@@ -96,8 +113,10 @@ async function snapshot(page) {
     for (const file of ['index.html', 'minecraft.html', 'minecraft-launchers.html', 'genshin-download.html', 'minecraft-seed.html']) {
       await page.goto(base + '/' + file);
       await page.locator('#settings-trigger').click();
+      await page.locator('[data-style-choice=' + testedStyle + ']').click();
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.locator('[data-language="' + language + '"]').click();
+        assert.equal(await page.locator('[data-style-text=mecha]').textContent(), { 'zh-CN': '机甲', 'zh-TW': '機甲', en: 'Mecha', ja: 'メカ' }[language]);
         for (const mode of ['light', 'dark', 'auto']) for (const accent of ['graphite', 'blue', 'violet', 'green', 'orange']) {
           await page.evaluate(({ mode, accent }) => {
             document.querySelector('[data-mode="' + mode + '"]').click();
@@ -153,11 +172,11 @@ async function snapshot(page) {
     deniedPage.on('pageerror', error => problems.push('storage denied: ' + error.message));
     await deniedPage.goto(base + '/index.html');
     await deniedPage.locator('#settings-trigger').click();
-    await deniedPage.locator('[data-style-choice=terminal]').click();
+    await deniedPage.locator('[data-style-choice=' + testedStyle + ']').click();
     await deniedPage.locator('[data-style-choice=classic]').click();
     assert.equal(await deniedPage.locator('html').getAttribute('data-style'), 'classic');
     await denied.close();
     assert.deepEqual(problems, []);
-    console.log('PASS all 17 pages; classic parity; 300 terminal palette/language/mode combinations; search, tabs, storage and system theme');
+    console.log('PASS all 17 pages; classic parity; 300 ' + testedStyle + ' palette/language/mode combinations; search, tabs, storage and system theme');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
