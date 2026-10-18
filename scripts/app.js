@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-18-columbina-style', date: '2026-10-18', content: {
+      'zh-CN': ['新增哥伦比娅主题', ['网站设置新增“哥伦比娅”风格：角色美术、月光蓝白、星月轨道、羽翼轮廓与莓红点缀，并提供深蓝夜色模式。', '五套风格独立保存偏好，四语言及原有功能保持不变。角色美术来源已在该主题页脚注明。']],
+      'zh-TW': ['新增哥倫比婭主題', ['網站設定新增「哥倫比婭」風格：角色美術、月光藍白、星月軌道、羽翼輪廓與莓紅點綴，並提供深藍夜色模式。', '五套風格獨立儲存偏好，四語言及原有功能保持不變。角色美術來源已在該主題頁尾註明。']],
+      en: ['Introducing Columbina', ['Choose Columbina in site settings for character artwork, moonlit blues, pearly whites, celestial orbits, feather-like frames and berry accents, with a midnight-blue dark mode.', 'All five styles remember their own preferences. Four languages and existing features are preserved. Artwork credits appear in the theme footer.']],
+      ja: ['コロンビーナのテーマを追加', ['サイト設定に「コロンビーナ」を追加しました。キャラクターアート、月光の青と白、星月の軌道、羽を思わせる輪郭とベリー色を組み合わせ、深い夜空色のダークモードも用意しました。', '5つのスタイルは設定を個別に保存します。4言語と既存の機能はそのままです。アートの出典はテーマのフッターに記載しています。']]
+    }
+  },
+  {
     id: '2026-10-18-blackgold-style', date: '2026-10-18', content: {
       'zh-CN': ['新增黑金典藏风格', ['网站设置新增“黑金典藏”：墨黑暖金、细线边框、徽章式图案与典藏标题排版，并支持象牙白浅色模式。', '经典、终端、科技与黑金典藏可独立切换，各自记住配色与深浅模式。全站四语言和原有功能保持可用。']],
       'zh-TW': ['新增黑金典藏風格', ['網站設定新增「黑金典藏」：墨黑暖金、細線邊框、徽章式圖案與典藏標題排版，並支援象牙白淺色模式。', '經典、終端、科技與黑金典藏可獨立切換，各自記住配色與深淺模式。全站四語言及原有功能保持可用。']],

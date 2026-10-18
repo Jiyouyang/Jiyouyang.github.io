@@ -4,7 +4,7 @@
   const root = document.documentElement;
   const read = key => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
-  const styles = ['classic', 'terminal', 'mecha', 'blackgold'];
+  const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina'];
   const storedStyle = read('jy-style');
   let style = styles.includes(storedStyle) ? storedStyle : 'classic';
   root.dataset.style = style;
@@ -14,6 +14,8 @@
       title: '风格调整', classic: '经典', terminal: '终端', mecha: '科技',
       mechaDescription: '陶瓷装甲 · 精密切角',
       blackgold: '黑金典藏', blackgoldDescription: '墨黑鎏金 · 典藏质感',
+      columbina: '哥伦比娅', columbinaDescription: '月光蓝白 · 羽翼与星海',
+      artCredit: '角色美术 © HoYoverse · 来源：HoYoWiki · 非官方网站',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
       hint: '即时切换，全站生效。每种风格分别记住配色与深浅模式。'
     },
@@ -21,6 +23,8 @@
       title: '風格調整', classic: '經典', terminal: '終端', mecha: '科技',
       mechaDescription: '陶瓷裝甲 · 精密切角',
       blackgold: '黑金典藏', blackgoldDescription: '墨黑鎏金 · 典藏質感',
+      columbina: '哥倫比婭', columbinaDescription: '月光藍白 · 羽翼與星海',
+      artCredit: '角色美術 © HoYoverse · 來源：HoYoWiki · 非官方網站',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
       hint: '即時切換，全站套用。每種風格分別記住配色與深淺模式。'
     },
@@ -28,6 +32,8 @@
       title: 'Visual style', classic: 'Classic', terminal: 'Terminal', mecha: 'Technology',
       mechaDescription: 'Ceramic armor · Precision edges',
       blackgold: 'Black & Gold', blackgoldDescription: 'Gilded details · Timeless elegance',
+      columbina: 'Columbina', columbinaDescription: 'Moonlit blue · Feathers & stars',
+      artCredit: 'Character art © HoYoverse · Source: HoYoWiki · Unofficial fan theme',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
       hint: 'Switch instantly across the site. Each style remembers its own color and appearance mode.'
     },
@@ -35,6 +41,8 @@
       title: 'スタイル', classic: 'クラシック', terminal: 'ターミナル', mecha: 'テクノロジー',
       mechaDescription: 'セラミック装甲・精密なエッジ',
       blackgold: 'ブラック＆ゴールド', blackgoldDescription: '漆黒と金彩・上質な佇まい',
+      columbina: 'コロンビーナ', columbinaDescription: '月光の青と白・羽と星の海',
+      artCredit: 'キャラクターアート © HoYoverse · 出典：HoYoWiki · 非公式ファンテーマ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
       hint: 'すぐに切り替わり、サイト全体に適用されます。配色と表示モードはスタイルごとに保存されます。'
     }
@@ -58,7 +66,8 @@
       classic: { accent: 'graphite', theme: 'auto' },
       terminal: { accent: 'green', theme: 'dark' },
       mecha: { accent: 'orange', theme: 'light' },
-      blackgold: { accent: 'orange', theme: 'dark' }
+      blackgold: { accent: 'orange', theme: 'dark' },
+      columbina: { accent: 'blue', theme: 'light' }
     }[name];
     return {
       accent: ['graphite', 'blue', 'violet', 'green', 'orange'].includes(saved?.accent) ? saved.accent : defaults.accent,
@@ -80,8 +89,39 @@
       '</div><p class="style-hint" data-style-text="hint"></p>';
     body.prepend(section);
 
+    // Decorative art is created only when this style is selected: other styles
+    // never request the character image. Existing page content stays untouched.
+    let scene, credit;
+    function syncColumbina(text) {
+      if (style === 'columbina' && !scene) {
+        const hero = document.querySelector('.hero');
+        if (hero) {
+          scene = document.createElement('div');
+          scene.className = 'columbina-scene';
+          scene.setAttribute('aria-hidden', 'true');
+          const artwork = document.createElement('img');
+          artwork.alt = ''; artwork.width = 1024; artwork.height = 1024;
+          artwork.decoding = 'async';
+          artwork.addEventListener('error', () => scene.classList.add('is-unavailable'));
+          artwork.src = '/assets/themes/columbina/character.png';
+          scene.append(artwork); hero.append(scene);
+        }
+        const footer = document.querySelector('footer');
+        if (footer) {
+          credit = document.createElement('p'); credit.className = 'columbina-credit';
+          const source = document.createElement('a');
+          source.href = 'https://wiki.hoyolab.com/pc/genshin/entry/9121?lang=en-us';
+          source.target = '_blank'; source.rel = 'noopener noreferrer';
+          credit.append(source); footer.append(credit);
+        }
+      }
+      if (scene) scene.hidden = style !== 'columbina';
+      if (credit) { credit.hidden = style !== 'columbina'; credit.firstChild.textContent = text.artCredit; }
+    }
+
     function sync() {
       const text = copy[root.lang] || copy['zh-CN'];
+      syncColumbina(text);
       section.querySelectorAll('[data-style-text]').forEach(element => { element.textContent = text[element.dataset.styleText]; });
       section.querySelectorAll('[data-style-choice]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.styleChoice === style));

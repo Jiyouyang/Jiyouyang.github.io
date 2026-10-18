@@ -7,14 +7,14 @@ const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const revision = process.argv[3];
 assert.ok(revision, 'Supply the pre-change Git revision as the third argument');
-const old = Object.fromEntries(['scripts/site-style.js', 'styles/site-style.css', 'styles/mecha.css'].map(file => [file, execFileSync('git', ['show', revision + ':' + file], { encoding: 'utf8' })]));
+const old = Object.fromEntries(['scripts/site-style.js', 'styles/site-style.css', 'styles/mecha.css', 'styles/blackgold.css'].map(file => [file, execFileSync('git', ['show', revision + ':' + file], { encoding: 'utf8' })]));
 const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
 
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
   try {
     let comparisons = 0;
-    for (const style of ['classic', 'terminal', 'mecha']) {
+    for (const style of ['classic', 'terminal', 'mecha', 'blackgold']) {
       const options = { viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' };
       const current = await browser.newContext(options), baseline = await browser.newContext(options);
       for (const context of [current, baseline]) await context.addInitScript(style => {
@@ -25,7 +25,8 @@ const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.end
         return route.fulfill({ body: old[file], contentType: file.endsWith('.css') ? 'text/css' : 'text/javascript' });
       });
       await baseline.route('**/mecha.css*', route => route.fulfill({ body: old['styles/mecha.css'], contentType: 'text/css' }));
-      await baseline.route('**/blackgold.css*', route => route.fulfill({ body: '', contentType: 'text/css' }));
+      await baseline.route('**/blackgold.css*', route => route.fulfill({ body: old['styles/blackgold.css'], contentType: 'text/css' }));
+      await baseline.route('**/columbina.css*', route => route.fulfill({ body: '', contentType: 'text/css' }));
       const a = await current.newPage(), b = await baseline.newPage();
       for (const file of pages) {
         await Promise.all([a.goto(base + '/' + file), b.goto(base + '/' + file)]);
@@ -49,6 +50,6 @@ const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.end
       }
       await current.close(); await baseline.close();
     }
-    console.log('PASS', comparisons, 'page/style/palette comparisons: existing Classic, Terminal and Technology appearance unchanged');
+    console.log('PASS', comparisons, 'page/style/palette comparisons: existing Classic, Terminal, Technology and Black & Gold appearance unchanged');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

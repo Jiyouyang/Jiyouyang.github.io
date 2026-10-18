@@ -282,7 +282,7 @@
 
 设置按钮使用齿轮图标，文字统一为“网站设置”，不再叫“外观”。设置弹窗包含：
 
-1. 风格调整：经典、终端、科技（原名机甲）、黑金典藏，附视觉预览和四语言说明。
+1. 风格调整：经典、终端、科技（原名机甲）、黑金典藏、哥伦比娅，附视觉预览和四语言说明。
 2. 主题颜色：石墨、蓝、紫、绿、橙。
 3. 深浅模式：跟随系统、浅色、深色。
 4. 翻译语言：简体中文、繁体中文、英语、日语。
@@ -300,8 +300,10 @@
 - `jy-accent`
 - `jy-theme`
 - `jy-language`
-- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold`
-- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
+- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina`
+- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
+
+2026-10-18 新增第五种“哥伦比娅”（`columbina`），默认浅色蓝色，提供五色和三档深浅模式，深色为午夜蓝。角色原画来自 HoYoWiki 条目 9121 的 `header_img_url`，本地保存在 `assets/themes/columbina/character.png`（1024×1024，约 1.7 MB）；来源与版权说明见同目录 README。共享脚本仅在选择该主题时创建装饰图与来源页脚，离开主题即隐藏；其他四种风格不请求图片。页面自身内容、链接与原图均未改写，不使用手机截图中的系统文字或布局。中文显示名称采用角色名“哥伦比娅”（用户输入“哥伦比亚”），繁中“哥倫比婭”、英语“Columbina”、日语“コロンビーナ”。
 
 风格脚本位于各页 `<head>`，先于正文绘制恢复 `data-style`；DOM 就绪后向设置顶部插入风格选项。监听根节点语言、主题、颜色以同步新设置与 Safari `theme-color`，并在后退缓存恢复时读取最新偏好。浏览器禁止 localStorage 时仍能在当前页面切换，无法跨页面持久保存是预期限制。
 
@@ -342,10 +344,13 @@
 | `styles/site-style.css` | 风格预览控件及全站可选终端视觉；网站视觉覆盖仅在 `data-style="terminal"` 下生效 |
 | `styles/mecha.css` | 独立机甲视觉及其五色/深浅调色板；所有规则限定在 `data-style="mecha"` 下 |
 | `styles/blackgold.css` | 独立黑金典藏视觉、深色与象牙白浅色调色板、五色与响应式；所有规则限定在 `data-style="blackgold"` 下 |
+| `styles/columbina.css` | 独立哥伦比娅主题：月光蓝白/午夜蓝、角色首屏与淡化背景、星月羽翼图案、五色与响应式；限定 `data-style="columbina"` |
+| `assets/themes/columbina/` | 角色原画 PNG 与来源/版权 README；不属于网站 favicon 素材 |
 | `scripts/site-style.js` | 四语言风格设置、首次绘制恢复、分风格偏好保存及后退缓存恢复 |
 | `tests/site-style.cjs` | 本地 Chromium 回归：经典样式对照、17 页布局、平台切换、翻译/配色/模式、搜索与存储 |
 | `tests/slider-geometry.cjs` | 全站滑块几何回归：每个位置的指示块边缘对齐、端点留白、窄屏长文案与减少动态效果 |
-| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技主要组件在各配色模式下的计算样式未变 |
+| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技/黑金典藏主要组件在各配色模式下的计算样式未变 |
+| `tests/columbina-art.cjs` | 哥伦比娅图片按需加载、17 页四宽度构图不遮字、来源说明、切换隐藏及加载失败降级 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
@@ -392,6 +397,8 @@
 从 2026-10-18 起，所有正式页还加载 `styles/mecha.css`。机甲样式与风格切换资源的缓存号同为 `20261018-mecha1`；以后改机甲 CSS 时同步更新全部页面的该文件版本。三套风格共用 `card-controls.css` 中的滑块尺寸修正规则，不覆盖伪元素 `border-box`，不改变每步位移和轨道宽度计算。
 
 黑金典藏接入后，17 页的 `site-style.css`、`site-style.js` 与新增 `blackgold.css` 缓存号为 `20261018-blackgold1`；`mecha.css` 保持原缓存号。四种风格继续复用现有滑块几何规则。首页公告脚本也递增为 `20261018-blackgold1`。
+
+哥伦比娅接入后，17 页加载新增 `columbina.css`，并将它与共享 `site-style.css` / `site-style.js` 的缓存号设为 `20261018-columbina1`；其他独立主题 CSS 缓存不变。首页公告脚本同步递增。今后维护要覆盖五套风格，原四套视觉仍由各自作用域隔离。
 
 ## 7. 已完成的主要需求历史
 
@@ -470,6 +477,17 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-18：新增哥伦比娅月光主题
+
+- 需求：新增原神哥伦比娅可选主题；允许网上检索配色与角色背景，用户的两张手机主题截图仅作参考。延续前四种风格，不自动切换已有用户设置。
+- 修改前备份（UTC 2026-10-18 07:52:52）：分支 `backup/pre-change-2026-10-18_07-52-52_UTC`、带注释标签 `backup-2026-10-18_07-52-52_UTC` 已推送；远端分支与剥离标签核验指向完整干净基线 `457f801e0ae295befe20847442977c3ff4e6970f`。
+- 素材：通过网页/图片搜索与 HoYoWiki 公开接口核对角色，使用条目 9121 对应的 HoYoverse CDN 角色图，原样保存，不去水印、不冒充原创；其版权属于原权利人，不标作开源。每页仅在该主题显示素材来源和非官方说明，四语言同步；详见 `assets/themes/columbina/README.md`。
+- 设计：月光蓝、珍珠白、蓝紫羽翼与莓红点缀，午夜蓝深色；角色首屏手机上下排列、桌面左右分栏，正文不压在人物面部。背景以低透明度延续同一张图，卡片保持实色可读；保留资源字形、平台图标与按钮层级，轨道、细星点和羽翼轮廓由 CSS 实现。
+- 实现：独立 `styles/columbina.css`；共享风格脚本/预览控件添加第五选项、四语言、独立存储与懒创建图片/来源说明；17 HTML 接入并更新缓存；首页四语言普通公告、README、本交接与四份测试脚本同步。无新外部运行时字体、脚本或图片依赖，图片下载到仓库同源提供；首次进入该主题约需加载 1.7 MB 图片，其他风格不加载。
+- 验证：17 页与 300 组配色/语言/模式检查通过，文字与强调色对比度至少 4.5:1；680 组修改前后经典/终端/科技/黑金典藏计算样式对照通过。五风格 × 17 页 × 四宽度 × 四语言共 11,920 个滑块/分类位置通过，端点留白、动画落点与减少动态效果正常。图片专项检查全部 17 页四宽度构图不遮挡标题、其他主题不下载图片、切换隐藏、来源和图片失败降级通过。
+- 已查看手机/桌面首屏、深浅下载页、Minecraft 卡片与 320px 日文设置截图；新预览标签单独精调字号/间距。135 条新主题 CSS 规则全部具有独立作用域，JS 语法与差异检查通过。回归入口：`tests/site-style.cjs [URL] columbina`、`tests/slider-geometry.cjs`、`tests/columbina-art.cjs`、`tests/style-isolation.cjs [URL] 457f801e0ae295befe20847442977c3ff4e6970f`。
+- 限制：尚未实机验证 iPhone Safari/Android；沿用既定 Apple 私有字符图标，缺少 Apple 字体时的缺字限制保持不变。图片失效时保留纯 CSS 月亮装饰与所有业务功能。原卡片内容、下载网址、分类关系不改。
 
 ### 2026-10-18：新增独立黑金典藏风格
 

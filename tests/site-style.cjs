@@ -1,15 +1,16 @@
-/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha|blackgold]. */
+/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha|blackgold|columbina]. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const testedStyle = process.argv[3] || 'terminal';
-assert.ok(['terminal', 'mecha', 'blackgold'].includes(testedStyle));
+assert.ok(['terminal', 'mecha', 'blackgold', 'columbina'].includes(testedStyle));
 const initial = { style: testedStyle, ...{
   mecha: { theme: 'light', accent: 'orange' },
   terminal: { theme: 'dark', accent: 'green' },
-  blackgold: { theme: 'dark', accent: 'orange' }
+  blackgold: { theme: 'dark', accent: 'orange' },
+  columbina: { theme: 'light', accent: 'blue' }
 }[testedStyle] };
 const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
 const problems = [];
@@ -57,7 +58,7 @@ async function snapshot(page) {
         assert.equal(page.url(), url, file + ': platform navigated');
         assert.equal(await tab.getAttribute('aria-selected'), 'true');
         for (const href of await page.locator('.download-button:visible').evaluateAll(elements => elements.map(element => element.href))) assert.match(href, /^https:\/\//);
-        if (testedStyle === 'blackgold' && ['genshin-download.html', 'zzz-download.html', 'hsr-download.html', 'endfield-download.html'].includes(file)) {
+        if (['blackgold', 'columbina'].includes(testedStyle) && ['genshin-download.html', 'zzz-download.html', 'hsr-download.html', 'endfield-download.html'].includes(file)) {
           const buttons = await page.locator('.download-button:visible').evaluateAll(es => es.map(e => ({ background: getComputedStyle(e).backgroundColor, color: getComputedStyle(e).color, height: e.getBoundingClientRect().height, top: e.getBoundingClientRect().top })));
           if (buttons.length === 2) assert.deepEqual(buttons[0], buttons[1], file + ': equally important downloads changed hierarchy or alignment');
         }
@@ -116,7 +117,17 @@ async function snapshot(page) {
       await page.locator('[data-style-choice=' + style + ']').click();
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
-    console.log('PASS all four styles keep independent preferences');
+    await page.locator('[data-style-choice=columbina]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'blue', style: 'columbina' });
+    await page.locator('[data-accent-choice=violet]').click();
+    await page.locator('[data-mode=dark]').click();
+    await page.goto(base + '/minecraft-mods.html');
+    await page.locator('#settings-trigger').click();
+    for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark'], ['columbina', 'violet', 'dark']]) {
+      await page.locator('[data-style-choice=' + style + ']').click();
+      assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
+    }
+    console.log('PASS all five styles keep independent preferences');
 
     await page.evaluate(() => {
       localStorage.setItem('jy-style', 'classic');
@@ -136,6 +147,7 @@ async function snapshot(page) {
         await page.locator('[data-language="' + language + '"]').click();
         assert.equal(await page.locator('[data-style-text=mecha]').textContent(), { 'zh-CN': '科技', 'zh-TW': '科技', en: 'Technology', ja: 'テクノロジー' }[language]);
         assert.equal(await page.locator('[data-style-text=blackgold]').textContent(), { 'zh-CN': '黑金典藏', 'zh-TW': '黑金典藏', en: 'Black & Gold', ja: 'ブラック＆ゴールド' }[language]);
+        assert.equal(await page.locator('[data-style-text=columbina]').textContent(), { 'zh-CN': '哥伦比娅', 'zh-TW': '哥倫比婭', en: 'Columbina', ja: 'コロンビーナ' }[language]);
         for (const mode of ['light', 'dark', 'auto']) for (const accent of ['graphite', 'blue', 'violet', 'green', 'orange']) {
           await page.evaluate(({ mode, accent }) => {
             document.querySelector('[data-mode="' + mode + '"]').click();
@@ -157,12 +169,16 @@ async function snapshot(page) {
             probe.style.color = 'var(--accent)'; document.body.append(probe);
             const resolvedAccent = getComputedStyle(probe).color; probe.remove();
             const indicatorsMatch = [...document.querySelectorAll('.platform-tabs,.segmented')].every(e => getComputedStyle(e, '::before').backgroundColor === resolvedAccent);
-            return { text: contrast('--ink', '--surface'), muted: contrast('--muted', '--surface'), accent: contrast('--accent', '--surface'), button: contrast('--on-accent', '--accent'), gold: color('--gold') ? contrast('--gold', '--surface') : null, indicatorsMatch, meta: document.querySelector('meta[name="theme-color"]').content, bg: color('--bg'), label: document.querySelector('#style-label').textContent, overflowing: document.querySelector('.settings-body').scrollWidth > document.querySelector('.settings-body').clientWidth };
+            return { text: contrast('--ink', '--surface'), muted: contrast('--muted', '--surface'), accent: contrast('--accent', '--surface'), button: contrast('--on-accent', '--accent'), gold: color('--gold') ? contrast('--gold', '--surface') : null, pink: color('--moon-pink') ? contrast('--moon-pink', '--surface') : null, indicatorsMatch, meta: document.querySelector('meta[name="theme-color"]').content, bg: color('--bg'), label: document.querySelector('#style-label').textContent, overflowing: document.querySelector('.settings-body').scrollWidth > document.querySelector('.settings-body').clientWidth };
           });
           for (const key of ['text', 'muted', 'accent', 'button']) assert.ok(result[key] >= 4.5, [file, language, mode, accent, key, result[key]].join(' '));
           if (testedStyle === 'blackgold') {
             assert.ok(result.gold >= 4.5, 'gold label contrast');
             assert.ok(result.indicatorsMatch, file + ': shared styles overrode blackgold indicator color');
+          }
+          if (testedStyle === 'columbina') {
+            assert.ok(result.pink >= 4.5, 'berry label contrast');
+            assert.ok(result.indicatorsMatch, file + ': shared styles overrode columbina indicator color');
           }
           assert.equal(result.meta, result.bg);
           assert.equal(result.overflowing, false, file + ': settings overflow');

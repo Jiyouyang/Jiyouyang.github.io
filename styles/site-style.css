@@ -32,6 +32,14 @@
 .style-preview-blackgold i:nth-child(2) { background: #d6b574; border-radius: 0; height: 3px; }
 .style-preview-blackgold i:last-child { background: #1d1b17; border-color: #806b43; border-radius: 3px; }
 .settings-body { overscroll-behavior: contain; }
+.style-choice[data-style-choice="columbina"] { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 110px) minmax(0, 1fr); column-gap: 14px; align-items: center; }
+.style-choice[data-style-choice="columbina"] .style-preview { grid-row: span 2; }
+.style-choice[data-style-choice="columbina"] .style-choice-title { margin-top: 0; gap: 4px; font-size: 13px; overflow-wrap: anywhere; }
+.style-preview-columbina { background: linear-gradient(140deg, #9bd2ee, #eaf6ff 60%, #c7bde8); border-color: #b0d1e9; border-radius: 15px 5px 15px 5px; }
+.style-preview-columbina i:first-child { background: #ffffffb3; border: 1px solid #fff; box-shadow: none; }
+.style-preview-columbina i:nth-child(2) { background: #397caa; height: 3px; }
+.style-preview-columbina i:last-child { background: #f4faffde; border-color: #fff; }
+.style-preview-columbina::after { content: ""; position: absolute; right: 10px; top: 19px; width: 18px; height: 18px; border-radius: 50%; box-shadow: -5px 3px 0 #fff; transform: rotate(-20deg); }
 
 /* Terminal palette: five accents, each with light/dark contrast.
    The extra attribute specificity wins over legacy :root[data-theme][data-accent]. */
