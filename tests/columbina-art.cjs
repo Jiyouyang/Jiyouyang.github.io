@@ -23,7 +23,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
       assert.equal(await page.locator('.columbina-scene').count(), 1);
       await page.locator('.columbina-scene img').evaluate(image => image.decode());
       assert.equal(await page.locator('.columbina-scene img').evaluate(image => image.naturalWidth), 1024);
-      assert.equal(await page.locator('.columbina-credit a').getAttribute('href'), 'https://wiki.hoyolab.com/pc/genshin/entry/9121?lang=en-us');
+      assert.equal(await page.locator('.columbina-credit a').getAttribute('href'), 'https://www.miyoushe.com/ys/article/71350081');
       for (const width of [320, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 844 });
         const layout = await page.evaluate(() => {
@@ -37,7 +37,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
       await page.locator('#settings-trigger').click();
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.locator('[data-language="' + language + '"]').click();
-        assert.ok((await page.locator('.columbina-credit').textContent()).includes('HoYoWiki'));
+        assert.match(await page.locator('.columbina-credit').textContent(), /米游社|米遊社|Miyoushe/);
       }
       for (const style of ['classic', 'terminal', 'mecha', 'blackgold']) {
         await page.locator('[data-style-choice=' + style + ']').click();

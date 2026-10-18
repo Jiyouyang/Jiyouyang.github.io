@@ -15,7 +15,7 @@
       mechaDescription: '陶瓷装甲 · 精密切角',
       blackgold: '黑金典藏', blackgoldDescription: '墨黑鎏金 · 典藏质感',
       columbina: '哥伦比娅', columbinaDescription: '月光蓝白 · 羽翼与星海',
-      artCredit: '角色美术 © HoYoverse · 来源：HoYoWiki · 非官方网站',
+      artCredit: '角色美术 © miHoYo · 来源：米游社 · 非官方网站',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
       hint: '即时切换，全站生效。每种风格分别记住配色与深浅模式。'
     },
@@ -24,7 +24,7 @@
       mechaDescription: '陶瓷裝甲 · 精密切角',
       blackgold: '黑金典藏', blackgoldDescription: '墨黑鎏金 · 典藏質感',
       columbina: '哥倫比婭', columbinaDescription: '月光藍白 · 羽翼與星海',
-      artCredit: '角色美術 © HoYoverse · 來源：HoYoWiki · 非官方網站',
+      artCredit: '角色美術 © miHoYo · 來源：米遊社 · 非官方網站',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
       hint: '即時切換，全站套用。每種風格分別記住配色與深淺模式。'
     },
@@ -33,7 +33,7 @@
       mechaDescription: 'Ceramic armor · Precision edges',
       blackgold: 'Black & Gold', blackgoldDescription: 'Gilded details · Timeless elegance',
       columbina: 'Columbina', columbinaDescription: 'Moonlit blue · Feathers & stars',
-      artCredit: 'Character art © HoYoverse · Source: HoYoWiki · Unofficial fan theme',
+      artCredit: 'Character art © miHoYo · Source: Miyoushe · Unofficial fan theme',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
       hint: 'Switch instantly across the site. Each style remembers its own color and appearance mode.'
     },
@@ -42,7 +42,7 @@
       mechaDescription: 'セラミック装甲・精密なエッジ',
       blackgold: 'ブラック＆ゴールド', blackgoldDescription: '漆黒と金彩・上質な佇まい',
       columbina: 'コロンビーナ', columbinaDescription: '月光の青と白・羽と星の海',
-      artCredit: 'キャラクターアート © HoYoverse · 出典：HoYoWiki · 非公式ファンテーマ',
+      artCredit: 'キャラクターアート © miHoYo · 出典：米遊社 · 非公式ファンテーマ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
       hint: 'すぐに切り替わり、サイト全体に適用されます。配色と表示モードはスタイルごとに保存されます。'
     }
@@ -110,7 +110,7 @@
         if (footer) {
           credit = document.createElement('p'); credit.className = 'columbina-credit';
           const source = document.createElement('a');
-          source.href = 'https://wiki.hoyolab.com/pc/genshin/entry/9121?lang=en-us';
+          source.href = 'https://www.miyoushe.com/ys/article/71350081';
           source.target = '_blank'; source.rel = 'noopener noreferrer';
           credit.append(source); footer.append(credit);
         }

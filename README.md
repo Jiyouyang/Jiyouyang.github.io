@@ -32,7 +32,7 @@ Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.ht
 
 全部 17 个正式页面加载 `scripts/site-style.js`、`styles/site-style.css`、`styles/mecha.css`、`styles/blackgold.css` 与 `styles/columbina.css`。脚本在首屏绘制前恢复风格并在设置中加入四语言切换器；四份样式文件分别以对应的 `data-style` 隔离视觉覆盖，共享的风格预览控件放在 `site-style.css` 中。新增页面须引用这五份文件；新增组件须验证五套风格及滑块边界。不要删除各页原有设置处理函数，风格切换会复用它们。
 
-哥伦比娅主题只在选中时加载本地角色图片，并在页脚展示四语言来源与非官方说明；切换其他风格后图片与说明隐藏。素材原图、来源及版权记录位于 `assets/themes/columbina/`，图片不可用时仍有纯 CSS 月亮背景，正常功能不依赖图片。
+哥伦比娅主题只在选中时加载本地角色图片，并在页脚展示四语言来源与非官方说明；来源入口指向中国大陆米游社官方页面，页面运行时不依赖海外图片地址。切换其他风格后图片与说明隐藏。素材原图、来源及版权记录位于 `assets/themes/columbina/`，图片不可用时仍有纯 CSS 月亮背景，正常功能不依赖图片。
 
 仓库根目录保留 `.nojekyll`，GitHub Pages 使用 `main` 分支根目录发布。
 

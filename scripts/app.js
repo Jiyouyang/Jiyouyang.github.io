@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-18-columbina-miyoushe-source', date: '2026-10-18', content: {
+      'zh-CN': ['哥伦比娅主题图片来源更新', ['主题图片保持不变，页脚来源入口已切换为中国大陆米游社官方页面。', '简体中文、繁体中文、英语和日语说明已同步，主题配色、布局与功能均未改变。']],
+      'zh-TW': ['哥倫比婭主題圖片來源更新', ['主題圖片保持不變，頁尾來源入口已切換為中國大陸米遊社官方頁面。', '簡體中文、繁體中文、英語及日語說明已同步，主題配色、版面與功能均未改變。']],
+      en: ['Columbina artwork source updated', ['The theme artwork is unchanged, while its footer source now links to the official mainland-China Miyoushe page.', 'All four languages are updated; the theme colors, layout and features remain unchanged.']],
+      ja: ['コロンビーナ画像の出典を更新', ['テーマ画像はそのままに、フッターの出典リンクを中国本土向け公式「米遊社」ページへ変更しました。', '4言語の表記を更新し、配色・レイアウト・機能は変更していません。']]
+    }
+  },
+  {
     id: '2026-10-18-columbina-style', date: '2026-10-18', content: {
       'zh-CN': ['新增哥伦比娅主题', ['网站设置新增“哥伦比娅”风格：角色美术、月光蓝白、星月轨道、羽翼轮廓与莓红点缀，并提供深蓝夜色模式。', '五套风格独立保存偏好，四语言及原有功能保持不变。角色美术来源已在该主题页脚注明。']],
       'zh-TW': ['新增哥倫比婭主題', ['網站設定新增「哥倫比婭」風格：角色美術、月光藍白、星月軌道、羽翼輪廓與莓紅點綴，並提供深藍夜色模式。', '五套風格獨立儲存偏好，四語言及原有功能保持不變。角色美術來源已在該主題頁尾註明。']],
