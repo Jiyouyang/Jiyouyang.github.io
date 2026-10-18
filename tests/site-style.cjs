@@ -116,7 +116,7 @@ async function snapshot(page) {
       await page.locator('[data-style-choice=' + testedStyle + ']').click();
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.locator('[data-language="' + language + '"]').click();
-        assert.equal(await page.locator('[data-style-text=mecha]').textContent(), { 'zh-CN': '机甲', 'zh-TW': '機甲', en: 'Mecha', ja: 'メカ' }[language]);
+        assert.equal(await page.locator('[data-style-text=mecha]').textContent(), { 'zh-CN': '科技', 'zh-TW': '科技', en: 'Technology', ja: 'テクノロジー' }[language]);
         for (const mode of ['light', 'dark', 'auto']) for (const accent of ['graphite', 'blue', 'violet', 'green', 'orange']) {
           await page.evaluate(({ mode, accent }) => {
             document.querySelector('[data-mode="' + mode + '"]').click();

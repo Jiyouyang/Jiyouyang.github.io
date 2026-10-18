@@ -11,25 +11,25 @@
 
   const copy = {
     'zh-CN': {
-      title: '风格调整', classic: '经典', terminal: '终端', mecha: '机甲',
+      title: '风格调整', classic: '经典', terminal: '终端', mecha: '科技',
       mechaDescription: '陶瓷装甲 · 精密切角',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
       hint: '即时切换，全站生效。每种风格分别记住配色与深浅模式。'
     },
     'zh-TW': {
-      title: '風格調整', classic: '經典', terminal: '終端', mecha: '機甲',
+      title: '風格調整', classic: '經典', terminal: '終端', mecha: '科技',
       mechaDescription: '陶瓷裝甲 · 精密切角',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
       hint: '即時切換，全站套用。每種風格分別記住配色與深淺模式。'
     },
     en: {
-      title: 'Visual style', classic: 'Classic', terminal: 'Terminal', mecha: 'Mecha',
+      title: 'Visual style', classic: 'Classic', terminal: 'Terminal', mecha: 'Technology',
       mechaDescription: 'Ceramic armor · Precision edges',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
       hint: 'Switch instantly across the site. Each style remembers its own color and appearance mode.'
     },
     ja: {
-      title: 'スタイル', classic: 'クラシック', terminal: 'ターミナル', mecha: 'メカ',
+      title: 'スタイル', classic: 'クラシック', terminal: 'ターミナル', mecha: 'テクノロジー',
       mechaDescription: 'セラミック装甲・精密なエッジ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
       hint: 'すぐに切り替わり、サイト全体に適用されます。配色と表示モードはスタイルごとに保存されます。'

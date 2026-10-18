@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-18-technology-name', date: '2026-10-18', content: {
+      'zh-CN': ['风格名称更新', ['“机甲”风格现更名为“科技”。四语言名称同步更新，样式与已保存的配色、深浅模式保持不变。']],
+      'zh-TW': ['風格名稱更新', ['「機甲」風格現更名為「科技」。四語言名稱同步更新，樣式與已儲存的配色、深淺模式保持不變。']],
+      en: ['Style name updated', ['Mecha is now called Technology. The name is updated in all four languages; visuals and saved color and appearance preferences are unchanged.']],
+      ja: ['スタイル名を更新', ['「メカ」を「テクノロジー」に変更しました。4言語の名前を更新し、デザインと保存済みの配色・表示モードはそのままです。']]
+    }
+  },
+  {
     id: '2026-10-18-mecha-style', date: '2026-10-18', content: {
       'zh-CN': ['全新机甲风格', ['网站设置新增“机甲”风格：陶瓷白与钛灰装甲、精密切角、橙色点缀，并提供深色机甲模式。', '经典、终端与机甲可随时切换，各自保存配色与深浅模式。全站页面、四语言和原有功能均已适配。']],
       'zh-TW': ['全新機甲風格', ['網站設定新增「機甲」風格：陶瓷白與鈦灰裝甲、精密切角、橙色點綴，並提供深色機甲模式。', '經典、終端與機甲可隨時切換，各自儲存配色與深淺模式。全站頁面、四語言及原有功能皆已適配。']],
