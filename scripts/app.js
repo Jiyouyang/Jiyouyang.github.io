@@ -137,10 +137,10 @@ const resources = [
     ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
   }},
   { id: 'computer', category: 'computer', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盗船 BT 下载和 Nyaa BT 下载。'],
-    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Steam、圖吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盜船 BT 下載和 Nyaa BT 下載。'],
-    en: ['PC Tools', 'Open the PC Tools hub for Chrome, Steam, Tuba Toolbox, IDM, IDM_Cracker, Watt Toolkit, v2rayN, The Pirate Bay, and Nyaa.'],
-    ja: ['PC ツール', 'PC ツールのページで Chrome、Steam、図吧ツールボックス、IDM、IDM_Cracker、Watt Toolkit、v2rayN、The Pirate Bay、Nyaa を確認できます。']
+    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Python、Steam、图吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盗船 BT 下载和 Nyaa BT 下载。'],
+    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Python、Steam、圖吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盜船 BT 下載和 Nyaa BT 下載。'],
+    en: ['PC Tools', 'Open the PC Tools hub for Chrome, Python, Steam, Tuba Toolbox, IDM, IDM_Cracker, Watt Toolkit, v2rayN, The Pirate Bay, and Nyaa.'],
+    ja: ['PC ツール', 'PC ツールのページで Chrome、Python、Steam、図吧ツールボックス、IDM、IDM_Cracker、Watt Toolkit、v2rayN、The Pirate Bay、Nyaa を確認できます。']
   }},
   { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
     'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
@@ -183,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-18-python-download', date: '2026-10-18', content: {
+      'zh-CN': ['电脑工具新增 Python', ['电脑工具专区新增 Python 卡片，点击即可前往 Python 官方下载页。']],
+      'zh-TW': ['電腦工具新增 Python', ['電腦工具專區新增 Python 卡片，點擊即可前往 Python 官方下載頁。']],
+      en: ['Python added to PC Tools', ['Open the new Python card in PC Tools to visit the official download page.']],
+      ja: ['PC ツールに Python を追加', ['PC ツールの新しい Python カードから公式ダウンロードページを開けます。']]
+    }
+  },
   {
     id: '2026-10-17-slider-alignment', date: '2026-10-17', content: {
       'zh-CN': ['滑块边界与对齐修复', ['修复模式、语言及平台选择滑块靠右时越界的问题，两端留白现在保持一致。已检查经典与终端风格，并完善减少动态效果时的切换表现。']],

@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-17
+> 最后更新：2026-10-18
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -62,7 +62,7 @@
 - 手机端导航的搜索和齿轮按钮均有 44px 点按区域；设置入口在窄屏显示齿轮图标，可访问性名称仍为“网站设置”。
 - 点击顶部搜索按钮会平滑滚动到资源搜索栏并主动聚焦输入框，以唤起系统键盘。
 - 分类：全部、开发、学习、工具、电脑工具、游戏。
-- 首页“电脑工具”分类只显示一张站内专区卡片，点击进入 `/computer-tools.html`；Chrome、Steam、图吧工具箱、IDM 下载器、IDM_Cracker、Watt 工具箱、v2rayN、The Pirate Bay 与 Nyaa 的外链卡片集中放在专区内。
+- 首页“电脑工具”分类只显示一张站内专区卡片，点击进入 `/computer-tools.html`；Chrome、Python、Steam、图吧工具箱、IDM 下载器、IDM_Cracker、Watt 工具箱、v2rayN、The Pirate Bay 与 Nyaa 的外链卡片集中放在专区内。
 - 资源支持按标题、简介、域名和分类即时检索。
 - 搜索支持按资源名称、简介、域名及分类即时筛选；升级版特有的搜索清空按钮和键盘快捷聚焦已随回滚移除。
 - Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地资源卡片依次位于资源列表前列，分别进入站内专区。
@@ -72,9 +72,9 @@
 
 ### 电脑工具专区 `/computer-tools.html`
 
-- 首页“电脑工具”大卡片进入独立专区；该卡片所属的首页筛选按钮现显示为“工具”，筛选时仍只显示这张站内入口卡片。首页原本另有一个“工具”筛选按钮，两个按钮目前同名但筛选内容不同；按用户此前要求只改显示名称，不合并分类。首页搜索可通过 Chrome、Steam、图吧工具箱、IDM、IDM_Cracker、Watt、v2rayN、海盗船 BT、Nyaa 等名称找到入口。
-- 专区内有九张整卡可点击的外部入口：Google Chrome 官方下载引导页 <https://www.google.com/chrome/>、Steam 官网 <https://store.steampowered.com/>、图吧工具箱原版官方下载页 <https://www.tbtool.cn/download/index.html>、Internet Download Manager 官网 <https://www.internetdownloadmanager.com/>、用户指定的 IDM_Cracker GitHub 仓库 <https://github.com/YuHuanTin/IDM_Cracker>、Watt Toolkit 官网 <https://steampp.net/>、v2rayN 维护者 GitHub 仓库列出的主页 <https://v2rayn.2dust.link/>、The Pirate Bay 原站 <https://thepiratebay.org/>、Nyaa 原站 <https://nyaa.si/>。IDM_Cracker 为 GitHub 项目，不标作 IDM 官方下载地址。
-- 九张卡片不设页内切换选项卡；点击卡片才打开外部网页。专区沿用五种主题色、深浅模式及简中、繁中、英语、日语四语言设置。
+- 首页“电脑工具”大卡片进入独立专区；该卡片所属的首页筛选按钮现显示为“工具”，筛选时仍只显示这张站内入口卡片。首页原本另有一个“工具”筛选按钮，两个按钮目前同名但筛选内容不同；按用户此前要求只改显示名称，不合并分类。首页搜索可通过 Chrome、Python、Steam、图吧工具箱、IDM、IDM_Cracker、Watt、v2rayN、海盗船 BT、Nyaa 等名称找到入口。
+- 专区内有十张整卡可点击的外部入口：Google Chrome 官方下载引导页 <https://www.google.com/chrome/>、Python 官方下载页 <https://www.python.org/downloads/>、Steam 官网 <https://store.steampowered.com/>、图吧工具箱原版官方下载页 <https://www.tbtool.cn/download/index.html>、Internet Download Manager 官网 <https://www.internetdownloadmanager.com/>、用户指定的 IDM_Cracker GitHub 仓库 <https://github.com/YuHuanTin/IDM_Cracker>、Watt Toolkit 官网 <https://steampp.net/>、v2rayN 维护者 GitHub 仓库列出的主页 <https://v2rayn.2dust.link/>、The Pirate Bay 原站 <https://thepiratebay.org/>、Nyaa 原站 <https://nyaa.si/>。IDM_Cracker 为 GitHub 项目，不标作 IDM 官方下载地址。
+- 十张卡片不设页内切换选项卡；点击卡片才打开外部网页。专区沿用五种主题色、深浅模式及简中、繁中、英语、日语四语言设置。
 
 ### Minecraft 专区 `/minecraft.html`
 
@@ -332,7 +332,7 @@
 | `.nojekyll` | 让 GitHub Pages 直接发布静态文件 |
 | `index.html` | 首页结构、样式、导航、资源区和设置弹窗 |
 | `scripts/app.js` | 首页四语言文案、资源数据、搜索/筛选、主题与设置逻辑 |
-| `computer-tools.html` | 电脑工具专区结构、九张外链卡片和设置弹窗 |
+| `computer-tools.html` | 电脑工具专区结构、十张外链卡片和设置弹窗 |
 | `scripts/computer-tools.js` | 电脑工具专区四语言文案、主题与设置逻辑 |
 | `styles/card-controls.css` | 全站卡片图区和下载页平台/渠道选择器的共享视觉样式 |
 | `styles/site-style.css` | 风格预览控件及全站可选终端视觉；网站视觉覆盖仅在 `data-style="terminal"` 下生效 |
@@ -459,6 +459,14 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-18：电脑工具专区新增 Python 官方下载入口
+
+- 需求：电脑工具专区新增一个选项，点击可前往 Python 官方下载网站。
+- 编辑前于 **2026-10-18 03:19:30 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-18_03-19-30_UTC` 与带注释标签 `backup-2026-10-18_03-19-30_UTC`，两者剥离后均指向远端基线提交 `185c8b160dabc60005f715623f84426d92927b10`，包含 47 个受版本控制文件。远端较本地新增终端风格与滑块修复两次提交，备份后快进同步本地，保留新内容。
+- Python 官方下载入口采用 <https://www.python.org/downloads/>，2026-10-18 实测 HTTP 200；使用通用下载页，供访客按系统选择版本，不固定安装包版本。
+- `computer-tools.html` 增加整卡外链、更新数量和脚本缓存；`scripts/computer-tools.js` 补齐四语言卡片文案；`scripts/app.js` 扩展首页搜索简介并新增四语言公告，`index.html` 同步缓存版本；`README.md` 和本文件同步。
+- 验证：`node --check` 检查首页与专区脚本，`git diff --check` 通过；静态断言确认十张整卡外链、Python 精确官方网址、新标签页安全属性、四语言文案、首页搜索简介、脚本缓存及新风格资源保留。发布后核验 GitHub Pages。遗留问题：无已知问题。
 
 ### 2026-10-17：修复全站滑块右端越界及窄屏轨道错位
 
