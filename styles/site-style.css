@@ -24,6 +24,13 @@
 .style-preview-mecha i:first-child { background: #24323d; border-radius: 2px; box-shadow: none; }
 .style-preview-mecha i:nth-child(2) { background: #c44912; border-radius: 0; height: 6px; transform: skew(-14deg); }
 .style-preview-mecha i:last-child { background: #fcfdfe; border-color: #b8c6d0; border-left: 3px solid #c44912; border-radius: 1px 7px 1px 1px; }
+.style-choice[data-style-choice="blackgold"] { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 110px) minmax(0, 1fr); column-gap: 14px; align-items: center; }
+.style-choice[data-style-choice="blackgold"] .style-preview { grid-row: span 2; }
+.style-choice[data-style-choice="blackgold"] .style-choice-title { margin-top: 0; overflow-wrap: anywhere; }
+.style-preview-blackgold { background: #10100f; border-color: #806b43; border-radius: 8px; box-shadow: inset 0 0 0 4px #10100f, inset 0 0 0 5px #403729; }
+.style-preview-blackgold i:first-child { background: #1d1b17; border: 1px solid #806b43; border-radius: 3px; box-shadow: none; }
+.style-preview-blackgold i:nth-child(2) { background: #d6b574; border-radius: 0; height: 3px; }
+.style-preview-blackgold i:last-child { background: #1d1b17; border-color: #806b43; border-radius: 3px; }
 .settings-body { overscroll-behavior: contain; }
 
 /* Terminal palette: five accents, each with light/dark contrast.

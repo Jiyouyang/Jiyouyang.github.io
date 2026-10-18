@@ -2,7 +2,7 @@
 
 一个采用 Apple 风格黑白基调与液态玻璃视觉的精选资源分享站，可直接部署到 GitHub Pages。
 
-网站设置提供三种风格：经典保留液态玻璃与留白，终端采用等宽字体与荧光面板，科技采用陶瓷装甲、切角图形和机械接缝。终端首次进入为深色绿色，科技首次进入为浅色橙色；三套风格分别保存颜色与深浅模式，语言设置通用。
+网站设置提供四种风格：经典保留液态玻璃与留白，终端采用等宽字体与荧光面板，科技采用陶瓷装甲、切角图形和机械接缝，黑金典藏采用墨黑暖金、细线边框、徽章图案与典藏标题排版。终端首次进入为深色绿色，科技为浅色橙色，黑金典藏为深色暖金（橙色档），也提供象牙白浅色外观；四套风格分别保存颜色与深浅模式，语言设置通用。
 
 ## 功能
 
@@ -30,7 +30,7 @@ Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.ht
 
 ## 部署
 
-全部 17 个正式页面加载 `scripts/site-style.js`、`styles/site-style.css` 与 `styles/mecha.css`。脚本在首屏绘制前恢复风格并在设置中加入四语言切换器；两份样式文件分别以 `data-style="terminal"` 和 `data-style="mecha"` 隔离视觉覆盖，共享的风格预览控件放在 `site-style.css` 中。新增页面须引用这三份文件；新增组件须验证三套风格及滑块边界。不要删除各页原有设置处理函数，风格切换会复用它们。
+全部 17 个正式页面加载 `scripts/site-style.js`、`styles/site-style.css`、`styles/mecha.css` 与 `styles/blackgold.css`。脚本在首屏绘制前恢复风格并在设置中加入四语言切换器；三份样式文件分别以 `data-style="terminal"`、`data-style="mecha"` 和 `data-style="blackgold"` 隔离视觉覆盖，共享的风格预览控件放在 `site-style.css` 中。新增页面须引用这四份文件；新增组件须验证四套风格及滑块边界。不要删除各页原有设置处理函数，风格切换会复用它们。
 
 仓库根目录保留 `.nojekyll`，GitHub Pages 使用 `main` 分支根目录发布。
 

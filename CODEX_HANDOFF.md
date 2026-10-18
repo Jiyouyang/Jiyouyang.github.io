@@ -282,7 +282,7 @@
 
 设置按钮使用齿轮图标，文字统一为“网站设置”，不再叫“外观”。设置弹窗包含：
 
-1. 风格调整：经典、终端、科技（原名机甲），附视觉预览和四语言说明。
+1. 风格调整：经典、终端、科技（原名机甲）、黑金典藏，附视觉预览和四语言说明。
 2. 主题颜色：石墨、蓝、紫、绿、橙。
 3. 深浅模式：跟随系统、浅色、深色。
 4. 翻译语言：简体中文、繁体中文、英语、日语。
@@ -293,13 +293,15 @@
 
 2026-10-18 新增第三种“机甲”风格（`mecha`），默认浅色橙色，支持完整五色与三档模式。独立 `styles/mecha.css` 的所有网站视觉规则都限定在 `data-style="mecha"` 下；经典、终端的既有视觉规则不改。风格设置的第三张预览卡独占下一行，以保留前两张的可读宽度。
 
+2026-10-18 新增第四种“黑金典藏”（`blackgold`），首次进入默认深色暖金（沿用橙色档），也支持象牙白浅色、跟随系统及其余四色。所有视觉规则独立放在 `styles/blackgold.css` 且限定 `data-style="blackgold"`；不改经典、终端和科技色板/布局。第四张设置预览卡另占一行，前三张的布局不变。风格名称同步简中/繁中“黑金典藏”、英语“Black & Gold”、日语“ブラック＆ゴールド”。
+
 偏好使用 `localStorage` 跨页面共享：
 
 - `jy-accent`
 - `jy-theme`
 - `jy-language`
-- `jy-style`：`classic` / `terminal` / `mecha`
-- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
+- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold`
+- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
 
 风格脚本位于各页 `<head>`，先于正文绘制恢复 `data-style`；DOM 就绪后向设置顶部插入风格选项。监听根节点语言、主题、颜色以同步新设置与 Safari `theme-color`，并在后退缓存恢复时读取最新偏好。浏览器禁止 localStorage 时仍能在当前页面切换，无法跨页面持久保存是预期限制。
 
@@ -339,10 +341,11 @@
 | `styles/card-controls.css` | 全站卡片图区和下载页平台/渠道选择器的共享视觉样式 |
 | `styles/site-style.css` | 风格预览控件及全站可选终端视觉；网站视觉覆盖仅在 `data-style="terminal"` 下生效 |
 | `styles/mecha.css` | 独立机甲视觉及其五色/深浅调色板；所有规则限定在 `data-style="mecha"` 下 |
+| `styles/blackgold.css` | 独立黑金典藏视觉、深色与象牙白浅色调色板、五色与响应式；所有规则限定在 `data-style="blackgold"` 下 |
 | `scripts/site-style.js` | 四语言风格设置、首次绘制恢复、分风格偏好保存及后退缓存恢复 |
 | `tests/site-style.cjs` | 本地 Chromium 回归：经典样式对照、17 页布局、平台切换、翻译/配色/模式、搜索与存储 |
 | `tests/slider-geometry.cjs` | 全站滑块几何回归：每个位置的指示块边缘对齐、端点留白、窄屏长文案与减少动态效果 |
-| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端主要组件在各配色模式下的计算样式未变 |
+| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技主要组件在各配色模式下的计算样式未变 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
@@ -387,6 +390,8 @@
 17 页的 `<head>` 在基础样式后继续加载 `styles/site-style.css` 与 `scripts/site-style.js`。新风格的覆盖按 `data-style` 隔离；经典风格的原有 CSS 继续保留。维护风格文件时须同步递增全部正式页面的这两个资源版本号，新页面也须接入二者。
 
 从 2026-10-18 起，所有正式页还加载 `styles/mecha.css`。机甲样式与风格切换资源的缓存号同为 `20261018-mecha1`；以后改机甲 CSS 时同步更新全部页面的该文件版本。三套风格共用 `card-controls.css` 中的滑块尺寸修正规则，不覆盖伪元素 `border-box`，不改变每步位移和轨道宽度计算。
+
+黑金典藏接入后，17 页的 `site-style.css`、`site-style.js` 与新增 `blackgold.css` 缓存号为 `20261018-blackgold1`；`mecha.css` 保持原缓存号。四种风格继续复用现有滑块几何规则。首页公告脚本也递增为 `20261018-blackgold1`。
 
 ## 7. 已完成的主要需求历史
 
@@ -465,6 +470,17 @@
 - [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
 
 ## 12. 最近部署基线
+
+### 2026-10-18：新增独立黑金典藏风格
+
+- 需求：新增“黑金典藏”，与经典、终端、科技三种现有风格互不冲突；用户随后要求继续未完成的同一任务，不是新增独立改动。
+- 修改前完整备份（UTC 2026-10-18 06:45:17）：分支 `backup/pre-change-2026-10-18_06-45-17_UTC` 与带注释标签 `backup-2026-10-18_06-45-17_UTC` 已推送，远端分支及剥离标签均核验指向 `589d376cfa93c4afcf9f697dbfe3ebac09cfba7a`。恢复工作后再次核验远端与备份，未覆盖已有改动。
+- 设计：墨黑背景、暖金细线、徽章式图案、内嵌卡片边框、宋体/衬线标题与清晰无衬线正文；提供象牙白浅色外观。五种配色继续生效，暖金装饰保留，橙色档在该风格映射为暖金。没有新增图片下载、字体依赖、外链或内容卡片。
+- 实现：新增 `styles/blackgold.css`，所有网站视觉规则限定 `data-style="blackgold"`；共享设置增加第四张预览卡、四语言、独立 `jy-style-blackgold` 偏好，首次选择深色暖金。17 页接入 CSS 并更新共享资源缓存；首页增加普通四语言公告，README 与本文件同步。原三套风格 CSS 规则、内存/存储键与各页业务逻辑保持不变。
+- 验证：510 组经典/终端/科技与修改前 Git 基线的主要组件计算样式对照通过；新增风格全部 17 页功能、320/390/768/1440 宽度、300 组配色/模式/语言及文字/强调色至少 4.5:1 对比度检查通过。四风格、17 页、四宽度、四语言共 9,536 个滑块/分类位置通过，包含两端留白、动画落点及减少动态效果。四风格独立偏好、跨页/刷新、后退恢复、禁用存储降级、搜索/公告/选项卡不导航均通过。
+- 视觉复核：已查看手机设置（含 320px 日文）、精选卡片、深浅下载页与桌面首页截图。修正共享深色滑块背景优先级覆盖，并补充实际指示块背景断言。原神/绝区零/崩铁/终末地双下载按钮维持同权重、同高度且并排，基岩版/种子查询保留主次区别；六页在深/浅模式的按钮专项检查通过。
+- 维护：`tests/site-style.cjs [URL] blackgold`、`tests/slider-geometry.cjs`、`tests/style-isolation.cjs [URL] 589d376cfa93c4afcf9f697dbfe3ebac09cfba7a` 为本次回归入口。JS 语法、差异及 17 页缓存/资源接入检查通过。后续新增组件须验证四种风格。
+- 限制：未在真实 iPhone Safari/Android 设备上实测；沿用既定 Apple 字符图标，缺少 Apple 字体的系统仍可能显示缺字。本次没有其他已知阻断问题。
 
 ### 2026-10-18：机甲显示名称改为科技
 

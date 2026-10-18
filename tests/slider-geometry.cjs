@@ -16,7 +16,7 @@ const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.end
     for (const file of pages) {
       await page.goto(base + '/' + file);
       await page.locator('#settings-trigger').click();
-      for (const style of ['classic', 'terminal', 'mecha']) {
+      for (const style of ['classic', 'terminal', 'mecha', 'blackgold']) {
         await page.locator('[data-style-choice=' + style + ']').click();
         for (const width of [320, 390, 768, 1440]) {
           await page.setViewportSize({ width, height: 844 });
@@ -75,6 +75,6 @@ const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.end
     });
     assert.ok(animation.leftError < .12 && animation.rightError < .12, JSON.stringify(animation));
     assert.deepEqual(errors, []);
-    console.log('PASS', measured, 'indicator/category positions across 17 pages, 3 styles, 4 widths and 4 languages; animation endpoints and reduced motion');
+    console.log('PASS', measured, 'indicator/category positions across 17 pages, 4 styles, 4 widths and 4 languages; animation endpoints and reduced motion');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

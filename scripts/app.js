@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-18-blackgold-style', date: '2026-10-18', content: {
+      'zh-CN': ['新增黑金典藏风格', ['网站设置新增“黑金典藏”：墨黑暖金、细线边框、徽章式图案与典藏标题排版，并支持象牙白浅色模式。', '经典、终端、科技与黑金典藏可独立切换，各自记住配色与深浅模式。全站四语言和原有功能保持可用。']],
+      'zh-TW': ['新增黑金典藏風格', ['網站設定新增「黑金典藏」：墨黑暖金、細線邊框、徽章式圖案與典藏標題排版，並支援象牙白淺色模式。', '經典、終端、科技與黑金典藏可獨立切換，各自記住配色與深淺模式。全站四語言及原有功能保持可用。']],
+      en: ['Introducing Black & Gold', ['Choose Black & Gold in site settings for warm gold on ink-black panels, fine borders, medallion artwork and editorial headings, with an ivory light mode.', 'Classic, Terminal, Technology and Black & Gold each remember their own color and appearance preferences. All four languages and existing features remain available.']],
+      ja: ['ブラック＆ゴールドを追加', ['サイト設定に「ブラック＆ゴールド」を追加しました。漆黒に暖かな金彩、細い縁取り、メダリオンと上品な見出しを組み合わせ、アイボリーのライトモードにも対応しています。', 'クラシック・ターミナル・テクノロジー・ブラック＆ゴールドは配色と表示モードを個別に保存します。4言語と既存の機能は引き続き利用できます。']]
+    }
+  },
+  {
     id: '2026-10-18-technology-name', date: '2026-10-18', content: {
       'zh-CN': ['风格名称更新', ['“机甲”风格现更名为“科技”。四语言名称同步更新，样式与已保存的配色、深浅模式保持不变。']],
       'zh-TW': ['風格名稱更新', ['「機甲」風格現更名為「科技」。四語言名稱同步更新，樣式與已儲存的配色、深淺模式保持不變。']],
