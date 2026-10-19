@@ -1,0 +1,190 @@
+/* Mahiro — cream paper, strawberry ribbons, lilac ink and mint confetti.
+   All rules are opt-in. Shared slider geometry and existing themes stay untouched. */
+:root[data-style="mahiro"][data-style] {
+  color-scheme: light;
+  --bg: #fff9f2;
+  --surface: #fffdfb;
+  --ink: #443747;
+  --muted: #756377;
+  --wash: #f6eaf2;
+  --line: #d9c3d0;
+  --glass: #fffdfbf5;
+  --shadow: 0 12px 30px #79587510, 0 3px 0 #e9dae3;
+  --accent: #5e505e;
+  --on-accent: #fff;
+  --soft: color-mix(in srgb, var(--accent) 9%, transparent);
+  --mahiro-berry: #a23c65;
+  --mahiro-pink: #f5c4d7;
+  --mahiro-lilac: #ddd4f2;
+  --mahiro-mint: #d6ece0;
+  --mahiro-butter: #faecc4;
+}
+:root[data-style="mahiro"][data-style][data-accent="blue"] { --accent: #316b89; }
+:root[data-style="mahiro"][data-style][data-accent="violet"] { --accent: #775197; }
+:root[data-style="mahiro"][data-style][data-accent="green"] { --accent: #34705b; }
+:root[data-style="mahiro"][data-style][data-accent="orange"] { --accent: #976028; }
+:root[data-style="mahiro"][data-style][data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #241f2b;
+  --surface: #302838;
+  --ink: #fff1f5;
+  --muted: #d2bdce;
+  --wash: #423247;
+  --line: #72586d;
+  --glass: #302838f5;
+  --shadow: 0 14px 35px #130f1a30, 0 3px 0 #594152;
+  --accent: #e0cddd;
+  --on-accent: #302038;
+  --mahiro-berry: #f3a8c5;
+  --mahiro-pink: #663d54;
+  --mahiro-lilac: #52425f;
+  --mahiro-mint: #324e49;
+  --mahiro-butter: #5f4e38;
+}
+:root[data-style="mahiro"][data-style][data-theme="dark"][data-accent="blue"] { --accent: #a7d7ee; }
+:root[data-style="mahiro"][data-style][data-theme="dark"][data-accent="violet"] { --accent: #d8b7f2; }
+:root[data-style="mahiro"][data-style][data-theme="dark"][data-accent="green"] { --accent: #a9d9c3; }
+:root[data-style="mahiro"][data-style][data-theme="dark"][data-accent="orange"] { --accent: #f3cf9d; }
+
+html[data-style="mahiro"] body {
+  position: relative; isolation: isolate; background-color: var(--bg);
+  background-image: radial-gradient(var(--line) .65px, transparent .65px);
+  background-size: 22px 22px;
+  font-family: ui-rounded, "Hiragino Maru Gothic ProN", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+html[data-style="mahiro"] .mahiro-backdrop { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; opacity: .1; mask-image: linear-gradient(90deg, transparent 20%, #000); -webkit-mask-image: linear-gradient(90deg, transparent 20%, #000); }
+html[data-style="mahiro"] .mahiro-backdrop img { position: absolute; right: 0; bottom: 0; width: min(950px, 95vw); height: min(950px, 95vh); object-fit: cover; object-position: 60% center; }
+html[data-style="mahiro"][data-theme="dark"] .mahiro-backdrop { opacity: .045; }
+html[data-style="mahiro"] .mahiro-backdrop.is-unavailable { display: none; }
+html[data-style="mahiro"] ::selection { background: var(--accent); color: var(--on-accent); }
+html[data-style="mahiro"] :is(h1,h2,h3) { overflow-wrap: anywhere; }
+html[data-style="mahiro"] :is(a,button,input):focus-visible { outline: 2px solid var(--mahiro-berry); outline-offset: 4px; }
+html[data-style="mahiro"] .glass { background: var(--glass); border: 1px solid var(--line); box-shadow: var(--shadow); }
+html[data-style="mahiro"] .nav { border-radius: 24px; border-bottom: 3px solid var(--mahiro-pink); }
+html[data-style="mahiro"] .brand { color: var(--ink); letter-spacing: -.6px; }
+html[data-style="mahiro"] .brand-mark { background: var(--mahiro-butter); color: var(--mahiro-berry); border-color: var(--line); box-shadow: none; border-radius: 14px; }
+html[data-style="mahiro"] .nav-title { color: var(--mahiro-berry); border: 1px dashed var(--line); background: var(--surface); border-radius: 12px; }
+html[data-style="mahiro"] .nav :is(.back,.icon,.settings-trigger) { color: var(--ink); min-height: 44px; }
+html[data-style="mahiro"] .nav .icon { min-width: 44px; }
+
+/* A taped photo occupies its own space; no copy is placed over the character. */
+html[data-style="mahiro"] .hero { width: min(1120px, calc(100% - 48px)); margin-inline: auto; padding: 165px 8px 75px; min-height: 680px; text-align: left; overflow: hidden; }
+html[data-style="mahiro"] .hero > :not(.mahiro-scene) { max-width: 46%; }
+html[data-style="mahiro"] .announcement + .hero { padding-top: 90px; min-height: 580px; }
+html[data-style="mahiro"] .announcement[hidden] + .hero { padding-top: 165px; min-height: 680px; }
+html[data-style="mahiro"] .hero::before { inset: 90px 0 0; background: radial-gradient(ellipse at 75% 42%, var(--mahiro-pink), transparent 56%); opacity: .45; }
+html[data-style="mahiro"] .hero::after { content: ""; display: block; height: 7px; width: 100px; margin-top: 30px; border-radius: 10px; background: linear-gradient(90deg, var(--mahiro-pink) 33%, var(--mahiro-lilac) 33% 66%, var(--mahiro-mint) 66%); }
+html[data-style="mahiro"] .hero :is(.game-mark,.tool-mark) { display: none; }
+html[data-style="mahiro"] .eyebrow { color: var(--mahiro-berry); font-size: 11px; letter-spacing: 2.2px; }
+html[data-style="mahiro"] .hero h1 { font-size: clamp(36px, 4.5vw, 62px); line-height: 1.22; font-weight: 750; letter-spacing: -.04em; }
+html[data-style="mahiro"] .hero h1 span:first-child { color: var(--ink); }
+html[data-style="mahiro"] .hero h1 span:last-child { color: var(--accent); }
+html[data-style="mahiro"] .hero :is(.intro,p:not(.eyebrow)) { margin: 24px 0; font-size: 16px; line-height: 1.9; }
+html[data-style="mahiro"] .stats { justify-content: flex-start; flex-wrap: wrap; gap: 10px; }
+html[data-style="mahiro"] :is(.stat,.status) { background: var(--surface); border: 1px dashed var(--line); border-radius: 13px; color: var(--muted); box-shadow: none; }
+html[data-style="mahiro"] .status { font-size: 12px; }
+html[data-style="mahiro"] .mahiro-scene { position: absolute; right: 18px; top: 145px; width: 43%; max-width: 450px; padding: 12px 12px 43px; border: 1px solid var(--line); border-radius: 24px; background: var(--surface); box-shadow: 0 18px 48px #79587520, 10px 12px 0 var(--mahiro-lilac); transform: rotate(3deg); pointer-events: none; }
+html[data-style="mahiro"] .announcement + .hero .mahiro-scene { top: 65px; }
+html[data-style="mahiro"] .announcement[hidden] + .hero .mahiro-scene { top: 145px; }
+html[data-style="mahiro"] .mahiro-scene img { display: block; width: 100%; height: auto; aspect-ratio: 1193 / 1080; object-fit: contain; border-radius: 15px; background: var(--mahiro-pink); }
+html[data-style="mahiro"] .mahiro-scene::before { content: ""; position: absolute; width: 100px; height: 26px; top: -12px; left: calc(50% - 50px); background: repeating-linear-gradient(110deg, var(--mahiro-mint) 0 8px, color-mix(in srgb, var(--mahiro-mint) 60%, var(--surface)) 8px 16px); border: 1px solid var(--line); transform: rotate(-7deg); opacity: .9; }
+html[data-style="mahiro"] .mahiro-scene::after { content: "MAHIRO / まひろ  ✦"; position: absolute; bottom: 12px; inset-inline: 14px; color: var(--mahiro-berry); text-align: center; font-size: 11px; letter-spacing: 2px; }
+html[data-style="mahiro"] .mahiro-scene.is-unavailable img { visibility: hidden; }
+html[data-style="mahiro"] .mahiro-scene.is-unavailable { background: radial-gradient(circle at 35% 35%, var(--mahiro-pink), transparent 60%), var(--mahiro-lilac); }
+
+/* A soft stationery system: ribbon headings, sticker graphics and stitched cards. */
+html[data-style="mahiro"] .announcement { border-radius: 20px; }
+html[data-style="mahiro"] .announcement-label { color: var(--mahiro-berry); background: var(--wash); border-radius: 9px; }
+html[data-style="mahiro"] .announcement-entry { border-top-style: dashed; }
+html[data-style="mahiro"] .announcement-entry time { color: var(--mahiro-berry); }
+html[data-style="mahiro"] :is(.section-head,.hub-head) { border-bottom: 1px dashed var(--line); padding-bottom: 20px; }
+html[data-style="mahiro"] :is(.section-head,.hub-head) h2 { font-weight: 750; letter-spacing: -1px; }
+html[data-style="mahiro"] .section-kicker { display: inline-block; color: var(--mahiro-berry); padding: 5px 11px; margin-bottom: 10px; background: var(--mahiro-butter); border-radius: 7px; transform: rotate(-2deg); }
+html[data-style="mahiro"] :is(.featured-card,.resource-card,.hub-card,.download-card) { border: 1px solid var(--line); border-radius: 27px; background: var(--surface); box-shadow: var(--shadow); }
+html[data-style="mahiro"] :is(.featured-card,.resource-card,.hub-card):hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 18px 35px #7958751c, 0 3px 0 var(--mahiro-pink); }
+html[data-style="mahiro"] .featured-card { padding: 32px; }
+html[data-style="mahiro"] .featured-card::before { background: radial-gradient(circle at 90% 10%, var(--mahiro-pink), transparent 60%), var(--surface); }
+html[data-style="mahiro"] .featured-card.secondary::before { background: radial-gradient(circle at 90% 10%, var(--mahiro-mint), transparent 60%), var(--surface); }
+html[data-style="mahiro"] .featured-glyph { color: var(--accent); opacity: .65; font-size: 68px; transform: rotate(8deg); }
+html[data-style="mahiro"] .featured-tag { color: var(--mahiro-berry); }
+html[data-style="mahiro"] .featured-card h3 { font-size: 30px; font-weight: 750; }
+html[data-style="mahiro"] :is(.resource-visual,.hub-visual,.platform-art) { background-color: var(--wash); background-image: radial-gradient(var(--surface) 2px, transparent 2px), linear-gradient(125deg, var(--mahiro-butter), var(--mahiro-pink) 52%, var(--mahiro-lilac)); background-size: 18px 18px, 100% 100%; color: var(--accent); }
+html[data-style="mahiro"] :is(.resource-visual,.hub-visual) { height: 195px; border-bottom: 1px dashed var(--line); }
+html[data-style="mahiro"] :is(.resource-visual::after,.hub-mark) { width: 106px; height: 106px; border: 3px solid var(--surface); border-radius: 30px; background: var(--surface); transform: rotate(-7deg); box-shadow: 3px 5px 0 color-mix(in srgb, var(--accent) 18%, transparent); }
+html[data-style="mahiro"] :is(.resource-glyph,.hub-mark) { font-size: 36px; font-weight: 750; color: var(--accent); }
+html[data-style="mahiro"] :is(.resource-body,.hub-body) { padding: 28px; }
+html[data-style="mahiro"] :is(.resource-tag,.hub-tag,.platform-label) { color: var(--mahiro-berry); }
+html[data-style="mahiro"] :is(.resource-arrow,.hub-arrow) { font-size: 18px; color: var(--accent); }
+html[data-style="mahiro"] :is(.resource-card,.hub-card) h3 { font-size: 24px; line-height: 1.4; }
+html[data-style="mahiro"] :is(.resource-domain,.hub-domain) { border-top: 1px dashed var(--line); overflow-wrap: anywhere; }
+html[data-style="mahiro"] .platform-art { border: 1px dashed var(--line); border-radius: 22px; box-shadow: inset 0 0 0 7px var(--surface); }
+html[data-style="mahiro"] .download-content h3 { font-weight: 750; line-height: 1.35; }
+html[data-style="mahiro"] .detail { border-radius: 9px; background: var(--wash); color: var(--ink); }
+html[data-style="mahiro"] :is(.download-button,.hero-action) { border-radius: 15px; background: var(--accent); color: var(--on-accent); box-shadow: 0 4px 0 color-mix(in srgb, var(--accent) 28%, var(--bg)); }
+html[data-style="mahiro"] .download-button svg { flex: none; }
+html[data-style="mahiro"] :is(.notice,.next-step,.empty) { background: var(--surface); border: 1px dashed var(--line); border-radius: 20px; }
+
+/* Only decoration changes here. Do not change width/left/transform/padding math. */
+html[data-style="mahiro"] :is(.filters,.segmented,.platform-tabs) { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 3px 0 var(--wash); }
+html[data-style="mahiro"] :is(.filters,.segmented,.platform-tabs) button { border-radius: 13px; }
+html[data-style="mahiro"] .filters button.active { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+html[data-style="mahiro"] :is(.segmented,.platform-tabs)::before { border: 1px solid var(--accent); border-radius: 13px; background: var(--accent); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+:root[data-style="mahiro"][data-theme="dark"] .platform-tabs::before { background: var(--accent); box-shadow: none; }
+html[data-style="mahiro"] :is(.segmented,.platform-tabs) button:is(.active,.active:hover),
+html[data-style="mahiro"] .platform-tabs button.active :is(svg,.tab-apple) { color: var(--on-accent); }
+html[data-style="mahiro"] .search { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 3px 0 var(--wash); }
+html[data-style="mahiro"] .search svg { color: var(--mahiro-berry); }
+html[data-style="mahiro"] .search input { min-width: 0; }
+html[data-style="mahiro"] .search input::placeholder { color: var(--muted); opacity: 1; }
+html[data-style="mahiro"] footer { background: var(--glass); border-top: 1px dashed var(--line); }
+html[data-style="mahiro"] footer a { color: var(--accent); }
+html[data-style="mahiro"] .mahiro-credit { max-width: 1120px; margin: 22px auto 0; padding-inline: 24px; color: var(--muted); font-size: 11px; line-height: 1.9; }
+html[data-style="mahiro"] .mahiro-credit a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+
+html[data-style="mahiro"] .settings-panel { border: 1px solid var(--line); border-radius: 28px; background: var(--surface); box-shadow: 0 24px 90px #39203740; }
+html[data-style="mahiro"] .settings-panel::backdrop { background: #37243a80; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+html[data-style="mahiro"] .settings-head { background: var(--surface); border-bottom: 2px dashed var(--line); }
+html[data-style="mahiro"] .settings-head h2 { color: var(--mahiro-berry); }
+html[data-style="mahiro"] .setting-label { color: var(--mahiro-berry); }
+html[data-style="mahiro"] .style-choice { border-radius: 18px; }
+html[data-style="mahiro"] .style-choice[aria-pressed="true"] { background: var(--soft); }
+html[data-style="mahiro"] .swatch { border-radius: 13px; background: var(--surface); }
+html[data-style="mahiro"] .swatch-dot { border-radius: 50% 50% 35% 35%; }
+html[data-style="mahiro"] .swatch[data-accent-choice="graphite"] .swatch-dot { background: #5e505e; }
+html[data-style="mahiro"] .swatch[data-accent-choice="blue"] .swatch-dot { background: #316b89; }
+html[data-style="mahiro"] .swatch[data-accent-choice="violet"] .swatch-dot { background: #775197; }
+html[data-style="mahiro"] .swatch[data-accent-choice="green"] .swatch-dot { background: #34705b; }
+html[data-style="mahiro"] .swatch[data-accent-choice="orange"] .swatch-dot { background: #976028; }
+html[data-style="mahiro"][data-theme="dark"] .swatch[data-accent-choice="graphite"] .swatch-dot { background: #e0cddd; }
+html[data-style="mahiro"][data-theme="dark"] .swatch[data-accent-choice="blue"] .swatch-dot { background: #a7d7ee; }
+html[data-style="mahiro"][data-theme="dark"] .swatch[data-accent-choice="violet"] .swatch-dot { background: #d8b7f2; }
+html[data-style="mahiro"][data-theme="dark"] .swatch[data-accent-choice="green"] .swatch-dot { background: #a9d9c3; }
+html[data-style="mahiro"][data-theme="dark"] .swatch[data-accent-choice="orange"] .swatch-dot { background: #f3cf9d; }
+
+@media (max-width: 850px) {
+  html[data-style="mahiro"] .hero { width: calc(100% - 36px); padding: 120px 8px 48px; min-height: 0; text-align: center; }
+  html[data-style="mahiro"] .announcement + .hero { padding-top: 40px; min-height: 0; }
+  html[data-style="mahiro"] .announcement[hidden] + .hero { padding-top: 120px; min-height: 0; }
+  html[data-style="mahiro"] .hero > :not(.mahiro-scene) { max-width: 100%; }
+  html[data-style="mahiro"] .hero .mahiro-scene { position: relative; top: auto; right: auto; width: min(300px, calc(100% - 24px)); margin: 0 auto 40px; transform: rotate(2deg); padding: 9px 9px 38px; }
+  html[data-style="mahiro"] .hero h1 { font-size: 36px; }
+  html[data-style="mahiro"] .hero :is(.intro,p:not(.eyebrow)) { font-size: 14px; margin: 22px auto; }
+  html[data-style="mahiro"] .hero::after { margin-inline: auto; }
+  html[data-style="mahiro"] .stats { justify-content: center; }
+}
+@media (max-width: 650px) {
+  html[data-style="mahiro"] .nav { padding-inline: 14px; gap: 10px; }
+  html[data-style="mahiro"] .brand { font-size: 16px; }
+  html[data-style="mahiro"] .brand-mark { display: none; }
+  html[data-style="mahiro"] .nav-title { font-size: 12px; padding: 6px 8px; }
+  html[data-style="mahiro"] .settings-trigger { min-width: 44px; padding: 8px; justify-content: center; }
+  html[data-style="mahiro"] .settings-trigger span { display: none; }
+  html[data-style="mahiro"] .featured-card { padding: 27px; min-height: 285px; }
+  html[data-style="mahiro"] .featured-card h3 { font-size: 28px; }
+  html[data-style="mahiro"] :is(.hub-body,.resource-body) { padding: 25px; }
+  html[data-style="mahiro"] .download-card { padding: 24px; gap: 26px; }
+  html[data-style="mahiro"] .download-content h3 { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-style="mahiro"] *, html[data-style="mahiro"] *::before, html[data-style="mahiro"] *::after { animation: none !important; transition: none !important; }
+}

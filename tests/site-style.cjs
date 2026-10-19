@@ -1,16 +1,17 @@
-/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha|blackgold|columbina]. */
+/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha|blackgold|columbina|mahiro]. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const testedStyle = process.argv[3] || 'terminal';
-assert.ok(['terminal', 'mecha', 'blackgold', 'columbina'].includes(testedStyle));
+assert.ok(['terminal', 'mecha', 'blackgold', 'columbina', 'mahiro'].includes(testedStyle));
 const initial = { style: testedStyle, ...{
   mecha: { theme: 'light', accent: 'orange' },
   terminal: { theme: 'dark', accent: 'green' },
   blackgold: { theme: 'dark', accent: 'orange' },
-  columbina: { theme: 'light', accent: 'blue' }
+  columbina: { theme: 'light', accent: 'blue' },
+  mahiro: { theme: 'light', accent: 'violet' }
 }[testedStyle] };
 const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
 const problems = [];
@@ -32,6 +33,9 @@ async function snapshot(page) {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
   try {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', colorScheme: 'light' });
+    // Geometry/palette tests use the exact archived CDN files; artwork networking is tested separately.
+    await context.route('https://i0.hdslb.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/portrait.jpg', contentType: 'image/jpeg' }));
+    await context.route('https://c-ssl.dtstatic.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/background.jpg', contentType: 'image/jpeg' }));
     const page = await context.newPage();
     page.on('pageerror', error => problems.push(error.message));
     page.on('response', response => { if (response.status() >= 400) problems.push(response.url() + ': ' + response.status()); });
@@ -58,7 +62,7 @@ async function snapshot(page) {
         assert.equal(page.url(), url, file + ': platform navigated');
         assert.equal(await tab.getAttribute('aria-selected'), 'true');
         for (const href of await page.locator('.download-button:visible').evaluateAll(elements => elements.map(element => element.href))) assert.match(href, /^https:\/\//);
-        if (['blackgold', 'columbina'].includes(testedStyle) && ['genshin-download.html', 'zzz-download.html', 'hsr-download.html', 'endfield-download.html'].includes(file)) {
+        if (['blackgold', 'columbina', 'mahiro'].includes(testedStyle) && ['genshin-download.html', 'zzz-download.html', 'hsr-download.html', 'endfield-download.html'].includes(file)) {
           const buttons = await page.locator('.download-button:visible').evaluateAll(es => es.map(e => ({ background: getComputedStyle(e).backgroundColor, color: getComputedStyle(e).color, height: e.getBoundingClientRect().height, top: e.getBoundingClientRect().top })));
           if (buttons.length === 2) assert.deepEqual(buttons[0], buttons[1], file + ': equally important downloads changed hierarchy or alignment');
         }
@@ -127,7 +131,17 @@ async function snapshot(page) {
       await page.locator('[data-style-choice=' + style + ']').click();
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
-    console.log('PASS all five styles keep independent preferences');
+    await page.locator('[data-style-choice=mahiro]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'violet', style: 'mahiro' });
+    await page.locator('[data-accent-choice=orange]').click();
+    await page.locator('[data-mode=dark]').click();
+    await page.goto(base + '/minecraft-download.html');
+    await page.locator('#settings-trigger').click();
+    for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark'], ['columbina', 'violet', 'dark'], ['mahiro', 'orange', 'dark']]) {
+      await page.locator('[data-style-choice=' + style + ']').click();
+      assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
+    }
+    console.log('PASS all six styles keep independent preferences');
 
     await page.evaluate(() => {
       localStorage.setItem('jy-style', 'classic');
@@ -148,6 +162,7 @@ async function snapshot(page) {
         assert.equal(await page.locator('[data-style-text=mecha]').textContent(), { 'zh-CN': '科技', 'zh-TW': '科技', en: 'Technology', ja: 'テクノロジー' }[language]);
         assert.equal(await page.locator('[data-style-text=blackgold]').textContent(), { 'zh-CN': '黑金典藏', 'zh-TW': '黑金典藏', en: 'Black & Gold', ja: 'ブラック＆ゴールド' }[language]);
         assert.equal(await page.locator('[data-style-text=columbina]').textContent(), { 'zh-CN': '哥伦比娅', 'zh-TW': '哥倫比婭', en: 'Columbina', ja: 'コロンビーナ' }[language]);
+        assert.equal(await page.locator('[data-style-text=mahiro]').textContent(), { 'zh-CN': '绪山真寻', 'zh-TW': '緒山真尋', en: 'Mahiro Oyama', ja: '緒山まひろ' }[language]);
         for (const mode of ['light', 'dark', 'auto']) for (const accent of ['graphite', 'blue', 'violet', 'green', 'orange']) {
           await page.evaluate(({ mode, accent }) => {
             document.querySelector('[data-mode="' + mode + '"]').click();
@@ -180,6 +195,7 @@ async function snapshot(page) {
             assert.ok(result.pink >= 4.5, 'berry label contrast');
             assert.ok(result.indicatorsMatch, file + ': shared styles overrode columbina indicator color');
           }
+          if (testedStyle === 'mahiro') assert.ok(result.indicatorsMatch, file + ': shared styles overrode mahiro indicator color');
           assert.equal(result.meta, result.bg);
           assert.equal(result.overflowing, false, file + ': settings overflow');
           assert.equal(result.label, { 'zh-CN': '风格调整', 'zh-TW': '風格調整', en: 'Visual style', ja: 'スタイル' }[language]);

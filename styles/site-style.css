@@ -41,6 +41,15 @@
 .style-preview-columbina i:last-child { background: #f4faffde; border-color: #fff; }
 .style-preview-columbina::after { content: ""; position: absolute; right: 10px; top: 19px; width: 18px; height: 18px; border-radius: 50%; box-shadow: -5px 3px 0 #fff; transform: rotate(-20deg); }
 
+.style-choice[data-style-choice="mahiro"] { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 110px) minmax(0, 1fr); column-gap: 14px; align-items: center; }
+.style-choice[data-style-choice="mahiro"] .style-preview { grid-row: span 2; }
+.style-choice[data-style-choice="mahiro"] .style-choice-title { margin-top: 0; gap: 4px; font-size: 13px; overflow-wrap: anywhere; }
+.style-preview-mahiro { background: radial-gradient(#fff 1px, transparent 1px) 0 0 / 8px 8px, linear-gradient(125deg, #faecc4, #f5c4d7, #ddd4f2); border-color: #d9c3d0; border-radius: 13px; }
+.style-preview-mahiro i:first-child { background: #fffdfb; border: 1px solid #d9c3d0; box-shadow: 0 2px 0 #f5c4d7; }
+.style-preview-mahiro i:nth-child(2) { background: #775197; }
+.style-preview-mahiro i:last-child { background: #fffdfb; border: 1px dashed #d9c3d0; border-radius: 8px; }
+.style-preview-mahiro::after { content: "✦"; position: absolute; top: 22px; right: 12px; color: #a23c65; font-size: 15px; }
+
 /* Terminal palette: five accents, each with light/dark contrast.
    The extra attribute specificity wins over legacy :root[data-theme][data-accent]. */
 :root[data-style="terminal"][data-style] {

@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-19-mahiro-style', date: '2026-10-19', content: {
+      'zh-CN': ['新增绪山真寻主题', ['网站设置新增“绪山真寻”：奶油白、樱花粉、浅紫与薄荷色，搭配动画相片、淡化街景背景和贴纸手账卡片；也有柔和的深色模式。', '角色图片优先使用 B 站和堆糖国内图片源，附本地备用图与来源说明。六种风格独立保存偏好，原有功能和四语言保持可用。']],
+      'zh-TW': ['新增緒山真尋主題', ['網站設定新增「緒山真尋」：奶油白、櫻花粉、淺紫與薄荷色，搭配動畫相片、淡化街景背景和貼紙手帳卡片；亦提供柔和的深色模式。', '角色圖片優先使用 B 站與堆糖中國大陸圖片來源，附本地備用圖及來源說明。六種風格獨立儲存偏好，原有功能與四語言保持可用。']],
+      en: ['Introducing Mahiro Oyama', ['Choose Mahiro Oyama in site settings for cream, pink, lilac and mint stationery, anime photo cards and a soft street-scene backdrop, with a cozy plum dark mode.', 'Artwork loads from Bilibili and Duitang image CDNs in China, with local fallbacks and source credits. All six styles keep independent preferences; existing features and four languages are preserved.']],
+      ja: ['緒山まひろのテーマを追加', ['サイト設定に「緒山まひろ」を追加しました。クリーム、ピンク、ラベンダー、ミントの手帳風デザインに、アニメの写真カードと淡い街並みの背景を合わせ、穏やかなダークモードも用意しました。', '画像は中国向けの bilibili・堆糖の CDN から読み込み、ローカルの予備画像と出典も用意しています。6つのスタイルは設定を個別に保存し、既存の機能と4言語を維持します。']]
+    }
+  },
+  {
     id: '2026-10-18-columbina-miyoushe-source', date: '2026-10-18', content: {
       'zh-CN': ['哥伦比娅主题图片来源更新', ['主题图片保持不变，页脚来源入口已切换为中国大陆米游社官方页面。', '简体中文、繁体中文、英语和日语说明已同步，主题配色、布局与功能均未改变。']],
       'zh-TW': ['哥倫比婭主題圖片來源更新', ['主題圖片保持不變，頁尾來源入口已切換為中國大陸米遊社官方頁面。', '簡體中文、繁體中文、英語及日語說明已同步，主題配色、版面與功能均未改變。']],

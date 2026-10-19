@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-18
+> 最后更新：2026-10-19
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -300,10 +300,12 @@
 - `jy-accent`
 - `jy-theme`
 - `jy-language`
-- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina`
-- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
+- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina` / `mahiro`
+- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`、`jy-style-mahiro`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
 
 2026-10-18 新增第五种“哥伦比娅”（`columbina`），默认浅色蓝色，提供五色和三档深浅模式，深色为午夜蓝。角色原画本地保存在 `assets/themes/columbina/character.png`（1024×1024，约 1.7 MB）；站内对外来源入口已改为中国大陆米游社官方页面，原文件校验与历史归档来源见同目录 README。共享脚本仅在选择该主题时创建装饰图与来源页脚，离开主题即隐藏；其他四种风格不请求图片。页面自身内容、链接与原图均未改写，不使用手机截图中的系统文字或布局。中文显示名称采用角色名“哥伦比娅”（用户输入“哥伦比亚”），繁中“哥倫比婭”、英语“Columbina”、日语“コロンビーナ”。
+
+2026-10-19 新增第六种“绪山真寻”（`mahiro`），默认浅色紫色。奶油白、樱花粉、淡紫与薄荷绿组合成日常手账风，配动画首屏相片与低透明度街景背景；深色为柔和梅紫。素材在选择该主题时直接请求 Bilibili `i0.hdslb.com` / 堆糖 `c-ssl.dtstatic.com` 国内图片 CDN，报错或 8 秒无响应则使用 `assets/themes/mahiro/` 的相同本地 JPEG，再失败则回退 CSS 装饰。页脚同时注明来源、动画版权和非官方身份。所有视觉规则限定 `data-style="mahiro"`；不改变原五套风格、不覆盖滑块尺寸算法。当前执行环境并非大陆网络探针，不把下载成功等同于全国连通保证。
 
 风格脚本位于各页 `<head>`，先于正文绘制恢复 `data-style`；DOM 就绪后向设置顶部插入风格选项。监听根节点语言、主题、颜色以同步新设置与 Safari `theme-color`，并在后退缓存恢复时读取最新偏好。浏览器禁止 localStorage 时仍能在当前页面切换，无法跨页面持久保存是预期限制。
 
@@ -346,11 +348,14 @@
 | `styles/blackgold.css` | 独立黑金典藏视觉、深色与象牙白浅色调色板、五色与响应式；所有规则限定在 `data-style="blackgold"` 下 |
 | `styles/columbina.css` | 独立哥伦比娅主题：月光蓝白/午夜蓝、角色首屏与淡化背景、星月羽翼图案、五色与响应式；限定 `data-style="columbina"` |
 | `assets/themes/columbina/` | 角色原画 PNG 与来源/版权 README；不属于网站 favicon 素材 |
+| `styles/mahiro.css` | 独立绪山真寻手账主题、粉紫/梅紫深浅色、相片构图与全站控件；限定 `data-style="mahiro"` |
+| `assets/themes/mahiro/` | 国内 CDN 图片的同字节备用 JPEG、来源/版权/哈希记录 |
 | `scripts/site-style.js` | 四语言风格设置、首次绘制恢复、分风格偏好保存及后退缓存恢复 |
 | `tests/site-style.cjs` | 本地 Chromium 回归：经典样式对照、17 页布局、平台切换、翻译/配色/模式、搜索与存储 |
 | `tests/slider-geometry.cjs` | 全站滑块几何回归：每个位置的指示块边缘对齐、端点留白、窄屏长文案与减少动态效果 |
-| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技/黑金典藏主要组件在各配色模式下的计算样式未变 |
+| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技/黑金典藏/哥伦比娅主要组件在各配色模式下的计算样式未变 |
 | `tests/columbina-art.cjs` | 哥伦比娅图片按需加载、17 页四宽度构图不遮字、来源说明、切换隐藏及加载失败降级 |
+| `tests/mahiro-art.cjs` | 真寻的真实图片请求域名、按需加载、17 页四宽度、四语言版权、图片失败和超时降级；`--live` 可额外验证实际 CDN 加载 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
@@ -399,6 +404,8 @@
 黑金典藏接入后，17 页的 `site-style.css`、`site-style.js` 与新增 `blackgold.css` 缓存号为 `20261018-blackgold1`；`mecha.css` 保持原缓存号。四种风格继续复用现有滑块几何规则。首页公告脚本也递增为 `20261018-blackgold1`。
 
 哥伦比娅接入后，17 页加载新增 `columbina.css`，并将它与共享 `site-style.css` / `site-style.js` 的缓存号设为 `20261018-columbina1`；其他独立主题 CSS 缓存不变。首页公告脚本同步递增。今后维护要覆盖五套风格，原四套视觉仍由各自作用域隔离。
+
+绪山真寻接入后，17 页新增 `mahiro.css`，并将它与共享 `site-style.css` / `site-style.js` 的缓存号设为 `20261019-mahiro1`；其他主题 CSS 原样保留。首页公告脚本同步更新。今后维护需覆盖六套风格。
 
 ## 7. 已完成的主要需求历史
 
@@ -972,3 +979,15 @@
 - 17 个正式页面的哥伦比娅主题页脚来源链接改为米游社官方文章 <https://www.miyoushe.com/ys/article/71350081>；简中、繁中、英语、日语来源文字同步为米游社，主题配色、背景、构图、图片文件和其他四种风格均不变。国内角色资料核验入口为米游社·原神观测枢 <https://baike.mihoyo.com/ys/obc/content/507505/detail>。
 - 涉及文件：`scripts/site-style.js`、17 个正式 HTML 的共享脚本缓存号、`scripts/app.js`、`tests/columbina-art.cjs`、`assets/themes/columbina/README.md`、`README.md` 与本文件。首页按规则新增四语言普通公告并更新 `app.js` 缓存号。
 - 验证重点：图片哈希必须保持上述值；四语言页脚均显示米游社来源，链接须精确指向国内页面；经典、终端、科技与黑金典藏不得请求哥伦比娅图片；部署后核验 GitHub Pages 返回的新脚本缓存号和来源链接。
+
+### 2026-10-19：新增独立绪山真寻主题
+
+- 需求：参照《お兄ちゃんはおしまい！》绪山真寻的动画配色与用户参考图，新增可切换的完整主题，保留原有功能，图片使用国内可直连来源。
+- 修改前于 **2026-10-19 10:31:00 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-19_10-31-00_UTC` 与带注释标签 `backup-2026-10-19_10-31-00_UTC`；分支和剥离标签均指向 `b1106f1bc32023250a06fc694a80cd7c5b70e563`。修改前工作区干净，远端与本地 `main` 一致。
+- 实现：独立 `mahiro` 作用域，奶油底、粉紫与薄荷点缀、胶带相片框、贴纸卡片、点阵/虚线手账纹理；覆盖首页、资源专区、下载页、平台/渠道控件、搜索、公告和设置。默认浅色紫色，支持五种主题色、三档显示模式、四语言、跨页独立偏好与后退缓存恢复。保留原五套主题文件和全部目的链接，不改变默认经典主题。
+- 角色图片来自 B 站/堆糖国内 CDN，实际运行时直接请求国内域名；与前一次仅更改来源入口的记录不同。本地保存相同字节备用图（合计约 502 KiB），错误/8 秒超时回退；全部失败只显示纯 CSS 装饰，其他风格无新图片请求。版权和来源记录在 `assets/themes/mahiro/README.md`，页面不暗示官方授权。
+- 涉及文件：17 个正式 HTML 的新 CSS 引用与共享资源版本、`styles/mahiro.css`、`styles/site-style.css` 新主题预览、`scripts/site-style.js`、`scripts/app.js` 四语言普通公告、`assets/themes/mahiro/`、相关测试、README 与本文件。其他角色素材及其他独立主题 CSS 不变。
+- 验证：`tests/site-style.cjs … mahiro` 通过全部 17 页、320/390/768/1440 宽度、300 组配色/语言/显示模式组合、六主题偏好隔离、搜索分类、公告与平台按钮检查；`tests/style-isolation.cjs … b1106f1` 通过原五种风格 850 组计算样式对照。对照脚本增加等待布局稳定，避免尚未解析的 auto margin 误报；网站无相应旧主题改动。
+- 滑块检查覆盖 17 页 × 六风格 × 四宽度 × 四语言、每个选项与两端留白；环境重启前 14 页通过，重启后通过显式页参数续跑 `minecraft.html,zzz-download.html,zzz.html`，剩余 2304 位置及动画终点也通过。`tests/mahiro-art.cjs` 的确定性与 `--live` 实连模式均通过 17 页图片构图、四语言来源、按需请求、旧风格隐藏、远端失败/全部失败/8 秒超时降级；实连使用当前环境代理 CA 的限定 SPKI 信任，没有关闭全局证书校验。`tests/columbina-art.cjs` 也通过。
+- 静态核验：17 页各引用一次新 CSS，原页面内容链接未变，全部脚本语法通过，`git diff --check` 通过；`card-controls.css`、`mecha.css`、`blackgold.css`、`columbina.css` 与基线逐字节相同。哥伦比娅原图 SHA-256 仍为 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`。已人工查看手机首页、桌面全页、深色原神下载页截图。发布目标仍为 `main` 分支根目录；发布后检查线上资源版本和备用图哈希。
+- 限制：没有中国大陆各运营商实机网络，也没有真实 iPhone Safari；国内 CDN 可达性按当前环境核验，需用户在其设备上确认。没有将屏幕照片中的系统界面、字幕或设备信息复制到网站。
