@@ -24,6 +24,8 @@
 
 首页资源数据位于 `scripts/app.js` 的 `resources` 数组，公告位于同文件的 `announcements` 数组。每项资源包含链接、域名、分类、封面字符以及四种语言的标题与说明。
 
+首页筛选共四类：开发、学习、工具、游戏（另有“全部”）。工具类统一包含电脑工具专区、Jisho 与 Can I use，避免同名筛选分散资源。下载页平台/渠道栏支持左右方向键、Home/End 与单一 Tab 焦点入口；原有鼠标及触屏交互不变。iOS 图标继续使用原生 Apple 字符和镂空样式，非 Apple 字体环境由 `assets/fonts/` 中的 OFL 单字形字体兼容。
+
 Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.html`、`minecraft-china.html`、`minecraft-mods.html`、`minecraft-launchers.html`、`minecraft-mobile.html` 和 `minecraft-seed.html`。国服下载页的 Android、Windows 与 iOS 选项卡只切换内容，下载按钮分别前往网易官方下载入口与中国区 App Store。种子查询页不设选项卡，两个并列按钮分别前往 Minecraft Search 与 Chunkbase。对应逻辑集中在 `scripts/`（专区使用 `scripts/minecraft-hub.js`，国服下载页使用 `scripts/minecraft-china.js`，种子查询页使用 `scripts/minecraft-seed.js`）。电脑工具专区位于 `computer-tools.html`，四语言与设置逻辑位于 `scripts/computer-tools.js`。原神、绝区零、崩铁与终末地专区及下载页逻辑同样位于 `scripts/`。旧版 `minecraft.js` 与 `preview.html` 已归档到 `archive/legacy/`，不参与正式页面。详细维护约定见 `CODEX_HANDOFF.md`。
 
 十七个正式页面共用 `styles/card-controls.css` 中的卡片图片区样式；首页“每周精选”在其中使用单块浅色底板与右上角图形布局，资源库普通卡片不受该规则影响。新的浅色玻璃选择器只用于下载页面的 `.platform-tabs` 平台/渠道选择，不覆盖主页分类或设置面板等其他分段控件。页面其余基础样式仍在各自 HTML 中。修改这份共享样式后，须同步更新全部正式页面的 CSS 缓存版本号。

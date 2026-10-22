@@ -1,5 +1,19 @@
 /* Shared card imagery and segmented control geometry across all published pages. */
 
+/* Preserve the native Apple glyph on Apple platforms. Other platforms use a
+   locally hosted, single-glyph OFL font instead of showing a missing-character box. */
+@font-face {
+  font-family: "JY Apple Fallback";
+  src: url('/assets/fonts/jy-apple-fallback.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+F8FF;
+}
+html :is(.tab-apple, .platform-art .apple-symbol) {
+  font-family: -apple-system, BlinkMacSystemFont, "JY Apple Fallback", sans-serif;
+}
+
 /* Pseudo-elements are not covered by the pages' * { box-sizing: border-box }.
    Include the indicator border in its grid-track width, and therefore in each
    translateX(100%) step, so the first and last positions have equal insets. */

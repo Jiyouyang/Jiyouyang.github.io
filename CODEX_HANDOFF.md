@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-19
+> 最后更新：2026-10-22
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -13,6 +13,7 @@
 
 - 今后本站所有 iOS 相关选项卡和内容卡片，都以 2026-10-17 用户提供的图二，即原神等旧下载页的 iOS 图标效果为准。直接复用 `genshin-download.html` / `scripts/genshin-download.js` 的 Apple 字符 ``、`.tab-apple` / `.apple-symbol` 标签及其描边 CSS；不要改用手机轮廓、近似 Apple SVG 或重新手绘图标。
 - 新增或修改 iOS 入口时，分别检查选项卡的小图标和卡片中的大图标；四语言、五种主题色及三档外观都要保持对应效果。选项卡顺序与布局另按具体页面需求确定，不把“图标一致”误当作所有页面必须更改平台顺序。
+- 2026-10-22 兼容修复：仍保留上述原生字符、尺寸与镂空描边；在 Apple 系统字体后添加 `assets/fonts/jy-apple-fallback.woff2` 单字形后备字体，避免非 Apple 字体环境显示缺字方框。该字体是按 OFL 重命名的 Font Awesome Apple 字形子集，不分发 Apple 系统字体、不替换成手机图标或手绘 SVG。许可与来源见 `assets/fonts/`。
 
 开始新任务前应先阅读本文件，再检查线上分支是否有更新；不要依据聊天记忆覆盖仓库中的较新内容。完成后应进行与改动风险相称的验证，并发布到 `main`（除非用户明确要求只在本地保存）。
 
@@ -61,8 +62,8 @@
 - 搜索按钮与设置按钮之间保留距离，避免移动端误触。
 - 手机端导航的搜索和齿轮按钮均有 44px 点按区域；设置入口在窄屏显示齿轮图标，可访问性名称仍为“网站设置”。
 - 点击顶部搜索按钮会平滑滚动到资源搜索栏并主动聚焦输入框，以唤起系统键盘。
-- 分类：全部、开发、学习、工具、电脑工具、游戏。
-- 首页“电脑工具”分类只显示一张站内专区卡片，点击进入 `/computer-tools.html`；Chrome、Python、Steam、图吧工具箱、IDM 下载器、IDM_Cracker、Watt 工具箱、v2rayN、The Pirate Bay 与 Nyaa 的外链卡片集中放在专区内。
+- 分类：全部、开发、学习、工具、游戏；实际资源分类为四类。“工具”合并原来两个同名筛选入口，包含电脑工具专区、Jisho 与 Can I use。
+- 首页电脑工具站内卡片仍进入 `/computer-tools.html`；Chrome、Python、Steam、图吧工具箱、IDM 下载器、IDM_Cracker、Watt 工具箱、v2rayN、The Pirate Bay 与 Nyaa 的外链卡片集中放在专区内。
 - 资源支持按标题、简介、域名和分类即时检索。
 - 搜索支持按资源名称、简介、域名及分类即时筛选；升级版特有的搜索清空按钮和键盘快捷聚焦已随回滚移除。
 - Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地资源卡片依次位于资源列表前列，分别进入站内专区。
@@ -356,6 +357,8 @@
 | `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技/黑金典藏/哥伦比娅主要组件在各配色模式下的计算样式未变 |
 | `tests/columbina-art.cjs` | 哥伦比娅图片按需加载、17 页四宽度构图不遮字、来源说明、切换隐藏及加载失败降级 |
 | `tests/mahiro-art.cjs` | 真寻的真实图片请求域名、按需加载、17 页四宽度、四语言版权、图片失败和超时降级；`--live` 可额外验证实际 CDN 加载 |
+| `tests/small-bugfixes.cjs` | 四语言工具合并、保留全部资源、九页平台键盘/点击同步、实际字体字形加载与六主题窄屏检查 |
+| `assets/fonts/` | 保留原生 Apple 字符的单字形兼容字体、OFL 许可与来源说明 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
 | `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
@@ -991,3 +994,14 @@
 - 滑块检查覆盖 17 页 × 六风格 × 四宽度 × 四语言、每个选项与两端留白；环境重启前 14 页通过，重启后通过显式页参数续跑 `minecraft.html,zzz-download.html,zzz.html`，剩余 2304 位置及动画终点也通过。`tests/mahiro-art.cjs` 的确定性与 `--live` 实连模式均通过 17 页图片构图、四语言来源、按需请求、旧风格隐藏、远端失败/全部失败/8 秒超时降级；实连使用当前环境代理 CA 的限定 SPKI 信任，没有关闭全局证书校验。`tests/columbina-art.cjs` 也通过。
 - 静态核验：17 页各引用一次新 CSS，原页面内容链接未变，全部脚本语法通过，`git diff --check` 通过；`card-controls.css`、`mecha.css`、`blackgold.css`、`columbina.css` 与基线逐字节相同。哥伦比娅原图 SHA-256 仍为 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`。已人工查看手机首页、桌面全页、深色原神下载页截图。发布目标仍为 `main` 分支根目录；发布后检查线上资源版本和备用图哈希。
 - 限制：没有中国大陆各运营商实机网络，也没有真实 iPhone Safari；国内 CDN 可达性按当前环境核验，需用户在其设备上确认。没有将屏幕照片中的系统界面、字幕或设备信息复制到网站。
+
+### 2026-10-22：小范围修复分类、图标兼容与键盘操作
+
+- 需求：修复检测发现的问题，维持总体内容、设计与功能。
+- 修改前于 **2026-10-22 10:30:18 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-22_10-30-18_UTC` 与带注释标签 `backup-2026-10-22_10-30-18_UTC`；两者剥离后均指向 `807bd5032cb5f9cde80ae4e16541e6da325d8a7d`。工作区干净，远端 `main` 同步。
+- 首页将两个同名“工具”筛选合并，电脑工具资源的分类并入 `tools`；保留全部 14 项资源及原目的链接、专区名称和各主题规则。分类统计同步为四类，四语言共用一个工具按钮。
+- iOS 图标保留 `U+F8FF` 原生 Apple 字符与镂空描边。在系统字体后加入 644 字节同源 OFL 单字形后备字体，修复非 Apple 字体环境的缺字。源字体 Font Awesome Free Brands 6.7.2，字形从 `U+F179` 映射到 `U+F8FF`，修改版重命名为 JY Apple Fallback；原许可完整保留在 `assets/fonts/LICENSE-font-awesome.txt`。
+- 共享 `site-style.js` 向九个下载页现有 `role=tablist` 平台/渠道栏加入左右方向键循环、Home/End 和单一 Tab 焦点入口；复用已有点击处理函数更新卡片与按钮，不改变链接、默认平台或选项卡外观。监听 `aria-selected` 同步鼠标与键盘焦点顺序。
+- 哥伦比娅图片源仍未完成：原图保持不变（SHA-256 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`）。核验原米游社文章、睁眼版本文章、公开接口及普通浏览器，接口返回 403/503，网页只提供 Loading；观测枢引用接口返回内容不存在，尝试的国内官方静态镜像为 404。未得到可验证与当前图一致的米游社 CDN 直链，不能通过改页脚或换成另一张图冒充完成。为维持用户指定图片和整体效果，本次不更改现有图片请求地址，后续需可核验的同图国内米游社直链。
+- 涉及文件：`index.html`、`scripts/app.js`、`scripts/site-style.js`、`styles/card-controls.css`、`assets/fonts/`、17 页共享资源缓存号、`tests/site-style.cjs`、`tests/small-bugfixes.cjs` 与本文件。新增四语言普通更新公告，仅声明实际完成的三项修复。共享 JS/CSS 与首页公告缓存号提升至 `20261022-bugfix1`，各独立主题 CSS 保持不变。
+- 验证：`tests/small-bugfixes.cjs` 通过四语言单一工具入口、三个工具资源及全部 14 项资源保留、九页键盘前后循环/Home/End/鼠标选择与焦点同步、六主题 320/390px 窄屏；通过 Chromium 实际字体报告确认两个苹果图标确实渲染了后备字形，原字符和镂空描边均保留。`tests/site-style.cjs … mahiro` 通过全部 17 页、300 组配色/语言/模式及搜索、公告、存储和主题偏好隔离。已人工查看修复后的平台栏与大图标截图；脚本语法和 `git diff --check` 通过。原五个独立主题 CSS、资源目的链接及哥伦比娅原图不改。未发现阻断本次三项修复发布的问题；米游社同图直链是明确保留的未完成项。

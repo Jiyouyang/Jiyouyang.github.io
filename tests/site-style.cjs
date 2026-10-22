@@ -217,8 +217,9 @@ async function snapshot(page) {
     await page.locator('#search').fill('Minecraft');
     assert.equal(await page.locator('.resource-card').count(), 1);
     await page.locator('#search').fill('');
-    await page.locator('[data-category=computer]').click();
-    assert.equal(await page.locator('.resource-card').count(), 1);
+    await page.locator('[data-category=tools]').click();
+    assert.equal(await page.locator('.resource-card').count(), 3);
+    assert.ok((await page.locator('.resource-card').evaluateAll(es => es.map(e => e.getAttribute('href')))).includes('/computer-tools.html'));
     await page.locator('[data-category=all]').click();
     await page.locator('.announcement summary').click();
     assert.equal(await page.locator('.announcement').getAttribute('open'), '');

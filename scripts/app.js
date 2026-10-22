@@ -136,7 +136,7 @@ const resources = [
     en: ['Can I use', 'Check browser support for web features across versions and platforms.'],
     ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
   }},
-  { id: 'computer', category: 'computer', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
+  { id: 'computer', category: 'tools', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
     'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Python、Steam、图吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盗船 BT 下载和 Nyaa BT 下载。'],
     'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Python、Steam、圖吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盜船 BT 下載和 Nyaa BT 下載。'],
     en: ['PC Tools', 'Open the PC Tools hub for Chrome, Python, Steam, Tuba Toolbox, IDM, IDM_Cracker, Watt Toolkit, v2rayN, The Pirate Bay, and Nyaa.'],
@@ -183,6 +183,14 @@ const resources = [
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-10-22-small-bugfixes', date: '2026-10-22', content: {
+      'zh-CN': ['分类与操作体验修复', ['首页重复的“工具”分类已合并，原有资源全部保留，分类总数同步为四类。', 'iOS 镂空苹果图标新增本地字体后备，修复非 Apple 字体环境的缺字问题；下载页平台选项卡支持左右方向键、Home 和 End，并保持点击与触屏操作。']],
+      'zh-TW': ['分類與操作體驗修復', ['首頁重複的「工具」分類已合併，原有資源全部保留，分類總數同步為四類。', 'iOS 鏤空蘋果圖示新增本地字型後備，修復非 Apple 字型環境的缺字問題；下載頁平台選項卡支援左右方向鍵、Home 與 End，並保留點擊與觸控操作。']],
+      en: ['Category and interaction fixes', ['Merged the duplicate Tools filters while preserving all resources and updating the category total to four.', 'A local fallback font fixes missing outlined Apple icons on non-Apple font systems. Download tabs now support Left/Right, Home and End keys alongside existing mouse and touch controls.']],
+      ja: ['カテゴリーと操作性を修正', ['重複していた「ツール」を統合しました。リソースはすべて残し、カテゴリー数を4つに更新しました。', 'ローカルの代替フォントで Apple アイコンの文字欠けを修正しました。元の中抜き表示を維持し、ダウンロードのタブは左右キー・Home・End にも対応しました。クリックとタッチ操作も利用できます。']]
+    }
+  },
   {
     id: '2026-10-19-mahiro-style', date: '2026-10-19', content: {
       'zh-CN': ['新增绪山真寻主题', ['网站设置新增“绪山真寻”：奶油白、樱花粉、浅紫与薄荷色，搭配动画相片、淡化街景背景和贴纸手账卡片；也有柔和的深色模式。', '角色图片优先使用 B 站和堆糖国内图片源，附本地备用图与来源说明。六种风格独立保存偏好，原有功能和四语言保持可用。']],

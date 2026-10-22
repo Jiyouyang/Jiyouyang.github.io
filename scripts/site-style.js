@@ -102,6 +102,33 @@
       '</div><p class="style-hint" data-style-text="hint"></p>';
     body.prepend(section);
 
+    // Native button activation stays in each page script; add standard horizontal
+    // tab navigation and a single Tab stop to all download platform/channel lists.
+    document.querySelectorAll('.platform-tabs[role="tablist"]').forEach(group => {
+      const tabs = [...group.querySelectorAll('button[role="tab"]:not(:disabled)')];
+      function syncTabStops() {
+        const selected = tabs.find(tab => tab.getAttribute('aria-selected') === 'true') || tabs[0];
+        tabs.forEach(tab => { tab.tabIndex = tab === selected ? 0 : -1; });
+      }
+      group.addEventListener('keydown', event => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        const index = tabs.indexOf(event.target);
+        if (index < 0) return;
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        tabs[next].focus(); tabs[next].click(); syncTabStops();
+      });
+      new MutationObserver(syncTabStops).observe(group, {
+        subtree: true, attributes: true, attributeFilter: ['aria-selected']
+      });
+      syncTabStops();
+    });
+
     // Decorative art is created only when this style is selected: other styles
     // never request the character image. Existing page content stays untouched.
     let scene, credit;
