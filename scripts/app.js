@@ -184,6 +184,14 @@ const resources = [
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-10-23-furina-style', date: '2026-10-23', content: {
+      'zh-CN': ['新增芙宁娜主题', ['在网站设置的“哥伦比娅”与“绪山真寻”之间新增“芙宁娜”：枫丹蓝金、珍珠白、水纹、礼帽与歌剧舞台边框，配官方生日贺图，并支持深浅模式。', '图片优先从 B站 BWIKI 国内图片源加载，提供相同图片的本地备用。七套风格独立保存配色与显示模式，原有资源、平台切换及四语言功能保持可用。']],
+      'zh-TW': ['新增芙寧娜主題', ['網站設定在「哥倫比婭」與「緒山真尋」之間新增「芙寧娜」：楓丹藍金、珍珠白、水紋、禮帽與歌劇舞臺邊框，搭配官方生日賀圖，並支援深淺模式。', '圖片優先從 B站 BWIKI 中國大陸圖片來源載入，提供相同圖片的本地備用。七套風格獨立儲存配色與顯示模式，原有資源、平台切換及四語言功能保持可用。']],
+      en: ['Introducing Furina', ['Choose Furina between Columbina and Mahiro Oyama in settings: Fontaine blue and gold, pearl light, water ripples, a top-hat motif and opera-stage frames with official birthday artwork, in both dark and light modes.', 'Artwork loads from the Bilibili BWIKI image CDN in China, with an identical local fallback. All seven styles save separate color and appearance preferences; existing resources, platform controls and four languages remain available.']],
+      ja: ['フリーナのテーマを追加', ['設定の「コロンビーナ」と「緒山まひろ」の間に「フリーナ」を追加しました。フォンテーヌの青と金、真珠色、水紋、シルクハット、歌劇場の装飾に公式誕生日イラストを合わせ、ライト・ダーク両モードに対応しています。', '画像は中国向け bilibili BWIKI CDN から読み込み、同じ画像のローカル予備も用意しています。7つのスタイルは配色と表示モードを個別に保存し、既存のリソース・プラットフォーム切り替え・4言語を維持します。']]
+    }
+  },
+  {
     id: '2026-10-22-small-bugfixes', date: '2026-10-22', content: {
       'zh-CN': ['分类与操作体验修复', ['首页重复的“工具”分类已合并，原有资源全部保留，分类总数同步为四类。', 'iOS 镂空苹果图标新增本地字体后备，修复非 Apple 字体环境的缺字问题；下载页平台选项卡支持左右方向键、Home 和 End，并保持点击与触屏操作。']],
       'zh-TW': ['分類與操作體驗修復', ['首頁重複的「工具」分類已合併，原有資源全部保留，分類總數同步為四類。', 'iOS 鏤空蘋果圖示新增本地字型後備，修復非 Apple 字型環境的缺字問題；下載頁平台選項卡支援左右方向鍵、Home 與 End，並保留點擊與觸控操作。']],

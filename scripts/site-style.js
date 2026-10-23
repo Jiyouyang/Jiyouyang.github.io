@@ -4,7 +4,7 @@
   const root = document.documentElement;
   const read = key => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
-  const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mahiro'];
+  const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mahiro'];
   const storedStyle = read('jy-style');
   let style = styles.includes(storedStyle) ? storedStyle : 'classic';
   root.dataset.style = style;
@@ -16,6 +16,8 @@
       blackgold: '黑金典藏', blackgoldDescription: '墨黑鎏金 · 典藏质感',
       columbina: '哥伦比娅', columbinaDescription: '月光蓝白 · 羽翼与星海',
       mahiro: '绪山真寻', mahiroDescription: '奶油粉紫 · 轻甜日常手账',
+      furina: '芙宁娜', furinaDescription: '枫丹蓝金 · 水光歌剧舞台',
+      furinaCredit: '角色美术 © miHoYo · 国内图片源：B站 BWIKI · 非官方主题',
       mahiroCredit: '《别当欧尼酱了！》动画画面 · 图片来源：',
       mahiroSources: ['哔哩哔哩', '堆糖'], mahiroFan: '非官方粉丝主题',
       artCredit: '角色美术 © miHoYo · 来源：米游社 · 非官方网站',
@@ -28,6 +30,8 @@
       blackgold: '黑金典藏', blackgoldDescription: '墨黑鎏金 · 典藏質感',
       columbina: '哥倫比婭', columbinaDescription: '月光藍白 · 羽翼與星海',
       mahiro: '緒山真尋', mahiroDescription: '奶油粉紫 · 輕甜日常手帳',
+      furina: '芙寧娜', furinaDescription: '楓丹藍金 · 水光歌劇舞臺',
+      furinaCredit: '角色美術 © miHoYo · 中國大陸圖片來源：B站 BWIKI · 非官方主題',
       mahiroCredit: '《別當歐尼醬了！》動畫畫面 · 圖片來源：',
       mahiroSources: ['嗶哩嗶哩', '堆糖'], mahiroFan: '非官方粉絲主題',
       artCredit: '角色美術 © miHoYo · 來源：米遊社 · 非官方網站',
@@ -40,6 +44,8 @@
       blackgold: 'Black & Gold', blackgoldDescription: 'Gilded details · Timeless elegance',
       columbina: 'Columbina', columbinaDescription: 'Moonlit blue · Feathers & stars',
       mahiro: 'Mahiro Oyama', mahiroDescription: 'Cream & pastels · Everyday scrapbook',
+      furina: 'Furina', furinaDescription: 'Fontaine blue & gold · An aquatic opera',
+      furinaCredit: 'Character art © miHoYo · China image CDN: Bilibili BWIKI · Unofficial fan theme',
       mahiroCredit: 'ONIMAI anime stills · Image sources: ',
       mahiroSources: ['Bilibili', 'Duitang'], mahiroFan: 'Unofficial fan theme',
       artCredit: 'Character art © miHoYo · Source: Miyoushe · Unofficial fan theme',
@@ -52,6 +58,8 @@
       blackgold: 'ブラック＆ゴールド', blackgoldDescription: '漆黒と金彩・上質な佇まい',
       columbina: 'コロンビーナ', columbinaDescription: '月光の青と白・羽と星の海',
       mahiro: '緒山まひろ', mahiroDescription: 'クリームとパステル・日常の手帳',
+      furina: 'フリーナ', furinaDescription: '青と金のフォンテーヌ・水の歌劇',
+      furinaCredit: 'キャラクターアート © miHoYo · 中国向け画像CDN：bilibili BWIKI · 非公式テーマ',
       mahiroCredit: '「お兄ちゃんはおしまい！」アニメ画像 · 出典：',
       mahiroSources: ['bilibili', '堆糖'], mahiroFan: '非公式ファンテーマ',
       artCredit: 'キャラクターアート © miHoYo · 出典：米遊社 · 非公式ファンテーマ',
@@ -80,7 +88,8 @@
       mecha: { accent: 'orange', theme: 'light' },
       blackgold: { accent: 'orange', theme: 'dark' },
       columbina: { accent: 'blue', theme: 'light' },
-      mahiro: { accent: 'violet', theme: 'light' }
+      mahiro: { accent: 'violet', theme: 'light' },
+      furina: { accent: 'blue', theme: 'dark' }
     }[name];
     return {
       accent: ['graphite', 'blue', 'violet', 'green', 'orange'].includes(saved?.accent) ? saved.accent : defaults.accent,
@@ -162,7 +171,7 @@
     // Domestic CDN URLs are the actual image requests, not just credit links.
     // Each image falls back once to the identical local copy, then to CSS decoration.
     let mahiroScene, mahiroBackdrop, mahiroCredit;
-    function createMahiroArt(className, remote, local, width, height) {
+    function createThemeArt(className, remote, local, width, height) {
       const frame = document.createElement('div');
       frame.className = className; frame.setAttribute('aria-hidden', 'true');
       const artwork = document.createElement('img');
@@ -187,11 +196,11 @@
       if (style === 'mahiro' && !mahiroScene) {
         const hero = document.querySelector('.hero');
         if (hero) {
-          mahiroScene = createMahiroArt('mahiro-scene',
+          mahiroScene = createThemeArt('mahiro-scene',
             'https://i0.hdslb.com/bfs/article/156c825e518568b4ca2b44ef21340d30b889d54d.jpg',
             '/assets/themes/mahiro/portrait.jpg', 1193, 1080);
           hero.prepend(mahiroScene);
-          mahiroBackdrop = createMahiroArt('mahiro-backdrop',
+          mahiroBackdrop = createThemeArt('mahiro-backdrop',
             'https://c-ssl.dtstatic.com/uploads/blog/202303/14/20230314024504_f75b6.thumb.1000_0.jpg',
             '/assets/themes/mahiro/background.jpg', 1000, 998);
           document.body.prepend(mahiroBackdrop);
@@ -221,10 +230,37 @@
       }
     }
 
+    let furinaScene, furinaBackdrop, furinaCredit;
+    function syncFurina(text) {
+      if (style === 'furina' && !furinaScene) {
+        const remote = 'https://patchwiki.biligame.com/images/ys/thumb/8/89/s8dltubvboh981ynwjo6jszgwqf1zwr.png/1000px-%E7%94%9F%E8%B4%BA%C2%B7%E8%8A%99%E5%AE%81%E5%A8%9C%C2%B72024.png';
+        const hero = document.querySelector('.hero');
+        if (hero) {
+          furinaScene = createThemeArt('furina-scene', remote, '/assets/themes/furina/artwork.png', 1000, 1000);
+          const motif = document.createElement('span'); motif.className = 'furina-hat';
+          furinaScene.append(motif); hero.prepend(furinaScene);
+          furinaBackdrop = createThemeArt('furina-backdrop', remote, '/assets/themes/furina/artwork.png', 1000, 1000);
+          document.body.prepend(furinaBackdrop);
+        }
+        const footer = document.querySelector('footer');
+        if (footer) {
+          furinaCredit = document.createElement('p'); furinaCredit.className = 'furina-credit';
+          const source = document.createElement('a');
+          source.href = 'https://wiki.biligame.com/ys/芙宁娜';
+          source.target = '_blank'; source.rel = 'noopener noreferrer';
+          furinaCredit.append(source); footer.append(furinaCredit);
+        }
+      }
+      if (furinaScene) furinaScene.hidden = style !== 'furina';
+      if (furinaBackdrop) furinaBackdrop.hidden = style !== 'furina';
+      if (furinaCredit) { furinaCredit.hidden = style !== 'furina'; furinaCredit.firstChild.textContent = text.furinaCredit; }
+    }
+
     function sync() {
       const text = copy[root.lang] || copy['zh-CN'];
       syncColumbina(text);
       syncMahiro(text);
+      syncFurina(text);
       section.querySelectorAll('[data-style-text]').forEach(element => { element.textContent = text[element.dataset.styleText]; });
       section.querySelectorAll('[data-style-choice]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.styleChoice === style));

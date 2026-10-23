@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-22
+> 最后更新：2026-10-23
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -283,7 +283,7 @@
 
 设置按钮使用齿轮图标，文字统一为“网站设置”，不再叫“外观”。设置弹窗包含：
 
-1. 风格调整：经典、终端、科技（原名机甲）、黑金典藏、哥伦比娅，附视觉预览和四语言说明。
+1. 风格调整：经典、终端、科技（原名机甲）、黑金典藏、哥伦比娅、芙宁娜、绪山真寻，附视觉预览和四语言说明；芙宁娜必须位于哥伦比娅与绪山真寻之间。
 2. 主题颜色：石墨、蓝、紫、绿、橙。
 3. 深浅模式：跟随系统、浅色、深色。
 4. 翻译语言：简体中文、繁体中文、英语、日语。
@@ -301,12 +301,14 @@
 - `jy-accent`
 - `jy-theme`
 - `jy-language`
-- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina` / `mahiro`
-- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`、`jy-style-mahiro`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
+- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina` / `furina` / `mahiro`
+- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`、`jy-style-furina`、`jy-style-mahiro`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
 
 2026-10-18 新增第五种“哥伦比娅”（`columbina`），默认浅色蓝色，提供五色和三档深浅模式，深色为午夜蓝。角色原画本地保存在 `assets/themes/columbina/character.png`（1024×1024，约 1.7 MB）；站内对外来源入口已改为中国大陆米游社官方页面，原文件校验与历史归档来源见同目录 README。共享脚本仅在选择该主题时创建装饰图与来源页脚，离开主题即隐藏；其他四种风格不请求图片。页面自身内容、链接与原图均未改写，不使用手机截图中的系统文字或布局。中文显示名称采用角色名“哥伦比娅”（用户输入“哥伦比亚”），繁中“哥倫比婭”、英语“Columbina”、日语“コロンビーナ”。
 
 2026-10-19 新增第六种“绪山真寻”（`mahiro`），默认浅色紫色。奶油白、樱花粉、淡紫与薄荷绿组合成日常手账风，配动画首屏相片与低透明度街景背景；深色为柔和梅紫。素材在选择该主题时直接请求 Bilibili `i0.hdslb.com` / 堆糖 `c-ssl.dtstatic.com` 国内图片 CDN，报错或 8 秒无响应则使用 `assets/themes/mahiro/` 的相同本地 JPEG，再失败则回退 CSS 装饰。页脚同时注明来源、动画版权和非官方身份。所有视觉规则限定 `data-style="mahiro"`；不改变原五套风格、不覆盖滑块尺寸算法。当前执行环境并非大陆网络探针，不把下载成功等同于全国连通保证。
+
+2026-10-23 新增第七种“芙宁娜”（`furina`），在设置中明确插在哥伦比娅与绪山真寻之间。默认深色蓝色，浅色为珍珠白，五色/三档模式/四语言均可用。独立 CSS 使用枫丹蓝金、水纹、珍珠环、舞台框与礼帽。实际图片优先请求 B站 BWIKI 国内域名 `patchwiki.biligame.com`，本地 `assets/themes/furina/artwork.png` 是同字节备用；在错误或 8 秒超时后降级。图片为官方 2024 生日贺图，首屏与背景共用；并非使用国外链接仅标注国内来源。其他主题图源不在此次范围内。
 
 风格脚本位于各页 `<head>`，先于正文绘制恢复 `data-style`；DOM 就绪后向设置顶部插入风格选项。监听根节点语言、主题、颜色以同步新设置与 Safari `theme-color`，并在后退缓存恢复时读取最新偏好。浏览器禁止 localStorage 时仍能在当前页面切换，无法跨页面持久保存是预期限制。
 
@@ -350,6 +352,8 @@
 | `styles/columbina.css` | 独立哥伦比娅主题：月光蓝白/午夜蓝、角色首屏与淡化背景、星月羽翼图案、五色与响应式；限定 `data-style="columbina"` |
 | `assets/themes/columbina/` | 角色原画 PNG 与来源/版权 README；不属于网站 favicon 素材 |
 | `styles/mahiro.css` | 独立绪山真寻手账主题、粉紫/梅紫深浅色、相片构图与全站控件；限定 `data-style="mahiro"` |
+| `styles/furina.css` | 独立芙宁娜歌剧舞台主题、蓝金/珍珠白、礼帽水纹及全站控件；限定 `data-style="furina"` |
+| `assets/themes/furina/` | 官方生日贺图的同字节本地备用、国内实际图片源与版权/哈希记录 |
 | `assets/themes/mahiro/` | 国内 CDN 图片的同字节备用 JPEG、来源/版权/哈希记录 |
 | `scripts/site-style.js` | 四语言风格设置、首次绘制恢复、分风格偏好保存及后退缓存恢复 |
 | `tests/site-style.cjs` | 本地 Chromium 回归：经典样式对照、17 页布局、平台切换、翻译/配色/模式、搜索与存储 |
@@ -358,6 +362,7 @@
 | `tests/columbina-art.cjs` | 哥伦比娅图片按需加载、17 页四宽度构图不遮字、来源说明、切换隐藏及加载失败降级 |
 | `tests/mahiro-art.cjs` | 真寻的真实图片请求域名、按需加载、17 页四宽度、四语言版权、图片失败和超时降级；`--live` 可额外验证实际 CDN 加载 |
 | `tests/small-bugfixes.cjs` | 四语言工具合并、保留全部资源、九页平台键盘/点击同步、实际字体字形加载与六主题窄屏检查 |
+| `tests/furina-art.cjs` | 芙宁娜选项顺序、国内 CDN 实际请求、按需加载/失败/超时降级、17 页构图、四语言与滑块边界；支持 `--live` |
 | `assets/fonts/` | 保留原生 Apple 字符的单字形兼容字体、OFL 许可与来源说明 |
 | `minecraft.html` | Minecraft 聚合页结构与样式 |
 | `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
@@ -1005,3 +1010,15 @@
 - 哥伦比娅图片源仍未完成：原图保持不变（SHA-256 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`）。核验原米游社文章、睁眼版本文章、公开接口及普通浏览器，接口返回 403/503，网页只提供 Loading；观测枢引用接口返回内容不存在，尝试的国内官方静态镜像为 404。未得到可验证与当前图一致的米游社 CDN 直链，不能通过改页脚或换成另一张图冒充完成。为维持用户指定图片和整体效果，本次不更改现有图片请求地址，后续需可核验的同图国内米游社直链。
 - 涉及文件：`index.html`、`scripts/app.js`、`scripts/site-style.js`、`styles/card-controls.css`、`assets/fonts/`、17 页共享资源缓存号、`tests/site-style.cjs`、`tests/small-bugfixes.cjs` 与本文件。新增四语言普通更新公告，仅声明实际完成的三项修复。共享 JS/CSS 与首页公告缓存号提升至 `20261022-bugfix1`，各独立主题 CSS 保持不变。
 - 验证：`tests/small-bugfixes.cjs` 通过四语言单一工具入口、三个工具资源及全部 14 项资源保留、九页键盘前后循环/Home/End/鼠标选择与焦点同步、六主题 320/390px 窄屏；通过 Chromium 实际字体报告确认两个苹果图标确实渲染了后备字形，原字符和镂空描边均保留。`tests/site-style.cjs … mahiro` 通过全部 17 页、300 组配色/语言/模式及搜索、公告、存储和主题偏好隔离。已人工查看修复后的平台栏与大图标截图；脚本语法和 `git diff --check` 通过。原五个独立主题 CSS、资源目的链接及哥伦比娅原图不改。未发现阻断本次三项修复发布的问题；米游社同图直链是明确保留的未完成项。
+
+### 2026-10-23：新增独立芙宁娜主题，优先国内图片源
+
+- 需求：参照原神芙宁娜配色、美术与图案新增完整主题，布置参考哥伦比娅但独立设计；用户追加强调国内图片源，并指定选项插在哥伦比娅与绪山真寻之间。
+- 修改前于 **2026-10-23 10:20:28 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-23_10-20-28_UTC` 与带注释标签 `backup-2026-10-23_10-20-28_UTC`；两者剥离后均为 `84a941ad293e241f8f1ef3e69e0f625e8b0ab065`。修改前工作区干净，远端/本地 `main` 一致。
+- 实现：第七个独立 `furina` 作用域，默认深色蓝色，浅色珍珠白；枫丹钴蓝、金色配饰、水纹与珍珠环、礼帽/水滴、舞台框与票券边饰覆盖首页/专区/下载/公告/设置。支持五色、三档模式、四语言及分主题保存，其他六套主题和原页面目的链接不改。
+- 图片：B站原神 BWIKI「官方贺图」的芙宁娜 2024 年生日图，实际主请求为 `patchwiki.biligame.com` 国内图片 CDN。1000×1000 PNG，1,746,100 字节，SHA-256 `b5345a4e8f9d73b32dff5bd12477521a578ceb0f758029224ba20a1b2a4dae10`。同字节备用保存为 `assets/themes/furina/artwork.png`。仅该主题按需创建首屏与背景，错误/8 秒超时回退，备用也失败则保留 CSS 舞台装饰。页脚有四语言版权/来源与非官方说明。具体地址和记录见素材目录 README。
+- 共用图片加载函数从 `createMahiroArt` 更名为 `createThemeArt`，逻辑不变，真寻主题参数和请求地址不变；芙宁娜复用它的国内源/本地备用行为。
+- 涉及文件：17 个正式 HTML 新 `furina.css` 引用与共享资源版本，`scripts/site-style.js`、`styles/site-style.css` 新预览、`styles/furina.css`、素材目录、`scripts/app.js` 四语言普通公告、相关测试、README 与本文件。缓存号为 `20261023-furina1`；原 `card-controls.css`、独立主题 CSS 与苹果字体后备不改。
+- 验证：`tests/site-style.cjs … furina` 通过全部 17 页、四宽度、300 组语言/配色/模式、七主题偏好隔离、主题恢复、搜索/公告/平台切换与下载按钮优先级；文字/金色标签与按钮对比度不低于 4.5。`tests/style-isolation.cjs … 84a941a` 通过原六主题 1020 组样式对照。`tests/furina-art.cjs --live` 确认实际国内 CDN 图片请求成功，17 页四宽度构图不遮字、四语言、1144 个滑块位置、选项顺序、按需请求、离开隐藏、远端失败/全部失败/8 秒超时回退均通过；仅对当前环境代理 CA 使用限定 SPKI 信任，不关闭全局 TLS 验证。已人工查看手机首页、桌面全页与浅色 iOS 下载页。
+- 静态验证：17 页仅增加独立 CSS 引用及缓存号，原正文和目的链接逐字一致；原 `card-controls.css` 与四份独立主题 CSS 与基线逐字节相同，所有正式 JS 语法与 `git diff --check` 通过。前一轮分类合并、Apple 字形及键盘修复继续由 `tests/small-bugfixes.cjs` 检查。资源库图标的珍珠环使用独立 `::after` 选择器，避免将伪元素放进 `:is()` 后被浏览器忽略。
+- 限制：无法替代中国大陆各运营商和真实 iPhone 的设备实测；国内源在当前环境下载与浏览器核验，备用图防止外链失效。此前哥伦比娅米游社同图直链未完成项仍保留，本次没有改动其原图。

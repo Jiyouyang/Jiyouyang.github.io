@@ -50,6 +50,15 @@
 .style-preview-mahiro i:last-child { background: #fffdfb; border: 1px dashed #d9c3d0; border-radius: 8px; }
 .style-preview-mahiro::after { content: "✦"; position: absolute; top: 22px; right: 12px; color: #a23c65; font-size: 15px; }
 
+.style-choice[data-style-choice="furina"] { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 110px) minmax(0, 1fr); column-gap: 14px; align-items: center; }
+.style-choice[data-style-choice="furina"] .style-preview { grid-row: span 2; }
+.style-choice[data-style-choice="furina"] .style-choice-title { margin-top: 0; gap: 4px; font-size: 13px; overflow-wrap: anywhere; }
+.style-preview-furina { background: radial-gradient(ellipse at 60% 100%, #2f578b, #0b172c); border: 1px solid #c8aa72; border-radius: 13px 13px 5px 5px; }
+.style-preview-furina i:first-child { background: #132641; border: 1px solid #c8aa72; border-radius: 5px; box-shadow: none; }
+.style-preview-furina i:nth-child(2) { background: #97cbff; height: 3px; }
+.style-preview-furina i:last-child { background: #1c3757; border-color: #c8aa72; border-radius: 20px 20px 4px 4px; }
+.style-preview-furina::after { content: "◇"; position: absolute; right: 10px; top: 21px; color: #e8c783; font-size: 14px; }
+
 /* Terminal palette: five accents, each with light/dark contrast.
    The extra attribute specificity wins over legacy :root[data-theme][data-accent]. */
 :root[data-style="terminal"][data-style] {

@@ -1,0 +1,169 @@
+/* Furina — Fontaine opera, pearl light, velvet blue and rippling water.
+   Every visual rule is scoped to the optional seventh style. */
+:root[data-style="furina"][data-style] {
+  color-scheme: dark;
+  --bg: #0b172c; --surface: #132641; --ink: #eef5ff; --muted: #b5c8e1;
+  --wash: #1c3757; --line: #49617c; --glass: #10223bf5;
+  --shadow: 0 18px 42px #030c1b40;
+  --accent: #d5dfef; --on-accent: #0b203c;
+  --soft: color-mix(in srgb, var(--accent) 10%, transparent);
+  --furina-gold: #e8c783; --furina-ribbon: #253d77; --furina-foam: #93cce6;
+}
+:root[data-style="furina"][data-style][data-accent="blue"] { --accent: #97cbff; }
+:root[data-style="furina"][data-style][data-accent="violet"] { --accent: #c8bdff; }
+:root[data-style="furina"][data-style][data-accent="green"] { --accent: #94dccd; }
+:root[data-style="furina"][data-style][data-accent="orange"] { --accent: #f2ca89; }
+:root[data-style="furina"][data-style][data-theme="light"] {
+  color-scheme: light;
+  --bg: #eff4fc; --surface: #fff; --ink: #142d53; --muted: #516581;
+  --wash: #dce8f5; --line: #bac9df; --glass: #f9fcfff5;
+  --shadow: 0 14px 38px #234e8314;
+  --accent: #29446b; --on-accent: #fff;
+  --furina-gold: #855b20; --furina-ribbon: #d0ddf3; --furina-foam: #4b8faf;
+}
+:root[data-style="furina"][data-style][data-theme="light"][data-accent="blue"] { --accent: #255fa6; }
+:root[data-style="furina"][data-style][data-theme="light"][data-accent="violet"] { --accent: #6654aa; }
+:root[data-style="furina"][data-style][data-theme="light"][data-accent="green"] { --accent: #216d63; }
+:root[data-style="furina"][data-style][data-theme="light"][data-accent="orange"] { --accent: #8d5724; }
+
+html[data-style="furina"] body { position: relative; isolation: isolate; background: var(--bg); }
+html[data-style="furina"] .furina-backdrop { position: fixed; z-index: -1; inset: 0; pointer-events: none; overflow: hidden; opacity: .075; mask-image: linear-gradient(90deg, transparent 10%, #000); -webkit-mask-image: linear-gradient(90deg, transparent 10%, #000); }
+html[data-style="furina"] .furina-backdrop img { position: absolute; right: 0; bottom: 0; width: min(1000px, 100vw); height: min(1000px, 100vh); object-fit: cover; }
+html[data-style="furina"][data-theme="light"] .furina-backdrop { opacity: .11; }
+html[data-style="furina"] .furina-backdrop.is-unavailable { display: none; }
+html[data-style="furina"] ::selection { background: var(--accent); color: var(--on-accent); }
+html[data-style="furina"] :is(h1,h2,h3) { overflow-wrap: anywhere; }
+html[data-style="furina"] :is(button,a,input):focus-visible { outline: 2px solid var(--furina-gold); outline-offset: 4px; }
+html[data-style="furina"] .glass { background: var(--glass); border: 1px solid var(--line); box-shadow: var(--shadow); }
+html[data-style="furina"] .nav { border-radius: 17px; border-bottom: 2px solid var(--furina-gold); }
+html[data-style="furina"] .brand { color: var(--ink); font-family: Georgia, "Songti SC", serif; letter-spacing: .2px; }
+html[data-style="furina"] .brand-mark { color: var(--furina-gold); background: var(--surface); border-color: var(--furina-gold); border-radius: 50% 50% 7px 7px; box-shadow: none; }
+html[data-style="furina"] .nav-title { color: var(--accent); background: var(--soft); border: 1px solid var(--line); border-radius: 8px; }
+html[data-style="furina"] .nav :is(.back,.icon,.settings-trigger) { min-height: 44px; color: var(--ink); }
+html[data-style="furina"] .nav .icon { min-width: 44px; }
+
+/* Separate text and character areas, with a proscenium-like portrait frame. */
+html[data-style="furina"] .hero { width: min(1120px, calc(100% - 48px)); margin-inline: auto; padding: 175px 8px 85px; min-height: 700px; text-align: left; }
+html[data-style="furina"] .hero > :not(.furina-scene) { max-width: 45%; }
+html[data-style="furina"] .announcement + .hero { padding-top: 110px; min-height: 600px; }
+html[data-style="furina"] .announcement[hidden] + .hero { padding-top: 175px; min-height: 700px; }
+html[data-style="furina"] .hero::before { inset: 70px 0 0; background: radial-gradient(ellipse at 76% 45%, var(--soft), transparent 65%); }
+html[data-style="furina"] .hero::after { content: "◇"; display: block; width: 120px; margin-top: 28px; color: var(--furina-gold); border-bottom: 1px solid var(--furina-gold); font-size: 18px; text-align: center; line-height: 12px; }
+html[data-style="furina"] .hero :is(.game-mark,.tool-mark) { display: none; }
+html[data-style="furina"] .eyebrow { color: var(--furina-gold); letter-spacing: 3px; font-size: 11px; }
+html[data-style="furina"] .hero h1 { font-size: clamp(36px, 4.3vw, 60px); line-height: 1.25; letter-spacing: -.04em; font-weight: 650; }
+html[data-style="furina"] .hero h1 span:first-child { color: var(--ink); }
+html[data-style="furina"] .hero h1 span:last-child { color: var(--accent); }
+html[data-style="furina"] .hero :is(.intro,p:not(.eyebrow)) { margin: 24px 0; font-size: 16px; line-height: 1.9; }
+html[data-style="furina"] .stats { justify-content: flex-start; flex-wrap: wrap; gap: 10px; }
+html[data-style="furina"] :is(.stat,.status) { color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: none; }
+html[data-style="furina"] .status { font-size: 12px; }
+html[data-style="furina"] .furina-scene { position: absolute; top: 150px; right: 10px; width: 46%; max-width: 485px; padding: 15px 15px 40px; border: 1px solid var(--furina-gold); border-radius: 26px 26px 12px 12px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 5px var(--bg), inset 0 0 0 6px var(--line); pointer-events: none; }
+html[data-style="furina"] .announcement + .hero .furina-scene { top: 60px; }
+html[data-style="furina"] .announcement[hidden] + .hero .furina-scene { top: 150px; }
+html[data-style="furina"] .furina-scene::before { content: ""; position: absolute; z-index: -1; inset: -25px 5% 12%; border: 1px solid var(--furina-gold); border-radius: 50% 50% 12px 12px; opacity: .5; }
+html[data-style="furina"] .furina-scene::after { content: "FURINA · Fontaine"; position: absolute; bottom: 11px; inset-inline: 15px; font: 12px Georgia, serif; letter-spacing: 3px; color: var(--furina-gold); text-align: center; }
+html[data-style="furina"] .furina-scene img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 16px 16px 6px 6px; background: var(--wash); }
+html[data-style="furina"] .furina-scene.is-unavailable img { visibility: hidden; }
+html[data-style="furina"] .furina-scene.is-unavailable { background: radial-gradient(circle at 50% 30%, var(--wash), var(--surface)); }
+html[data-style="furina"] .furina-hat { position: absolute; top: -15px; right: 9%; width: 29px; height: 23px; border: 1px solid var(--furina-gold); border-radius: 4px 4px 0 0; background: linear-gradient(var(--furina-ribbon) 65%, var(--furina-gold) 65% 78%, var(--furina-ribbon) 78%); transform: rotate(12deg); }
+html[data-style="furina"] .furina-hat::before { content: ""; position: absolute; left: -9px; right: -9px; bottom: -5px; height: 5px; border-radius: 50%; background: var(--furina-gold); }
+html[data-style="furina"] .furina-hat::after { content: ""; position: absolute; top: 2px; left: 11px; width: 5px; height: 7px; border: 1px solid var(--furina-gold); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
+
+/* Theatre tickets and pearl-ring graphics, without replacing resource identities. */
+html[data-style="furina"] .announcement { border-radius: 14px; border-inline-start: 3px solid var(--furina-gold); }
+html[data-style="furina"] .announcement-label { color: var(--furina-gold); background: var(--soft); border-radius: 6px; }
+html[data-style="furina"] .announcement-entry time { color: var(--furina-gold); }
+html[data-style="furina"] :is(.section-head,.hub-head) { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+html[data-style="furina"] :is(.section-head,.hub-head) h2 { font-weight: 650; letter-spacing: -.8px; }
+html[data-style="furina"] .section-kicker { color: var(--furina-gold); letter-spacing: 2px; }
+html[data-style="furina"] :is(.featured-card,.resource-card,.hub-card,.download-card) { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+html[data-style="furina"] :is(.featured-card,.resource-card,.hub-card):hover { border-color: var(--furina-gold); transform: translateY(-3px); }
+html[data-style="furina"] .featured-card { padding: 32px; border-top: 2px solid var(--furina-gold); }
+html[data-style="furina"] .featured-card::before { background: radial-gradient(ellipse at 92% 0, var(--soft), transparent 70%), linear-gradient(130deg, var(--surface), var(--wash)); }
+html[data-style="furina"] .featured-card::after { content: ""; position: absolute; right: 26px; top: 0; width: 30px; height: 6px; border: 1px solid var(--furina-gold); border-top: 0; }
+html[data-style="furina"] .featured-glyph { color: var(--accent); opacity: .45; font-size: 70px; }
+html[data-style="furina"] .featured-tag { color: var(--furina-gold); }
+html[data-style="furina"] .featured-card h3 { font-size: 30px; font-weight: 650; }
+html[data-style="furina"] :is(.hub-visual,.resource-visual,.platform-art) { background: radial-gradient(ellipse at 50% 130%, var(--furina-ribbon), transparent 70%), repeating-radial-gradient(ellipse at 50% 110%, transparent 0 30px, color-mix(in srgb, var(--furina-foam) 13%, transparent) 31px 32px, transparent 33px 60px), var(--wash); color: var(--accent); }
+html[data-style="furina"] :is(.hub-visual,.resource-visual) { height: 195px; border-bottom: 1px solid var(--line); }
+html[data-style="furina"] .hub-mark,
+html[data-style="furina"] .resource-visual::after { width: 108px; height: 108px; border: 1px solid var(--furina-gold); border-radius: 50%; background: var(--surface); transform: none; box-shadow: 0 0 0 7px var(--wash), 0 0 0 8px var(--line); }
+html[data-style="furina"] :is(.hub-mark,.resource-glyph) { color: var(--accent); font-size: 36px; font-weight: 650; }
+html[data-style="furina"] :is(.resource-body,.hub-body) { padding: 28px; }
+html[data-style="furina"] :is(.resource-tag,.hub-tag,.platform-label) { color: var(--furina-gold); letter-spacing: .5px; }
+html[data-style="furina"] :is(.resource-arrow,.hub-arrow) { color: var(--accent); font-size: 18px; }
+html[data-style="furina"] :is(.resource-card,.hub-card) h3 { font-size: 24px; line-height: 1.4; font-weight: 650; }
+html[data-style="furina"] :is(.resource-domain,.hub-domain) { border-top-style: dashed; overflow-wrap: anywhere; }
+html[data-style="furina"] .platform-art { border: 1px solid var(--furina-gold); border-radius: 25% 25% 18px 18px; box-shadow: inset 0 0 0 6px var(--surface), inset 0 0 0 7px var(--line); }
+html[data-style="furina"] .download-content h3 { line-height: 1.35; font-weight: 650; }
+html[data-style="furina"] .detail { color: var(--ink); background: var(--wash); border: 1px solid var(--line); border-radius: 7px; }
+html[data-style="furina"] :is(.download-button,.hero-action) { background: var(--accent); color: var(--on-accent); border-radius: 9px; box-shadow: 0 4px 0 color-mix(in srgb, var(--accent) 25%, var(--bg)); }
+html[data-style="furina"] .download-button svg { flex: none; }
+html[data-style="furina"] :is(.notice,.next-step,.empty) { background: var(--surface); border: 1px solid var(--line); border-inline-start: 3px solid var(--furina-gold); border-radius: 12px; }
+
+/* Styling only; use the shared indicator's measured widths and translation. */
+html[data-style="furina"] :is(.filters,.segmented,.platform-tabs) { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; box-shadow: inset 0 1px 0 #ffffff15; }
+html[data-style="furina"] :is(.filters,.segmented,.platform-tabs) button { border-radius: 8px; }
+html[data-style="furina"] .filters button.active { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+html[data-style="furina"] :is(.segmented,.platform-tabs)::before { background: var(--accent); border: 1px solid var(--accent); border-radius: 8px; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+:root[data-style="furina"][data-theme="dark"] .platform-tabs::before { background: var(--accent); box-shadow: none; }
+html[data-style="furina"] :is(.segmented,.platform-tabs) button:is(.active,.active:hover),
+html[data-style="furina"] .platform-tabs button.active :is(svg,.tab-apple) { color: var(--on-accent); }
+html[data-style="furina"] .search { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+html[data-style="furina"] .search svg { color: var(--furina-gold); }
+html[data-style="furina"] .search input { min-width: 0; }
+html[data-style="furina"] .search input::placeholder { color: var(--muted); opacity: 1; }
+html[data-style="furina"] footer { background: var(--glass); border-top: 1px solid var(--line); }
+html[data-style="furina"] footer a { color: var(--accent); }
+html[data-style="furina"] .furina-credit { width: min(1120px, calc(100% - 48px)); margin: 22px auto 0; color: var(--muted); font-size: 11px; line-height: 1.9; }
+html[data-style="furina"] .furina-credit a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+html[data-style="furina"] .settings-panel { background: var(--surface); border: 1px solid var(--furina-gold); border-radius: 21px; box-shadow: 0 24px 80px #020a1c66; }
+html[data-style="furina"] .settings-panel::backdrop { background: #07152b99; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+html[data-style="furina"] .settings-head { background: var(--surface); border-bottom: 1px solid var(--line); }
+html[data-style="furina"] .settings-head h2 { color: var(--accent); font-weight: 650; }
+html[data-style="furina"] .setting-label { color: var(--furina-gold); }
+html[data-style="furina"] .style-choice { border-radius: 12px; }
+html[data-style="furina"] .style-choice[aria-pressed="true"] { background: var(--soft); }
+html[data-style="furina"] .swatch { background: var(--surface); border-radius: 9px; }
+html[data-style="furina"] .swatch-dot { border-radius: 50%; }
+html[data-style="furina"] .swatch[data-accent-choice="graphite"] .swatch-dot { background: #d5dfef; }
+html[data-style="furina"] .swatch[data-accent-choice="blue"] .swatch-dot { background: #97cbff; }
+html[data-style="furina"] .swatch[data-accent-choice="violet"] .swatch-dot { background: #c8bdff; }
+html[data-style="furina"] .swatch[data-accent-choice="green"] .swatch-dot { background: #94dccd; }
+html[data-style="furina"] .swatch[data-accent-choice="orange"] .swatch-dot { background: #f2ca89; }
+html[data-style="furina"][data-theme="light"] .swatch[data-accent-choice="graphite"] .swatch-dot { background: #29446b; }
+html[data-style="furina"][data-theme="light"] .swatch[data-accent-choice="blue"] .swatch-dot { background: #255fa6; }
+html[data-style="furina"][data-theme="light"] .swatch[data-accent-choice="violet"] .swatch-dot { background: #6654aa; }
+html[data-style="furina"][data-theme="light"] .swatch[data-accent-choice="green"] .swatch-dot { background: #216d63; }
+html[data-style="furina"][data-theme="light"] .swatch[data-accent-choice="orange"] .swatch-dot { background: #8d5724; }
+
+@media (max-width: 850px) {
+  html[data-style="furina"] .hero { width: calc(100% - 36px); padding: 130px 8px 50px; min-height: 0; text-align: center; }
+  html[data-style="furina"] .announcement + .hero { padding-top: 55px; min-height: 0; }
+  html[data-style="furina"] .announcement[hidden] + .hero { padding-top: 130px; min-height: 0; }
+  html[data-style="furina"] .hero > :not(.furina-scene) { max-width: 100%; }
+  html[data-style="furina"] .hero .furina-scene { position: relative; top: auto; right: auto; width: min(350px, calc(100% - 10px)); margin: 0 auto 35px; padding: 12px 12px 38px; }
+  html[data-style="furina"] .announcement + .hero .furina-scene,
+  html[data-style="furina"] .announcement[hidden] + .hero .furina-scene { top: auto; }
+  html[data-style="furina"] .hero h1 { font-size: 36px; }
+  html[data-style="furina"] .hero :is(.intro,p:not(.eyebrow)) { margin: 22px auto; font-size: 14px; }
+  html[data-style="furina"] .hero::after { margin-inline: auto; }
+  html[data-style="furina"] .stats { justify-content: center; }
+}
+@media (max-width: 650px) {
+  html[data-style="furina"] .nav { padding-inline: 12px; gap: 8px; }
+  html[data-style="furina"] .brand { font-size: 15px; letter-spacing: -.4px; }
+  html[data-style="furina"] .brand-mark { display: none; }
+  html[data-style="furina"] .nav-title { font-size: 11px; padding: 6px; }
+  html[data-style="furina"] .settings-trigger { min-width: 44px; padding: 8px; justify-content: center; }
+  html[data-style="furina"] .settings-trigger span { display: none; }
+  html[data-style="furina"] .featured-card { padding: 27px; min-height: 285px; }
+  html[data-style="furina"] .featured-card h3 { font-size: 28px; }
+  html[data-style="furina"] :is(.resource-body,.hub-body) { padding: 25px; }
+  html[data-style="furina"] .download-card { padding: 24px; gap: 26px; }
+  html[data-style="furina"] .download-content h3 { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-style="furina"] *, html[data-style="furina"] *::before, html[data-style="furina"] *::after { animation: none !important; transition: none !important; }
+}
