@@ -1,1044 +1,266 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-11-11
-> 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
-> 当前分支：`main`  
-> 线上地址：https://jiyouyang.github.io/
+> 更新：2026-11-11 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
+> 网站：https://jiyouyang.github.io/ · 最近网站功能提交：`bef84b020456e3861f5d1ffd771b694f5d776087`（资源库增强）
 
-## 维护约定（后续 Codex 必读）
+本文集中保存现行规则、网站现状和维护入口。精简前全文（含全部需求演变、备份 SHA、时间、测试与部署记录）[原样归档](docs/history/CODEX_HANDOFF-2026-11-11-original.md)；[本次全部整理说明](docs/HANDOFF_SIMPLIFICATION.md)。历史方案若已被后续要求取代，只作追溯，不按旧记录恢复网站。
 
-这是本项目的持续交接文档。今后每次完成用户提出的功能、文案、翻译、视觉、交互、链接或部署调整时，必须在同一次提交中同步更新本文件，至少记录：需求、实现、涉及文件、验证结果、遗留问题和新决策。不要只修改代码而遗漏交接文档。
+## 1. 强制维护流程
 
-### 所有 iOS 图标的统一样式（用户明确指定）
+### 修改前完整备份
 
-- 今后本站所有 iOS 相关选项卡和内容卡片，都以 2026-10-17 用户提供的图二，即原神等旧下载页的 iOS 图标效果为准。直接复用 `genshin-download.html` / `scripts/genshin-download.js` 的 Apple 字符 ``、`.tab-apple` / `.apple-symbol` 标签及其描边 CSS；不要改用手机轮廓、近似 Apple SVG 或重新手绘图标。
-- 新增或修改 iOS 入口时，分别检查选项卡的小图标和卡片中的大图标；四语言、五种主题色及三档外观都要保持对应效果。选项卡顺序与布局另按具体页面需求确定，不把“图标一致”误当作所有页面必须更改平台顺序。
-- 2026-10-22 兼容修复：仍保留上述原生字符、尺寸与镂空描边；在 Apple 系统字体后添加 `assets/fonts/jy-apple-fallback.woff2` 单字形后备字体，避免非 Apple 字体环境显示缺字方框。该字体是按 OFL 重命名的 Font Awesome Apple 字形子集，不分发 Apple 系统字体、不替换成手机图标或手绘 SVG。许可与来源见 `assets/fonts/`。
+1. 先读本文，核对当前分支、工作区和 GitHub `main`；不依据聊天记忆覆盖较新内容。任何代码、页面、文案、翻译、设计、链接、配置、部署或文档改动，均须先备份再编辑。同一轮追加新的独立改动也要另备份。
+2. 备份完整仓库，而非只备份本次文件。干净工作区以核对后的基线提交建立 GitHub 分支 `backup/pre-change-YYYY-MM-DD_HH-mm-ss_UTC` 和带注释标签 `backup-YYYY-MM-DD_HH-mm-ss_UTC`；两者时间相同、精确到秒，不覆盖或复用旧备份。
+3. 有未提交或未跟踪项目文件时，先用不覆盖工作区的独立快照把它们纳入 GitHub；不能把 HEAD 当作全部内容。范围不明或无法安全上传就暂停并说明，不丢弃、重置或擅自混入用户修改。
+4. 编辑前核验远端分支和标签均存在、均指向同一完整基线。带注释标签须检查剥离后的提交 SHA（`^{}`），不是标签对象 SHA。任一项未核验成功，不编辑、不声称备份完成。
+5. 标签须出现在 **Releases → Tags**，提供 GitHub 自动生成的 ZIP / tar.gz，参照 `pre-visual-upgrade-20261011`；无另行要求不必额外创建 Release 或重复上传压缩包。
+6. 本次更新记录写明备份 UTC 时间、分支、标签和基线 SHA；保留全部旧备份。
 
-开始新任务前应先阅读本文件，再检查线上分支是否有更新；不要依据聊天记忆覆盖仓库中的较新内容。完成后应进行与改动风险相称的验证，并发布到 `main`（除非用户明确要求只在本地保存）。
+### “滚回上一个版本”的边界
 
-### 每次改动前的 GitHub 完整备份（强制）
+- 默认只恢复实际网站文件：正式 HTML、运行中的 CSS/JS、网站图片/图标、PWA 和确有必要的发布配置。先核对目标版本和文件清单，再逐项恢复；禁止对根目录无差别恢复或硬重置。
+- `CODEX_HANDOFF.md`、`README.md`、`docs/ROLLBACK.md`、测试/维护脚本及其他文档保留最新版，备份分支/标签也保留；用途不明先查证。只有用户明确点名要求时才回退相应文档。
+- 从备份恢复为新提交，不强制推送覆盖历史。向当前交接文档追加原因、目标、范围、备份和验证，不以旧文档覆盖现行规则。历史操作参考 [ROLLBACK.md](docs/ROLLBACK.md)，不可照搬旧路径清单。
 
-- 每次用户要求更改本仓库时，包括代码、页面、文案、翻译、设计、链接、配置、部署和文档，**先备份，再编辑任何文件**。同一轮内若用户追加了新的独立改动，也先为该改动保留新的修改前版本。
-- 先读取本文件，核对 GitHub `main` 最新提交、当前分支与工作区状态。备份必须代表即将修改的完整仓库基线，而不是只保存本次要改的文件。正常干净工作区直接以该基线提交**同时建立 GitHub 备份分支和带注释的 Git 标签**：分支命名为 `backup/pre-change-YYYY-MM-DD_HH-mm-ss_UTC`，标签命名为 `backup-YYYY-MM-DD_HH-mm-ss_UTC`；两者使用同一个 UTC 时间，精确到秒，不覆盖或复用旧备份。
-- 标签必须推送到仓库的 **Releases → Tags** 页面，就像 `pre-visual-upgrade-20261011` 一样；GitHub 会自动提供该标签版本的 ZIP 和 tar.gz 源码下载。用户要的是 Tags 页面可见、可下载的备份；除非另有要求，不必额外创建带说明的 Release 条目或重复上传 ZIP 附件。
-- 若工作区有未提交修改或未跟踪的项目文件，不能假定 `HEAD` 已包含“所有内容”。先以不覆盖用户工作的方式把这些内容纳入独立、可恢复的 GitHub 快照；若无法确认完整范围或无法安全上传，暂停编辑并向用户说明。不得为了备份而丢弃、重置或擅自混入用户的修改。
-- 编辑前必须核验远端备份分支与标签都确实存在、都指向同一个预期基线提交，且该提交包含当时仓库的全部文件；带注释标签核验时应查看其剥离后的提交 SHA（`^{}`），不能把标签对象 SHA 误当成提交 SHA。任一备份未验证成功时，不开始本次改动，也不声称已完整备份。
-- 在本文件的本次更新记录中写明备份的 UTC 时间、分支名、标签名和基线提交 SHA。完成改动后再验证、提交并发布；回滚应从备份分支或标签恢复为新提交，不强制推送覆盖历史。
+### 完成、公告与发布
 
-### “滚回上一个版本”的范围（强制）
+- 每次完成用户要求的功能、文案、翻译、视觉、交互、链接或部署调整，在同一提交更新本文，记录需求、实现、文件、验证、遗留问题和新决策；涉及入口变化时同步 README、首页简介及资源目录。
+- 网站更新同时向 `scripts/app.js` 的 `announcements` 加一条四语言简要记录，最新在前，除非用户明确不记录。仅改文档、不改变网站内容/外观/交互的文件整理，或删除、修改公告本身，不再额外生成公告；删除公告按 `id` 移除。
+- 验证与风险相称后提交并发布到 `main`，除非用户明确只在本地保存。修改运行资源时递增相应 HTML 的 `?v=`；推送后核验 Pages 实际页面，不只看本地或构建成功。
 
-- 用户说“滚回上一个版本”时，默认**只恢复实际网站相关文件**：正式页面、页面正在使用的 CSS/JavaScript、网站图片与图标、PWA 文件，以及确有必要的发布配置。先确认目标版本和具体文件清单，再逐一恢复；不要对仓库根目录执行无差别的 `git restore -- .`、`git reset --hard` 或等效操作。
-- 非网站文件及其最新内容必须保留，包括但不限于 `CODEX_HANDOFF.md`、`docs/ROLLBACK.md`、`README.md`、测试/维护脚本和其他项目文档；GitHub 备份分支与标签也必须保留。若某文件是否属于网站运行范围不明确，先核实用途，不擅自回滚。
-- 回滚后只向当前版 `CODEX_HANDOFF.md` 追加回滚原因、目标版本、改动范围、备份和验证记录；不得用旧版本的交接文档覆盖现行规则。用户明确指定文档也要回滚时，才单独处理其点名的文件。
+## 2. 项目定位与文件入口
 
-## 1. 项目目标与当前定位
+纯静态 HTML/CSS/原生 JavaScript，无框架、构建步骤、后端或账户同步；GitHub Pages 从 `main` 根目录发布，`.nojekyll` 保留。网站只做资源分享，不恢复已移除的博客。正式 HTML 保留根目录 URL；新 JS 放 `scripts/`、共享 CSS 放 `styles/`、维护文档优先放 `docs/`、图片/字体放 `assets/`。
 
-### 本次视觉升级的回滚点
+### 17 个正式页面
 
-- 升级前完整基线：`dcc9d01b0e9c9e024b48fb1242ad54c86e420242`。
-- 已推送远端备份分支 `backup/pre-visual-upgrade-20261011` 与固定标签 `pre-visual-upgrade-20261011`。
-- **2026-10-11 已按用户要求恢复到该视觉版本。** 恢复通过新提交保留 Git 历史，没有强制推送。操作步骤见 `docs/ROLLBACK.md`。
-- 恢复前的升级版另外保存在 `backup/pre-change-2026-10-11_10-08-23_UTC`，基线提交 `89a16cad9c5f3cd909c6df282c2ec06a0fe4c0c2`；需要重回升级版时可从此分支恢复。
+下表脚本路径均位于 `scripts/`；各页仍维护自身基础样式、翻译、设置和弹窗，不能漏改同类页面。
 
-本站已经从最初的个人博客/资源混合页面，收敛为一个简洁的“资源分享站”。博客入口与博客内容已移除，首页只保留资源发现和筛选功能。Minecraft、原神、绝区零、崩坏：星穹铁道与明日方舟：终末地拥有独立的站内内容专区，方便未来继续增加相关入口。
+| HTML | 页面职责 | 对应脚本 |
+| --- | --- | --- |
+| `index.html` | 首页、筛选、精选、公告与设置 | `app.js` |
+| `computer-tools.html` | 十张工具整卡外链 | `computer-tools.js` |
+| `minecraft.html` | 六张 Minecraft 站内入口 | `minecraft-hub.js` |
+| `minecraft-download.html` | 基岩版 Windows / Android | `minecraft-download.js` |
+| `minecraft-china.html` | 国服 Android / iOS / Windows | `minecraft-china.js` |
+| `minecraft-mods.html` | CurseForge / Modrinth 渠道 | `minecraft-mods.js` |
+| `minecraft-launchers.html` | 官方 / PCL / HMCL | `minecraft-launchers.js` |
+| `minecraft-mobile.html` | Java 移动端 Android / iOS | `minecraft-mobile.js` |
+| `minecraft-seed.html` | 种子查询双网站，无选项卡 | `minecraft-seed.js` |
+| `genshin.html` / `genshin-download.html` | 原神三卡专区 / 国际版三平台 | `genshin.js` / `genshin-download.js` |
+| `zzz.html` / `zzz-download.html` | 绝区零三卡专区 / 国际版三平台 | `zzz.js` / `zzz-download.js` |
+| `hsr.html` / `hsr-download.html` | 崩铁三卡专区 / 国际版三平台 | `hsr.js` / `hsr-download.js` |
+| `endfield.html` / `endfield-download.html` | 终末地三卡专区 / 国际版三平台 | `endfield.js` / `endfield-download.js` |
 
-整体目标：
+### 共享文件与缓存
 
-- 以 Apple 官网式黑白基调为主，保持克制、留白和清晰层级。
-- 使用高透明度液态玻璃效果，但可读性优先，不能因透明而让文字和控件难以辨认。
-- 手机端是重要使用场景，尤其需要适配 iPhone Safari 的固定导航、触控热区、键盘唤起与桌面图标。
-- 所有主要页面共享主题色、深浅模式和四语言设置。
-- 2026-10-17 新增可选“终端”风格：等宽字体、墨绿黑底、荧光描边、琥珀标签、矩形面板和轻网格；原有视觉保留为默认“经典”风格。两套风格可在网站设置中即时切换，覆盖全部 17 个正式页面。
-- 资源卡片负责进入站内分类页或外部资源；“选项卡只切换内容，下载按钮才打开外链”是必须保持的交互原则。
-
-## 2. 当前信息架构
-
-### 首页 `/index.html`
-
-- 网站名称：Jiyouyang。
-- 当前定位：资源分享，不再展示博客。
-- 顶部固定液态玻璃导航：品牌、居中的“资源分享”、搜索按钮、齿轮“网站设置”。
-- 搜索按钮与设置按钮之间保留距离，避免移动端误触。
-- 手机端导航的搜索和齿轮按钮均有 44px 点按区域；设置入口在窄屏显示齿轮图标，可访问性名称仍为“网站设置”。
-- 点击顶部搜索按钮打开全站快捷搜索面板，支持别名、分类结果、收藏入口与最近搜索；Ctrl/⌘+K 或 / 也可打开。资源库原有搜索栏继续用于首页筛选，面板不会叠加在设置弹窗上。
-- 分类：全部、开发、学习、工具、游戏；实际资源分类为四类。“工具”合并原来两个同名筛选入口，包含电脑工具专区、Jisho 与 Can I use。
-- 首页电脑工具站内卡片仍进入 `/computer-tools.html`；Chrome、Python、Steam、图吧工具箱、IDM 下载器、IDM_Cracker、Watt 工具箱、v2rayN、The Pirate Bay 与 Nyaa 的外链卡片集中放在专区内。
-- 资源支持按标题、简介、域名和分类即时检索。
-- 搜索支持按资源名称、简介、域名及分类即时筛选；升级版特有的搜索清空按钮和键盘快捷聚焦已随回滚移除。
-- Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地资源卡片依次位于资源列表前列，分别进入站内专区。
-- 首页 Minecraft、原神、绝区零、崩铁与终末地卡片的简介均按当前实际入口描述。
-
-首页当前资源从 `scripts/resource-catalog.js` 的 `window.JYCatalog` 筛选 `home: true`，包括 Minecraft、原神、绝区零、崩铁、终末地、电脑工具专区、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等原 14 项。目录另镜像 28 项专区卡片用于收藏和全站搜索；原专区页面仍由各页脚本维护，修改文案时须同步目录并通过四语言镜像检查。
-
-资源卡片的收藏与复制按钮放在链接外的包装层，避免嵌套交互；“我的常用”可排序。资源库支持大卡片/紧凑列表，来源与平台标签区分站内专区、站内选择、官方、第三方及社区项目。公告摘要原布局保留；展开后置顶与普通更新分开，普通更新按日期折叠并标记新增/优化/修复。返回资源库可恢复筛选、搜索词与浏览位置。
-
-### 电脑工具专区 `/computer-tools.html`
-
-- 首页“电脑工具”大卡片进入独立专区；该卡片所属的首页筛选按钮现显示为“工具”，筛选时仍只显示这张站内入口卡片。首页原本另有一个“工具”筛选按钮，两个按钮目前同名但筛选内容不同；按用户此前要求只改显示名称，不合并分类。首页搜索可通过 Chrome、Python、Steam、图吧工具箱、IDM、IDM_Cracker、Watt、v2rayN、海盗船 BT、Nyaa 等名称找到入口。
-- 专区内有十张整卡可点击的外部入口：Google Chrome 官方下载引导页 <https://www.google.com/chrome/>、Python 官方下载页 <https://www.python.org/downloads/>、Steam 官网 <https://store.steampowered.com/>、图吧工具箱原版官方下载页 <https://www.tbtool.cn/download/index.html>、Internet Download Manager 官网 <https://www.internetdownloadmanager.com/>、用户指定的 IDM_Cracker GitHub 仓库 <https://github.com/YuHuanTin/IDM_Cracker>、Watt Toolkit 官网 <https://steampp.net/>、v2rayN 维护者 GitHub 仓库列出的主页 <https://v2rayn.2dust.link/>、The Pirate Bay 原站 <https://thepiratebay.org/>、Nyaa 原站 <https://nyaa.si/>。IDM_Cracker 为 GitHub 项目，不标作 IDM 官方下载地址。
-- 十张卡片不设页内切换选项卡；点击卡片才打开外部网页。专区沿用五种主题色、深浅模式及简中、繁中、英语、日语四语言设置。
-
-### Minecraft 专区 `/minecraft.html`
-
-这是 Minecraft 的“大选项”/内容聚合页。当前包含六张站内卡片：
-
-1. **Minecraft 基岩版下载** → `/minecraft-download.html`
-   - 标题不再写“国际”“双端”或“启动器双端”。
-   - 简体中文简介：`支持 Windows 与 Android 双端，选择对应平台前往下载。`
-   - 设备范围放在简介，不塞进标题。
-2. **Minecraft Java 版模组下载** → `/minecraft-mods.html`
-   - 提供 CurseForge 与 Modrinth 两个平台。
-   - 简介需要保留无法访问时使用合适网络访问方式的提示；中文按用户原意表达为“如无法访问请使用科学上网”。
-3. **Minecraft Java 版启动器下载** → `/minecraft-launchers.html`
-   - 标题不再写“桌面端”。
-   - 简体中文简介：`适用于桌面端，可选择官方启动器、PCL 或 HMCL。`
-   - 桌面端范围放在简介，不塞进标题。
-4. **Minecraft Java 版移动端下载** → `/minecraft-mobile.html`
-   - 提供 Android 与 iOS 两个移动端入口。
-   - Android 对应 Fold Craft Launcher，iOS 对应 Amethyst iOS。
-   - 选项卡只切换内容，下方按钮才打开下载网页。
-5. **Minecraft 种子查询** → `/minecraft-seed.html`
-   - 专区卡片进入站内详情页，使用站内箭头 →。
-   - 简体中文简介：`可输入自己想查的种子号，选择查询网站查看种子地图。`
-   - 详情页不设选项卡；只有“查询网站 1”和“查询网站 2”两个按钮打开外链。四语言、五种主题色和深浅模式均须同步。
-6. **Minecraft 国服下载** → `/minecraft-china.html`
-   - 专区卡片进入站内下载选择页，使用站内箭头 →。
-   - 三个平台为 Android、Windows 电脑与 iOS；选项卡只切换内容，只有下载按钮打开对应外链。
-   - 简中、繁中、英语、日语以及五种主题色、三档深浅模式同步维护。
-
-专区的目的不是只放一个下载卡片，而是作为可持续扩充的 Minecraft 内容容器；以后用户还会加入更多 Minecraft 相关跳转选项。
-
-### 种子查询页 `/minecraft-seed.html`
-
-- 页面采用与其他 Minecraft 详情页一致的导航、卡片、按钮和网站设置；没有平台选项卡。
-- 两个按钮参照基岩版 Android 双下载按钮：同一行优先并排，网站 1 为主按钮、网站 2 为柔和底色的次按钮；空间不足时可换行。
-- 查询网站 1：<https://minecraftsearch.com/zh-CN/工具/种子地图#seed=123&platform=bedrock_26.50&dimension=overworld&x=0&z=0&zoom=16.000>
-- 查询网站 2：<https://www.chunkbase.com/apps/>
-- 两个外链仅由明确的查询按钮打开；页面本身不输入或保存种子号。站点 1 链接包含用户提供的 `seed=123` 等初始参数。
-
-### 基岩版下载页 `/minecraft-download.html`
-
-- 页面名称：Minecraft 基岩版（已删除此前所有“国际”字样）。
-- Windows 与 Android 是页内选项卡。
-- **点击选项卡只能切换卡片内容，绝对不能跳转外部网站。**
-- 下载页选项卡在旧版中通过按钮切换并更新选中状态；升级版增加的键盘箭头操作与 URL hash 分享恢复已随回滚移除。
-- 只有卡片下方的下载按钮才能打开对应外链。
-- Windows 下载：<https://mc.minebbs.com/?platform=3&environment=1>
-- Android 下载页面 1：<https://mc.minebbs.com/?platform=1&environment=1>
-- Android 下载页面 2：<https://mcapks.net>
-- Android 简介需说明：如果下载页面 1 没有想要的版本，请尝试链接 2。
-- 已按用户要求移除页面底部额外的“页面说明”卡片，只保留必要内容与页脚。
-
-### 国服下载页 `/minecraft-china.html`
-
-- 平台选项卡：Windows 电脑、Android、iOS；选项卡只切换站内内容，下方下载按钮才打开外部页面。
-- Windows：网易官网提供的电脑端下载入口 <https://adl.netease.com/d/g/mc/c/gw?type=pc>。
-- Android：网易官网提供的安卓端下载入口 <https://adl.netease.com/d/g/mc/c/gwnew?type=android>。
-- iOS：中国区 App Store 的《我的世界：移动版》页面 <https://apps.apple.com/cn/app/%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C-%E7%A7%BB%E5%8A%A8%E7%89%88/id1243986797>，由下载按钮直接前往。
-- 三个平台顺序与原神等旧下载页一致，为 Android、iOS、Windows，默认 Android，故 iOS 选中滑块位于中间；其居中及两侧留白应与旧下载页一致。iOS 页签与下方卡片直接复用旧下载页的 Apple 私有字符“”及对应描边 CSS，不再用手机轮廓或另绘 SVG。该字符在无 Apple 字体的平台可能显示为方框；本次以用户指定的 iPhone 端既有效果为准。
-- 网易链接是官方网站的下载引导入口，不承诺浏览器会直接得到安装文件；iOS 入口可能要求中国区 Apple 账号。
-
-### Java 模组页 `/minecraft-mods.html`
-
-- 选项卡：CurseForge、Modrinth。
-- 选项卡只切换展示内容，按钮才打开外链。
-- CurseForge：<https://www.curseforge.com/minecraft/search?page=1&pageSize=20&sortBy=relevancy>
-- Modrinth：<https://modrinth.com/discover/mods>
-- 简介需要表达“如无法访问请使用科学上网”；英文与日文使用更中性的“appropriate network access method”。
-
-### Java 启动器页 `/minecraft-launchers.html`
-
-- 页面名称：Minecraft Java 版启动器下载。
-- 三个页内选项卡从左到右：官方启动器、PCL、HMCL。
-- 选项卡只切换，下载按钮才打开对应网站。
-- 官方启动器：<https://www.minecraft.net/zh-hans/download>
-- PCL：<https://github.com/Meloong-Git/PCL>
-- HMCL：<https://github.com/HMCL-dev/HMCL/releases/tag/v3.16.4>
-- 这是桌面端启动器集合，但“桌面端”只在简介中说明，不放进页面或卡片主标题。
-
-### Java 移动端页 `/minecraft-mobile.html`
-
-- 页面名称：Minecraft Java 版移动端下载。
-- 两个页内选项卡：Android、iOS。
-- 选项卡只切换展示内容，下载按钮才打开外部网站。
-- Android / Fold Craft Launcher：<https://foldcraftlaunch.com/download/>
-- iOS / Amethyst iOS：<https://github.com/herbrine8403/Amethyst-iOS-MyRemastered/releases>
-- 页面继承五种主题色、深浅模式及简中、繁中、英文、日文翻译。
-
-### 原神专区 `/genshin.html`
-
-主页中的“原神”入口紧随 Minecraft，进入独立原神专区。当前包含三张卡片：
-
-- **原神国际版下载** → `/genshin-download.html`
-- **原神国服下载** → 直接打开 <https://ys.mihoyo.com/main/m/?from_fab=1>
-- **原神兑换码** → 直接打开 <https://www.crimsonwitch.com/codes/Genshin_Impact> 查询当前可用兑换码；卡片操作文案为“查询可用兑换码”。
-- 卡片、专区与下载页沿用黑白基调、五种主题色、深浅模式及四语言。
-- 今后可以继续加入其他原神资源卡片。
-
-### 原神国际版下载页 `/genshin-download.html`
-
-- 平台页签从左到右为 Android、iOS、Windows。页签只切换展示内容，不导航到外部网站。
-- Android 有两个同等重要、同样视觉权重的下载按钮：
-  - Google Play 官方下载：<https://play.google.com/store/apps/details/Genshin_Impact?id=com.miHoYo.GenshinImpact&hl=en_NZ&pli=1>
-  - APK 下载：<https://genshin-impact.cn.uptodown.com/android/dw/1218436799-x>
-- Android 简介明确写有“如无法打开，请使用科学上网”。
-- iOS 下载按钮前往：<https://apps.apple.com/us/app/genshin-impact-6th-anniversary/id1517783697>
-- iOS 简介明确写有“请使用非中国大陆地区 Apple 账号”。
-- Windows 下载按钮前往 HoYoPlay 官方启动器：<https://hoyoplay.hoyoverse.com>
-- 只有下载按钮打开外链。APK 地址由用户指定，可能指向特定版本；以后改版本时要检查地址是否仍有效。
-
-### 绝区零专区 `/zzz.html`
-
-- 首页“绝区零”卡片位于原神之后，进入独立专区。
-- 三张卡片参照原神：**绝区零国际版下载** → `/zzz-download.html`；**绝区零国服下载** → <https://zzz.mihoyo.com/main/>；**绝区零兑换码** → <https://www.crimsonwitch.com/codes/Zenless_Zone_Zero>。
-- 国服官网和兑换码查询为卡片直达外链；国际版下载先进入站内平台选择页。兑换码页面只用于查询，是否有可用码以目标站当时显示为准。
-- 后续如在此对话继续维护绝区零内容，仍先读取本文件并核对 GitHub 最新版本，执行完整备份规则。
-
-### 绝区零国际版下载页 `/zzz-download.html`
-
-- 平台页签从左到右为 Android、iOS、Windows；页签只切换内容，下载按钮才打开外链。
-- Android 两个按钮：Google Play 官方页面 <https://play.google.com/store/apps/details?id=com.HoYoverse.Nap>；APKPure 的 XAPK 安装包页面 <https://apkpure.net/zenless-zone-zero/com.HoYoverse.Nap/download>。后者是第三方页面，使用不带版本号的入口，仍需定期核对版本和可用性。
-- iOS：美国区 App Store <https://apps.apple.com/us/app/zenless-zone-zero/id1606356401>；提示使用非中国大陆地区 Apple 账号。
-- Windows：HoYoPlay 官方启动器 <https://hoyoplay.hoyoverse.com/>。
-- 沿用现有黑白基调、五种主题色、深浅模式与简中、繁中、英语、日语四语言。
-
-### 崩坏：星穹铁道（崩铁）专区 `/hsr.html`
-
-- 首页“崩坏：星穹铁道”卡片位于绝区零之后，进入独立专区；搜索“崩铁”也可找到。
-- 三张卡片沿用原神与绝区零的层级：**国际版下载** → `/hsr-download.html`；**国服下载** → <https://sr.mihoyo.com/>；**兑换码查询** → <https://www.crimsonwitch.com/codes/Honkai_Star_Rail>。
-- 国服官网与兑换码查询为卡片直达外链，国际版先进入站内下载选择页。兑换码页面用于查询，实际可用码以目标站显示为准。
-- 后续如在此对话继续维护崩铁内容，先读取本文件并核对 GitHub 最新版本，执行完整备份规则。
-
-### 崩坏：星穹铁道国际版下载页 `/hsr-download.html`
-
-- 平台页签依次为 Android、iOS、Windows；页签只切换内容，下载按钮才打开外链。
-- Android：Google Play 官方页面 <https://play.google.com/store/apps/details?id=com.HoYoverse.hkrpgoversea>；APKPure 无版本号的 XAPK 下载页面 <https://apkpure.net/honkai-star-rail/com.HoYoverse.hkrpgoversea/download>。APKPure 为第三方页面，应定期核对包类型与可用性。
-- iOS：美国区 App Store <https://apps.apple.com/us/app/honkai-star-rail/id1599719154>；提示使用非中国大陆地区 Apple 账号。
-- Windows：HoYoPlay 官方启动器 <https://hoyoplay.hoyoverse.com/>。
-- 沿用现有黑白基调、五种主题色、深浅模式与简中、繁中、英语、日语四语言。
-
-### 明日方舟：终末地（终末地）专区 `/endfield.html`
-
-- 首页“明日方舟：终末地”卡片位于崩铁之后，进入独立专区；搜索“终末地”也可找到。
-- 三张卡片沿用原神、绝区零与崩铁的层级：**国际版下载** → `/endfield-download.html`；**国服下载** → <https://endfield.hypergryph.com/>；**兑换码查询** → <https://www.redeem-code-tracker.com/games/arknights-endfield>。
-- 国服官网与兑换码列表为卡片直达外链；国际版先进入站内下载选择页。兑换码列表由第三方维护，实际可用性以页面当时信息和游戏内兑换结果为准。
-- 后续在此对话继续维护终末地内容时，先读取本交接文档、核对 GitHub 最新版本并执行完整备份规则。
-
-### 明日方舟：终末地国际版下载页 `/endfield-download.html`
-
-- 平台页签依次为 Android、iOS、Windows；页签只切换内容，下载按钮才打开外链。
-- Android：Google Play 官方页面 <https://play.google.com/store/apps/details?id=com.gryphline.endfield.gp>；APKPure 无版本号的 APK 下载页面 <https://apkpure.net/arknights-endfield/com.gryphline.endfield.gp/download>。APKPure 为第三方页面，包格式和版本仍需定期核对。
-- iOS：美国区 App Store <https://apps.apple.com/us/app/arknights-endfield/id6752642477>；提示使用非中国大陆地区 Apple 账号。
-- Windows：GRYPHLINE 国际服官网 <https://endfield.gryphline.com/en-us>，从官方页面获取 Windows 启动器。
-- 沿用现有黑白基调、五种主题色、深浅模式与简中、繁中、英语、日语四语言。
-
-## 3. 视觉与设计系统
-
-### 基调
-
-- 从早期蓝紫渐变改为 Apple 风格黑白/石墨基调。
-- 浅色背景接近 `#f5f5f7`，深色背景为黑色；表面、描边和文字使用 Apple 风格中性色阶。
-- 默认主题色为石墨，不使用高饱和渐变作为默认视觉。
-- 保持大圆角、充足留白、粗体大标题、简短说明和轻阴影。
-- 当前 17 个正式页面各自保留原有页面样式，手机端沿用原响应式单列布局。升级版共享的 `site.css` 已从当前版本移除，但仍可在备份分支找回。
-- 2026-10-11 在保留各页原有结构与黑白基调的前提下，新增现位于 `styles/card-controls.css` 的共享样式，统一主页精选/资源卡片、Minecraft、原神与绝区零专区卡片、所有下载页平台插图，并只为下载页的 `.platform-tabs` 平台/渠道选择使用新版浅色玻璃滑块。主页分类、设置面板及其他分段控件继续沿用原先设计。
-- 升级版曾调整深色背景及强调色对比度；当前回滚版沿用升级前的颜色实现，后续须以页面现存 CSS 为准。
-- 卡片头图为抽象文字/字形构图（如 MC、MOD），不是写实封面图。
-- 用户曾要求移除首页 Hero 下方三个装饰图标；不要恢复。
-
-### 液态玻璃
-
-- 导航栏、设置弹窗、分段选择器使用半透明背景、`backdrop-filter: blur(...) saturate(...)`、细亮边和内高光。
-- 视觉参考 iOS 高透明液态玻璃，但不能完全复制参考图。
-- 滑块/分段控件的活动底板要清楚，文字与背景必须有足够对比度。
-- 顶部导航中“资源分享”等居中标签与设置面板应在视觉上融合，不要出现多余的内层纯白底块。
-- 下载页的平台/渠道选择使用新版浅色玻璃滑块；设置面板、主页分类及其他分段控件沿用升级前设计。公告收起高度继续与导航协调。
-
-### 可选主题色
-
-所有正式页面均提供五种主题色，并通过 CSS 自定义属性影响按钮、活动滑块、强调文字、卡片插图和柔和背景：
-
-- 石墨：`#1d1d1f`（默认）
-- 蓝色：`#0071e3`
-- 紫色：`#7656d6`
-- 绿色：`#248a3d`
-- 橙色：`#c45100`
-
-重要决策：主题色不能只改变按钮。资源卡片插图、MC/MOD 图形、强调线和选中状态也应通过 `var(--accent)`、`color-mix()` 等同步变色。
-
-### 深浅模式
-
-- 三档：跟随系统、浅色、深色。
-- 默认跟随系统。
-- 系统主题变化时，若用户仍选择“跟随系统”，页面应实时更新。
-- `meta[name="theme-color"]` 随浅/深模式切换，改善 Safari 浏览器顶部区域的融合感。
-
-### 响应式与无障碍
-
-- 使用系统字体栈（SF Pro / PingFang 等），移动端保持适当字号和触控尺寸。
-- 使用 `focus-visible`、ARIA 标签、`aria-selected`/`aria-pressed`、语义化 `role="tablist"` 与 `role="tab"`。
-- 搜索结果容器使用 `aria-live="polite"`。
-- 固定导航和搜索滚动位置针对移动端留出了偏移，避免搜索框被导航遮住。
-
-## 4. 设置与多语言
-
-设置按钮使用齿轮图标，文字统一为“网站设置”，不再叫“外观”。设置弹窗包含：
-
-1. 风格调整：经典、终端、科技（原名机甲）、黑金典藏、哥伦比娅、芙宁娜、绪山真寻，附视觉预览和四语言说明；芙宁娜必须位于哥伦比娅与绪山真寻之间。
-2. 主题颜色：石墨、蓝、紫、绿、橙。
-3. 深浅模式：跟随系统、浅色、深色。
-4. 翻译语言：简体中文、繁体中文、英语、日语。
-
-设置面板使用升级前的布局和交互，保留主题颜色、深浅模式和四语言选择。升级版的外观预览、恢复默认设置及 `site.js` 增强逻辑已随本次回滚移除。
-
-2026-10-17 的新功能使用独立 `scripts/site-style.js` 与 `styles/site-style.css`，并非恢复此前回滚的 `site.js` / `site.css`。经典是无保存偏好时的默认风格；终端首次选择默认深色与绿色，也支持浅色、跟随系统和其余四色。风格切换通过现有颜色/模式按钮处理函数同步内存状态、存储与 ARIA，不替换搜索、平台选项卡或下载逻辑。切回另一种风格会恢复其配色与模式；语言为全站通用。
-
-2026-10-18 新增第三种“机甲”风格（`mecha`），默认浅色橙色，支持完整五色与三档模式。独立 `styles/mecha.css` 的所有网站视觉规则都限定在 `data-style="mecha"` 下；经典、终端的既有视觉规则不改。风格设置的第三张预览卡独占下一行，以保留前两张的可读宽度。
-
-2026-10-18 新增第四种“黑金典藏”（`blackgold`），首次进入默认深色暖金（沿用橙色档），也支持象牙白浅色、跟随系统及其余四色。所有视觉规则独立放在 `styles/blackgold.css` 且限定 `data-style="blackgold"`；不改经典、终端和科技色板/布局。第四张设置预览卡另占一行，前三张的布局不变。风格名称同步简中/繁中“黑金典藏”、英语“Black & Gold”、日语“ブラック＆ゴールド”。
-
-偏好使用 `localStorage` 跨页面共享：
-
-- `jy-accent`
-- `jy-theme`
-- `jy-language`
-- `jy-favorites`：资源 ID 列表及顺序；`jy-library-view`：`cards` / `list`；`jy-search-history`：最多六条已执行的搜索词，均仅保存在当前浏览器。数据按目录 ID 验证、去重，存储被禁止时仍可本页使用。
-- `sessionStorage.jy-library-return`：首页筛选、搜索词与滚动锚点，仅在后退或从专区返回资源库时恢复，最多保留一天。
-- `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina` / `furina` / `mahiro`
-- `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`、`jy-style-furina`、`jy-style-mahiro`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
-
-2026-10-18 新增第五种“哥伦比娅”（`columbina`），默认浅色蓝色，提供五色和三档深浅模式，深色为午夜蓝。角色原画本地保存在 `assets/themes/columbina/character.png`（1024×1024，约 1.7 MB）；站内对外来源入口已改为中国大陆米游社官方页面，原文件校验与历史归档来源见同目录 README。共享脚本仅在选择该主题时创建装饰图与来源页脚，离开主题即隐藏；其他四种风格不请求图片。页面自身内容、链接与原图均未改写，不使用手机截图中的系统文字或布局。中文显示名称采用角色名“哥伦比娅”（用户输入“哥伦比亚”），繁中“哥倫比婭”、英语“Columbina”、日语“コロンビーナ”。
-
-2026-10-19 新增第六种“绪山真寻”（`mahiro`），默认浅色紫色。奶油白、樱花粉、淡紫与薄荷绿组合成日常手账风，配动画首屏相片与低透明度街景背景；深色为柔和梅紫。素材在选择该主题时直接请求 Bilibili `i0.hdslb.com` / 堆糖 `c-ssl.dtstatic.com` 国内图片 CDN，报错或 8 秒无响应则使用 `assets/themes/mahiro/` 的相同本地 JPEG，再失败则回退 CSS 装饰。页脚同时注明来源、动画版权和非官方身份。所有视觉规则限定 `data-style="mahiro"`；不改变原五套风格、不覆盖滑块尺寸算法。当前执行环境并非大陆网络探针，不把下载成功等同于全国连通保证。
-
-2026-10-23 新增第七种“芙宁娜”（`furina`），在设置中明确插在哥伦比娅与绪山真寻之间。默认深色蓝色，浅色为珍珠白，五色/三档模式/四语言均可用。独立 CSS 使用枫丹蓝金、水纹、珍珠环、舞台框与礼帽。实际图片优先请求 B站 BWIKI 国内域名 `patchwiki.biligame.com`，本地 `assets/themes/furina/artwork.png` 是同字节备用；在错误或 8 秒超时后降级。图片为官方 2024 生日贺图，首屏与背景共用；并非使用国外链接仅标注国内来源。其他主题图源不在此次范围内。
-
-风格脚本位于各页 `<head>`，先于正文绘制恢复 `data-style`；DOM 就绪后向设置顶部插入风格选项。监听根节点语言、主题、颜色以同步新设置与 Safari `theme-color`，并在后退缓存恢复时读取最新偏好。浏览器禁止 localStorage 时仍能在当前页面切换，无法跨页面持久保存是预期限制。
-
-每个正式页面的 HTML 在正文绘制前读取主题与色调，减少闪烁；对应 JS 再同步按钮状态、页面标题、meta description、ARIA 文案和动态卡片内容。
-
-任何新增页面或文案必须同时提供以下四种语言，且同步更新页面标题、说明、按钮、设置文字和可访问性标签：
-
-- `zh-CN`
-- `zh-TW`
-- `en`
-- `ja`
-
-最近一次命名决策（必须保持）：
-
-- `Minecraft 基岩版下载`，设备信息写在简介。
-- `Minecraft Java 版启动器下载`，桌面端信息写在简介。
-- 不要恢复“Minecraft 基岩版启动器双端下载”或“Minecraft Java 版桌面端启动器下载”等冗长名称。
-- 上述命名撤回已同步到简中、繁中、英文和日文。
-
-## 5. 图标与 PWA
-
-- 浏览器 favicon、Apple 主屏幕图标和桌面快捷方式图标统一使用 `assets/site-cover.jpg`。
-- 这张图片是用户提供的蓝发动漫人物抱黄色小鸡的方形图片。
-- 用户曾澄清：该图只用于网站小图标/保存到桌面的图标，不应作为首页大幅 Hero 封面。
-- 首页原来的视觉封面/抽象卡片已恢复，不要再把该图片当作页面大封面。
-- `site.webmanifest` 提供 standalone 显示与图标信息。
-
-## 6. 文件职责
-
-| 文件 | 当前职责 |
+| 文件 | 职责 / 当前版本 |
 | --- | --- |
-| `.nojekyll` | 让 GitHub Pages 直接发布静态文件 |
-| `index.html` | 首页结构、样式、导航、资源区和设置弹窗 |
-| `scripts/app.js` | 首页四语言文案、公告时间线、目录筛选、主题与设置逻辑 |
-| `scripts/resource-catalog.js` | 14 项首页资源和 28 项专区镜像的共享四语言目录、来源/平台/别名 |
-| `scripts/library-experience.js` | 收藏排序、复制/降级、全站快捷搜索/历史、列表布局与返回状态恢复 |
-| `styles/library-experience.css` | 收藏、标签、搜索面板、紧凑列表、公告时间线及轻量按压反馈；使用现有主题变量 |
-| `tests/library-experience.cjs` | 原资源保留、目录/专区四语言一致性、收藏持久化、快捷键/历史/恢复、平台复制和七主题布局回归 |
-| `computer-tools.html` | 电脑工具专区结构、十张外链卡片和设置弹窗 |
-| `scripts/computer-tools.js` | 电脑工具专区四语言文案、主题与设置逻辑 |
-| `styles/card-controls.css` | 全站卡片图区和下载页平台/渠道选择器的共享视觉样式 |
-| `styles/site-style.css` | 风格预览控件及全站可选终端视觉；网站视觉覆盖仅在 `data-style="terminal"` 下生效 |
-| `styles/mecha.css` | 独立机甲视觉及其五色/深浅调色板；所有规则限定在 `data-style="mecha"` 下 |
-| `styles/blackgold.css` | 独立黑金典藏视觉、深色与象牙白浅色调色板、五色与响应式；所有规则限定在 `data-style="blackgold"` 下 |
-| `styles/columbina.css` | 独立哥伦比娅主题：月光蓝白/午夜蓝、角色首屏与淡化背景、星月羽翼图案、五色与响应式；限定 `data-style="columbina"` |
-| `assets/themes/columbina/` | 角色原画 PNG 与来源/版权 README；不属于网站 favicon 素材 |
-| `styles/mahiro.css` | 独立绪山真寻手账主题、粉紫/梅紫深浅色、相片构图与全站控件；限定 `data-style="mahiro"` |
-| `styles/furina.css` | 独立芙宁娜歌剧舞台主题、蓝金/珍珠白、礼帽水纹及全站控件；限定 `data-style="furina"` |
-| `assets/themes/furina/` | 官方生日贺图的同字节本地备用、国内实际图片源与版权/哈希记录 |
-| `assets/themes/mahiro/` | 国内 CDN 图片的同字节备用 JPEG、来源/版权/哈希记录 |
-| `scripts/site-style.js` | 四语言风格设置、首次绘制恢复、分风格偏好保存及后退缓存恢复 |
-| `tests/site-style.cjs` | 本地 Chromium 回归：经典样式对照、17 页布局、平台切换、翻译/配色/模式、搜索与存储 |
-| `tests/slider-geometry.cjs` | 全站滑块几何回归：每个位置的指示块边缘对齐、端点留白、窄屏长文案与减少动态效果 |
-| `tests/style-isolation.cjs` | 对比指定 Git 基线，验证经典/终端/科技/黑金典藏/哥伦比娅主要组件在各配色模式下的计算样式未变 |
-| `tests/columbina-art.cjs` | 哥伦比娅图片按需加载、17 页四宽度构图不遮字、来源说明、切换隐藏及加载失败降级 |
-| `tests/mahiro-art.cjs` | 真寻的真实图片请求域名、按需加载、17 页四宽度、四语言版权、图片失败和超时降级；`--live` 可额外验证实际 CDN 加载 |
-| `tests/small-bugfixes.cjs` | 四语言工具合并、保留全部资源、九页平台键盘/点击同步、实际字体字形加载与六主题窄屏检查 |
-| `tests/furina-art.cjs` | 芙宁娜选项顺序、国内 CDN 实际请求、按需加载/失败/超时降级、17 页构图、四语言与滑块边界；支持 `--live` |
-| `assets/fonts/` | 保留原生 Apple 字符的单字形兼容字体、OFL 许可与来源说明 |
-| `minecraft.html` | Minecraft 聚合页结构与样式 |
-| `scripts/minecraft-hub.js` | Minecraft 聚合页四语言与共享设置逻辑 |
-| `minecraft-download.html` | 基岩版 Windows/Android 下载选择页 |
-| `scripts/minecraft-download.js` | 基岩版平台数据、按钮链接、多语言和设置逻辑 |
-| `minecraft-china.html` | 国服 Windows/Android/iOS 下载选择页 |
-| `scripts/minecraft-china.js` | 国服三平台官方链接、四语言和设置逻辑 |
-| `minecraft-mods.html` | Java 模组平台选择页 |
-| `scripts/minecraft-mods.js` | CurseForge/Modrinth 数据、多语言和设置逻辑 |
-| `minecraft-launchers.html` | Java 启动器选择页 |
-| `scripts/minecraft-launchers.js` | 官方/PCL/HMCL 数据、多语言和设置逻辑 |
-| `minecraft-mobile.html` | Java 版 Android/iOS 移动端选择页 |
-| `scripts/minecraft-mobile.js` | Fold Craft Launcher/Amethyst iOS 数据、多语言和设置逻辑 |
-| `minecraft-seed.html` | 无选项卡的 Minecraft 种子查询详情页与双网站按钮 |
-| `scripts/minecraft-seed.js` | 种子查询页四语言、主题与设置逻辑 |
-| `genshin.html` | 原神内容专区、国际版站内卡片、国服直达卡片和设置弹窗 |
-| `scripts/genshin.js` | 原神专区四语言与主题设置逻辑 |
-| `genshin-download.html` | 原神国际版 Android/iOS/Windows 下载选择页 |
-| `scripts/genshin-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
-| `zzz.html` | 绝区零内容专区、国际版站内卡片、国服与兑换码直达卡片 |
-| `scripts/zzz.js` | 绝区零专区四语言与主题设置逻辑 |
-| `zzz-download.html` | 绝区零国际版 Android/iOS/Windows 下载选择页 |
-| `scripts/zzz-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
-| `hsr.html` | 崩铁内容专区、国际版站内卡片、国服与兑换码直达卡片 |
-| `scripts/hsr.js` | 崩铁专区四语言与主题设置逻辑 |
-| `hsr-download.html` | 崩铁国际版 Android/iOS/Windows 下载选择页 |
-| `scripts/hsr-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
-| `endfield.html` | 终末地内容专区、国际版站内卡片、国服与兑换码直达卡片 |
-| `scripts/endfield.js` | 终末地专区四语言与主题设置逻辑 |
-| `endfield-download.html` | 终末地国际版 Android/iOS/Windows 下载选择页 |
-| `scripts/endfield-download.js` | 四个下载链接、三平台切换、四语言与设置逻辑 |
-| `assets/site-cover.jpg` | favicon、Apple Touch Icon、桌面/PWA 图标 |
-| `site.webmanifest` | PWA 名称、颜色、启动方式和图标 |
-| `archive/legacy/preview.html` | 历史预览文件；不是当前正式入口 |
-| `archive/legacy/minecraft.js` | 旧版“Minecraft 国际版”实现；已加弃用注释，当前正式页面不引用 |
-| `README.md` | 已更新的项目概览与正式页面维护入口；详细约定仍以本文件为准 |
-| `docs/ROLLBACK.md` | 备份标签、下载 ZIP 入口及保留历史的回滚步骤 |
-
-当前 HTML 通过查询参数给 JS/图标做缓存更新。修改正式 JS 后应同步递增对应 HTML 的 `?v=`，避免 GitHub Pages/Safari 使用旧缓存。
-
-当前正式 HTML 保留各页内嵌基础样式，另在 17 个页面末尾引用 `styles/card-controls.css` 覆盖同类卡片与选择器；不引用旧升级版的 `site.css` 或 `site.js`。修改共享组件样式时，全部页面的 `card-controls.css?v=` 缓存号须同步递增。
-
-17 页的 `<head>` 在基础样式后继续加载 `styles/site-style.css` 与 `scripts/site-style.js`。新风格的覆盖按 `data-style` 隔离；经典风格的原有 CSS 继续保留。维护风格文件时须同步递增全部正式页面的这两个资源版本号，新页面也须接入二者。
-
-从 2026-10-18 起，所有正式页还加载 `styles/mecha.css`。机甲样式与风格切换资源的缓存号同为 `20261018-mecha1`；以后改机甲 CSS 时同步更新全部页面的该文件版本。三套风格共用 `card-controls.css` 中的滑块尺寸修正规则，不覆盖伪元素 `border-box`，不改变每步位移和轨道宽度计算。
-
-黑金典藏接入后，17 页的 `site-style.css`、`site-style.js` 与新增 `blackgold.css` 缓存号为 `20261018-blackgold1`；`mecha.css` 保持原缓存号。四种风格继续复用现有滑块几何规则。首页公告脚本也递增为 `20261018-blackgold1`。
-
-哥伦比娅接入后，17 页加载新增 `columbina.css`，并将它与共享 `site-style.css` / `site-style.js` 的缓存号设为 `20261018-columbina1`；其他独立主题 CSS 缓存不变。首页公告脚本同步递增。今后维护要覆盖五套风格，原四套视觉仍由各自作用域隔离。
-
-绪山真寻接入后，17 页新增 `mahiro.css`，并将它与共享 `site-style.css` / `site-style.js` 的缓存号设为 `20261019-mahiro1`；其他主题 CSS 原样保留。首页公告脚本同步更新。今后维护需覆盖六套风格。
-
-## 7. 已完成的主要需求历史
-
-- 将用户提供的压缩包网站部署到 `Jiyouyang/Jiyouyang.github.io`。
-- 把用户图片设置为 favicon、Apple Touch Icon 与桌面保存图标；撤销把它作为大封面的误解。
-- 移除首页 Hero 下方三个装饰图标。
-- 将蓝紫默认配色改为 Apple 风格黑白基调。
-- 增大顶部导航文字并加入高透明液态玻璃滑块效果。
-- 新增调色盘式主题设置、深浅模式与四语言翻译。
-- 去除顶部导航中分段项的多余内层白底，使其与导航玻璃底融合。
-- 搜索按钮左移并与设置按钮拉开距离；点击后自动滚动至搜索栏并唤起系统键盘。
-- 主题色会同步影响资源卡片插图，而不只改变按钮。
-- 删除博客，仅保留资源分享。
-- 创建 Minecraft 聚合专区，并把原下载入口移入该专区。
-- 创建基岩版双平台选择页，修正为“选项卡仅切换、按钮才跳转”。
-- 为 Android 增加第二下载入口及缺少版本时的提示。
-- 删除基岩版页面底部多余的页面说明。
-- 创建 Java 模组下载页（CurseForge / Modrinth）。
-- 创建 Java 启动器页（官方 / PCL / HMCL）。
-- 删除 Minecraft 基岩版入口及详情中的“国际”字样。
-- 多次调整名称后，最终决定把“双端/桌面端”从标题移到简介，四语言已经同步。
-
-## 8. 关键技术决策
-
-- 纯静态 HTML/CSS/原生 JavaScript，无构建步骤、无框架、无后端。
-- 由 GitHub Pages 从 `main` 分支仓库根目录发布。
-- 多语言采用页面内字典与 `data-i18n`/`data-i18n-html`/`data-i18n-label` 属性，不依赖外部翻译服务。
-- 主题通过根节点的 `data-theme` 和 `data-accent` 驱动 CSS 变量。
-- 风格通过 `data-style` 选择；终端的明暗/五色变量独立定义，避免改变经典色板。新风格默认深绿来自首次切换偏好，仍允许用户自行选色与切换深浅。
-- 用户偏好只存于浏览器 `localStorage`，没有账户同步。
-- 外部链接在实际下载/前往按钮上处理；切换选项卡使用 button，不能使用会导航的 anchor。
-- Minecraft 采用“首页资源卡 → Minecraft 聚合页 → 具体类型页 → 外部按钮”的层级，方便继续扩展。
-- 网站图标直接使用 JPEG。兼容性若出现问题，可未来生成标准 PNG/ICO 尺寸，但不能擅自替换用户指定图像。
-
-## 9. 已知问题与技术债务
-
-当前没有已确认阻断使用的错误；最近一次部署已验证页面标题、设备范围简介和四语言翻译正确上线。但存在以下维护风险：
-
-1. `README.md` 的旧入口说明已更新；以后增删页面仍需保持 README 与本文件一致。
-2. 旧文件 `archive/legacy/minecraft.js` 与 `archive/legacy/preview.html` 已加遗留标记，当前正式页面不引用，仅保留作历史参考。
-3. 回滚后，各页视觉样式、字典、设置逻辑和弹窗 HTML 仍独立维护；未来新增设置项时须检查全部页面。升级版的共享 CSS/JS 可在备份分支查阅，不应误认为仍在当前 `main` 中。
-4. 升级版曾加入 Chromium 浏览器回归脚本，但当前版本已随回滚移除；真实 iPhone Safari、Android Chrome 设备测试仍未完成。
-5. JPEG favicon 在部分旧浏览器或平台可能不如 PNG/ICO 稳定；目前 Safari/Apple Touch Icon 是用户最关心的场景。
-6. 外部下载站可用性受第三方网站及地区网络限制影响，本站无法保证。
-7. HMCL 链接固定到 `v3.16.4` release；新版本发布后不会自动更新。
-8. 各页面翻译字典独立维护，新增或重命名文案时必须逐页检查四种语言。
-
-## 10. 尚未完成/未来方向
-
-用户明确表示 Minecraft 专区以后还会增加更多 Minecraft 相关跳转选项；种子查询与国服下载已加入。当前无需创建 Java 游戏本体下载页，也不要把“Java 版启动器下载”误解成 Java 游戏安装包下载。
-
-建议的下一步按优先级排列：
-
-1. 根据用户下一次提供的 Minecraft 内容类型，在 `/minecraft.html` 增加同视觉体系的新卡片；仅在需要站内选择或详情时建立独立页面。
-2. 今后扩展专区时，同步更新 `README.md`、首页入口简介与本交接文档。
-3. 如确定不再需要历史预览，另行评估是否删除 `archive/legacy/minecraft.js` 和 `archive/legacy/preview.html`；目前只归档、不删除。
-4. 目前页面采用各页内嵌样式；除非用户再次要求升级，不要自行把已回滚的 `site.css` / `site.js` 共用体系加回当前站点。
-5. 对 iPhone Safari、Android Chrome 和桌面浏览器进行一次系统视觉/键盘/滚动/深色模式回归。
-6. 视用户意愿为 favicon 生成标准多尺寸 PNG/ICO，同时保留原图构图。
-
-## 11. 修改与发布检查清单
-
-每次改动至少检查：
-
-- [ ] 编辑前已在 GitHub 建立并核验同时间命名、指向同一完整基线的备份分支与 Releases → Tags 标签；工作区未提交内容也已妥善保存。
-- [ ] 若为网站回滚，仅恢复经核对的网站文件；交接文档、回滚说明、README 与维护脚本未被旧版覆盖。
-- [ ] 新增/修改文案是否同步简中、繁中、英文、日文。
-- [ ] 主题色是否影响活动控件及相关图形，而不只是按钮。
-- [ ] 浅色、深色、跟随系统是否可用。
-- [ ] 选项卡是否只切换内容，没有意外导航。
-- [ ] 只有明确的下载/前往按钮才打开外链。
-- [ ] 手机端导航、搜索、设置按钮是否不重叠且容易点按。
-- [ ] JS 语法检查通过；HTML 引用的缓存版本已更新。
-- [ ] 下载链接与站内路径无误。
-- [ ] `CODEX_HANDOFF.md` 已同步记录本次需求、改动和验证。
-- [ ] 推送到 `main` 后核验 GitHub Pages 实际页面，而不是只检查本地文件。
-
-## 12. 最近部署基线
-
-### 2026-10-18：新增哥伦比娅月光主题
-
-- 需求：新增原神哥伦比娅可选主题；允许网上检索配色与角色背景，用户的两张手机主题截图仅作参考。延续前四种风格，不自动切换已有用户设置。
-- 修改前备份（UTC 2026-10-18 07:52:52）：分支 `backup/pre-change-2026-10-18_07-52-52_UTC`、带注释标签 `backup-2026-10-18_07-52-52_UTC` 已推送；远端分支与剥离标签核验指向完整干净基线 `457f801e0ae295befe20847442977c3ff4e6970f`。
-- 素材：角色图片以 1024×1024 PNG 原样保存在仓库，不去水印、不冒充原创；其版权属于原权利人，不标作开源。站内对外来源入口现为中国大陆米游社官方页面，历史归档来源与 SHA-256 校验仍保留在 `assets/themes/columbina/README.md`，保证来源切换不篡改图片。每页仅在该主题显示素材来源和非官方说明，四语言同步。
-- 设计：月光蓝、珍珠白、蓝紫羽翼与莓红点缀，午夜蓝深色；角色首屏手机上下排列、桌面左右分栏，正文不压在人物面部。背景以低透明度延续同一张图，卡片保持实色可读；保留资源字形、平台图标与按钮层级，轨道、细星点和羽翼轮廓由 CSS 实现。
-- 实现：独立 `styles/columbina.css`；共享风格脚本/预览控件添加第五选项、四语言、独立存储与懒创建图片/来源说明；17 HTML 接入并更新缓存；首页四语言普通公告、README、本交接与四份测试脚本同步。无新外部运行时字体、脚本或图片依赖，图片由仓库同源提供；首次进入该主题约需加载 1.7 MB 图片，其他风格不加载。
-- 验证：17 页与 300 组配色/语言/模式检查通过，文字与强调色对比度至少 4.5:1；680 组修改前后经典/终端/科技/黑金典藏计算样式对照通过。五风格 × 17 页 × 四宽度 × 四语言共 11,920 个滑块/分类位置通过，端点留白、动画落点与减少动态效果正常。图片专项检查全部 17 页四宽度构图不遮挡标题、其他主题不下载图片、切换隐藏、来源和图片失败降级通过。
-- 已查看手机/桌面首屏、深浅下载页、Minecraft 卡片与 320px 日文设置截图；新预览标签单独精调字号/间距。135 条新主题 CSS 规则全部具有独立作用域，JS 语法与差异检查通过。回归入口：`tests/site-style.cjs [URL] columbina`、`tests/slider-geometry.cjs`、`tests/columbina-art.cjs`、`tests/style-isolation.cjs [URL] 457f801e0ae295befe20847442977c3ff4e6970f`。
-- 限制：尚未实机验证 iPhone Safari/Android；沿用既定 Apple 私有字符图标，缺少 Apple 字体时的缺字限制保持不变。图片失效时保留纯 CSS 月亮装饰与所有业务功能。原卡片内容、下载网址、分类关系不改。
-
-### 2026-10-18：新增独立黑金典藏风格
-
-- 需求：新增“黑金典藏”，与经典、终端、科技三种现有风格互不冲突；用户随后要求继续未完成的同一任务，不是新增独立改动。
-- 修改前完整备份（UTC 2026-10-18 06:45:17）：分支 `backup/pre-change-2026-10-18_06-45-17_UTC` 与带注释标签 `backup-2026-10-18_06-45-17_UTC` 已推送，远端分支及剥离标签均核验指向 `589d376cfa93c4afcf9f697dbfe3ebac09cfba7a`。恢复工作后再次核验远端与备份，未覆盖已有改动。
-- 设计：墨黑背景、暖金细线、徽章式图案、内嵌卡片边框、宋体/衬线标题与清晰无衬线正文；提供象牙白浅色外观。五种配色继续生效，暖金装饰保留，橙色档在该风格映射为暖金。没有新增图片下载、字体依赖、外链或内容卡片。
-- 实现：新增 `styles/blackgold.css`，所有网站视觉规则限定 `data-style="blackgold"`；共享设置增加第四张预览卡、四语言、独立 `jy-style-blackgold` 偏好，首次选择深色暖金。17 页接入 CSS 并更新共享资源缓存；首页增加普通四语言公告，README 与本文件同步。原三套风格 CSS 规则、内存/存储键与各页业务逻辑保持不变。
-- 验证：510 组经典/终端/科技与修改前 Git 基线的主要组件计算样式对照通过；新增风格全部 17 页功能、320/390/768/1440 宽度、300 组配色/模式/语言及文字/强调色至少 4.5:1 对比度检查通过。四风格、17 页、四宽度、四语言共 9,536 个滑块/分类位置通过，包含两端留白、动画落点及减少动态效果。四风格独立偏好、跨页/刷新、后退恢复、禁用存储降级、搜索/公告/选项卡不导航均通过。
-- 视觉复核：已查看手机设置（含 320px 日文）、精选卡片、深浅下载页与桌面首页截图。修正共享深色滑块背景优先级覆盖，并补充实际指示块背景断言。原神/绝区零/崩铁/终末地双下载按钮维持同权重、同高度且并排，基岩版/种子查询保留主次区别；六页在深/浅模式的按钮专项检查通过。
-- 维护：`tests/site-style.cjs [URL] blackgold`、`tests/slider-geometry.cjs`、`tests/style-isolation.cjs [URL] 589d376cfa93c4afcf9f697dbfe3ebac09cfba7a` 为本次回归入口。JS 语法、差异及 17 页缓存/资源接入检查通过。后续新增组件须验证四种风格。
-- 限制：未在真实 iPhone Safari/Android 设备上实测；沿用既定 Apple 字符图标，缺少 Apple 字体的系统仍可能显示缺字。本次没有其他已知阻断问题。
-
-### 2026-10-18：机甲显示名称改为科技
-
-- 需求：仅将“机甲”风格改名为“科技”；简中/繁中为“科技”、英语为“Technology”、日语为“テクノロジー”。历史更新记录中的旧名称保留。
-- 实现：修改共享 `scripts/site-style.js` 四语言标签及对应测试断言；同步 README 当前说明，新增四语言普通公告。17 个正式页面更新共享 JS 缓存号为 `20261018-tech-name1`，首页公告脚本使用同一新缓存号。CSS 缓存号不变。
-- 兼容决策：内部标识 `mecha`、样式文件、存储键、全部视觉与行为均不变，避免用户原有偏好丢失。
-- 修改前完整备份（UTC 2026-10-18 05:44:49）：分支 `backup/pre-change-2026-10-18_05-44-49_UTC`，带注释标签 `backup-2026-10-18_05-44-49_UTC`；远端分支与剥离标签均验证指向 `35dcf7bf99afc4d428925311f6d75db99baaa6e7`。
-- 验证：JS 语法和差异检查通过；全部 17 个正式页面 × 四语言共 68 项标签/偏好保留检查通过，320px 设置面板无横向溢出。本次不涉及布局或配色规则修改。
-
-### 2026-10-18：新增独立机甲风格
-
-- 需求：用户采纳此前“白色机甲”的推荐，要求更帅且与经典/终端不冲突。作为第三种可选风格实现，不改变默认经典风格，不覆盖现有用户偏好。
-- 开始前同步远端新增 Python 官方下载入口；完整备份时间 **2026-10-18 05:31:35 UTC**，分支 `backup/pre-change-2026-10-18_05-31-35_UTC` 与带注释标签 `backup-2026-10-18_05-31-35_UTC` 已核验均指向完整基线 `1da23dfe1249736c377f899bc35350c67a89a71d`，编辑前工作区干净。
-- 设计：浅色陶瓷白/钛灰装甲、深色结构导航、橙色指示点缀、斜切卡片图形、机械环线和面板接缝；深色使用蓝灰机舱配色。导航、公告、首屏、精选、资源/专区卡片、平台插图、滑块、下载按钮、搜索、设置、页脚均适配。全部五色与浅/深/跟随系统、四语言沿用现有功能。
-- 实现：新增独立 `styles/mecha.css`，所有规则使用 `data-style="mecha"` 作用域；`scripts/site-style.js` 扩展风格名单、四语言与独立 `jy-style-mecha` 偏好，首次进入为浅色橙色。`styles/site-style.css` 仅新增第三张设置预览卡，原经典/终端网站视觉规则未改。17 个 HTML 加载新 CSS 并同步风格资源缓存号。`scripts/app.js` 增加四语言公告，首页脚本缓存、README、本交接与回归脚本同步维护。
-- 验证：机甲和终端分别通过 17 页功能/布局检查与 300 组配色×模式×语言检查；正文、次要文字、强调色与主按钮配色对比度至少 4.5:1，页面在 320/390/768/1440 宽度无横向溢出。三种风格各自保存偏好、跨页刷新、后退恢复与禁止存储时降级正常。另以备份基线做 340 组经典/终端主要组件计算样式对照，均完全一致（新增设置预览卡除外）。已查看浅色手机首页/设置/下载页、深色下载页与桌面首页截图。
-- 回归命令：`node tests/site-style.cjs http://127.0.0.1:8765 mecha`（或 `terminal`），`node tests/slider-geometry.cjs`（三种风格），`node tests/style-isolation.cjs http://127.0.0.1:8765 1da23dfe1249736c377f899bc35350c67a89a71d`。均需本地静态服务器、Playwright 与 Chromium。
-- 滑块专项：三风格、17 页、四宽度、四语言共 **7,152** 个指示块/分类位置通过，含左右端点留白、正常动画结束位置与减少动态效果；新增机甲未重新引入右端越界。
-- 限制：尚未在真实 iPhone Safari 上实机验证；iOS 私有 Apple 字符沿用用户已有规范，非 Apple 字体环境显示限制不在此次替换范围。后续新增页面须接入三风格并运行滑块几何检查。
-
-### 2026-10-18：电脑工具专区新增 Python 官方下载入口
-
-- 需求：电脑工具专区新增一个选项，点击可前往 Python 官方下载网站。
-- 编辑前于 **2026-10-18 03:19:30 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-18_03-19-30_UTC` 与带注释标签 `backup-2026-10-18_03-19-30_UTC`，两者剥离后均指向远端基线提交 `185c8b160dabc60005f715623f84426d92927b10`，包含 47 个受版本控制文件。远端较本地新增终端风格与滑块修复两次提交，备份后快进同步本地，保留新内容。
-- Python 官方下载入口采用 <https://www.python.org/downloads/>，2026-10-18 实测 HTTP 200；使用通用下载页，供访客按系统选择版本，不固定安装包版本。
-- `computer-tools.html` 增加整卡外链、更新数量和脚本缓存；`scripts/computer-tools.js` 补齐四语言卡片文案；`scripts/app.js` 扩展首页搜索简介并新增四语言公告，`index.html` 同步缓存版本；`README.md` 和本文件同步。
-- 验证：`node --check` 检查首页与专区脚本，`git diff --check` 通过；静态断言确认十张整卡外链、Python 精确官方网址、新标签页安全属性、四语言文案、首页搜索简介、脚本缓存及新风格资源保留。发布后核验 GitHub Pages。遗留问题：无已知问题。
-
-### 2026-10-17：修复全站滑块右端越界及窄屏轨道错位
-
-- 需求：新终端风格的模式、语言和平台滑块右端超出容器，要求两端像左侧一样留白，并检查修复所有滑块。
-- 修改前完整备份时间 **2026-10-17 10:45:12 UTC**；分支 `backup/pre-change-2026-10-17_10-45-12_UTC` 与带注释标签 `backup-2026-10-17_10-45-12_UTC` 已推送且核验均指向完整基线 `d7f9bf6bedf1fb32dcc5fe1bde4976e8cb4f4315`，当时本地工作区干净、远端 `main` 相同。
-- 根因：页面 `* { box-sizing: border-box }` 不匹配伪元素，带边框的 `::before` 指示块实际宽度多出 2px；`translateX(100%)` 按带边框的总宽度位移，误差随选项位置累积。经典风格平台滑块也有同类问题。
-- `styles/card-controls.css` 统一给 `.segmented::before` 与 `.platform-tabs::before` 设置 `border-box`；不裁切越界图形、不调整位移补偿值，保留原有滑动方式，令边框纳入轨道尺寸计算。全部 17 个正式 HTML 递增共享 CSS 版本为 `20261017-slider1`。
-- 额外发现并修复：320px 窄屏英文的 Java 启动器选项中，长标签的最小内容宽度撑大网格轨道；共享样式允许按钮/标签收缩与换行，并在 380px 以下调整平台选项的横向间距与字号。原 `*` 减少动态效果规则同样漏掉伪元素，现明确关闭这两类指示块的过渡。
-- 新增 `tests/slider-geometry.cjs`，实测伪元素的边框宽度和变换位移，与当前按钮左右边界比较；17 页、两种风格、320/390/768/1440 四种宽度、四语言合计 **4,768** 个滑块/分类位置通过，端点留白一致，边缘误差小于 0.12px。另验证正常动画结束位置、减少动态效果与页面脚本错误。原回归只检查整体页面横向溢出，无法发现容器内部的指示块越界，今后维护滑块须运行此项几何检查。
-- 首页 `scripts/app.js` 新增四语言更新公告，`index.html` 递增脚本缓存号；本交接文档同步。查看了日语终端风格模式/语言最后一项和原神 Windows 最后一项截图。真实 iPhone Safari 仍待用户设备确认。
-
-### 2026-10-17：全站新增可切换的终端风格
-
-- 需求：依用户参考图设计完整的新风格，并在原设置中新增切换入口；保留原风格及全部网站功能。
-- 修改前已同步远端新增 The Pirate Bay / Nyaa 的提交；完整备份时间 **2026-10-17 10:08:08 UTC**，分支 `backup/pre-change-2026-10-17_10-08-08_UTC`，带注释标签 `backup-2026-10-17_10-08-08_UTC`。核验分支及标签剥离提交均为 `7f6546cba4e9e2d8f3a4c4de1a2c342f3b8ca809`，工作区干净；标签在 GitHub Releases → Tags 可下载完整源码。
-- 新增 `scripts/site-style.js`、`styles/site-style.css`，17 个正式 HTML 接入带缓存号的共享资源；首页 `scripts/app.js` 新增四语言公告并递增缓存号。`README.md`、本交接文档及 `tests/site-style.cjs` 同步维护。
-- 设计：经典维持液态玻璃与圆角留白；终端使用深绿黑底、荧光绿色、等宽字体、低亮网格、细边框面板、琥珀分类标签。导航、公告、首屏、精选/资源/专区卡片、平台插图、平台/渠道滑块、按钮、搜索、设置、页脚均覆盖；提供五色与浅/深/系统模式，浅色使用高对比的浅灰绿底。
-- 交互：默认继续经典；两种风格分别保存颜色与深浅模式，语言通用。首次终端为深色绿色；可跨页、刷新恢复，后退缓存恢复读取最新偏好。设置内部程序点击已阻止冒泡，避免被旧弹窗的外部点击关闭逻辑误判。根变量选择器优先级覆盖旧色板，Safari 顶栏取当前实际背景色。
-- 验证：Chromium 对全部 17 页进行经典主要组件计算样式对照、风格切换、刷新恢复与下载平台按钮不导航检查；320、390、768、1440 宽度无横向溢出。5 类代表页面覆盖四语言 × 五色 × 三种模式共 300 组，检查设置翻译、无溢出、模式联动、主题色以及正文/次要文字/强调色/主按钮至少 4.5:1 的配色对比度。跨页偏好隔离、搜索筛选、公告展开、localStorage 被禁止时降级检查通过。查看了手机设置、首页、下载页以及桌面首页与浅色英文下载页截图。
-- 验证方式：启动本地静态服务器后运行 `node tests/site-style.cjs http://127.0.0.1:8765`（需 Playwright 与 Chromium）；脚本默认 `/usr/bin/chromium`，可用 `CHROMIUM_PATH` 指定。JS 语法及差异检查在提交前执行。
-- 限制：未在真实 iPhone Safari 上实机验证。依用户既有规范，iOS 图标仍保留 Apple 私有字符与描边，在缺少 Apple 字体的 Chromium/Linux 上可能显示方框；此次不替换图标。原有两个同名“工具”筛选保持既有关系。
-
-### 2026-10-17：电脑工具专区新增 The Pirate Bay 与 Nyaa
-
-- 需求：按用户要求在“电脑工具”专区新增“海盗船 BT 下载”和“Nyaa BT 下载”两张整卡可点击的入口，并检索原站网址。
-- 编辑前于 **2026-10-17 08:26:08 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-17_08-26-08_UTC` 与带注释标签 `backup-2026-10-17_08-26-08_UTC`；分支与标签剥离后均指向远端基线提交 `59d0ebaffcf18883b61eb268ecc106a5c522f948`，包含 43 个受版本控制文件。随后将本地 `main` 快进同步至该基线，保留远端新增的首页公告、分类文字及 iOS 图标规范。
-- “海盗船”暂按 The Pirate Bay（常见译名“海盗湾”）理解，使用资料所列的原站域名 <https://thepiratebay.org/>；Nyaa 使用 <https://nyaa.si/>。Nyaa 原站于 2026-10-17 从执行环境访问返回 HTTP 200；The Pirate Bay 域名在执行环境被连接代理以 403 拒绝，因此仅核对公开资料，未确认其在用户网络的可达性，不改用镜像站。
-- `computer-tools.html` 新增两张外链整卡并将计数改为九；`scripts/computer-tools.js` 补齐四语言文案；`scripts/app.js` 更新首页搜索简介、增加四语言公告；`index.html` 更新脚本缓存号；`README.md` 与本文件同步。
-- 验证：`node --check` 检查两个页面脚本且 `git diff --check` 通过；静态断言确认九张整卡外链、新卡片精确网址及新标签页安全属性、四语言文案、首页搜索简介与脚本缓存号。发布后另行核验 GitHub Pages。遗留与决策：如用户指的“海盗船”并非 The Pirate Bay，应按其确认的站点更正。
-
-### 2026-10-17：首页“电脑工具”分类按钮改显示为“工具”
-
-- 需求：仅将首页分类筛选栏里的“电脑工具”改显示为“工具”，为日后加入手机工具预留更通用的名称；不改专区卡片标题、现有资源或筛选逻辑。
-- 编辑前于 **2026-10-17 05:21:25 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_05-21-25_UTC` 与带注释标签 `backup-2026-10-17_05-21-25_UTC`，两者剥离后均指向基线提交 `9b2134a6af7b0629992a03c0484cb633a41fe937`；编辑前工作区干净，基线为当时远端 `main` 的完整仓库树。
-- `scripts/app.js` 的 `category.computer` 四语言显示文案改为“工具”及其对应翻译，并按公告规则增加四语言简要更新记录；`index.html` 同步静态回退文字并递增脚本缓存版本。`category.computer` 键、`data-category="computer"` 值、资源类别及“电脑工具”专区卡片保持原样。
-- 遗留与决策：首页已有另一枚“工具”筛选按钮，本次按用户“只改名称”的范围保留两枚同名但筛选不同内容的按钮；未来若需真正合并工具分类，必须另行调整数据与筛选交互。
-- 验证：`node --check scripts/app.js`、`git diff --check` 与静态断言通过；确认四语言分类文案、HTML 回退文字、原有“工具”筛选键和四语言公告均存在。当前沙箱禁止本地监听端口及启动 Chromium，未进行浏览器可视回归。
-
-### 2026-10-17：新增 jiyoyang 与 Eghver 置顶公告
-
-- 需求：按用户最后一条消息新增“jiyoyang是Eghver恶魔主人喵”置顶公告，与原有置顶公告每 3 秒循环；保留用户写的 `jiyoyang` 拼法。
-- 编辑前于 **2026-10-17 03:50:19 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_03-50-19_UTC` 与带注释标签 `backup-2026-10-17_03-50-19_UTC`；两者剥离后均指向基线提交 `19be66fcac8df09e6a84b2783a393bf5385ff2ed`，包含当时仓库的 43 个受版本控制文件；远端 `main` 相同，本地工作区干净。
-- `scripts/app.js` 增加四语言置顶公告，现有 `announcementRotationDelay = 3000` 使三条置顶公告轮换；`index.html` 更新首屏静态公告、日期与脚本缓存版本。公告沿用石墨、蓝、紫、绿、橙色调及跟随系统、浅色、深色模式，其他公告不变。
-- 验证：`node --check scripts/app.js` 和 `git diff --check` 通过；确认新公告的简中、繁中、英文、日文内容齐全，共三条 `pinned: true`，轮播间隔仍为 3000ms，首页静态首屏与缓存版本已同步。五色调和三档外观继续使用现有公告样式；发布后核验 GitHub Pages。遗留问题：真实手机端视觉仍待设备确认。
-
-### 2026-10-17：固定全站 iOS 图标规范
-
-- 需求：用户明确要求以后所有 iOS 图标都按此前截图图二的效果，与原神等旧下载页保持一致。
-- 编辑前于 **2026-10-17 00:56:00 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-56-00_UTC` 与带注释标签 `backup-2026-10-17_00-56-00_UTC`，两者剥离后均指向基线提交 `e078fe48f8f8c7014d3387d10a156ad89b317c81`，当时远端 `main` 一致、工作区干净。
-- 仅修改 `CODEX_HANDOFF.md`：将旧下载页的 Apple 字符、标签和描边 CSS 写成全站后续 iOS 图标规范，覆盖页签和内容卡片；此次没有修改网站页面或重新替换现有图标，因此不需要用户可见公告或缓存版本调整。
-- 验证：`git diff --check` 通过；已核对 `genshin-download.html` 与 `scripts/genshin-download.js` 确实包含所引用的 `` 标签及两种描边样式。仅文档变更，无需运行页面交互测试；发布后需核对远端文件。
-- 遗留与决策：Apple 私有字符在无 Apple 字体的平台可能缺字；用户指定的 iPhone 端截图效果优先。图标样式规则不自动要求各页面统一选项卡顺序。
-
-### 2026-10-17：Minecraft 国服 iOS 图标与旧下载页完全对齐
-
-- 需求：用户对比截图指出，国服页上次改用的 Apple SVG 轮廓、iOS 选项位于右侧的布局均与原神等旧下载页明显不同；需让页签、卡片及选项顺序都呈现图 2 的原有效果。
-- 编辑前于 **2026-10-17 00:50:25 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-50-25_UTC` 与带注释标签 `backup-2026-10-17_00-50-25_UTC`，两者剥离后均指向基线提交 `a8464a84e911611a163cdf66617cfa40071ff16b`，当时远端 `main` 一致、工作区干净。
-- `minecraft-china.html` 将选项顺序改为 Android、iOS、Windows（默认 Android），使 iOS 选中滑块位于中间；iOS 页签直接采用 `genshin-download.html` 的 `tab-apple` 标签和 CSS，卡片采用同页的 `apple-symbol` CSS；`scripts/minecraft-china.js` 的卡片图标亦采用 `scripts/genshin-download.js` 的相同标签。滑块 `box-sizing:border-box` 保持不变。`scripts/app.js` 增加四语言公告，首页与国服页提升脚本缓存版本。
-- 验证：`scripts/minecraft-china.js`、`scripts/app.js` 通过 `node --check`，`git diff --check` 通过；Chromium 核对国服页与原神页的 iOS 页签、卡片 Apple 标签完全一致，iOS 中间滑块左右留白均约 120px（390px 视口）；四语言 × 五色调 × 三档外观共 60 组切换无 JS 报错或横向溢出。320px 视口下三平台切换、选中状态、原下载链接及无横向溢出均通过。推送后仍需核对 GitHub Pages 实际文件。
-- 遗留与决策：Apple 私有字符在无 Apple 字体的平台可能缺字；用户明确要求与现有 iPhone 下载页一致，故不再以近似 SVG 代替。真实 iPhone Safari 最终观感仍需设备端复核。
-
-### 2026-10-17：修正 Minecraft 国服 iOS 滑块边距与图标
-
-- 需求：用户截图显示国服下载页 iOS 选中滑块贴近右侧外框；需与 Windows 选中时左侧的距离一致，并把 iOS 页签和卡片图标改成其他下载页使用的 Apple 图标。
-- 修改前于 **2026-10-17 00:37:53 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-37-53_UTC` 与带注释标签 `backup-2026-10-17_00-37-53_UTC`，两者剥离后均指向基线提交 `a0c6c4098483dddcf0bc382fa0d20f0b44fbe4ec`，当时远端 `main` 一致、工作区干净。
-- `minecraft-china.html` 为三列滑块的伪元素显式设置 `box-sizing:border-box`，避免边框在平移三格时累计挤占右边距；iOS 页签与卡片改用同一路径的 Apple 轮廓 SVG。`scripts/minecraft-china.js` 更新卡片图标，`scripts/app.js` 增加四语言公告，`index.html` 和国服下载页提升脚本缓存版本。
-- 验证：`scripts/minecraft-china.js`、`scripts/app.js` 通过 `node --check`，`git diff --check` 通过。无界面 Chromium 在 320/375/390/428/600px 下测得 Windows 左边距与 iOS 右边距均约 6px；国服页四语言 × 五色调 × 三档外观共 60 组、180 次原下载链接检查、60 次边距及双位置图标检查均通过。首页四语言公告在五色调 × 三档外观的 60 组检查中正常；320px 下四语言 iOS 页无横向溢出。推送后仍需核对 GitHub Pages 实际文件，外链目标未变。
-- 遗留与决策：Apple SVG 路径取自 Simple Icons（CC0）；真实 iPhone Safari 仍需用户设备端复核。
-
-### 2026-10-17：新增 Minecraft 国服三端下载引导
-
-- 需求：Minecraft 大专区新增国服下载卡片，先进入站内页面；页面提供 Android、电脑端与后续追加的 iOS 端，其中 iOS 的下载按钮直接前往中国区 App Store 对应的《我的世界：移动版》页面。
-- 编辑前于 **2026-10-17 00:11:26 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-11-26_UTC` 与带注释标签 `backup-2026-10-17_00-11-26_UTC`；分支及标签剥离后均指向基线提交 `a724fb9ca35365507908b702e6b43650e8d55c1a`，当时远端 `main` 一致、工作区干净。
-- 发布前远端 `main` 新增 Watt 工具箱与 v2rayN 更新；合并前于 **2026-10-17 00:19:52 UTC** 额外建立并核验完整备份分支 `backup/pre-change-2026-10-17_00-19-52_UTC` 与带注释标签 `backup-2026-10-17_00-19-52_UTC`，二者剥离后均指向远端新基线 `349ccd1b9e88a058a0f9fef4ba289426d2b89fec`。本次国服改动作为独立提交与这两项更新合并，没有覆盖它们。
-- `minecraft.html` 新增第六张站内卡片；新增 `minecraft-china.html` 与 `scripts/minecraft-china.js`，延续已有下载页视觉与设置，Windows、Android、iOS 选项卡只切换展示内容，下载按钮分别前往网易电脑端、网易安卓端与中国区 App Store。四语言、五种主题色和跟随系统/浅色/深色均已同步；`scripts/minecraft-hub.js`、`scripts/app.js`、`index.html`、`README.md` 和本文件同步更新，首页新增四语言公告并提升脚本缓存版本。
-- 验证：三个涉及的 JS 均通过 `node --check`，`git diff --check` 通过；三条外链在 2026-10-17 均返回 HTTP 200。无界面 Chromium 检查国服页四语言 × 五色调 × 三档外观共 60 组、三平台切换与按钮目标 180 项；合并后首页检查 60 组语言/色调/深浅组合，确认国服、Watt、v2rayN 公告同时存在；专区卡片检查四语言，320px 宽度下检查四语言 iOS 页面均无横向溢出，未发现页面 JS 报错。
-- 遗留与决策：网易地址取自官方 Minecraft 中国版页面，是官方**下载引导入口**，不承诺直接返回安装包；iOS 使用中国区 App Store 页面，可能需要对应地区 Apple 账号。真实 iPhone Safari 与 Android Chrome 仍待设备端验证。
-
-### 2026-10-17：电脑工具专区新增 v2rayN
-
-- 需求：在“电脑工具”专区新增一张名为 `v2rayN` 的整卡外链，通过网络检索其官网地址。
-- 编辑前于 **2026-10-17 00:16:25 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-16-25_UTC` 与带注释标签 `backup-2026-10-17_00-16-25_UTC`；两者剥离后均指向基线提交 `f77380c4d2f3094c822926ff9af10f4f17324898`，当时远端 `main` 一致、工作区干净，仓库有 41 个受版本控制文件。
-- 官网地址以项目维护者仓库 <https://github.com/2dust/v2rayN> 的主页字段为准，使用 <https://v2rayn.2dust.link/>；该页面列出各平台 v2rayN 下载文件，两处地址在 2026-10-17 均返回 HTTP 200。未使用搜索结果中未经维护者仓库确认的相似域名。
-- `computer-tools.html` 新增 v2rayN 整卡外链并将计数改为七项；`scripts/computer-tools.js` 加入四语言文案；`scripts/app.js` 更新首页专区搜索简介并增加四语言公告；`index.html` 更新脚本缓存号；`README.md` 和本文件同步维护说明。
-- 验证：`node --check` 检查两个页面脚本且 `git diff --check` 通过；数据检查确认专区七张整卡外链、v2rayN 卡片精确指向维护者所列主页且带安全的新标签页属性、四语言文案与七项计数齐全，首页搜索简介和四语言公告包含 v2rayN；推送后再核对 GitHub Pages 实际页面与脚本。
-- 遗留与决策：卡片直达维护者列出的主页，不固定具体版本的安装包地址。
-
-### 2026-10-17：电脑工具专区新增 Watt 工具箱
-
-- 需求：在现有“电脑工具”专区新增一张整卡可点击的 Watt 工具箱链接，由公开资料检索并核对官网地址。
-- 编辑前于 **2026-10-17 00:11:11 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-17_00-11-11_UTC` 与带注释标签 `backup-2026-10-17_00-11-11_UTC`；两者剥离后均指向基线提交 `a724fb9ca35365507908b702e6b43650e8d55c1a`，当时远端 `main` 一致、工作区干净，仓库有 41 个受版本控制文件。
-- 官网以项目维护者的仓库 <https://github.com/BeyondDimension/SteamTools> 所列“软件官网”为依据，使用 <https://steampp.net/>；搜索结果中的相似域名未采用。两处地址均在 2026-10-17 返回 HTTP 200。
-- `computer-tools.html` 新增 Watt 工具箱整卡外链并将计数改为六项；`scripts/computer-tools.js` 加入四语言文案；`scripts/app.js` 更新首页专区搜索简介并增加四语言公告；`index.html` 更新脚本缓存号；`README.md` 和本文件同步维护说明。
-- 验证：`node --check` 检查两个页面脚本且 `git diff --check` 通过；数据检查确认专区六张整卡外链、Watt 卡片精确指向 `https://steampp.net/` 且带安全的新标签页属性、四语言文案与六项计数齐全，首页搜索简介和四语言公告包含 Watt；推送后再核对 GitHub Pages 实际页面与脚本。
-- 遗留与决策：卡片直达项目官网，不固定具体安装包地址。
-
-### 2026-10-15：电脑工具专区新增 IDM_Cracker
-
-- 需求：新增一张名为 `IDM_Cracker` 的链接卡片，指向用户提供的 <https://github.com/YuHuanTin/IDM_Cracker>，放在已有的“电脑工具”专区内，保持整卡点击跳转。
-- 编辑前于 **2026-10-15 10:43:19 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-15_10-43-19_UTC` 与带注释标签 `backup-2026-10-15_10-43-19_UTC`；两者剥离后均指向基线提交 `6bfd605acad29de0dfb58c059a771ef01e84350c`，当时远端 `main` 一致、工作区干净，仓库有 41 个受版本控制文件。
-- `computer-tools.html` 新增整卡外链，并把计数改为五项；`scripts/computer-tools.js` 加入四语言名称、说明和中性页面文案，明确它是 GitHub 项目；`scripts/app.js` 更新首页专区搜索简介并新增四语言公告；`index.html` 更新脚本缓存号；`README.md` 和本文件同步维护说明。
-- 验证：`node --check` 检查两个页面脚本且 `git diff --check` 通过；数据检查确认专区有五张可整卡点击的外链、IDM_Cracker 精确指向用户提供的地址且带安全的新标签页属性、四语言文案键和五项计数齐全、首页简介和四语言公告包含新名称。目标 GitHub 仓库在 2026-10-15 返回 HTTP 200；推送后核对 GitHub Pages 实际页面与脚本。
-- 遗留与决策：将用户指定的仓库作为外部项目入口，不将其标为 IDM 官方下载地址。
-
-### 2026-10-14：把四项电脑工具整合到一个大入口
-
-- 需求：将本对话要求的 Chrome、Steam、图吧工具箱和 IDM 全部收进一个大的“电脑工具”入口，避免四张外链卡片直接分散在首页。
-- 编辑前于 **2026-10-14 23:02:44 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_23-02-44_UTC` 与带注释标签 `backup-2026-10-14_23-02-44_UTC`；两者剥离后均指向基线提交 `751b873d3973bc47194b835fada861151fab79ee`，当时远端 `main` 一致、工作区干净，仓库有 39 个受版本控制文件。
-- `scripts/app.js` 将四张首页外链卡片合并为一张 `/computer-tools.html` 站内专区卡片，首页资源数由 17 调为 14；分类筛选仍保留“电脑工具”，点击后只显示专区入口。新增 `computer-tools.html` 和 `scripts/computer-tools.js`，在专区展示四张整卡直达官方页面的卡片，并沿用四语言、五种主题色及深浅模式。`index.html` 更新静态计数和脚本缓存号，`README.md` 同步结构说明。首页另加四语言整合公告，保留此前的历史公告。
-- 验证：`node --check scripts/app.js`、`node --check scripts/computer-tools.js` 与 `git diff --check` 通过；新页面 HTML 标签结构平衡。数据检查确认首页 14 条资源、电脑工具分类只含 1 张站内入口卡片、专区 4 张卡片的完整官方地址、四语言页面和公告键、脚本与共享样式引用均正确。发布后再核对 GitHub Pages 实际页面与脚本。
-- 遗留与决策：本次保留首页“电脑工具”筛选按钮，但筛选结果只有专区入口；四张工具卡片集中在专区内并直接打开外部网页。当前没有浏览器控制工具，真实手机端视觉仍待设备验证。
-
-### 2026-10-14：电脑工具新增 IDM 下载器官网卡片
-
-- 需求：在“电脑工具”分类增加 IDM 下载器官网卡片，延续整张卡片直接跳转的交互。
-- 编辑前于 **2026-10-14 22:58:12 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_22-58-12_UTC` 与带注释标签 `backup-2026-10-14_22-58-12_UTC`；两者剥离后均指向基线提交 `79ea768c19ca0aff8cde93ca0787229ef08b57d2`。当时 `main` 与远端一致、工作区干净，仓库有 39 个受版本控制文件。
-- `scripts/app.js` 新增 IDM 四语言资源卡片，整卡直达官方主站 <https://www.internetdownloadmanager.com/>；同日电脑工具公告补上 IDM。`index.html` 的静态资源数从 16 调整到 17 并更新脚本缓存号；`README.md` 同步功能清单。
-- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；数据检查确认首页 17 条资源、电脑工具分类 4 张卡片、IDM 四语言标题与简介及公告均齐全、静态数量和脚本缓存版本匹配。IDM 官网在 2026-10-14 返回 HTTP 200；发布后核对 GitHub Pages 实际文件。
-- 遗留与决策：卡片直接指向 IDM 官方主站，由官网提供下载入口；未另建站内下载页。当前没有浏览器控制工具，真实手机端视觉仍待设备验证。
-
-### 2026-10-14：新增电脑工具分类与三个官网卡片
-
-- 需求：以后在本对话维护电脑相关内容；首页大类新增“电脑工具”选项卡，先后加入 Google Chrome 官方下载引导页、Steam 官网和图吧工具箱官方下载页，均可点击整张卡片直接跳转。
-- 编辑前先后于 **2026-10-14 22:48:54 UTC**、**22:52:17 UTC**、**22:52:28 UTC** 建立并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_22-48-54_UTC`、`backup/pre-change-2026-10-14_22-52-17_UTC`、`backup/pre-change-2026-10-14_22-52-28_UTC`，及对应带注释标签 `backup-2026-10-14_22-48-54_UTC`、`backup-2026-10-14_22-52-17_UTC`、`backup-2026-10-14_22-52-28_UTC`。六个远端引用剥离后均指向完整基线提交 `517370ec306ad3f4bc36463c8006474eda4ae176`，当时工作区干净，仓库有 39 个受版本控制文件。
-- 首页 `index.html` 新增筛选按钮，静态资源总数从 13 改为 16、分类数从 4 改为 5；窄屏筛选项改为两行三列，六个选项均可见。`scripts/app.js` 新增三张外链卡片与四语言分类、说明和更新公告，沿用现有整卡 `<a>` 跳转与主题色样式；`README.md` 同步维护说明。
-- 图吧工具箱地址以原版官网 <https://www.tbtool.cn/> 的下载页为准；该域名同时由图吧工具箱更新公告 <https://tb.saop.cc/update/> 确认。没有使用搜索结果中的仿冒站或第三方分发页。
-- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；数据检查确认首页 16 条资源、电脑工具分类恰有 3 张直接外链卡片、四语言标题与简介齐全、筛选按钮和静态计数匹配、脚本缓存号已更新。三个目标链接在 2026-10-14 均返回 HTTP 200。当前没有浏览器控制工具，真实手机端视觉仍待设备验证；发布后再核对 GitHub Pages 实际文件。
-- 遗留与决策：本次仅新增首页分类和外链卡片，不另建站内下载页；图吧工具箱固定指向原版官方的下载引导页，后续应随官网迁移核对地址。
-
-### 2026-10-14：制作公告收起时使用短标题
-
-- 需求：在首页公告栏收起且轮播到制作公告时，显示“本站由Jiyouyang & Codex制作”；展开后继续显示完整标题“本站由Jiyouyang & Codex（基于ChatGPT 6Astra & 6Sol)制作”及原有内容。
-- 编辑前于 **2026-10-14 10:26:56 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_10-26-56_UTC` 与带注释标签 `backup-2026-10-14_10-26-56_UTC`；两者剥离后均指向基线提交 `31bff3642285f36aed8b45995b93dd680eadad1c`，包含当时仓库的 39 个受版本控制文件；工作区干净，远端 `main` 一致。
-- `scripts/app.js` 为该公告新增四语言 `summary` 短标题，收起轮播优先显示该字段；展开列表仍读取 `content` 完整标题。`index.html` 同步首屏静态短标题并递增脚本缓存版本；两条置顶与 3 秒切换保留。五种主题色及三种明暗模式沿用原有样式。
-- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；确认四语言短标题齐全，收起轮播读取 `summary`、展开列表读取完整 `content`，首页静态短标题与脚本缓存版本已同步，两条置顶和 3000ms 轮播均保留。发布后核验 GitHub Pages；真实手机端视觉仍待设备验证。
-
-### 2026-10-14：修正置顶公告数量
-
-- 用户澄清“本站由Jiyouyang & Codex（基于ChatGPT 6Astra & 6Sol)制作”是一整条新公告；此前把“本站作者：ji you yang”误作另一条独立公告。
-- 编辑前于 **2026-10-14 10:17:49 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_10-17-49_UTC` 与带注释标签 `backup-2026-10-14_10-17-49_UTC`；两者剥离后均指向基线提交 `ac9451443e8d5b4545d69c9e0de8dd278612fa5a`，包含当时仓库的 39 个受版本控制文件。
-- 从 `scripts/app.js` 删除误加的 `2026-10-14-author-name` 记录，保留完整的 Jiyouyang & Codex 制作公告及原有“本站作者是可爱傲娇小男娘喵”公告；两条继续每 3 秒切换。`index.html` 仅递增脚本缓存版本，不添加普通更新公告。
-- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；确认仅余两条 `pinned: true` 公告，二者均有四语言内容，轮播间隔仍为 3000ms，脚本缓存版本已更新。五种主题色、三种明暗模式和公告样式未改；发布后核验 GitHub Pages。真实手机端显示仍待设备验证。
-
-### 2026-10-14：新增两条置顶公告并按三秒轮播
-
-- 需求：新增“本站作者：ji you yang”和“本站由Jiyouyang & Codex（基于ChatGPT 6Astra & 6Sol)制作”两条置顶公告；后一条以用户最后修订的“制作”结尾为准，标题区每 3 秒循环。
-- 编辑前于 **2026-10-14 10:15:41 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-14_10-15-41_UTC` 与带注释标签 `backup-2026-10-14_10-15-41_UTC`。两者剥离后均指向基线提交 `3732160972885744651f567f0ad0c9f8c79b162b`，包含当时仓库的 39 个受版本控制文件；工作区干净，远端 `main` 与该提交一致。
-- 在 `scripts/app.js` 增加两条四语言置顶记录，保留原有作者公告；现有 `announcementRotationDelay = 3000` 会让三条按顺序循环。`index.html` 更新首屏静态公告、日期与脚本缓存版本；公告继续沿用石墨、蓝、紫、绿、橙及浅色、深色、跟随系统模式的既有变量。
-- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；确认三条 `pinned: true` 公告均有简中、繁中、英文、日文内容，轮播间隔仍为 3000ms，首页静态标题和脚本缓存版本已同步。五种主题色和三种明暗模式继续由现有公告样式变量控制。本次未提供浏览器控制工具，真实手机端显示仍待设备验证；发布后检查 GitHub Pages 首页及脚本。
-
-### 2026-10-13：替换唯一置顶公告为作者公告
-
-- 需求：删除当前唯一的 Eghver 置顶公告，新增“本站作者是可爱傲娇小男娘喵”置顶公告；用户确认删除的就是当前仅存的那一条。
-- 编辑前于 **2026-10-13 23:07:15 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-13_23-07-15_UTC` 与带注释标签 `backup-2026-10-13_23-07-15_UTC`。两者剥离后均指向基线提交 `dea556962cba0a146e575814f2ea8c24220de99e`，包含当时仓库的 39 个受版本控制文件；本地工作区干净，远端 `main` 与该提交一致。
-- 在 `scripts/app.js` 中以新 ID 替换旧置顶记录，保留简中、繁中、英文、日文四语言；`index.html` 同步更新首屏静态公告与日期，递增脚本缓存版本。仅保留这一条置顶公告，不额外生成“删除公告”的普通更新记录。
-- 公告沿用已有玻璃背景、`var(--accent)` 与 `var(--soft)` 主题变量，覆盖石墨、蓝、紫、绿、橙及浅色、深色、跟随系统模式；公告列表与资源卡片逻辑不变。
-- 验证：`node --check scripts/app.js` 与 `git diff --check` 通过；确认公告数据中仅有一个 `pinned: true`，四语言标题齐全，首页静态标题、日期和脚本缓存版本一致。公告样式仍使用现有五种主题色变量及明暗模式；本次未提供浏览器控制工具，真实移动设备视觉仍待设备端确认。发布后核验 GitHub Pages 页面与脚本。
-
-### 2026-10-13：新增明日方舟：终末地专区
-
-- 需求：以后在此对话维护终末地时读取本交接文档；首页新增明日方舟：终末地大类入口，分项参照原神与绝区零，包含国际版下载、国服下载和兑换码查询，链接由 Codex 查询选定。
-- 修改前于 **2026-10-13 22:55:27 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-13_22-55-27_UTC` 与带注释标签 `backup-2026-10-13_22-55-27_UTC`。两者剥离后均指向基线提交 `64a59746cf06410b01139e37173812d904b8a235`；修改前工作区干净，远端 `main` 同为该提交。
-- 首页资源库新增“明日方舟：终末地”（简介含“终末地”以供搜索），排序在崩铁之后；新增四语言更新公告并提升 `app.js` 缓存号。两个新页面沿用崩铁专区与下载页结构、五种主题色、深浅模式和四语言设置；Android、iOS、Windows 选项卡只切换内容，按钮打开外链。移动导航使用“终末地”等短标题。
-- 链接：国服 <https://endfield.hypergryph.com/>；兑换码查询 <https://www.redeem-code-tracker.com/games/arknights-endfield>；Google Play <https://play.google.com/store/apps/details?id=com.gryphline.endfield.gp>；APKPure APK <https://apkpure.net/arknights-endfield/com.gryphline.endfield.gp/download>；美国区 App Store <https://apps.apple.com/us/app/arknights-endfield/id6752642477>；Windows 国际服官网 <https://endfield.gryphline.com/en-us>。APKPure 与兑换码查询是第三方入口。
-- 涉及文件：`index.html`、`scripts/app.js`、`endfield.html`、`scripts/endfield.js`、`endfield-download.html`、`scripts/endfield-download.js`、`README.md` 和本文件。首页静态资源数同步为 13，正式页面总数为 15。
-- 验证：`scripts/app.js`、`scripts/endfield.js`、`scripts/endfield-download.js` 通过 `node --check`；检查了 13 条首页资源、四语言翻译键、三平台内容与站内文件引用，平台按钮没有导航链接，`git diff --check` 通过。六个外部目标在 2026-10-13 均返回 HTTP 200，APKPure 当时标为 APK；未提供浏览器控制工具，真实设备视觉表现仍待设备端确认。
-- 新决策：终末地后续更新沿用本交接文档的备份与同步维护约定；Windows 使用国际服官方入口，Android 第三方链接不固定版本号，兑换码列表不承诺始终有可用码。
-
-### 2026-10-12：新增绝区零专区与国际版下载页
-
-- 需求：在游戏大类新增绝区零入口，按原神专区结构提供国际版下载、国服下载和可用兑换码查询；由 Codex 自行查找网址，并供后续绝区零更新沿用本交接文档。
-- 编辑前于 **2026-10-12 13:51:53 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-12_13-51-53_UTC` 与带注释标签 `backup-2026-10-12_13-51-53_UTC`。远端分支与标签剥离后均指向基线提交 `75b02e05778707c67a8022e285333cc16e57dbd2`；克隆后的工作区原本干净，基线提交包含当时完整仓库树。
-- 实现：首页新增绝区零卡片和四语言公告；新增 `/zzz.html` 三卡片专区及 `/zzz-download.html` Android/iOS/Windows 下载选择页。国服、兑换码与四个国际版下载网址详见上文；Android 第三方页面实际提供 XAPK，按钮如实标注。四语言、五种主题色、深浅模式沿用现有设置。
-- 涉及文件：`scripts/app.js`、`index.html`、`zzz.html`、`scripts/zzz.js`、`zzz-download.html`、`scripts/zzz-download.js`、`README.md` 与本文件。
-- 验证：三个修改或新增的 JS 均通过 `node --check`；两个新页面引用的翻译键已检查四语言完整；本地站内页面引用已核对，`git diff --check` 通过。六个外部目标（国服官网、兑换码、Google Play、APKPure、App Store、HoYoPlay）检查时均返回 HTTP 200。真实设备视觉表现仍待设备端确认。
-- 决策：Android 第三方安装包链接使用不带版本号的 APKPure 页面，避免固定版本地址过期。第三方展示版本与提供的文件格式可能变化，今后更新时需重新核对。
-
-### 2026-10-12：种子查询改为站内双网站页面
-
-- 需求：Minecraft 种子查询卡片先进入与其他板块一致的详情页，不再直跳外链；详情页无选项卡，以基岩版 Android 双下载按钮为参照，提供“查询网站 1”和“查询网站 2”，并在原简介意思上稍作优化。
-- 修改前于 **2026-10-12 13:13:59 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-12_13-13-59_UTC` 与带注释标签 `backup-2026-10-12_13-13-59_UTC`；标签剥离后与分支均指向基线提交 `665f6487a73c0f5bd2a6795717dfb7f6ace64b60`。当时本地工作区干净，且与 GitHub `main` 一致。
-- 专区卡片改为站内链接与 → 箭头；新增 `/minecraft-seed.html` 和 `scripts/minecraft-seed.js`，页面两个按钮分别通往用户指定的 Minecraft Search 种子地图链接及原 Chunkbase 链接。卡片简介改为“可输入自己想查的种子号，选择查询网站查看种子地图。”两按钮沿用基岩版 Android 的主次按钮布局，没有选项卡。
-- 简中、繁中、英文、日文的页面标题、简介、按钮、设置与可访问性文案已补全；石墨、蓝、紫、绿、橙五种主题色和跟随系统、浅色、深色模式沿用站点体系。首页增加四语言更新公告，两个业务脚本引用提升缓存版本；`README.md` 同步说明九个正式页面。
-- 涉及文件：`minecraft.html`、`minecraft-seed.html`、`scripts/minecraft-hub.js`、`scripts/minecraft-seed.js`、`scripts/app.js`、`index.html`、`README.md` 和本文件。验证：三个修改的 JS 均通过 `node --check`，`git diff --check` 通过；新页 32 个翻译键在四语言中齐全。Chromium 在 390px 下通过四语言 × 五色调 × 浅/深模式共 40 组检查，两个按钮同行、外链与卡片站内跳转正确且页面无水平溢出；320px 下四语言的双按钮样式与基岩版 Android 页逐项一致且无水平溢出，跟随系统深色切换和四语言公告渲染通过。首页公告在五色调 × 浅/深模式的 10 组检查中正常。查询网站 1 返回 HTTP 200；真实 iPhone Safari 与 Android Chrome 的视觉表现仍需设备端确认。
-
-### 2026-10-11：Minecraft 专区新增种子查询
-
-- 需求：在 Minecraft 大专区增加“Minecraft 种子查询”选项，导向 `https://www.chunkbase.com/apps/`，简介写明“可输入自己想查的种子号”。
-- 修改前于 **2026-10-11 23:03:43 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_23-03-43_UTC` 与带注释标签 `backup-2026-10-11_23-03-43_UTC`；标签剥离后与分支均指向基线提交 `c55c2cae43e5dfa9697efde56fef957e59810da0`。当时本地工作区干净，且与 GitHub `main` 一致。
-- Minecraft 专区新增第五张卡片，整卡外部直达 Chunkbase，标识为 `SEED`，使用外链箭头 ↗。简中、繁中、英文、日文均补全标签、标题和简介；卡片继续使用既有主题变量，适配石墨、蓝、紫、绿、橙及浅色、深色、跟随系统模式。
-- 首页新增四语言更新公告；`minecraft.html`、`index.html` 提升业务脚本缓存版本；`README.md` 与本文件同步记录。涉及文件：`minecraft.html`、`scripts/minecraft-hub.js`、`scripts/app.js`、`index.html`、`README.md`、`CODEX_HANDOFF.md`。
-- 验证：`node --check` 检查两个修改的脚本通过，`git diff --check` 通过；Chromium 在 390px 宽度下检查了四语言 × 五色调 × 浅/深模式共 40 组，卡片文字、主题标识色、外链属性和页面水平溢出检查均通过；跟随系统模式的浅/深实时切换与首页公告渲染也通过。Chunkbase 目标地址返回 HTTP 200。真实 iPhone Safari、Android Chrome 的视觉表现仍需设备端确认。
-
-### 2026-10-11：新增原神可用兑换码查询
-
-- 需求：在原神专区新增“原神兑换码”选择项，将该入口的操作文案设为“查询可用兑换码”，并跳转到 `https://www.crimsonwitch.com/codes/Genshin_Impact`。
-- 修改前于 **2026-10-11 10:46:12 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_10-46-12_UTC` 与带注释标签 `backup-2026-10-11_10-46-12_UTC`；两者剥离后均指向基线提交 `1752cb510432cf761390f05440b4e7da37175744`。
-- 原神专区新增第三张外部直达卡片，使用 `CDK` 标识和外链箭头；专区介绍、状态、首页原神简介同步涵盖兑换码查询。简中、繁中、英文、日文文案均已补全，卡片继续继承现有五种主题色及深浅模式。
-- 首页新增四语言更新公告；`genshin.html` 与 `index.html` 已提升对应业务脚本缓存版本。涉及文件：`genshin.html`、`genshin.js`、`app.js`、`index.html`、`README.md` 与本文件。
-- 验证：`genshin.js` 与 `app.js` 通过 `node --check`；原神专区 HTML 引用的全部翻译键在四种语言中均完整；目标兑换码网址返回 HTTP 200；脚本缓存版本、外链箭头语义与文档已核对，`git diff --check` 通过。GitHub Pages 部署任务成功，线上 `/genshin.html` 已核验包含新卡片、目标链接和 `20261011-codes1` 脚本版本；当前环境的无界面 Chromium 未能生成截图，真实设备视觉仍需后续设备端确认。
-
-### 2026-10-11：统一所有卡片图片与平台选择滑块
-
-- 需求：以用户两张手机截图为参考，而不只修改截图所示区域；所有同类卡片图区改为柔和灰白背景、居中标识，所有平台/渠道选择滑块改为浅色玻璃选中态。
-- 编辑前于 **2026-10-11 10:22:01 UTC** 建立并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-11_10-22-01_UTC` 和标签 `backup-2026-10-11_10-22-01_UTC`；二者指向基线提交 `f29ef754578ca0d72375cea98d56a359e66934f9`。
-- 新增 `card-controls.css`，8 个正式 HTML 同步引用；涵盖首页精选和资源卡、Minecraft/原神专区卡、5 个下载页插图及平台滑块。最初还覆盖了主页分类与设置分段控件，随后已按用户要求撤销这部分覆盖，只保留下载页 `.platform-tabs` 的新版样式。保留原有卡片内容、跳转关系、下载网址、主题色和四语言。
-- `app.js` 新增四语言更新公告，`index.html` 更新脚本缓存号；`README.md` 与本文件同步说明。验证：8 个正式页面均引用相同版本的共享样式，所有目标组件选择器及四语言公告齐全，全部根目录 JS 通过 `node --check`，CSS 块结构和 `git diff --check` 通过；页面业务 JS 与下载链接未改。当前环境没有可用的浏览器控制能力，真实 iPhone Safari 视觉仍需设备端确认。
-
-### 2026-10-11：每次备份同时发布到 GitHub Tags
-
-- 需求：今后创建修改前备份时，也像此前 `pre-visual-upgrade-20261011` 那样，把备份放到仓库 Releases → Tags 页面，供 ZIP / tar.gz 下载。
-- 本次在编辑前于 **2026-10-11 10:17:59 UTC** 创建并推送完整备份分支 `backup/pre-change-2026-10-11_10-17-59_UTC` 及带注释标签 `backup-2026-10-11_10-17-59_UTC`；远端核验二者均指向基线提交 `9630e9eb7115355c0d6a0cfe86ae8e03905461ff`，工作区原本干净。
-- 仅修改 `CODEX_HANDOFF.md` 的备份规则、检查清单及本记录；网站文件和视觉内容未改，因此不新增首页公告。验证：备份远端引用及标签剥离后的提交一致，文档差异无空白错误。无遗留功能问题。
-
-### 2026-10-11：明确网站回滚不回退交接与维护文件
-
-- 需求：今后说“滚回上一个版本”时，只回滚实际网站文件，`CODEX_HANDOFF.md` 等非网站文件保持最新；将规则写入本文件。
-- 编辑前已于 **2026-10-11 10:11:31 UTC** 创建并核验完整备份分支 `backup/pre-change-2026-10-11_10-11-31_UTC`，基线提交 `877340308d9df32c3f9e7e9fa7020dd4760598`；工作区原本干净。
-- 修改 `CODEX_HANDOFF.md` 的强制规则和检查清单，并修正 `ROLLBACK.md` 中与新规则冲突的整仓恢复示例。网站页面、样式、脚本、资源和线上观感均不改；因此不新增网站公告。
-- 验证：文档差异与空白检查通过；无网站文件改动。无遗留功能问题。
-
-### 2026-10-11：按用户要求恢复全面视觉升级前版本
-
-- 需求：“滚回上一个版本”，按此前“备份现有版以便不满意时滚回上一版”的语境，恢复到视觉升级前的固定基线 `dcc9d01b0e9c9e024b48fb1242ad54c86e420242`。
-- 修改前于 **2026-10-11 10:08:23 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_10-08-23_UTC`，指向 `89a16cad9c5f3cd909c6df282c2ec06a0fe4c0c2`，包含回滚前全站代码与最新备份规则。
-- 恢复 8 个正式 HTML、`app.js` 和 `README.md` 的升级前内容；移除仅属于升级版的 `site.css`、`site.js` 和 `scripts/verify-ui.cjs`。保留当前 `CODEX_HANDOFF.md` 的强制备份规则及 `ROLLBACK.md`，并更新维护现状。
-- 按网站更新公告规则，仅在旧版 `app.js` 新增一条四语言“已恢复此前的网站外观”公告，`index.html` 对应更新脚本缓存号；其余页面代码均与回滚基线一致。
-- 验证：全部根目录 JS 通过 `node --check`；对照旧基线确认除主页公告/脚本缓存号外，8 个正式页面与 README 已恢复原文件；旧版正式 HTML 不再引用移除的共享文件，`git diff --check` 无空白问题。推送 `main` 后仍须核对线上页面。
-
-### 2026-10-11：确立每次修改前的完整备份规则
-
-- 需求：今后每次用户要求更改，都先将更改前的所有仓库内容备份到 GitHub；备份名包含年份、日期和具体时间，并把规则写入本交接文档。
-- 本次在编辑前已于 **2026-10-11 09:54:56 UTC** 建立并核验备份分支 `backup/pre-change-2026-10-11_09-54-56_UTC`，完整基线提交为 `d63ccc0af86d8714ad9923f0a6d5e8576ae032cd`。当时本地工作区干净，GitHub `main` 与本地 `HEAD` 一致。
-- 仅修改 `CODEX_HANDOFF.md` 的维护约定与检查清单，不更改网站页面或交互，因此不新增首页公告。验证：远端备份分支指向预期提交，文档差异无空白错误；暂无遗留功能问题。
-
-### 2026-10-11：全站视觉与交互升级，保留旧版备份
-
-- 需求：全面升级全部页面，同时沿用黑白基调、液态玻璃、五种主题色、深浅模式与四语言；先备份旧版，支持不满意时回滚。
-- 在编辑前已创建并推送备份分支与标签，基线为 `dcc9d01`，详见 `ROLLBACK.md`。
-- 8 个正式页面统一接入 `site.css` / `site.js`。升级导航间距、字体层级、卡片头图/留白/阴影、分段玻璃滑块、下载布局、页脚及手机端设置底部面板。
-- 下载按钮统一 44px 高度，原神 Android 两个入口继续等视觉权重且并排；内部/外部卡片的小箭头语义与所有原有下载地址保留。
-- 增加外观实时预览、恢复默认设置、搜索清空与快捷键、无结果恢复入口、返回顶部、选项卡键盘操作及 hash 分享恢复。设置关闭后恢复滚动位置与焦点。
-- iOS 标识用中空 SVG 轮廓替代 Apple 字体私有字符，避免 Windows/Android 缺字；所有设置入口统一齿轮图标。
-- 置顶公告及 3 秒轮播保留；新增暂停/继续按钮，并在阅读展开内容、聚焦公告或后台标签页时暂停自动切换。普通更新公告已同步四语言，样式通过共享变量适配全部色调与深浅模式。
-- 验证：`scripts/verify-ui.cjs` 已通过 8 页四语言、320/390/768/1440px 布局、主题设置、选项卡不导航、键盘切换、hash 恢复、搜索、公告和滚动恢复检查，浏览器 JS 报错为零。另检查原神按钮在 6 个宽度与 4 种语言的 24 种组合，均并排、未溢出且为 44px 高度。
-- 对比备份确认全部原有外部资源/下载网址保持一致；跟随系统深浅切换可实时更新。强化小字号强调色与按钮底色对比，10 种深浅/色调组合的主要下载按钮文字对比度均超过 4.5:1（最低约 4.91:1）。
-- 已查看首页、设置、原神下载及 Minecraft 专区的移动/桌面、浅色/深色截图。真实 iOS 键盘唤起与 Safari 渲染仍需设备端确认。
-- 涉及文件：全部 8 个正式 HTML、`app.js`、新增 `site.css` / `site.js` / `scripts/verify-ui.cjs` / `ROLLBACK.md`，以及 `README.md`、本交接文档。部署版本缓存号为 `20261011-ui1`。
+| `scripts/resource-catalog.js` | `window.JYCatalog`：原 14 项首页资源（`home: true`）及 28 项专区镜像；四语言、来源、平台、别名 |
+| `scripts/library-experience.js` / `styles/library-experience.css` | 收藏/排序、复制及降级、快捷搜索/历史、紧凑列表、返回状态、标签与按压反馈 |
+| `scripts/app.js` | 首页字典、公告时间线、目录筛选、原主题/设置逻辑 |
+| `styles/card-controls.css` | 共用卡片图区、下载平台/渠道滑块及几何修复；`20261022-bugfix1` |
+| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、偏好/后退恢复、主题预览及终端视觉；`20261023-furina1` |
+| `styles/mecha.css` / `styles/blackgold.css` | 科技 / 黑金典藏独立视觉；`20261018-mecha1` / `20261018-blackgold1` |
+| `styles/columbina.css` / `styles/furina.css` / `styles/mahiro.css` | 三角色独立视觉；`20261018-columbina1` / `20261023-furina1` / `20261019-mahiro1` |
+| `assets/themes/{columbina,furina,mahiro}/` | 原图/同字节备用、来源、版权、哈希记录，各目录 README 不丢失 |
+| `assets/fonts/` | Apple 字符后备字体、原许可及来源 |
+| `assets/site-cover.jpg` / `site.webmanifest` | 网站/桌面图标与 standalone PWA 信息 |
+| `archive/legacy/minecraft.js` / `archive/legacy/preview.html` | 已标记遗留、正式页面不引用；只归档，不擅自删除 |
+| `README.md` / `docs/ROLLBACK.md` | 项目入口概览 / 历史备份与网站文件回滚说明 |
+
+17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录、增强 JS/CSS 及首页 `app.js` 当前版本为 `20261111-library1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入；不要把过往版本号当当前值。
+
+旧全面升级的 `site.css`、`site.js`、`scripts/verify-ui.cjs` 已回滚移除；现行共享文件不是把那套升级恢复。未经用户再次要求，不自行引回旧共用体系。
+
+## 3. 页面内容与跳转约定
+
+### 首页与资源库
+
+- 品牌 Jiyouyang，固定液态玻璃导航含居中“资源分享”、搜索和齿轮“网站设置”（不再叫“外观”）；搜索与设置留距离，手机两按钮点按区域均为 44px，窄屏设置可只显示齿轮但保留可访问名称。
+- 首页 14 项资源：Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地、电脑工具、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I use、SteamDB。前六项按此顺序在前，五个游戏入口均进入站内专区；简介反映实际内容，并保留“崩铁”“终末地”等检索词。
+- 分类为“全部、开发、学习、工具、游戏”，实际四类；`tools` 已合并电脑工具、Jisho 与 Can I use，不再保留两个同名工具筛选。只把首页分类叫“工具”，不因此改掉“电脑工具”专区/卡片名称，仍可扩展手机工具。
+- 首页搜索栏即时筛选名称、用途/简介、域名、分类；导航搜索打开全站面板，支持 MC 等别名、分类结果、收藏/推荐、最近六条已执行搜索。Ctrl/⌘+K 或 / 打开，上下键选择、Enter 打开、Esc 关闭并恢复滚动/焦点；不叠在设置弹窗上。
+- 卡片收藏/复制控件放在链接外，避免嵌套交互；“我的常用”支持取消与排序，不足两项退出排序。来源/平台标签区分站内专区、站内选择、官方、第三方和社区项目；不将非官方项目标成官方。
+- 首页大卡片/紧凑列表可切换；收藏、顺序与布局刷新后保留，跨页/标签页同步。复制下载链接随当前可见平台按钮的地址、文字与数量更新，点击时读实际链接；复制失败提供可选中的手动复制链接。返回资源库恢复筛选、词和位置，反馈与按压尊重减少动态效果。
+
+### Minecraft：六项入口及名称
+
+| 卡片 / 详情页 | 必须保持的文案或行为 |
+| --- | --- |
+| Minecraft 基岩版下载 | 标题不加“国际”“双端”“启动器双端”；简介“支持 Windows 与 Android 双端，选择对应平台前往下载。”；页内 Windows / Android |
+| Minecraft Java 版模组下载 | CurseForge / Modrinth；中文保留“如无法访问请使用科学上网”，英文/日文中性表达合适网络访问方式 |
+| Minecraft Java 版启动器下载 | 标题不写“桌面端”；简介“适用于桌面端，可选择官方启动器、PCL 或 HMCL。”；标签简写“官方 / PCL / HMCL”，不改主标题 |
+| Minecraft Java 版移动端下载 | Android 为 Fold Craft Launcher，iOS 为 Amethyst iOS |
+| Minecraft 种子查询 | 先进入站内详情；简介“可输入自己想查的种子号，选择查询网站查看种子地图。”；页面不输入/保存种子，仅两个查询按钮、无选项卡 |
+| Minecraft 国服下载 | 先进入站内三平台页；顺序 Android / iOS / Windows，默认 Android，iOS 居中留白与旧下载页一致 |
+
+Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片，需要选择或详情才建站内页。当前无需做 Java 游戏本体下载页，启动器不等于游戏安装包。基岩版底部多余“页面说明”卡片已删除，不恢复。
+
+### 工具专区：十张整卡外链
+
+| 名称 | 原有目标地址 |
+| --- | --- |
+| Google Chrome | <https://www.google.com/chrome/> |
+| Python | <https://www.python.org/downloads/> |
+| Steam | <https://store.steampowered.com/> |
+| 图吧工具箱 | <https://www.tbtool.cn/download/index.html> |
+| IDM | <https://www.internetdownloadmanager.com/> |
+| IDM_Cracker | <https://github.com/YuHuanTin/IDM_Cracker> |
+| Watt 工具箱 | <https://steampp.net/> |
+| v2rayN | <https://v2rayn.2dust.link/> |
+| 海盗船 BT 下载 | <https://thepiratebay.org/> |
+| Nyaa BT 下载 | <https://nyaa.si/> |
+
+这些工具集中在专区而非散回首页，不设切换页签。Python/IDM/Watt/v2rayN 等使用官方通用入口，不固定安装包；Watt 与 v2rayN 以维护者仓库所列主页为准，图吧以原版官网为准，不采用相似域名/镜像。“海盗船”暂按 The Pirate Bay（海盗湾）理解，若用户指别站须确认；其在旧环境被代理拒绝不代表用户网络不可用，不擅换镜像。IDM_Cracker 是用户指定的 GitHub 项目，不是 IDM 官方下载。首页简介和搜索需涵盖这些工具名。
+
+### 四个游戏专区与国际版下载
+
+每个专区三卡：国际版先进入本站下载页，国服和兑换码整卡直达外链。原神操作文案为“查询可用兑换码”；查询列表由外站维护，不承诺始终有可用码，终末地还须以游戏内兑换结果为准。允许继续扩充资源，移动导航用“崩铁”“终末地”等短名称。
+
+| 游戏 | 国服直达 | 兑换码查询 |
+| --- | --- | --- |
+| 原神 | <https://ys.mihoyo.com/main/m/?from_fab=1> | <https://www.crimsonwitch.com/codes/Genshin_Impact> |
+| 绝区零 | <https://zzz.mihoyo.com/main/> | <https://www.crimsonwitch.com/codes/Zenless_Zone_Zero> |
+| 崩铁 | <https://sr.mihoyo.com/> | <https://www.crimsonwitch.com/codes/Honkai_Star_Rail> |
+| 终末地 | <https://endfield.hypergryph.com/> | <https://www.redeem-code-tracker.com/games/arknights-endfield> |
+
+四个国际版页均为 Android / iOS / Windows。Android 双入口同等醒目、同视觉权重并排，不与基岩版/种子查询的主次按钮混淆；iOS 提示非中国大陆地区 Apple 账号。原神 Android 保留无法打开时的网络访问提示；Google Play 按钮简中“Google Play 下载”、繁中“Google Play 下載”，英文/日文短标签“Google Play”。原神 Windows 为“官方启动器下载”，使用中空 Windows 标识。
+
+### 下载/查询原地址（不要在文档整理时改链接）
+
+| 页面 / 平台或渠道 | 目标地址 |
+| --- | --- |
+| 基岩版 Windows | <https://mc.minebbs.com/?platform=3&environment=1> |
+| 基岩版 Android 1 / 2 | <https://mc.minebbs.com/?platform=1&environment=1> / <https://mcapks.net> |
+| 国服 Windows / Android | <https://adl.netease.com/d/g/mc/c/gw?type=pc> / <https://adl.netease.com/d/g/mc/c/gwnew?type=android> |
+| 国服 iOS（中国区） | <https://apps.apple.com/cn/app/%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C-%E7%A7%BB%E5%8A%A8%E7%89%88/id1243986797> |
+| CurseForge / Modrinth | <https://www.curseforge.com/minecraft/search?page=1&pageSize=20&sortBy=relevancy> / <https://modrinth.com/discover/mods> |
+| Java 官方 / PCL / HMCL | <https://www.minecraft.net/zh-hans/download> / <https://github.com/Meloong-Git/PCL> / <https://github.com/HMCL-dev/HMCL/releases/tag/v3.16.4> |
+| Fold Craft Launcher / Amethyst iOS | <https://foldcraftlaunch.com/download/> / <https://github.com/herbrine8403/Amethyst-iOS-MyRemastered/releases> |
+| 种子查询网站 1 | <https://minecraftsearch.com/zh-CN/工具/种子地图#seed=123&platform=bedrock_26.50&dimension=overworld&x=0&z=0&zoom=16.000> |
+| 种子查询网站 2 | <https://www.chunkbase.com/apps/> |
+| 原神 Google Play / APK | <https://play.google.com/store/apps/details/Genshin_Impact?id=com.miHoYo.GenshinImpact&hl=en_NZ&pli=1> / <https://genshin-impact.cn.uptodown.com/android/dw/1218436799-x> |
+| 原神 iOS | <https://apps.apple.com/us/app/genshin-impact-6th-anniversary/id1517783697> |
+| 绝区零 Google Play / XAPK | <https://play.google.com/store/apps/details?id=com.HoYoverse.Nap> / <https://apkpure.net/zenless-zone-zero/com.HoYoverse.Nap/download> |
+| 绝区零 iOS | <https://apps.apple.com/us/app/zenless-zone-zero/id1606356401> |
+| 崩铁 Google Play / XAPK | <https://play.google.com/store/apps/details?id=com.HoYoverse.hkrpgoversea> / <https://apkpure.net/honkai-star-rail/com.HoYoverse.hkrpgoversea/download> |
+| 崩铁 iOS | <https://apps.apple.com/us/app/honkai-star-rail/id1599719154> |
+| 原神 / 绝区零 / 崩铁 Windows | <https://hoyoplay.hoyoverse.com/> |
+| 终末地 Google Play / APK | <https://play.google.com/store/apps/details?id=com.gryphline.endfield.gp> / <https://apkpure.net/arknights-endfield/com.gryphline.endfield.gp/download> |
+| 终末地 iOS | <https://apps.apple.com/us/app/arknights-endfield/id6752642477> |
+| 终末地 Windows 官方入口 | <https://endfield.gryphline.com/en-us> |
+
+基岩版 Android 说明“页面 1 没有所需版本请尝试链接 2”；种子双按钮优先同行、1 主 2 次，空间不足可换行，网站 1 保留用户给定初始参数。网易地址是下载引导，不保证直接返回安装包，iOS 可能需要中国区账号。原神 APK 固定版本需核验，其他三款 APKPure 为无版本入口但包格式/版本仍要核验，均不能冒充官方。
+
+## 4. 视觉、交互与无障碍红线
+
+- 默认经典为 Apple 黑白/石墨、浅底近 `#f5f5f7`、黑色深底、中性色表面与描边；大圆角、留白、粗标题、短说明、轻阴影，不恢复高饱和渐变。各页保留内嵌基础样式和手机单列结构。
+- 导航、设置与分段控件用半透明、模糊/饱和、细亮边和内高光；参考而非照搬截图，阅读清晰优先。居中导航标签不额外叠纯白内块；不恢复 Hero 下方三个装饰图标。
+- 普通卡片头图为柔和灰白/随主题变化底板、居中字形（MC/MOD 等），不是写实封面。下载标识底板保持干净，隐藏旧 `.download-card::before` 圆斑，不在右上角再叠灰圆阴影。
+- “每周精选”MDN / JLPT 使用独立 `.featured-*` 浅色连续单面板：右上大图形、下方文字、底部域名/箭头，颜色比参考图浅且与全站统一；改精选不得连带改 `.resource-*`、专区或其他卡片，除非用户明确扩大范围。
+- 参考图新版滑块只用于下载平台/渠道 `.platform-tabs`；首页分类、设置模式/语言及其他分段控件沿用旧设计，不扩大覆盖。所有主题的指示块两端等距；`.segmented::before` / `.platform-tabs::before` 的 `border-box`、步进位移和轨道计算须保留，不靠裁切或位移补偿掩盖越界。窄屏长标签可收缩/换行；减少动态效果要覆盖伪元素。
+- 进入站内选项/详情卡用小箭头 →，整卡直达外网用 ↗，统一以首页小箭头 18px 为基准，不恢复 28px。页签必须是只切内容的 button，只有明确下载/前往按钮才打开外链；整卡直达外链是上述既定例外。保留安全新标签页属性。
+- 下载按钮沿用基岩版紧凑规格、垂直 padding/字号/图标/圆角；原神不另加 48px 最小高度，文字不换行、宽度按文字延伸，极窄屏只缩横向间距。四款国际版 Android 双按钮等权重并排；基岩版/种子页保留主次区别。
+- 九个下载页平台/渠道栏已支持左右循环、Home/End 和单一 Tab 焦点，复用原点击更新，鼠标和 `aria-selected` 同步；不更改默认平台、目的链接或样式。不把旧回滚记录中“键盘操作已移除”当现状；URL hash 分享恢复不因键盘功能而自动恢复。
+- 采用系统字体栈（SF Pro/PingFang 等）、适当字号、44px 触控区、`focus-visible`、ARIA、`tablist`/`tab`、`aria-selected`/`aria-pressed`、搜索结果 `aria-live="polite"`；固定导航和滚动偏移不遮搜索。浅/深/跟随系统、无存储与减少动态效果都要可用，主要文字/按钮保持可读对比度。
 
-### 2026-10-11：小范围修正过时文案与维护说明
+### iOS 图标与网站图标（用户指定）
 
-- 需求：阅读交接文档，修复可确认的待办与小问题，但不改动网站总体内容与设计。
-- 首页 Minecraft 卡片不再误称“国际版下载”；原神卡片不再暗示现有下载入口尚未加入。简中、繁中、英文、日文同时更新。
-- `README.md` 改为列出现有 Minecraft、原神入口及公告维护位置；`minecraft.js`、`preview.html` 仅加遗留标记，未删除历史文件。
-- 首页公告新增四语言简要更新记录；`index.html` 递增 `app.js` 缓存版本。涉及文件：`app.js`、`index.html`、`README.md`、`minecraft.js`、`preview.html`、本文件。
-- 验证：所有根目录 JS 通过 `node --check`；检查了 10 项资源和 4 条公告的四语言字段、正式 HTML 的站内文件引用，并通过 `git diff --check`。发布后仍须核对线上缓存版本。
-- 设计、版面、主题设置、既有站内路径与外部下载网址均未改。仍未进行真实设备视觉回归，旧浏览器 JPEG favicon 兼容性与第三方链接可用性等风险保留。
+- 所有 iOS 页签小图标和卡片大图标直接复用旧原神页 `genshin-download.html` / `scripts/genshin-download.js` 的 ``（`U+F8FF`）、`.tab-apple` / `.apple-symbol` 及透明内部/描边 CSS；不换手机轮廓、近似 Apple SVG 或另行手绘。两种尺寸均检查四语言、五色、三档外观；图标一致不意味着所有页面平台顺序都要改。
+- Apple 系统字体优先，后接 `assets/fonts/jy-apple-fallback.woff2`（644 字节），避免非 Apple 缺字。后备为按 OFL 重命名的 Font Awesome Free Brands 6.7.2 Apple 子集，`U+F179` 映射 `U+F8FF`，名为 JY Apple Fallback；不分发 Apple 系统字体，保留 `assets/fonts/LICENSE-font-awesome.txt` 与来源记录。
+- favicon、Apple 主屏幕和桌面/PWA 图标统一使用用户蓝发动漫人物抱黄色小鸡的 `assets/site-cover.jpg`，不是 Hero 大封面；保留抽象卡片。未来若按用户意愿生成 PNG/ICO，仍保留原图构图，不擅自替换指定图片。
 
-### 2026-10-11：两条置顶公告每 3 秒滚动切换
+## 5. 七套风格、翻译与偏好
 
-- 新增置顶公告“jiyouyang也是可爱傲娇小男娘喵”，保留原有 Eghver 置顶公告，两条内容互不覆盖。
-- 首页收起状态的公告标题区域改为垂直滚动轮播，两条置顶公告每 3 秒切换一次；展开列表同时保留两条完整公告。
-- 简中、繁中、英文、日文内容已同步；滚动标题及公告栏继续适配石墨、蓝、紫、绿、橙五种主题色与浅色、深色、跟随系统模式。
-- 尊重系统“减少动态效果”设置：该模式下仍每 3 秒切换文字，但不播放滚动动画。
-- 更新首页静态回退内容并递增 `app.js` 缓存版本。
+设置顺序：风格调整 → 五种主题颜色 → 跟随系统/浅色/深色 → 简中/繁中/English/日本語。七风格预览顺序如下，芙宁娜必须在哥伦比娅与绪山真寻之间；科技只改显示名，内部 `mecha`/文件/键不改，历史名称“机甲”不重写。
 
-### 2026-10-11：新增 Eghver 置顶公告
+| 风格 / 标识 | 首次默认 | 设计与隔离要求 |
+| --- | --- | --- |
+| 经典 `classic` | 石墨、跟随系统 | 原液态玻璃与圆角留白，无偏好时默认，不被新风格覆盖 |
+| 终端 `terminal` | 绿色、深色 | 等宽字、绿黑/浅灰绿、荧光边、琥珀标签、低亮网格、矩形面板 |
+| 科技 `mecha` | 橙色、浅色 | 陶瓷白/钛灰、深导航、斜切/机械环/面板接缝；深色蓝灰机舱；第三预览独占行 |
+| 黑金典藏 `blackgold` | 橙色档暖金、深色 | 墨黑/象牙白、金线/徽章/内边框、衬线标题与无衬线正文；第四预览独占行，不加图片/字体依赖 |
+| 哥伦比娅 `columbina` | 蓝色、浅色 | 月光蓝/珍珠白/蓝紫羽翼/莓红，深色午夜蓝；星月轨道、手机上下/桌面分栏、角色脸部不压字、背景低透明而卡片可读 |
+| 芙宁娜 `furina` | 蓝色、深色 | 枫丹蓝金/珍珠白、水纹/珍珠环/礼帽/水滴/舞台框与票券边饰 |
+| 绪山真寻 `mahiro` | 紫色、浅色 | 《お兄ちゃんはおしまい！》奶油白/粉紫/薄荷、胶带相片/贴纸/点阵虚线手账；深色柔梅紫 |
 
-- 首页公告栏新增置顶公告“Eghver恶魔是可爱傲娇小男娘喵”，收起时显示在“公告”标签右侧的标题位置。
-- 公告加入 `pinned` 标记与置顶排序逻辑；以后新增普通公告时，这条置顶公告仍优先显示，展开列表中也保持在顶部。
-- 简中、繁中、英文、日文内容已同步；公告继续通过现有 CSS 变量适配石墨、蓝、紫、绿、橙五种主题色及浅色、深色、跟随系统模式。
-- 更新首页静态回退内容并递增 `app.js` 缓存版本，避免 GitHub Pages 或 Safari 沿用旧公告。
+全套覆盖首页、公告、精选/资源/专区、下载插图/按钮、搜索、平台/渠道、设置及页脚，支持五色、三档模式、四语言。网站视觉规则限定各自 `data-style`，不改变旧风格、业务内容/链接或滑块尺寸算法；每个风格独立恢复配色/模式，语言通用，不自动切换已有用户设置。预览/新设置不等于恢复旧升级的“外观实时预览/恢复默认”等功能。
 
-### 2026-10-11：公告横条高度对齐导航栏
+经典五色：石墨 `#1d1d1f`、蓝 `#0071e3`、紫 `#7656d6`、绿 `#248a3d`、橙 `#c45100`。主题色通过 CSS 变量/`color-mix()` 同时影响按钮、活动底板、插图、MC/MOD、强调线和背景，不只改按钮；独立风格可映射自身色板。`data-theme`/`data-accent` 驱动变量，跟随系统须实时响应，Safari `theme-color` 跟实际背景更新。
 
-- 首页公告与上方导航栏的左右宽度原本一致；手机端公告内层高度从 56px 调为 54px，加上上下边框后收起总高度为 56px，与导航栏一致。
-- 桌面端原本已是相同总高度 62px，保持不变。展开内容、主题和翻译不变。
-- 此次只是修改现有公告本身，按公告维护规则不额外新增一条公告记录。
+### 角色素材与最新范围
 
-### 2026-10-11：首页新增可展开更新公告
+- 哥伦比娅原画 `assets/themes/columbina/character.png`（1024×1024、约 1.7 MB），SHA-256 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`；原图不变。页脚来源为米游社 <https://www.miyoushe.com/ys/article/71350081>，资料参考 <https://baike.mihoyo.com/ys/obc/content/507505/detail>；实际图片仍为本站同源文件，不等于已取得米游社同图 CDN 直链。
+- 真寻实际主请求为 Bilibili `i0.hdslb.com` / 堆糖 `c-ssl.dtstatic.com`，本地 `assets/themes/mahiro/` 存同字节 JPEG（约 502 KiB）；芙宁娜实际主请求为 B站 BWIKI `patchwiki.biligame.com`，官方 2024 生日图的本地同字节备用 `assets/themes/furina/artwork.png`（1000×1000、1,746,100 字节），SHA-256 `b5345a4e8f9d73b32dff5bd12477521a578ceb0f758029224ba20a1b2a4dae10`。
+- 图片只在选中对应风格时按需创建/请求，离开隐藏，不让无关风格加载。真寻/芙宁娜错误或 8 秒超时用本地同图备用，再失败保留 CSS 装饰；哥伦比娅本地原图失败也保留 CSS 月亮和业务功能。共用加载函数 `createThemeArt` 不因复用更改真寻原请求参数。来源、版权、非官方说明四语言同步，不去水印、不冒充原创/开源/官方授权，不复制参考截图的系统文字、设备信息或字幕。
+- **最新用户决定（2026-11-11）：“图片源不用再管了”。不再继续图片源任务，不列为待完成项目，也不能把此前米游社直链未完成说成已完成。** 保留现有图片、来源记录及失败降级；当前环境下载成功不代表中国大陆各运营商均可直连。
 
-- 首页固定导航下方新增与导航近似宽高的液态玻璃公告横条，点按可展开更新详情；收起状态只显示公告标题和日期。
-- 首条公告总结 2026-10-11 的原神专区、国际版三平台、国服直达、按钮与箭头调整。四语言、五种主题色、深浅模式沿用现有设置。
-- 公告数据在 `scripts/app.js` 的 `announcements` 数组中，按最新在前排列。此后每次用户要求更新网站，应在同一次提交中加入一条简要更新记录（简中、繁中、英语、日语），除非用户明确要求不记录；用户指定删除时按 `id` 移除。不要把删除/修改公告的请求又追加成公告。
-- 每条新增或修改的公告不仅要同步简中、繁中、英语、日语，还必须逐一适配石墨、蓝、紫、绿、橙五种主题色，并检查浅色、深色与跟随系统模式下的文字、图标、活动状态和玻璃背景对比度。此项为每次公告维护的必做项，不能只完成翻译。
-- 公告为空时隐藏横条；`CODEX_HANDOFF.md` 仍须随每次网站改动一并更新。
+### 四语言与存储
 
-### 2026-10-11：全站卡片箭头统一尺寸
+所有新增/修改文案同步 `zh-CN`、`zh-TW`、`en`、`ja`，覆盖标题、meta description、简介、按钮、设置、动态卡片、公告及可访问性名称；页面字典配合 `data-i18n` / `data-i18n-html` / `data-i18n-label`，不依赖外部翻译。专区文案更新还要同步共享目录镜像。名称：科技/科技/Technology/テクノロジー；黑金典藏/黑金典藏/Black & Gold/ブラック＆ゴールド；哥伦比娅/哥倫比婭/Columbina/コロンビーナ，不按“哥伦比亚”误拼改角色名。
 
-- 以主页资源卡片的小箭头 18px 为基准，Minecraft 与原神专区的所有卡片箭头统一从 28px 调至 18px。
-- 原神国服卡片不再需要单独的 18px 覆盖规则；主页资源卡片与精选卡片原本已是 18px，保持不变。
-- 箭头方向继续遵循外部直达 ↗、进入本站选项页 →；卡片链接和内容不变。
+| 存储键 | 内容与边界 |
+| --- | --- |
+| `localStorage`：`jy-accent`、`jy-theme`、`jy-language` | 当前色调、外观、全站语言；无偏好默认经典石墨、跟随系统 |
+| `jy-style`、`jy-style-{classic,terminal,mecha,blackgold,columbina,furina,mahiro}` | 当前风格及各自 `{accent, theme}`；当前 `jy-accent`/`jy-theme` 始终与之对应 |
+| `jy-favorites`、`jy-library-view`、`jy-search-history` | ID/顺序、`cards`/`list`、最多六条已执行搜索；目录校验、去重，仅当前浏览器，不跨设备 |
+| `sessionStorage.jy-library-return` | 筛选、搜索词、滚动/锚点；仅后退或专区返回资源库时恢复，最多一天 |
 
-### 2026-10-11：缩小原神国服外链箭头
+每页 HTML 在绘制前读主题/色调，风格脚本监听语言/模式/颜色并同步内存、存储、按钮、ARIA、标题/描述和 Safari 顶栏；后退缓存恢复读取最新偏好。设置内部程序点击避免冒泡误关；无存储仍可本页使用，正确提示临时模式，不承诺跨页持久化。
 
-- 原神国服卡片的 ↗ 从专区默认 28px 缩至 18px，与主页外部资源卡片的箭头尺寸一致。
-- 原神国际版站内卡片的 →、链接与其余样式不变。
+## 6. 公告的固定规则
 
-### 2026-10-11：原神国际版新增 Windows 下载选项
+公告在导航下方，左右宽度及收起高度与导航协调（经典手机总高 56px、桌面 62px）；保留原窄摘要，点击展开标题/日期/详情，空列表隐藏。置顶优先并在摘要每 3000ms 垂直轮播，展开同时保留；减少动态效果仍切文字但不播滚动动画。普通更新按日期折叠，标记新增/优化/修复及最新。
 
-- `/genshin-download.html` 在 Android、iOS 后新增 Windows 选项卡；三项滑块适配移动端，点击选项卡仅切换内容。
-- Windows 卡片使用与 Minecraft 一致的中空 Windows 标识，按钮文案为“官方启动器下载”，仅按钮打开 `https://hoyoplay.hoyoverse.com`。
-- 简中、繁中、英文、日文同步新增 Windows 标题、简介、按钮及平台提示；原神专区国际版卡片简介也更新为三个平台。
-- Android 的两个入口及 iOS 的 App Store 入口、主题色与深浅模式保持不变。
+保留用户原拼写 `jiyoyang` 的“jiyoyang是Eghver恶魔主人喵”、作者公告和制作公告；制作公告摘要“本站由Jiyouyang & Codex制作”，展开为完整“本站由Jiyouyang & Codex（基于ChatGPT 6Astra & 6Sol)制作”，不要把作者姓名误拆为额外公告。旧 Eghver/旧 jiyouyang 公告的替换删除经过见归档，不根据旧记录擅自恢复。
 
-### 2026-10-11：统一卡片箭头语义
+新增/修改公告必须逐一检查四语言、五色、浅/深/跟随系统的文字、图标、活动态及玻璃对比度，不仅补翻译；同步首页静态回退摘要/日期和脚本缓存。删除/修改公告不再生成“删改公告”的新公告，文档仍随实际网站变更更新。
 
-- 点击整张卡片直接前往外部网页时使用右上箭头 ↗；先进入本站选项/详情页时使用向右箭头 →。
-- 主页动态资源卡片此前已按 `internal` 属性正确区分，Minecraft 专区和原神国际版站内卡片也已正确；本次只把原神国服直达外链卡片从 → 修正为 ↗。
-- 卡片链接、布局、配色与四语言内容均不变。
+## 7. 验证入口与已知边界
 
-### 2026-10-11：补全 Google Play 按钮繁体文案
+| 检查 | 用途 |
+| --- | --- |
+| `node --check scripts/<文件>.js`、`git diff --check` | 语法/差异；另核对所有站内路径、外部目标与资源版本 |
+| `node tests/library-experience.cjs <URL>` | 原资源保留、28 项专区四语言镜像、收藏/排序/持久化、别名/历史/返回、动态复制/降级、存储拒绝和七主题布局 |
+| `node tests/site-style.cjs <URL> furina` | 17 页、经典对照、五色/三模式/四语言、七主题偏好、搜索/公告/平台与系统主题 |
+| `node tests/slider-geometry.cjs <URL> [逗号分隔页面]` | 六旧风格各指示块边界/两端留白、320/390/768/1440、四语言、动画终点/减少动态效果；芙宁娜几何另由 `furina-art.cjs` 覆盖 |
+| `node tests/style-isolation.cjs <URL> <Git基线>` | 修改前后旧风格计算样式对照；基线须按此次改动核对，历史 SHA 不盲用 |
+| `node tests/columbina-art.cjs <URL>` / `node tests/mahiro-art.cjs <URL>` / `node tests/furina-art.cjs <URL>` | 分别检查角色构图/按需加载/切换隐藏/来源/失败降级；真寻与芙宁娜支持 `--live` 实连核验 |
+| `node tests/small-bugfixes.cjs <URL>` | 工具分类合并、九页平台键盘/点击、实际 Apple 后备字形、旧六风格窄屏 |
 
-- 原神国际版下载页繁体中文 Android 按钮由“Google Play”改为“Google Play 下載”。
-- 简体中文继续显示“Google Play 下载”；英语与日语保持短标签“Google Play”，避免按钮过长。
-- 按钮布局、尺寸、链接及其余翻译不变。
+浏览器脚本需运行中的本地静态服务器、Playwright 与 Chromium，默认 `/usr/bin/chromium`，可用 `CHROMIUM_PATH` 指定。涉及滑块须测实际指示块几何（已有标准误差 <0.12px），不只测页面无横向溢出；真实图片请求与确定性回退分开验证。历史线上浏览器测试只限定信任当前环境代理 CA 的 SPKI，没有关闭全局 TLS 验证。
 
-### 2026-10-11：新增原神国服下载直达卡片
+每次改动至少核对：
 
-- 原神专区在国际版卡片后新增同款“原神国服下载”卡片，点击直接打开 `https://ys.mihoyo.com/main/m/?from_fab=1`，不另建中转页面。
-- 卡片沿用现有五种主题色、深浅模式和四语言翻译；专区状态文字同步反映国际版与国服入口。
-- 国际版下载卡片及其平台下载链接保持不变。
+- [ ] 编辑前完整备份分支/Tags 已核验；回滚不覆盖维护文档。
+- [ ] 四语言、五色对控件及图形的联动、浅/深/跟随系统正确。
+- [ ] 平台只切内容、明确外链按钮/直达卡片才导航；链接与站内路径正确。
+- [ ] 手机导航、搜索、设置不重叠且易点按；相关主题、滑块、键盘/焦点检查通过。
+- [ ] JS 语法、差异、运行资源缓存版本、README/目录/交接记录同步。
+- [ ] 推送 `main` 后核验 Pages 实际页面；仅文档任务则核对远端文档及网站未变。
 
-### 2026-10-11：恢复 Google Play 按钮的“下载”二字
+最近资源库功能验收：14 项首页逐字段、28 项专区 × 四语言 = 112 项、29 个平台下载复制、七主题/两模式/四语言/三宽度/两布局共 336 组，及 17 页/300 组主题回归通过；线上部署 `bef84b0` 已成功，17 页资源引用、收藏与布局持久化、搜索/Esc、当前公告及平台复制已核验。更早测试数字、截图、SHA 和局限全部见原文归档，不当作每次都已重跑。
 
-- 仅将原神国际版下载页的简体中文 Android 按钮文案由“Google Play”改为“Google Play 下载”，并更新初始 HTML 与脚本缓存版本。
-- 其余语言、按钮尺寸和并排布局、下载链接及设置均不改动。
+当前无已确认阻断使用错误、无待续的资源库增强。以下为保留风险或未来选择，不是擅自开工清单：
 
-### 2026-10-11：修正原神下载按钮垂直尺寸
+- 真实 iPhone Safari / Android Chrome 的视觉、键盘唤起、滚动、深色和各运营商网络仍需实机；自动浏览器检查不能代替。
+- 外链受第三方及地区网络限制；HMCL 固定 `v3.16.4` 不自动更新，原神 APK 固定版本、APKPure 包格式/可用性、图吧官网迁移都需维护时核验。
+- JPEG favicon 对旧平台可能不如 PNG/ICO 稳定；是否生成标准多尺寸版本由用户决定，不能换掉原图。
+- 页面内字典/设置/弹窗仍分散；增删文案/入口逐页同步四语言、README、首页简介与目录镜像，不误认为旧 `site.js` 已在运行。
+- Minecraft 后续入口按用户实际需求加；遗留文件仅归档，删除另评估；图片源按最新要求不再继续。
 
-- 上一次的 `min-height:48px` 与额外行高使原神按钮比 Minecraft 的下载按钮更高；现已去除，直接沿用两页相同的按钮基础样式（上下 padding、字体、图标、圆角）。
-- Android 的 Google Play / APK 保持同一行，宽度按文字延伸；文字不换行。极窄屏仅缩减左右 padding，垂直尺寸不变。
-- 四语言按钮短标签同步；原下载网址、说明、主题色和语言设置不变。
+## 8. 历史回滚点与本次整理记录
 
-### 2026-10-11：统一原神下载按钮尺寸
+- 全面视觉升级前：`dcc9d01b0e9c9e024b48fb1242ad54c86e420242`，分支 `backup/pre-visual-upgrade-20261011`、标签 `pre-visual-upgrade-20261011`，2026-10-11 已恢复；升级版本另存 `backup/pre-change-2026-10-11_10-08-23_UTC`（`89a16cad9c5f3cd909c6df282c2ec06a0fe4c0c2`）。只按现行网站文件范围回滚。
+- 资源库增强前最后正式上线版：`dbe9c444e03f9f23e8bef3d32e82d1e7a0833e88`。含当时未提交资源库草稿的完整快照为 `70ecf4d0594419fbd2b468d8287fefe0d92e0d98`，对应分支 `backup/pre-change-2026-11-11_08-57-19_UTC` 和标签 `backup-2026-11-11_08-57-19_UTC`；不要把草稿备份当作最后正式上线版。
+- 其余历次需求/部署、完整备份引用、旧路径/缓存号、测试结果和失败尝试均原样保存在 [精简前全文](docs/history/CODEX_HANDOFF-2026-11-11-original.md)。本文未复述不代表删除该信息；被后续取代的旧决定只作为历史。
 
-- 原神国际版下载页的 Android 两个按钮改为等尺寸、同一行并排；iOS 单按钮使用相同尺寸规格，接近 Minecraft 下载页的紧凑按钮。
-- 四语言的按钮文字缩短以适配手机窄屏，平台说明和三个下载网址保持不变。
-- 保留五种主题色、深浅模式与四语言切换；选项卡仍只切换平台，只有下载按钮打开外链。
+### 2026-11-11：交接文档精简（仅文档）
 
-### 2026-10-11：新增原神国际版下载
-
-- 原神专区新增“原神国际版下载”站内卡片与独立下载页。
-- Android / iOS 页签仅切换内容；Android 的 Google Play 与 APK 按钮同等醒目；iOS 使用 App Store 按钮。
-- 平台说明加入用户指定的网络访问与 Apple 账号提示，四语言同步。
-- 保留五种主题色、深浅模式与站点共享偏好。
-
-
-### 2026-10-11：新增原神顶级专区
-
-- 主页资源库新增“原神”大型站内入口，固定排列在 Minecraft 下方、其余资源之前。
-- 新增 `/genshin.html` 原神独立专区；当时预留扩展位置，随后已加入国际版下载卡片。
-- 原神入口与专区完整继承五种主题色、深浅模式及简中、繁中、英文、日文。
-
-### 2026-10-10：修正 Java 移动端 iOS 图标
-
-- 将 iOS 选项卡与 iOS 内容卡片中的手写 SVG 替换为系统标准 Apple 符号“”。
-- 两处 Apple 图标使用透明内部与描边轮廓，保持和 Android、Windows 图标一致的中空线框观感。
-- 两处图标继续继承当前主题强调色；文字、链接及其他功能不变。
-
-### 2026-10-10：新增 Minecraft Java 版移动端下载
-
-- Minecraft 聚合页新增第四张站内卡片“Minecraft Java 版移动端下载”。
-- 新增 Android 与 iOS 两个选项卡；选项卡仅切换内容，下载按钮才打开外链。
-- Android 接入 Fold Craft Launcher，iOS 接入 Amethyst iOS GitHub Releases。
-- 新页面完整适配五种主题色、深浅模式及四语言。
-
-### 2026-10-10：精简 Java 启动器选项卡文字
-
-- 仅将 Java 启动器下载页红圈内的三个选项卡精简为“官方 / PCL / HMCL”。
-- 简体、繁体、英文、日文同步；其中英文的 PCL/HMCL 原本已是精简文字。
-- 页面标题、卡片标题、简介、下载链接和其他功能均保持不变。
-
-在创建本交接文档前，最近一次功能部署提交为：
-
-- `bc4cdae848f804437cbf061ae50505fcf33cbad1` — 将 Minecraft 的双端/桌面端范围从标题移到卡片简介，并同步四语言及详情页命名。
-
-该版本已在线验证：
-
-- Minecraft 聚合页显示“Minecraft 基岩版下载”。
-- 基岩版简介明确支持 Windows 与 Android 双端。
-- Minecraft 聚合页显示“Minecraft Java 版启动器下载”。
-- Java 启动器简介明确适用于桌面端。
-- 旧的“双端启动器/桌面端启动器”冗长标题不再出现。
-
-### 2026-10-11：移除平台标识图右上角灰色圆形阴影
-
-- 用户指出所有下载页的平台标识图右上角存在灰色圆形阴影，要求统一去除。
-- 修改前已于 **2026-10-11 10:30:59 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_10-30-59_UTC` 与带注释标签 `backup-2026-10-11_10-30-59_UTC`；两者均指向基线提交 `4aae8846b24be23b2d0fee2b8aacc19a89884339`。
-- 在共享 `card-controls.css` 中统一隐藏 `.download-card::before` 的旧圆形装饰，覆盖 Minecraft 与原神所有使用相同下载卡片的平台图；平台图本身、选项滑块、文字、链接和功能均不变。
-- 8 个正式页面同步提升共享样式缓存版本；首页增加简中、繁中、英文、日文更新公告，并提升 `app.js` 缓存版本。
-- 新视觉规则：平台标识图保持干净的整块柔和底板，不在边角叠加圆形光斑或阴影。
-
-### 2026-10-11：新版滑块仅保留在下载页平台选择
-
-- 用户明确新版参考图滑块只应应用于各下载页面的平台/渠道选择；主页分类、网站设置及其他滑块都要沿用原先设计。
-- 修改前已于 **2026-10-11 10:33:17 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_10-33-17_UTC` 与带注释标签 `backup-2026-10-11_10-33-17_UTC`；两者均指向基线提交 `8f8cf295106cf59b0a484a8d395495c59c57560b`。
-- `card-controls.css` 已移除对 `.segmented` 与 `.filters` 的全部新版覆盖，只保留 `.platform-tabs` 的浅色玻璃选中态、焦点态、深色模式与减少动态效果适配。卡片图片升级及上一轮移除灰色圆影的修正继续保留。
-- 8 个正式页面同步提升共享 CSS 缓存版本，首页增加四语言更新公告并提升 `app.js` 缓存版本；`README.md` 与本文件同步明确新的样式边界。
-- 后续规则：只有下载页面用于切换平台或下载渠道的 `.platform-tabs` 使用新版滑块；不得把该样式扩展到主页分类、主题模式、翻译语言或其他分段控件，除非用户再次明确要求。
-
-### 2026-10-11：每周精选改为浅色单面板卡片
-
-- 用户要求只调整首页“每周精选”的 MDN 与 JLPT 卡片：参考圈选截图恢复单块连续底板、右上角大图形、左下方文字与底部域名/外链箭头的布局，同时颜色应比截图更浅并与全站其他卡片协调。资源库普通卡片和其他全部卡片不得变化。
-- 开始修改前发现 GitHub `main` 已新增原神兑换码功能与部署核验提交，先以 `git pull --ff-only` 安全同步到 `57c431e39d6c2c147b22cabbef73f049a859c37c`，未覆盖这些较新内容。
-- 修改前已于 **2026-10-11 11:02:34 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_11-02-34_UTC` 与带注释标签 `backup-2026-10-11_11-02-34_UTC`；两者均指向上述最新基线提交。
-- `card-controls.css` 仅移除对 `.featured-card` / `.featured-glyph` 的分段图片区覆盖，并为精选卡片伪元素设置更浅的连续渐变；布局由首页原有精选卡片规则负责。未修改 `.resource-card`、`.resource-visual`、专区卡片、下载卡片或任何滑块规则。
-- 8 个正式页面同步提升共享 CSS 缓存版本；首页新增四语言更新公告并提升 `app.js` 缓存版本；`README.md` 同步说明精选卡片的独立样式边界。
-- 后续规则：首页“每周精选”可使用独立的 `.featured-*` 视觉；调整它时不得连带修改资源库 `.resource-*` 或其他页面卡片，除非用户明确扩大范围。
-
-### 2026-10-11：整理仓库根目录文件
-
-- 用户要求减少 GitHub 根目录中平铺的文件，并明确不得改动网站实际内容、外观或功能。
-- 修改前已于 **2026-10-11 11:09:43 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-11_11-09-43_UTC` 与带注释标签 `backup-2026-10-11_11-09-43_UTC`；两者均指向基线提交 `952de25b1ab8721ee60a788d37da831dfc9046f4`。
-- 8 个正式 JavaScript 文件原样移动到 `scripts/`，共享样式原样移动到 `styles/`，未使用的旧版 `minecraft.js` / `preview.html` 移动到 `archive/legacy/`，回滚文档移动到 `docs/ROLLBACK.md`。正式 HTML 继续位于根目录，因此现有页面 URL 全部不变。
-- 正式 HTML 只更新静态资源引用路径；脚本与 CSS 文件内容、查询参数版本、页面结构、文案、链接、视觉和交互均不改变。本次不新增网站公告。
-- 验证：逐文件以 `cmp` 对比移动前的 Git 基线，12 个移动文件内容完全一致；8 个正式页面均指向存在的 `/scripts/` 与 `/styles/` 文件；全部脚本通过 `node --check`，`git diff --check` 通过。
-- 后续新增正式 JavaScript 放入 `scripts/`，共享样式放入 `styles/`，维护文档优先放入 `docs/`；`CODEX_HANDOFF.md`、`README.md`、正式 HTML、`.nojekyll`、PWA 清单与 `assets/` 保持现有位置。
-
-### 2026-10-13：移除 jiyouyang 置顶公告
-
-- 用户要求删除公告栏中“jiyouyang 是小男娘”的置顶公告；保留 Eghver 置顶公告和其他普通更新公告。
-- 开始修改前发现远端 `main` 已新增 Minecraft 种子查询与绝区零专区，先通过 `git pull --ff-only` 同步至提交 `c4a2c03af5bb0171f781fdcadec3f089d13b3534`，未覆盖这些更新。
-- 修改前已于 **2026-10-13 09:58:47 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-13_09-58-47_UTC` 与带注释标签 `backup-2026-10-13_09-58-47_UTC`；两者均指向上述最新基线提交。
-- 从 `scripts/app.js` 的 `announcements` 数组中完整移除 `2026-10-11-jiyouyang` 四语言记录；首页静态回退标题与展开内容改为仍保留的 Eghver 置顶公告，并提升首页脚本缓存版本。
-- 按公告维护规则，删除或修改公告的请求不再额外生成一条网站更新公告；页面其他公告、资源、样式和交互保持不变。
-
-
-### 2026-10-13：新增崩坏：星穹铁道专区
-
-- 需求：以后在此对话维护崩铁时读取本交接文档；首页新增崩坏：星穹铁道大类入口，分项参照原神与绝区零，包含国际版下载、国服下载与兑换码查询，链接由 Codex 查询选定。
-- 修改前于 **2026-10-13 22:44:24 UTC** 创建并核验完整 GitHub 备份分支 `backup/pre-change-2026-10-13_22-44-24_UTC` 与带注释标签 `backup-2026-10-13_22-44-24_UTC`。两者剥离后均指向基线提交 `f72abe92ab375dc3a6fb2ed691b1d76dce9166c2`；修改前工作区干净，远端 `main` 同为该提交。
-- 首页资源库新增“崩坏：星穹铁道”（简介含“崩铁”以供搜索），排序在绝区零之后；新增四语言更新公告并提升 `app.js` 缓存号。两个新页面沿用绝区零专区与下载页结构、五种主题色、深浅模式和四语言设置；Android、iOS、Windows 选项卡只切换内容，下载按钮打开外链。移动导航使用“崩铁”等短标题，避免长名称挤占空间。
-- 链接：国服 <https://sr.mihoyo.com/>；兑换码查询 <https://www.crimsonwitch.com/codes/Honkai_Star_Rail>；Google Play <https://play.google.com/store/apps/details?id=com.HoYoverse.hkrpgoversea>；APKPure XAPK <https://apkpure.net/honkai-star-rail/com.HoYoverse.hkrpgoversea/download>；美国区 App Store <https://apps.apple.com/us/app/honkai-star-rail/id1599719154>；Windows HoYoPlay <https://hoyoplay.hoyoverse.com/>。APKPure 是第三方入口，采用不含版本号的页面；兑换码页面仅供查询，实际可用码由目标站显示。
-- 涉及文件：`index.html`、`scripts/app.js`、`hsr.html`、`scripts/hsr.js`、`hsr-download.html`、`scripts/hsr-download.js`、`README.md` 和本文件。首页静态资源数同步为 12。
-- 验证：三个修改或新增的 JS 文件通过 `node --check`；脚本数据检查覆盖 12 个资源、四语言字段、三平台与四个下载链接；新页面站内引用均存在，平台按钮没有导航链接，`git diff --check` 通过。外部地址通过网页检索核对；Crimson Witch 对自动抓取返回 403，浏览器可用性与具体兑换码仍需日后核对。当前环境未提供浏览器控制工具，未进行真实设备视觉回归。
-- 新决策：崩铁后续更新沿用本交接文档的备份与同步维护约定，专区层级与其他两款 HoYoverse 游戏保持一致。
-
-### 2026-10-18：哥伦比娅主题来源入口改为国内米游社
-
-- 用户要求保持哥伦比娅主题图片完全不变，只把图片来源切换为中国大陆米游社。
-- 修改前已于 **2026-10-18 08:17:35 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-18_08-17-35_UTC` 与带注释标签 `backup-2026-10-18_08-17-35_UTC`；两者剥离后均指向基线提交 `a20db7c63ce3aeddc78df4c39676933d5c83ee65`。修改前本地工作区干净且远端 `main` 同为该提交。
-- `assets/themes/columbina/character.png` 未被修改，尺寸仍为 1024×1024，SHA-256 仍为 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`。网站继续从自身 GitHub Pages 同源加载该文件，因此访客浏览时没有海外图片运行时请求。
-- 17 个正式页面的哥伦比娅主题页脚来源链接改为米游社官方文章 <https://www.miyoushe.com/ys/article/71350081>；简中、繁中、英语、日语来源文字同步为米游社，主题配色、背景、构图、图片文件和其他四种风格均不变。国内角色资料核验入口为米游社·原神观测枢 <https://baike.mihoyo.com/ys/obc/content/507505/detail>。
-- 涉及文件：`scripts/site-style.js`、17 个正式 HTML 的共享脚本缓存号、`scripts/app.js`、`tests/columbina-art.cjs`、`assets/themes/columbina/README.md`、`README.md` 与本文件。首页按规则新增四语言普通公告并更新 `app.js` 缓存号。
-- 验证重点：图片哈希必须保持上述值；四语言页脚均显示米游社来源，链接须精确指向国内页面；经典、终端、科技与黑金典藏不得请求哥伦比娅图片；部署后核验 GitHub Pages 返回的新脚本缓存号和来源链接。
-
-### 2026-10-19：新增独立绪山真寻主题
-
-- 需求：参照《お兄ちゃんはおしまい！》绪山真寻的动画配色与用户参考图，新增可切换的完整主题，保留原有功能，图片使用国内可直连来源。
-- 修改前于 **2026-10-19 10:31:00 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-19_10-31-00_UTC` 与带注释标签 `backup-2026-10-19_10-31-00_UTC`；分支和剥离标签均指向 `b1106f1bc32023250a06fc694a80cd7c5b70e563`。修改前工作区干净，远端与本地 `main` 一致。
-- 实现：独立 `mahiro` 作用域，奶油底、粉紫与薄荷点缀、胶带相片框、贴纸卡片、点阵/虚线手账纹理；覆盖首页、资源专区、下载页、平台/渠道控件、搜索、公告和设置。默认浅色紫色，支持五种主题色、三档显示模式、四语言、跨页独立偏好与后退缓存恢复。保留原五套主题文件和全部目的链接，不改变默认经典主题。
-- 角色图片来自 B 站/堆糖国内 CDN，实际运行时直接请求国内域名；与前一次仅更改来源入口的记录不同。本地保存相同字节备用图（合计约 502 KiB），错误/8 秒超时回退；全部失败只显示纯 CSS 装饰，其他风格无新图片请求。版权和来源记录在 `assets/themes/mahiro/README.md`，页面不暗示官方授权。
-- 涉及文件：17 个正式 HTML 的新 CSS 引用与共享资源版本、`styles/mahiro.css`、`styles/site-style.css` 新主题预览、`scripts/site-style.js`、`scripts/app.js` 四语言普通公告、`assets/themes/mahiro/`、相关测试、README 与本文件。其他角色素材及其他独立主题 CSS 不变。
-- 验证：`tests/site-style.cjs … mahiro` 通过全部 17 页、320/390/768/1440 宽度、300 组配色/语言/显示模式组合、六主题偏好隔离、搜索分类、公告与平台按钮检查；`tests/style-isolation.cjs … b1106f1` 通过原五种风格 850 组计算样式对照。对照脚本增加等待布局稳定，避免尚未解析的 auto margin 误报；网站无相应旧主题改动。
-- 滑块检查覆盖 17 页 × 六风格 × 四宽度 × 四语言、每个选项与两端留白；环境重启前 14 页通过，重启后通过显式页参数续跑 `minecraft.html,zzz-download.html,zzz.html`，剩余 2304 位置及动画终点也通过。`tests/mahiro-art.cjs` 的确定性与 `--live` 实连模式均通过 17 页图片构图、四语言来源、按需请求、旧风格隐藏、远端失败/全部失败/8 秒超时降级；实连使用当前环境代理 CA 的限定 SPKI 信任，没有关闭全局证书校验。`tests/columbina-art.cjs` 也通过。
-- 静态核验：17 页各引用一次新 CSS，原页面内容链接未变，全部脚本语法通过，`git diff --check` 通过；`card-controls.css`、`mecha.css`、`blackgold.css`、`columbina.css` 与基线逐字节相同。哥伦比娅原图 SHA-256 仍为 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`。已人工查看手机首页、桌面全页、深色原神下载页截图。发布目标仍为 `main` 分支根目录；发布后检查线上资源版本和备用图哈希。
-- 限制：没有中国大陆各运营商实机网络，也没有真实 iPhone Safari；国内 CDN 可达性按当前环境核验，需用户在其设备上确认。没有将屏幕照片中的系统界面、字幕或设备信息复制到网站。
-
-### 2026-10-22：小范围修复分类、图标兼容与键盘操作
-
-- 需求：修复检测发现的问题，维持总体内容、设计与功能。
-- 修改前于 **2026-10-22 10:30:18 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-22_10-30-18_UTC` 与带注释标签 `backup-2026-10-22_10-30-18_UTC`；两者剥离后均指向 `807bd5032cb5f9cde80ae4e16541e6da325d8a7d`。工作区干净，远端 `main` 同步。
-- 首页将两个同名“工具”筛选合并，电脑工具资源的分类并入 `tools`；保留全部 14 项资源及原目的链接、专区名称和各主题规则。分类统计同步为四类，四语言共用一个工具按钮。
-- iOS 图标保留 `U+F8FF` 原生 Apple 字符与镂空描边。在系统字体后加入 644 字节同源 OFL 单字形后备字体，修复非 Apple 字体环境的缺字。源字体 Font Awesome Free Brands 6.7.2，字形从 `U+F179` 映射到 `U+F8FF`，修改版重命名为 JY Apple Fallback；原许可完整保留在 `assets/fonts/LICENSE-font-awesome.txt`。
-- 共享 `site-style.js` 向九个下载页现有 `role=tablist` 平台/渠道栏加入左右方向键循环、Home/End 和单一 Tab 焦点入口；复用已有点击处理函数更新卡片与按钮，不改变链接、默认平台或选项卡外观。监听 `aria-selected` 同步鼠标与键盘焦点顺序。
-- 哥伦比娅图片源仍未完成：原图保持不变（SHA-256 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`）。核验原米游社文章、睁眼版本文章、公开接口及普通浏览器，接口返回 403/503，网页只提供 Loading；观测枢引用接口返回内容不存在，尝试的国内官方静态镜像为 404。未得到可验证与当前图一致的米游社 CDN 直链，不能通过改页脚或换成另一张图冒充完成。为维持用户指定图片和整体效果，本次不更改现有图片请求地址，后续需可核验的同图国内米游社直链。
-- 涉及文件：`index.html`、`scripts/app.js`、`scripts/site-style.js`、`styles/card-controls.css`、`assets/fonts/`、17 页共享资源缓存号、`tests/site-style.cjs`、`tests/small-bugfixes.cjs` 与本文件。新增四语言普通更新公告，仅声明实际完成的三项修复。共享 JS/CSS 与首页公告缓存号提升至 `20261022-bugfix1`，各独立主题 CSS 保持不变。
-- 验证：`tests/small-bugfixes.cjs` 通过四语言单一工具入口、三个工具资源及全部 14 项资源保留、九页键盘前后循环/Home/End/鼠标选择与焦点同步、六主题 320/390px 窄屏；通过 Chromium 实际字体报告确认两个苹果图标确实渲染了后备字形，原字符和镂空描边均保留。`tests/site-style.cjs … mahiro` 通过全部 17 页、300 组配色/语言/模式及搜索、公告、存储和主题偏好隔离。已人工查看修复后的平台栏与大图标截图；脚本语法和 `git diff --check` 通过。原五个独立主题 CSS、资源目的链接及哥伦比娅原图不改。未发现阻断本次三项修复发布的问题；米游社同图直链是明确保留的未完成项。
-
-### 2026-10-23：新增独立芙宁娜主题，优先国内图片源
-
-- 需求：参照原神芙宁娜配色、美术与图案新增完整主题，布置参考哥伦比娅但独立设计；用户追加强调国内图片源，并指定选项插在哥伦比娅与绪山真寻之间。
-- 修改前于 **2026-10-23 10:20:28 UTC** 创建并核验 GitHub 完整备份分支 `backup/pre-change-2026-10-23_10-20-28_UTC` 与带注释标签 `backup-2026-10-23_10-20-28_UTC`；两者剥离后均为 `84a941ad293e241f8f1ef3e69e0f625e8b0ab065`。修改前工作区干净，远端/本地 `main` 一致。
-- 实现：第七个独立 `furina` 作用域，默认深色蓝色，浅色珍珠白；枫丹钴蓝、金色配饰、水纹与珍珠环、礼帽/水滴、舞台框与票券边饰覆盖首页/专区/下载/公告/设置。支持五色、三档模式、四语言及分主题保存，其他六套主题和原页面目的链接不改。
-- 图片：B站原神 BWIKI「官方贺图」的芙宁娜 2024 年生日图，实际主请求为 `patchwiki.biligame.com` 国内图片 CDN。1000×1000 PNG，1,746,100 字节，SHA-256 `b5345a4e8f9d73b32dff5bd12477521a578ceb0f758029224ba20a1b2a4dae10`。同字节备用保存为 `assets/themes/furina/artwork.png`。仅该主题按需创建首屏与背景，错误/8 秒超时回退，备用也失败则保留 CSS 舞台装饰。页脚有四语言版权/来源与非官方说明。具体地址和记录见素材目录 README。
-- 共用图片加载函数从 `createMahiroArt` 更名为 `createThemeArt`，逻辑不变，真寻主题参数和请求地址不变；芙宁娜复用它的国内源/本地备用行为。
-- 涉及文件：17 个正式 HTML 新 `furina.css` 引用与共享资源版本，`scripts/site-style.js`、`styles/site-style.css` 新预览、`styles/furina.css`、素材目录、`scripts/app.js` 四语言普通公告、相关测试、README 与本文件。缓存号为 `20261023-furina1`；原 `card-controls.css`、独立主题 CSS 与苹果字体后备不改。
-- 验证：`tests/site-style.cjs … furina` 通过全部 17 页、四宽度、300 组语言/配色/模式、七主题偏好隔离、主题恢复、搜索/公告/平台切换与下载按钮优先级；文字/金色标签与按钮对比度不低于 4.5。`tests/style-isolation.cjs … 84a941a` 通过原六主题 1020 组样式对照。`tests/furina-art.cjs --live` 确认实际国内 CDN 图片请求成功，17 页四宽度构图不遮字、四语言、1144 个滑块位置、选项顺序、按需请求、离开隐藏、远端失败/全部失败/8 秒超时回退均通过；仅对当前环境代理 CA 使用限定 SPKI 信任，不关闭全局 TLS 验证。已人工查看手机首页、桌面全页与浅色 iOS 下载页。
-- 静态验证：17 页仅增加独立 CSS 引用及缓存号，原正文和目的链接逐字一致；原 `card-controls.css` 与四份独立主题 CSS 与基线逐字节相同，所有正式 JS 语法与 `git diff --check` 通过。前一轮分类合并、Apple 字形及键盘修复继续由 `tests/small-bugfixes.cjs` 检查。资源库图标的珍珠环使用独立 `::after` 选择器，避免将伪元素放进 `:is()` 后被浏览器忽略。
-- 限制：无法替代中国大陆各运营商和真实 iPhone 的设备实测；国内源在当前环境下载与浏览器核验，备用图防止外链失效。此前哥伦比娅米游社同图直链未完成项仍保留，本次没有改动其原图。
-
-### 2026-11-11：接续完成本地资源库增强
-
-- 用户明确选择完成工作区已有的资源库增强，并指示“图片源不用再管了”；因此不再继续查找或改动哥伦比娅及其他主题图片源，此项不作为本轮待办。
-- 接手时 `main` 和线上均为 `dbe9c444e03f9f23e8bef3d32e82d1e7a0833e88`；工作区已有 17 页、首页脚本及三份新文件的未提交草稿。先通过独立临时 Git index 将全部草稿纳入完整快照，未覆盖工作区或主 index。
-- 于 **2026-11-11 08:57:19 UTC** 创建并核验 GitHub 备份分支 `backup/pre-change-2026-11-11_08-57-19_UTC` 与带注释标签 `backup-2026-11-11_08-57-19_UTC`。两者剥离后均为快照提交 `70ecf4d0594419fbd2b468d8287fefe0d92e0d98`，其父为上述线上基线。备份包含修改前完整未提交内容，而非只备份 HEAD；若需恢复最后正式上线的芙宁娜版本，使用 `dbe9c44` 的网站文件，维护文档仍保留最新版本。
-- 本次完成收藏/取消/排序与跨页持久化、卡片来源/平台标签、复制链接及手动降级、快捷搜索及别名/历史/键盘选择、首页紧凑列表、返回筛选与位置恢复、按日期折叠的更新日志及按压反馈。14 项原首页资源与 28 项原专区入口保持原文案和目的链接，七套主题与四语言共用增强功能。
-- 补齐草稿中的平台切换复制错误：复制控件跟随当前可见下载按钮、地址与文字更新，点击时读取实际目标链接；监听相关 href/hidden/文字变化。收藏不足两项时自动退出排序，存储被拒绝时正确显示临时模式。快捷搜索输入文字后按 Esc 会直接关闭面板并恢复页面滚动，避免浏览器搜索框先清空文字、未按提示关闭的问题。
-- 17 页资源版本从草稿 `20261105-library1` 更新为 `20261111-library1`，普通更新公告日期使用实际完成日。原主题文件、平台滑块尺寸与 Apple 字形保持不变。
-- 涉及文件：`scripts/resource-catalog.js`、`scripts/library-experience.js`、`styles/library-experience.css`、17 页引用、`scripts/app.js`、`tests/library-experience.cjs`、原主题回归测试的搜索与公告入口断言、README 与本文件。
-- 验证：`node tests/library-experience.cjs http://127.0.0.1:8765` 通过原 14 项首页资源逐字段对照、28 项专区入口的 112 组四语言原卡片对照、收藏/排序/刷新持久化、别名/快捷键/历史清除/返回状态、29 个当前平台下载链接复制、剪贴板拒绝时手动复制、禁用存储降级，以及七主题 × 两档模式 × 四语言 × 三宽度 × 两布局共 336 组资源库与搜索面板无溢出检查。`tests/site-style.cjs … furina` 通过全部 17 页、经典样式对照、300 组配色/语言/模式、七主题偏好隔离与搜索/公告/平台切换回归。17 页原目的链接、资源引用与全部正式 JS 语法检查通过；七主题原有 CSS/共享风格脚本逐字节未改，`git diff --check` 通过。已人工查看手机端收藏区、紧凑列表、快捷搜索与公告展开截图。
-- 保留限制：浏览器数据不跨设备同步，外部站点可用性由对应网站决定；真实 iPhone 和中国大陆运营商网络仍需实机验证。
+- 需求：简化交接文档，但保留全部原意、要求，并告知所有变动。
+- 修改前完整备份：**2026-11-11 10:02:06 UTC**；分支 `backup/pre-change-2026-11-11_10-02-06_UTC`，带注释标签 `backup-2026-11-11_10-02-06_UTC`；远端分支和剥离标签均核验为 `bef84b020456e3861f5d1ffd771b694f5d776087`（71 个受控文件、干净工作区）。
+- 实现：合并重复规则/页级公共说明/文件职责/缓存记录，将现状与历史分开；按 2026-10-22 与 11-11 已完成记录澄清分类、键盘、测试、图片源任务状态，不新增功能或放宽用户要求。
+- 文件：重写本文；原文逐字节归档 `docs/history/CODEX_HANDOFF-2026-11-11-original.md`；完整变动对照 `docs/HANDOFF_SIMPLIFICATION.md`。网站 HTML/CSS/JS、素材、公告、README 与回滚说明均不改。
+- 验证：归档逐字节/哈希一致，105 个原标题与 65 条历史、49 个原现状链接、32 组关键要求、17 页文件映射和文档链接检查通过；其余 70 个原文件逐字节未变，仅三份 Markdown 变动。无需重跑网站视觉测试、更改缓存或增加公告；详细结果见变动对照。
+- 遗留/决策：无新增网站任务；旧资料完整保留、现行规则集中于本文，图片源继续不处理。
