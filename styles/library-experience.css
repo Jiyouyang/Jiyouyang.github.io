@@ -5,7 +5,6 @@ html[data-style="terminal"] { --library-radius: 8px; --library-control-radius: 5
 html[data-style="mecha"] { --library-radius: 5px 18px 5px 5px; --library-control-radius: 5px; }
 html[data-style="blackgold"] { --library-radius: 10px; --library-control-radius: 6px; }
 html[data-style="furina"] { --library-radius: 18px; --library-control-radius: 9px; }
-html[data-style="mahiro"] { --library-radius: 23px; --library-control-radius: 14px; }
 .library-entry { position: relative; min-width: 0; display: flex; flex-direction: column; }
 .library-entry > a { height: 100%; }
 .entry-actions { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; gap: 4px; border: 1px solid var(--line); padding: 2px; border-radius: var(--library-control-radius); background: var(--surface); box-shadow: 0 3px 12px #0000000a; }

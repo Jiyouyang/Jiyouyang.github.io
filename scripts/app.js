@@ -99,19 +99,27 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-11-remove-unused-style', date: '2026-11-11', type: 'improved', content: {
+      'zh-CN': ['移除不再使用的主题', ['已完整删除不再使用的主题选项、样式、图片与加载代码，不保留隐藏入口。网站现有经典、终端、科技、黑金典藏、哥伦比娅与芙宁娜六套风格。', '此前选择该主题的浏览器会自动恢复经典风格，清理已移除主题的独立偏好；其他风格、收藏、语言及下载功能保持不变。']],
+      'zh-TW': ['移除不再使用的主題', ['已完整刪除不再使用的主題選項、樣式、圖片與載入程式，不保留隱藏入口。網站現有經典、終端、科技、黑金典藏、哥倫比婭與芙寧娜六套風格。', '先前選擇該主題的瀏覽器會自動恢復經典風格，清除已移除主題的獨立偏好；其他風格、收藏、語言及下載功能保持不變。']],
+      en: ['Removed an unused theme', ['The unused theme, settings option, styles, images and loading code have been removed completely, without a hidden entry. Six styles remain: Classic, Terminal, Technology, Black & Gold, Columbina and Furina.', 'Browsers that used the removed theme return to Classic and discard its separate preferences. Other styles, favorites, language and downloads are unchanged.']],
+      ja: ['不要なテーマを削除', ['使わなくなったテーマの選択肢、スタイル、画像、読み込み処理を完全に削除しました。隠し項目はありません。クラシック、ターミナル、テクノロジー、ブラック＆ゴールド、コロンビーナ、フリーナの6種類を利用できます。', '削除されたテーマを使用していた場合はクラシックに戻り、そのテーマ専用の設定を消去します。他のテーマ、お気に入り、言語、ダウンロード機能は変更していません。']]
+    }
+  },
+  {
     id: '2026-11-11-library-experience', date: '2026-11-11', type: 'improved', content: {
-      'zh-CN': ['资源收藏与浏览体验升级', ['首页和各专区的资源卡片支持收藏与复制链接；首页“我的常用”支持调整顺序，偏好保存在当前浏览器。卡片新增来源与平台标签，资源库可以切换大卡片或紧凑列表。', '顶部搜索升级为快捷面板，支持搜索历史、常用入口、分类结果与 MC 等别名，电脑可用 Ctrl / ⌘ + K 或 / 打开。公告详情改为按日期折叠的更新日志，新增、优化、修复一目了然。', '补上收藏和复制反馈、轻量按压效果与返回资源库时的筛选和位置恢复；所有新功能适配七套主题与四种语言。']],
-      'zh-TW': ['資源收藏與瀏覽體驗升級', ['首頁和各專區的資源卡片支援收藏與複製連結；首頁「我的常用」支援調整順序，偏好儲存在目前瀏覽器。卡片新增來源與平台標籤，資源庫可切換大卡片或精簡列表。', '頂部搜尋升級為快捷面板，支援搜尋紀錄、常用入口、分類結果與 MC 等別名，電腦可用 Ctrl / ⌘ + K 或 / 開啟。公告詳情改為依日期折疊的更新日誌，新增、優化、修復一目了然。', '補上收藏與複製回饋、輕量按壓效果，以及返回資源庫時的篩選和位置還原；所有新功能適配七套主題與四種語言。']],
-      en: ['A more personal resource library', ['Favorite or copy resource links from the home page and hubs. Reorder your shortcuts on the home page; preferences stay in this browser. Source and platform labels make destinations clearer, with card and compact-list views.', 'Quick search offers recent queries, favorites, grouped results and aliases such as MC. Open it from the navigation or with Ctrl / ⌘ + K or /. Expanded notices now form a dated update timeline with New, Improved and Fixed labels.', 'Added favorite and copy feedback, subtle press states and filter/position restoration when returning to the library. All additions support seven styles and four languages.']],
-      ja: ['リソースの保存と閲覧を改善', ['ホームと各専用ページのカードをお気に入りに追加し、リンクもコピーできます。ホームで並び替えでき、設定はこのブラウザーに保存されます。出典・対応プラットフォームのラベルと、カード／一覧表示を追加しました。', 'クイック検索は検索履歴、お気に入り、カテゴリー別の結果、MC などの別名に対応。ナビゲーションや Ctrl / ⌘ + K、/ で開けます。お知らせは日付別に折りたためる更新履歴となり、追加・改善・修正を表示します。', '保存・コピーの通知、控えめな押下効果、リソース一覧に戻った際の絞り込みと位置の復元も追加。7つのテーマと4言語に対応しています。']]
+      'zh-CN': ['资源收藏与浏览体验升级', ['首页和各专区的资源卡片支持收藏与复制链接；首页“我的常用”支持调整顺序，偏好保存在当前浏览器。卡片新增来源与平台标签，资源库可以切换大卡片或紧凑列表。', '顶部搜索升级为快捷面板，支持搜索历史、常用入口、分类结果与 MC 等别名，电脑可用 Ctrl / ⌘ + K 或 / 打开。公告详情改为按日期折叠的更新日志，新增、优化、修复一目了然。', '补上收藏和复制反馈、轻量按压效果与返回资源库时的筛选和位置恢复；所有新功能适配现有主题与四种语言。']],
+      'zh-TW': ['資源收藏與瀏覽體驗升級', ['首頁和各專區的資源卡片支援收藏與複製連結；首頁「我的常用」支援調整順序，偏好儲存在目前瀏覽器。卡片新增來源與平台標籤，資源庫可切換大卡片或精簡列表。', '頂部搜尋升級為快捷面板，支援搜尋紀錄、常用入口、分類結果與 MC 等別名，電腦可用 Ctrl / ⌘ + K 或 / 開啟。公告詳情改為依日期折疊的更新日誌，新增、優化、修復一目了然。', '補上收藏與複製回饋、輕量按壓效果，以及返回資源庫時的篩選和位置還原；所有新功能適配現有主題與四種語言。']],
+      en: ['A more personal resource library', ['Favorite or copy resource links from the home page and hubs. Reorder your shortcuts on the home page; preferences stay in this browser. Source and platform labels make destinations clearer, with card and compact-list views.', 'Quick search offers recent queries, favorites, grouped results and aliases such as MC. Open it from the navigation or with Ctrl / ⌘ + K or /. Expanded notices now form a dated update timeline with New, Improved and Fixed labels.', 'Added favorite and copy feedback, subtle press states and filter/position restoration when returning to the library. All additions support existing styles and four languages.']],
+      ja: ['リソースの保存と閲覧を改善', ['ホームと各専用ページのカードをお気に入りに追加し、リンクもコピーできます。ホームで並び替えでき、設定はこのブラウザーに保存されます。出典・対応プラットフォームのラベルと、カード／一覧表示を追加しました。', 'クイック検索は検索履歴、お気に入り、カテゴリー別の結果、MC などの別名に対応。ナビゲーションや Ctrl / ⌘ + K、/ で開けます。お知らせは日付別に折りたためる更新履歴となり、追加・改善・修正を表示します。', '保存・コピーの通知、控えめな押下効果、リソース一覧に戻った際の絞り込みと位置の復元も追加。すべてのテーマと4言語に対応しています。']]
     }
   },
   {
     id: '2026-10-23-furina-style', date: '2026-10-23', content: {
-      'zh-CN': ['新增芙宁娜主题', ['在网站设置的“哥伦比娅”与“绪山真寻”之间新增“芙宁娜”：枫丹蓝金、珍珠白、水纹、礼帽与歌剧舞台边框，配官方生日贺图，并支持深浅模式。', '图片优先从 B站 BWIKI 国内图片源加载，提供相同图片的本地备用。七套风格独立保存配色与显示模式，原有资源、平台切换及四语言功能保持可用。']],
-      'zh-TW': ['新增芙寧娜主題', ['網站設定在「哥倫比婭」與「緒山真尋」之間新增「芙寧娜」：楓丹藍金、珍珠白、水紋、禮帽與歌劇舞臺邊框，搭配官方生日賀圖，並支援深淺模式。', '圖片優先從 B站 BWIKI 中國大陸圖片來源載入，提供相同圖片的本地備用。七套風格獨立儲存配色與顯示模式，原有資源、平台切換及四語言功能保持可用。']],
-      en: ['Introducing Furina', ['Choose Furina between Columbina and Mahiro Oyama in settings: Fontaine blue and gold, pearl light, water ripples, a top-hat motif and opera-stage frames with official birthday artwork, in both dark and light modes.', 'Artwork loads from the Bilibili BWIKI image CDN in China, with an identical local fallback. All seven styles save separate color and appearance preferences; existing resources, platform controls and four languages remain available.']],
-      ja: ['フリーナのテーマを追加', ['設定の「コロンビーナ」と「緒山まひろ」の間に「フリーナ」を追加しました。フォンテーヌの青と金、真珠色、水紋、シルクハット、歌劇場の装飾に公式誕生日イラストを合わせ、ライト・ダーク両モードに対応しています。', '画像は中国向け bilibili BWIKI CDN から読み込み、同じ画像のローカル予備も用意しています。7つのスタイルは配色と表示モードを個別に保存し、既存のリソース・プラットフォーム切り替え・4言語を維持します。']]
+      'zh-CN': ['新增芙宁娜主题', ['在网站设置中新增“芙宁娜”：枫丹蓝金、珍珠白、水纹、礼帽与歌剧舞台边框，配官方生日贺图，并支持深浅模式。', '图片优先从 B站 BWIKI 国内图片源加载，提供相同图片的本地备用。各套风格独立保存配色与显示模式，原有资源、平台切换及四语言功能保持可用。']],
+      'zh-TW': ['新增芙寧娜主題', ['網站設定新增「芙寧娜」：楓丹藍金、珍珠白、水紋、禮帽與歌劇舞臺邊框，搭配官方生日賀圖，並支援深淺模式。', '圖片優先從 B站 BWIKI 中國大陸圖片來源載入，提供相同圖片的本地備用。各套風格獨立儲存配色與顯示模式，原有資源、平台切換及四語言功能保持可用。']],
+      en: ['Introducing Furina', ['Choose Furina in settings: Fontaine blue and gold, pearl light, water ripples, a top-hat motif and opera-stage frames with official birthday artwork, in both dark and light modes.', 'Artwork loads from the Bilibili BWIKI image CDN in China, with an identical local fallback. All existing styles save separate color and appearance preferences; existing resources, platform controls and four languages remain available.']],
+      ja: ['フリーナのテーマを追加', ['設定に「フリーナ」を追加しました。フォンテーヌの青と金、真珠色、水紋、シルクハット、歌劇場の装飾に公式誕生日イラストを合わせ、ライト・ダーク両モードに対応しています。', '画像は中国向け bilibili BWIKI CDN から読み込み、同じ画像のローカル予備も用意しています。各スタイルは配色と表示モードを個別に保存し、既存のリソース・プラットフォーム切り替え・4言語を維持します。']]
     }
   },
   {
@@ -120,14 +128,6 @@ const announcements = [
       'zh-TW': ['分類與操作體驗修復', ['首頁重複的「工具」分類已合併，原有資源全部保留，分類總數同步為四類。', 'iOS 鏤空蘋果圖示新增本地字型後備，修復非 Apple 字型環境的缺字問題；下載頁平台選項卡支援左右方向鍵、Home 與 End，並保留點擊與觸控操作。']],
       en: ['Category and interaction fixes', ['Merged the duplicate Tools filters while preserving all resources and updating the category total to four.', 'A local fallback font fixes missing outlined Apple icons on non-Apple font systems. Download tabs now support Left/Right, Home and End keys alongside existing mouse and touch controls.']],
       ja: ['カテゴリーと操作性を修正', ['重複していた「ツール」を統合しました。リソースはすべて残し、カテゴリー数を4つに更新しました。', 'ローカルの代替フォントで Apple アイコンの文字欠けを修正しました。元の中抜き表示を維持し、ダウンロードのタブは左右キー・Home・End にも対応しました。クリックとタッチ操作も利用できます。']]
-    }
-  },
-  {
-    id: '2026-10-19-mahiro-style', date: '2026-10-19', content: {
-      'zh-CN': ['新增绪山真寻主题', ['网站设置新增“绪山真寻”：奶油白、樱花粉、浅紫与薄荷色，搭配动画相片、淡化街景背景和贴纸手账卡片；也有柔和的深色模式。', '角色图片优先使用 B 站和堆糖国内图片源，附本地备用图与来源说明。六种风格独立保存偏好，原有功能和四语言保持可用。']],
-      'zh-TW': ['新增緒山真尋主題', ['網站設定新增「緒山真尋」：奶油白、櫻花粉、淺紫與薄荷色，搭配動畫相片、淡化街景背景和貼紙手帳卡片；亦提供柔和的深色模式。', '角色圖片優先使用 B 站與堆糖中國大陸圖片來源，附本地備用圖及來源說明。六種風格獨立儲存偏好，原有功能與四語言保持可用。']],
-      en: ['Introducing Mahiro Oyama', ['Choose Mahiro Oyama in site settings for cream, pink, lilac and mint stationery, anime photo cards and a soft street-scene backdrop, with a cozy plum dark mode.', 'Artwork loads from Bilibili and Duitang image CDNs in China, with local fallbacks and source credits. All six styles keep independent preferences; existing features and four languages are preserved.']],
-      ja: ['緒山まひろのテーマを追加', ['サイト設定に「緒山まひろ」を追加しました。クリーム、ピンク、ラベンダー、ミントの手帳風デザインに、アニメの写真カードと淡い街並みの背景を合わせ、穏やかなダークモードも用意しました。', '画像は中国向けの bilibili・堆糖の CDN から読み込み、ローカルの予備画像と出典も用意しています。6つのスタイルは設定を個別に保存し、既存の機能と4言語を維持します。']]
     }
   },
   {

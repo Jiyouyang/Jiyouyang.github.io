@@ -8,8 +8,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
   try {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
-    await context.route('https://i0.hdslb.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/portrait.jpg', contentType: 'image/jpeg' }));
-    await context.route('https://c-ssl.dtstatic.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/background.jpg', contentType: 'image/jpeg' }));
+    await context.route('https://patchwiki.biligame.com/**', route => route.fulfill({ path: 'assets/themes/furina/artwork.png', contentType: 'image/png' }));
     const page = await context.newPage(), errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base + '/index.html');
@@ -70,7 +69,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
       assert.ok(fonts.some(font => font.glyphCount && (font.isCustomFont || /Apple|SF/.test(font.familyName))), selector + ': no Apple or fallback glyph rendered');
       assert.ok(await page.locator(selector).evaluate(el => parseFloat(getComputedStyle(el).webkitTextStrokeWidth) > 0));
     }
-    for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mahiro']) {
+    for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina']) {
       await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
       for (const width of [320, 390]) {
         await page.setViewportSize({ width, height: 844 });

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const art = 'https://patchwiki.biligame.com/images/ys/thumb/8/89/s8dltubvboh981ynwjo6jszgwqf1zwr.png/1000px-%E7%94%9F%E8%B4%BA%C2%B7%E8%8A%99%E5%AE%81%E5%A8%9C%C2%B72024.png';
-const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mahiro'];
+const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina'];
 
 (async () => {
   const args = ['--no-sandbox'];
@@ -12,14 +12,12 @@ const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'ma
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args });
   try {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
-    await context.route('https://i0.hdslb.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/portrait.jpg', contentType: 'image/jpeg' }));
-    await context.route('https://c-ssl.dtstatic.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/background.jpg', contentType: 'image/jpeg' }));
     if (!process.argv.includes('--live')) await context.route(art, route => route.fulfill({ path: 'assets/themes/furina/artwork.png', contentType: 'image/png' }));
     const page = await context.newPage(), requests = [], errors = [];
     page.on('request', request => { if (request.url() === art || request.url().includes('/assets/themes/furina/')) requests.push(request.url()); });
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base + '/');
-    assert.deepEqual(await page.locator('[data-style-choice]').evaluateAll(es => es.map(e => e.dataset.styleChoice)), ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mahiro']);
+    assert.deepEqual(await page.locator('[data-style-choice]').evaluateAll(es => es.map(e => e.dataset.styleChoice)), ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina']);
     for (const style of oldStyles) await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
     assert.deepEqual(requests, [], 'Old styles must not request Furina art');
     await page.evaluate(() => document.querySelector('[data-style-choice=furina]').click());

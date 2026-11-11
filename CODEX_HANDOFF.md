@@ -1,7 +1,7 @@
 # CODEX 项目交接文档
 
 > 更新：2026-11-11 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
-> 网站：https://jiyouyang.github.io/ · 最近网站功能提交：`bef84b020456e3861f5d1ffd771b694f5d776087`（资源库增强）
+> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-11（完整移除不再使用的主题）
 
 本文集中保存现行规则、网站现状和维护入口。精简前全文（含全部需求演变、备份 SHA、时间、测试与部署记录）[原样归档](docs/history/CODEX_HANDOFF-2026-11-11-original.md)；[本次全部整理说明](docs/HANDOFF_SIMPLIFICATION.md)。历史方案若已被后续要求取代，只作追溯，不按旧记录恢复网站。
 
@@ -60,16 +60,16 @@
 | `scripts/library-experience.js` / `styles/library-experience.css` | 收藏/排序、复制及降级、快捷搜索/历史、紧凑列表、返回状态、标签与按压反馈 |
 | `scripts/app.js` | 首页字典、公告时间线、目录筛选、原主题/设置逻辑 |
 | `styles/card-controls.css` | 共用卡片图区、下载平台/渠道滑块及几何修复；`20261022-bugfix1` |
-| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、偏好/后退恢复、主题预览及终端视觉；`20261023-furina1` |
+| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、有效偏好清理/后退恢复、主题预览及终端视觉；`20261111-style-removal1` |
 | `styles/mecha.css` / `styles/blackgold.css` | 科技 / 黑金典藏独立视觉；`20261018-mecha1` / `20261018-blackgold1` |
-| `styles/columbina.css` / `styles/furina.css` / `styles/mahiro.css` | 三角色独立视觉；`20261018-columbina1` / `20261023-furina1` / `20261019-mahiro1` |
-| `assets/themes/{columbina,furina,mahiro}/` | 原图/同字节备用、来源、版权、哈希记录，各目录 README 不丢失 |
+| `styles/columbina.css` / `styles/furina.css` | 两角色独立视觉；`20261018-columbina1` / `20261023-furina1` |
+| `assets/themes/{columbina,furina}/` | 原图/同字节备用、来源、版权、哈希记录，各目录 README 不丢失 |
 | `assets/fonts/` | Apple 字符后备字体、原许可及来源 |
 | `assets/site-cover.jpg` / `site.webmanifest` | 网站/桌面图标与 standalone PWA 信息 |
 | `archive/legacy/minecraft.js` / `archive/legacy/preview.html` | 已标记遗留、正式页面不引用；只归档，不擅自删除 |
 | `README.md` / `docs/ROLLBACK.md` | 项目入口概览 / 历史备份与网站文件回滚说明 |
 
-17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录、增强 JS/CSS 及首页 `app.js` 当前版本为 `20261111-library1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入；不要把过往版本号当当前值。
+17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录及增强 JS 保留 `20261111-library1`；共享风格 JS/CSS、增强 CSS 及首页 `app.js` 为 `20261111-style-removal1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入；不要把过往版本号当当前值。
 
 旧全面升级的 `site.css`、`site.js`、`scripts/verify-ui.cjs` 已回滚移除；现行共享文件不是把那套升级恢复。未经用户再次要求，不自行引回旧共用体系。
 
@@ -171,9 +171,9 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 - Apple 系统字体优先，后接 `assets/fonts/jy-apple-fallback.woff2`（644 字节），避免非 Apple 缺字。后备为按 OFL 重命名的 Font Awesome Free Brands 6.7.2 Apple 子集，`U+F179` 映射 `U+F8FF`，名为 JY Apple Fallback；不分发 Apple 系统字体，保留 `assets/fonts/LICENSE-font-awesome.txt` 与来源记录。
 - favicon、Apple 主屏幕和桌面/PWA 图标统一使用用户蓝发动漫人物抱黄色小鸡的 `assets/site-cover.jpg`，不是 Hero 大封面；保留抽象卡片。未来若按用户意愿生成 PNG/ICO，仍保留原图构图，不擅自替换指定图片。
 
-## 5. 七套风格、翻译与偏好
+## 5. 六套风格、翻译与偏好
 
-设置顺序：风格调整 → 五种主题颜色 → 跟随系统/浅色/深色 → 简中/繁中/English/日本語。七风格预览顺序如下，芙宁娜必须在哥伦比娅与绪山真寻之间；科技只改显示名，内部 `mecha`/文件/键不改，历史名称“机甲”不重写。
+设置顺序：风格调整 → 五种主题颜色 → 跟随系统/浅色/深色 → 简中/繁中/English/日本語。六风格预览顺序如下，芙宁娜紧随哥伦比娅；科技只改显示名，内部 `mecha`/文件/键不改，历史名称“机甲”不重写。
 
 | 风格 / 标识 | 首次默认 | 设计与隔离要求 |
 | --- | --- | --- |
@@ -183,7 +183,6 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 | 黑金典藏 `blackgold` | 橙色档暖金、深色 | 墨黑/象牙白、金线/徽章/内边框、衬线标题与无衬线正文；第四预览独占行，不加图片/字体依赖 |
 | 哥伦比娅 `columbina` | 蓝色、浅色 | 月光蓝/珍珠白/蓝紫羽翼/莓红，深色午夜蓝；星月轨道、手机上下/桌面分栏、角色脸部不压字、背景低透明而卡片可读 |
 | 芙宁娜 `furina` | 蓝色、深色 | 枫丹蓝金/珍珠白、水纹/珍珠环/礼帽/水滴/舞台框与票券边饰 |
-| 绪山真寻 `mahiro` | 紫色、浅色 | 《お兄ちゃんはおしまい！》奶油白/粉紫/薄荷、胶带相片/贴纸/点阵虚线手账；深色柔梅紫 |
 
 全套覆盖首页、公告、精选/资源/专区、下载插图/按钮、搜索、平台/渠道、设置及页脚，支持五色、三档模式、四语言。网站视觉规则限定各自 `data-style`，不改变旧风格、业务内容/链接或滑块尺寸算法；每个风格独立恢复配色/模式，语言通用，不自动切换已有用户设置。预览/新设置不等于恢复旧升级的“外观实时预览/恢复默认”等功能。
 
@@ -192,8 +191,8 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 ### 角色素材与最新范围
 
 - 哥伦比娅原画 `assets/themes/columbina/character.png`（1024×1024、约 1.7 MB），SHA-256 `94b632023e5daa0e9c5bb535ce0a7b49b48accd54618988248c5dda2548b4ec2`；原图不变。页脚来源为米游社 <https://www.miyoushe.com/ys/article/71350081>，资料参考 <https://baike.mihoyo.com/ys/obc/content/507505/detail>；实际图片仍为本站同源文件，不等于已取得米游社同图 CDN 直链。
-- 真寻实际主请求为 Bilibili `i0.hdslb.com` / 堆糖 `c-ssl.dtstatic.com`，本地 `assets/themes/mahiro/` 存同字节 JPEG（约 502 KiB）；芙宁娜实际主请求为 B站 BWIKI `patchwiki.biligame.com`，官方 2024 生日图的本地同字节备用 `assets/themes/furina/artwork.png`（1000×1000、1,746,100 字节），SHA-256 `b5345a4e8f9d73b32dff5bd12477521a578ceb0f758029224ba20a1b2a4dae10`。
-- 图片只在选中对应风格时按需创建/请求，离开隐藏，不让无关风格加载。真寻/芙宁娜错误或 8 秒超时用本地同图备用，再失败保留 CSS 装饰；哥伦比娅本地原图失败也保留 CSS 月亮和业务功能。共用加载函数 `createThemeArt` 不因复用更改真寻原请求参数。来源、版权、非官方说明四语言同步，不去水印、不冒充原创/开源/官方授权，不复制参考截图的系统文字、设备信息或字幕。
+- 芙宁娜实际主请求为 B站 BWIKI `patchwiki.biligame.com`，官方 2024 生日图的本地同字节备用 `assets/themes/furina/artwork.png`（1000×1000、1,746,100 字节），SHA-256 `b5345a4e8f9d73b32dff5bd12477521a578ceb0f758029224ba20a1b2a4dae10`。
+- 图片只在选中对应风格时按需创建/请求，离开隐藏，不让无关风格加载。芙宁娜通过 `createThemeArt` 在错误或 8 秒超时后用本地同图备用，再失败保留 CSS 装饰；哥伦比娅本地原图失败也保留 CSS 月亮和业务功能。来源、版权、非官方说明四语言同步，不去水印、不冒充原创/开源/官方授权，不复制参考截图的系统文字、设备信息或字幕。
 - **最新用户决定（2026-11-11）：“图片源不用再管了”。不再继续图片源任务，不列为待完成项目，也不能把此前米游社直链未完成说成已完成。** 保留现有图片、来源记录及失败降级；当前环境下载成功不代表中国大陆各运营商均可直连。
 
 ### 四语言与存储
@@ -203,11 +202,13 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 | 存储键 | 内容与边界 |
 | --- | --- |
 | `localStorage`：`jy-accent`、`jy-theme`、`jy-language` | 当前色调、外观、全站语言；无偏好默认经典石墨、跟随系统 |
-| `jy-style`、`jy-style-{classic,terminal,mecha,blackgold,columbina,furina,mahiro}` | 当前风格及各自 `{accent, theme}`；当前 `jy-accent`/`jy-theme` 始终与之对应 |
+| `jy-style`、`jy-style-{classic,terminal,mecha,blackgold,columbina,furina}` | 当前风格及各自 `{accent, theme}`；当前 `jy-accent`/`jy-theme` 始终与之对应 |
 | `jy-favorites`、`jy-library-view`、`jy-search-history` | ID/顺序、`cards`/`list`、最多六条已执行搜索；目录校验、去重，仅当前浏览器，不跨设备 |
 | `sessionStorage.jy-library-return` | 筛选、搜索词、滚动/锚点；仅后退或专区返回资源库时恢复，最多一天 |
 
 每页 HTML 在绘制前读主题/色调，风格脚本监听语言/模式/颜色并同步内存、存储、按钮、ARIA、标题/描述和 Safari 顶栏；后退缓存恢复读取最新偏好。设置内部程序点击避免冒泡误关；无存储仍可本页使用，正确提示临时模式，不承诺跨页持久化。
+
+已移除的主题不留选项、样式、图片或隐藏实现，也不另建主题归档。无效的独立风格偏好会清理；当前选择失效则恢复经典自己的已存配色/模式，若无则石墨/跟随系统，不继承被移除主题的配色。收藏、语言、列表、搜索与其余风格偏好不清除；现有 Git 历史、完整备份及交接原文历史记录不重写。
 
 ## 6. 公告的固定规则
 
@@ -222,12 +223,13 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 | 检查 | 用途 |
 | --- | --- |
 | `node --check scripts/<文件>.js`、`git diff --check` | 语法/差异；另核对所有站内路径、外部目标与资源版本 |
-| `node tests/library-experience.cjs <URL>` | 原资源保留、28 项专区四语言镜像、收藏/排序/持久化、别名/历史/返回、动态复制/降级、存储拒绝和七主题布局 |
-| `node tests/site-style.cjs <URL> furina` | 17 页、经典对照、五色/三模式/四语言、七主题偏好、搜索/公告/平台与系统主题 |
-| `node tests/slider-geometry.cjs <URL> [逗号分隔页面]` | 六旧风格各指示块边界/两端留白、320/390/768/1440、四语言、动画终点/减少动态效果；芙宁娜几何另由 `furina-art.cjs` 覆盖 |
+| `node tests/library-experience.cjs <URL>` | 原资源保留、28 项专区四语言镜像、收藏/排序/持久化、别名/历史/返回、动态复制/降级、存储拒绝和六主题布局 |
+| `node tests/site-style.cjs <URL> furina` | 17 页、经典对照、五色/三模式/四语言、六主题偏好、搜索/公告/平台与系统主题 |
+| `node tests/slider-geometry.cjs <URL> [逗号分隔页面]` | 六风格各指示块边界/两端留白、320/390/768/1440、四语言、动画终点/减少动态效果 |
 | `node tests/style-isolation.cjs <URL> <Git基线>` | 修改前后旧风格计算样式对照；基线须按此次改动核对，历史 SHA 不盲用 |
-| `node tests/columbina-art.cjs <URL>` / `node tests/mahiro-art.cjs <URL>` / `node tests/furina-art.cjs <URL>` | 分别检查角色构图/按需加载/切换隐藏/来源/失败降级；真寻与芙宁娜支持 `--live` 实连核验 |
-| `node tests/small-bugfixes.cjs <URL>` | 工具分类合并、九页平台键盘/点击、实际 Apple 后备字形、旧六风格窄屏 |
+| `node tests/columbina-art.cjs <URL>` / `node tests/furina-art.cjs <URL>` | 分别检查角色构图/按需加载/切换隐藏/来源/失败降级；芙宁娜支持 `--live` 实连核验 |
+| `node tests/small-bugfixes.cjs <URL>` | 工具分类合并、九页平台键盘/点击、实际 Apple 后备字形、六风格窄屏 |
+| `node tests/removed-style.cjs <URL>` | 删除前后风格清单差异、五个专属文件确实删除、17 页四语言无残留/请求、经典偏好恢复、其余数据保留和存储拒绝 |
 
 浏览器脚本需运行中的本地静态服务器、Playwright 与 Chromium，默认 `/usr/bin/chromium`，可用 `CHROMIUM_PATH` 指定。涉及滑块须测实际指示块几何（已有标准误差 <0.12px），不只测页面无横向溢出；真实图片请求与确定性回退分开验证。历史线上浏览器测试只限定信任当前环境代理 CA 的 SPKI，没有关闭全局 TLS 验证。
 
@@ -240,7 +242,7 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 - [ ] JS 语法、差异、运行资源缓存版本、README/目录/交接记录同步。
 - [ ] 推送 `main` 后核验 Pages 实际页面；仅文档任务则核对远端文档及网站未变。
 
-最近资源库功能验收：14 项首页逐字段、28 项专区 × 四语言 = 112 项、29 个平台下载复制、七主题/两模式/四语言/三宽度/两布局共 336 组，及 17 页/300 组主题回归通过；线上部署 `bef84b0` 已成功，17 页资源引用、收藏与布局持久化、搜索/Esc、当前公告及平台复制已核验。更早测试数字、截图、SHA 和局限全部见原文归档，不当作每次都已重跑。
+删除主题前的资源库验收：14 项首页逐字段、28 项专区 × 四语言 = 112 项、29 个平台下载复制、当时七主题共 336 组布局，以及 17 页/300 组主题回归通过；`bef84b0` 的线上验收成功。更早测试数字、截图、SHA 和局限全部见原文归档，不当作每次都已重跑；本次六主题检查见文末。
 
 当前无已确认阻断使用错误、无待续的资源库增强。以下为保留风险或未来选择，不是擅自开工清单：
 
@@ -264,3 +266,13 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 - 文件：重写本文；原文逐字节归档 `docs/history/CODEX_HANDOFF-2026-11-11-original.md`；完整变动对照 `docs/HANDOFF_SIMPLIFICATION.md`。网站 HTML/CSS/JS、素材、公告、README 与回滚说明均不改。
 - 验证：归档逐字节/哈希一致，105 个原标题与 65 条历史、49 个原现状链接、32 组关键要求、17 页文件映射和文档链接检查通过；其余 70 个原文件逐字节未变，仅三份 Markdown 变动。无需重跑网站视觉测试、更改缓存或增加公告；详细结果见变动对照。
 - 遗留/决策：无新增网站任务；旧资料完整保留、现行规则集中于本文，图片源继续不处理。
+
+### 2026-11-11：完整删除绪山真寻主题
+
+- 需求：按截图完整删除“绪山真寻”主题，不留隐藏入口、备用实现或主题归档；其余六套风格与功能不变。
+- 修改前完整备份：**2026-11-11 10:30:12 UTC**；分支 `backup/pre-change-2026-11-11_10-30-12_UTC`，带注释标签 `backup-2026-11-11_10-30-12_UTC`；远端分支和剥离标签均核验为 `a90bef16de8945194a1cb4c27a33ae94276ed60a`，工作区原本干净。
+- 实现：删除主题 CSS、两张图片、素材说明及专用测试；移除 17 页 CSS 引用、四语言选项/预览/版权/远程加载、列表圆角规则、创建该主题的旧公告及其他公告中已失效的位置描述。增加四语言移除公告，保留所有资源/下载链接；当前六主题文档与测试同步。
+- 迁移：泛化清理已不支持的 `jy-style-*` 独立偏好；旧选择回到经典已存偏好或默认石墨/系统模式，不清除收藏、语言与其他风格设置；后退恢复及禁用存储也须可用。
+- 文件：共享风格 JS/CSS、增强 CSS、17 页引用、首页公告、README、本文与回归测试；修改运行文件缓存为 `20261111-style-removal1`。原六套主题的独立 CSS、角色原图与 Apple 字形不改；旧文档原文和 Git 历史/备份保留，不存放被删除主题实现的归档副本。
+- 验证：删除专项通过五个专属文件已删、17 页/68 组四语言检查、无残留请求、经典已有/默认偏好恢复、有效主题不重置、后退恢复及禁用存储；六套原主题 1,020 组样式对照完全一致。17 页/300 组配色语言模式、资源库 288 组布局及 29 个动态下载复制、14,208 个滑块位置、九页键盘与实际 Apple 后备字形检查均通过；芙宁娜素材专项的 17 页/四宽度/四语言、1,144 个滑块位置与全部失败/超时回退通过。17 页正文/原链接、剩余独立主题 CSS/图片、目录/增强逻辑、字体与原文归档逐字节未变；缓存/路径、JS 语法和差异检查通过。已查看手机设置截图，无残留空位。
+- 遗留/决策：不恢复该主题、不继续图片源任务；真实 iPhone 与各地网络仍以实机为准。

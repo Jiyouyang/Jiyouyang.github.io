@@ -14,14 +14,13 @@ assert.ok(selectedPages.length && selectedPages.every(file => pages.includes(fil
   let measured = 0;
   try {
     const page = await browser.newPage({ reducedMotion: 'reduce' });
-    await page.route('https://i0.hdslb.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/portrait.jpg', contentType: 'image/jpeg' }));
-    await page.route('https://c-ssl.dtstatic.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/background.jpg', contentType: 'image/jpeg' }));
+    await page.route('https://patchwiki.biligame.com/**', route => route.fulfill({ path: 'assets/themes/furina/artwork.png', contentType: 'image/png' }));
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     for (const file of selectedPages) {
       await page.goto(base + '/' + file);
       await page.locator('#settings-trigger').click();
-      for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mahiro']) {
+      for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina']) {
         await page.locator('[data-style-choice=' + style + ']').click();
         for (const width of [320, 390, 768, 1440]) {
           await page.setViewportSize({ width, height: 844 });

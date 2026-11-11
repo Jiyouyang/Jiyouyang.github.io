@@ -11,7 +11,7 @@ vm.runInNewContext(fs.readFileSync('scripts/resource-catalog.js', 'utf8'), fixtu
 const catalog = JSON.parse(JSON.stringify(fixture.window.JYCatalog));
 const byURL = new Map(catalog.map(item => [new URL(item.url, base).href, item]));
 const languages = ['zh-CN', 'zh-TW', 'en', 'ja'];
-const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mahiro'];
+const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina'];
 const normalize = value => value.replace(/\s+/g, ' ').trim();
 
 (async () => {
@@ -29,8 +29,6 @@ const normalize = value => value.replace(/\s+/g, ' ').trim();
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
   try {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
-    await context.route('https://i0.hdslb.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/portrait.jpg', contentType: 'image/jpeg' }));
-    await context.route('https://c-ssl.dtstatic.com/**', route => route.fulfill({ path: 'assets/themes/mahiro/background.jpg', contentType: 'image/jpeg' }));
     await context.route('https://patchwiki.biligame.com/**', route => route.fulfill({ path: 'assets/themes/furina/artwork.png', contentType: 'image/png' }));
     await context.addInitScript(() => {
       Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async value => { window.__copied = value; } } });
