@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const art = 'https://patchwiki.biligame.com/images/ys/thumb/8/89/s8dltubvboh981ynwjo6jszgwqf1zwr.png/1000px-%E7%94%9F%E8%B4%BA%C2%B7%E8%8A%99%E5%AE%81%E5%A8%9C%C2%B72024.png';
-const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina'];
+const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mtf'];
 
 (async () => {
   const args = ['--no-sandbox'];
@@ -17,7 +17,7 @@ const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina'];
     page.on('request', request => { if (request.url() === art || request.url().includes('/assets/themes/furina/')) requests.push(request.url()); });
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base + '/');
-    assert.deepEqual(await page.locator('[data-style-choice]').evaluateAll(es => es.map(e => e.dataset.styleChoice)), ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina']);
+    assert.deepEqual(await page.locator('[data-style-choice]').evaluateAll(es => es.map(e => e.dataset.styleChoice)), ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']);
     for (const style of oldStyles) await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
     assert.deepEqual(requests, [], 'Old styles must not request Furina art');
     await page.evaluate(() => document.querySelector('[data-style-choice=furina]').click());

@@ -11,7 +11,7 @@ vm.runInNewContext(fs.readFileSync('scripts/resource-catalog.js', 'utf8'), fixtu
 const catalog = JSON.parse(JSON.stringify(fixture.window.JYCatalog));
 const byURL = new Map(catalog.map(item => [new URL(item.url, base).href, item]));
 const languages = ['zh-CN', 'zh-TW', 'en', 'ja'];
-const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina'];
+const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
 const normalize = value => value.replace(/\s+/g, ' ').trim();
 
 (async () => {

@@ -11,7 +11,7 @@ const previous = execFileSync('git', ['show', revision + ':scripts/site-style.js
 const styleNames = code => vm.runInNewContext(code.match(/const styles = (\[[^\]]+\]);/)[1]);
 const remaining = Array.from(styleNames(current));
 const removed = Array.from(styleNames(previous)).filter(name => !remaining.includes(name));
-assert.equal(remaining.length, 6);
+assert.equal(remaining.length, 7);
 assert.equal(removed.length, 1);
 const retired = removed[0];
 const pages = fs.readdirSync('.').filter(file => file.endsWith('.html'));
@@ -54,7 +54,7 @@ for (const file of [...pages, 'scripts/site-style.js', 'styles/site-style.css', 
       assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('jy-library-view'))), 'list');
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.evaluate(language => document.querySelector('[data-language="' + language + '"]').click(), language);
-        assert.equal(await page.locator('[data-style-choice]').count(), 6);
+        assert.equal(await page.locator('[data-style-choice]').count(), remaining.length);
         assert.equal(await page.locator('[data-style-choice][aria-pressed=true]').count(), 1);
         for (const width of [320, 390]) {
           await page.setViewportSize({ width, height: 844 });
@@ -119,6 +119,6 @@ for (const file of [...pages, 'scripts/site-style.js', 'styles/site-style.css', 
     await denied.close();
     assert.deepEqual(unwanted, [], 'Deleted theme must never request images/styles');
     assert.deepEqual(errors, []);
-    console.log('PASS removed theme: 5 files deleted, no runtime implementation or requests, ' + pages.length + ' pages / ' + checks + ' language checks, 6 remaining styles; saved/default Classic migration, other preferences preserved, BFCache and storage denied');
+    console.log('PASS removed theme: 5 files deleted, no runtime implementation or requests, ' + pages.length + ' pages / ' + checks + ' language checks, ' + remaining.length + ' remaining styles; saved/default Classic migration, other preferences preserved, BFCache and storage denied');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

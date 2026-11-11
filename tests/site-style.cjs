@@ -1,17 +1,18 @@
-/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha|blackgold|columbina|furina]. */
+/* Run against a local static server: node tests/site-style.cjs [base URL] [terminal|mecha|blackgold|columbina|furina|mtf]. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const testedStyle = process.argv[3] || 'terminal';
-assert.ok(['terminal', 'mecha', 'blackgold', 'columbina', 'furina'].includes(testedStyle));
+assert.ok(['terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'].includes(testedStyle));
 const initial = { style: testedStyle, ...{
   mecha: { theme: 'light', accent: 'orange' },
   terminal: { theme: 'dark', accent: 'green' },
   blackgold: { theme: 'dark', accent: 'orange' },
   columbina: { theme: 'light', accent: 'blue' },
-  furina: { theme: 'dark', accent: 'blue' }
+  furina: { theme: 'dark', accent: 'blue' },
+  mtf: { theme: 'light', accent: 'blue' }
 }[testedStyle] };
 const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
 const problems = [];
@@ -61,7 +62,7 @@ async function snapshot(page) {
         assert.equal(page.url(), url, file + ': platform navigated');
         assert.equal(await tab.getAttribute('aria-selected'), 'true');
         for (const href of await page.locator('.download-button:visible').evaluateAll(elements => elements.map(element => element.href))) assert.match(href, /^https:\/\//);
-        if (['blackgold', 'columbina', 'furina'].includes(testedStyle) && ['genshin-download.html', 'zzz-download.html', 'hsr-download.html', 'endfield-download.html'].includes(file)) {
+        if (['blackgold', 'columbina', 'furina', 'mtf'].includes(testedStyle) && ['genshin-download.html', 'zzz-download.html', 'hsr-download.html', 'endfield-download.html'].includes(file)) {
           const buttons = await page.locator('.download-button:visible').evaluateAll(es => es.map(e => ({ background: getComputedStyle(e).backgroundColor, color: getComputedStyle(e).color, height: e.getBoundingClientRect().height, top: e.getBoundingClientRect().top })));
           if (buttons.length === 2) assert.deepEqual(buttons[0], buttons[1], file + ': equally important downloads changed hierarchy or alignment');
         }
@@ -140,7 +141,17 @@ async function snapshot(page) {
       await page.locator('[data-style-choice=' + style + ']').click();
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
-    console.log('PASS all six styles keep independent preferences');
+    await page.locator('[data-style-choice=mtf]').click();
+    assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style: 'mtf', theme: 'light', accent: 'blue' });
+    await page.locator('[data-accent-choice=orange]').click();
+    await page.locator('[data-mode=dark]').click();
+    await page.goto(base + '/minecraft-china.html');
+    await page.locator('#settings-trigger').click();
+    for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark'], ['columbina', 'violet', 'dark'], ['furina', 'green', 'light'], ['mtf', 'orange', 'dark']]) {
+      await page.locator('[data-style-choice=' + style + ']').click();
+      assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
+    }
+    console.log('PASS all seven styles keep independent preferences');
 
     await page.evaluate(() => {
       localStorage.setItem('jy-style', 'classic');
@@ -162,6 +173,7 @@ async function snapshot(page) {
         assert.equal(await page.locator('[data-style-text=blackgold]').textContent(), { 'zh-CN': '黑金典藏', 'zh-TW': '黑金典藏', en: 'Black & Gold', ja: 'ブラック＆ゴールド' }[language]);
         assert.equal(await page.locator('[data-style-text=columbina]').textContent(), { 'zh-CN': '哥伦比娅', 'zh-TW': '哥倫比婭', en: 'Columbina', ja: 'コロンビーナ' }[language]);
         assert.equal(await page.locator('[data-style-text=furina]').textContent(), { 'zh-CN': '芙宁娜', 'zh-TW': '芙寧娜', en: 'Furina', ja: 'フリーナ' }[language]);
+        assert.equal(await page.locator('[data-style-text=mtf]').textContent(), { 'zh-CN': 'MTF 跨性别', 'zh-TW': 'MTF 跨性別', en: 'MTF Trans Pride', ja: 'MTF トランス' }[language]);
         for (const mode of ['light', 'dark', 'auto']) for (const accent of ['graphite', 'blue', 'violet', 'green', 'orange']) {
           await page.evaluate(({ mode, accent }) => {
             document.querySelector('[data-mode="' + mode + '"]').click();
@@ -198,6 +210,7 @@ async function snapshot(page) {
             assert.ok(result.furinaGold >= 4.5, 'Furina gold text contrast');
             assert.ok(result.indicatorsMatch, file + ': shared styles overrode Furina indicators');
           }
+          if (testedStyle === 'mtf') assert.ok(result.indicatorsMatch, file + ': shared styles overrode MTF indicators');
           assert.equal(result.meta, result.bg);
           assert.equal(result.overflowing, false, file + ': settings overflow');
           assert.equal(result.label, { 'zh-CN': '风格调整', 'zh-TW': '風格調整', en: 'Visual style', ja: 'スタイル' }[language]);

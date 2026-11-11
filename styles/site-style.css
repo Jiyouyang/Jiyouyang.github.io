@@ -50,6 +50,15 @@
 .style-preview-furina i:last-child { background: #1c3757; border-color: #c8aa72; border-radius: 20px 20px 4px 4px; }
 .style-preview-furina::after { content: "◇"; position: absolute; right: 10px; top: 21px; color: #e8c783; font-size: 14px; }
 
+/* MTF preview uses only its own selector and never changes earlier options. */
+.style-choice[data-style-choice="mtf"] { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 110px) minmax(0, 1fr); column-gap: 14px; align-items: center; }
+.style-choice[data-style-choice="mtf"] .style-preview { grid-row: span 2; }
+.style-choice[data-style-choice="mtf"] .style-choice-title { margin-top: 0; gap: 4px; font-size: 13px; overflow-wrap: anywhere; }
+.style-preview-mtf { background: linear-gradient(145deg, #d8f1fc, #fff 48%, #f9e2ed); border-color: #bccddd; border-radius: 15px 7px 15px 7px; }
+.style-preview-mtf i:first-child { background: #fff; border: 1px solid #bccddd; box-shadow: none; }
+.style-preview-mtf i:nth-child(2) { background: #2f698d; }
+.style-preview-mtf i:last-child { background: linear-gradient(#5bcefa 20%, #f5a9b8 20% 40%, #fff 40% 60%, #f5a9b8 60% 80%, #5bcefa 80%); border-color: #bccddd; border-radius: 7px; }
+
 /* Terminal palette: five accents, each with light/dark contrast.
    The extra attribute specificity wins over legacy :root[data-theme][data-accent]. */
 :root[data-style="terminal"][data-style] {

@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-11-mtf-style', date: '2026-11-11', type: 'added', content: {
+      'zh-CN': ['新增 MTF 跨性别主题', ['网站设置新增独立的“MTF 跨性别”风格：以跨性别骄傲旗的蓝、粉、白为灵感，搭配柔和流光、折光玻璃与飘带旗帜，覆盖首页、专区、下载、资源库及设置。', '默认浅色蓝，支持五种配色、浅色/深色/跟随系统及四语言；偏好与其他六套风格独立保存，不自动切换现有设置。旗帜图形采用已标明公有领域的素材，由本站按需加载并提供来源说明；原有功能与下载链接不变。']],
+      'zh-TW': ['新增 MTF 跨性別主題', ['網站設定新增獨立的「MTF 跨性別」風格：以跨性別驕傲旗的藍、粉、白為靈感，搭配柔和流光、折光玻璃與飄帶旗幟，涵蓋首頁、專區、下載、資源庫及設定。', '預設淺色藍，支援五種配色、淺色/深色/跟隨系統及四語言；偏好與其他六套風格獨立儲存，不自動切換現有設定。旗幟圖形採用已標明公有領域的素材，由本站按需載入並提供來源說明；原有功能與下載連結不變。']],
+      en: ['Introducing MTF Trans Pride', ['A new independent MTF Trans Pride style brings blue, pink and white flag colors, soft light, refractive glass and a floating Pride ribbon to the home page, hubs, downloads, library and settings.', 'It starts in light blue and supports five accents, light/dark/system modes and four languages, with preferences separate from the six existing styles. Public-domain flag artwork loads on demand from this site with source credits. Existing settings, features and download links stay unchanged.']],
+      ja: ['MTF トランスのテーマを追加', ['トランスジェンダー・プライド旗の青・ピンク・白を基調に、やわらかな光、ガラス、浮かぶ旗を組み合わせた独立テーマを追加しました。ホーム、専用ページ、ダウンロード、リソース、設定に対応します。', '初期設定はライト・ブルー。5色、ライト/ダーク/システム連動、4言語に対応し、既存の6テーマとは別に設定を保存します。パブリックドメインの旗画像は当サイトから必要なときだけ読み込み、出典を表示します。既存の設定や機能、リンクは変更していません。']]
+    }
+  },
+  {
     id: '2026-11-11-remove-unused-style', date: '2026-11-11', type: 'improved', content: {
       'zh-CN': ['移除不再使用的主题', ['已完整删除不再使用的主题选项、样式、图片与加载代码，不保留隐藏入口。网站现有经典、终端、科技、黑金典藏、哥伦比娅与芙宁娜六套风格。', '此前选择该主题的浏览器会自动恢复经典风格，清理已移除主题的独立偏好；其他风格、收藏、语言及下载功能保持不变。']],
       'zh-TW': ['移除不再使用的主題', ['已完整刪除不再使用的主題選項、樣式、圖片與載入程式，不保留隱藏入口。網站現有經典、終端、科技、黑金典藏、哥倫比婭與芙寧娜六套風格。', '先前選擇該主題的瀏覽器會自動恢復經典風格，清除已移除主題的獨立偏好；其他風格、收藏、語言及下載功能保持不變。']],

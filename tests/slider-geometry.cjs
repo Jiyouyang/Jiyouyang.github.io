@@ -20,7 +20,7 @@ assert.ok(selectedPages.length && selectedPages.every(file => pages.includes(fil
     for (const file of selectedPages) {
       await page.goto(base + '/' + file);
       await page.locator('#settings-trigger').click();
-      for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina']) {
+      for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']) {
         await page.locator('[data-style-choice=' + style + ']').click();
         for (const width of [320, 390, 768, 1440]) {
           await page.setViewportSize({ width, height: 844 });
@@ -79,6 +79,6 @@ assert.ok(selectedPages.length && selectedPages.every(file => pages.includes(fil
     });
     assert.ok(animation.leftError < .12 && animation.rightError < .12, JSON.stringify(animation));
     assert.deepEqual(errors, []);
-    console.log('PASS', measured, 'indicator/category positions across', selectedPages.length, 'pages, 6 styles, 4 widths and 4 languages; animation endpoints and reduced motion');
+    console.log('PASS', measured, 'indicator/category positions across', selectedPages.length, 'pages, 7 styles, 4 widths and 4 languages; animation endpoints and reduced motion');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

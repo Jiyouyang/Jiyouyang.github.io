@@ -4,7 +4,7 @@
   const root = document.documentElement;
   const read = key => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
-  const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina'];
+  const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
   const storedStyle = read('jy-style');
   let style = styles.includes(storedStyle) ? storedStyle : 'classic';
   root.dataset.style = style;
@@ -17,6 +17,9 @@
       columbina: '哥伦比娅', columbinaDescription: '月光蓝白 · 羽翼与星海',
       furina: '芙宁娜', furinaDescription: '枫丹蓝金 · 水光歌剧舞台',
       furinaCredit: '角色美术 © miHoYo · 国内图片源：B站 BWIKI · 非官方主题',
+      mtf: 'MTF 跨性别', mtfDescription: '蓝粉白 · 自在流光',
+      mtfCaption: '自在，自信，做自己。',
+      mtfCredit: '配色参考跨性别骄傲旗 · 公有领域图形 · 来源：Wikimedia Commons',
       artCredit: '角色美术 © miHoYo · 来源：米游社 · 非官方网站',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
       hint: '即时切换，全站生效。每种风格分别记住配色与深浅模式。'
@@ -28,6 +31,9 @@
       columbina: '哥倫比婭', columbinaDescription: '月光藍白 · 羽翼與星海',
       furina: '芙寧娜', furinaDescription: '楓丹藍金 · 水光歌劇舞臺',
       furinaCredit: '角色美術 © miHoYo · 中國大陸圖片來源：B站 BWIKI · 非官方主題',
+      mtf: 'MTF 跨性別', mtfDescription: '藍粉白 · 自在流光',
+      mtfCaption: '自在，自信，做自己。',
+      mtfCredit: '配色參考跨性別驕傲旗 · 公有領域圖形 · 來源：Wikimedia Commons',
       artCredit: '角色美術 © miHoYo · 來源：米遊社 · 非官方網站',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
       hint: '即時切換，全站套用。每種風格分別記住配色與深淺模式。'
@@ -39,6 +45,9 @@
       columbina: 'Columbina', columbinaDescription: 'Moonlit blue · Feathers & stars',
       furina: 'Furina', furinaDescription: 'Fontaine blue & gold · An aquatic opera',
       furinaCredit: 'Character art © miHoYo · China image CDN: Bilibili BWIKI · Unofficial fan theme',
+      mtf: 'MTF Trans Pride', mtfDescription: 'Blue, pink & white · Soft light',
+      mtfCaption: 'Be yourself, in your own light.',
+      mtfCredit: 'Trans Pride flag colors · Public-domain flag artwork · Source: Wikimedia Commons',
       artCredit: 'Character art © miHoYo · Source: Miyoushe · Unofficial fan theme',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
       hint: 'Switch instantly across the site. Each style remembers its own color and appearance mode.'
@@ -50,6 +59,9 @@
       columbina: 'コロンビーナ', columbinaDescription: '月光の青と白・羽と星の海',
       furina: 'フリーナ', furinaDescription: '青と金のフォンテーヌ・水の歌劇',
       furinaCredit: 'キャラクターアート © miHoYo · 中国向け画像CDN：bilibili BWIKI · 非公式テーマ',
+      mtf: 'MTF トランス', mtfDescription: '青・ピンク・白・やわらかな光',
+      mtfCaption: '自分らしく、自分の光で。',
+      mtfCredit: 'トランスジェンダー・プライドの配色 · 旗の図はパブリックドメイン · 出典：Wikimedia Commons',
       artCredit: 'キャラクターアート © miHoYo · 出典：米遊社 · 非公式ファンテーマ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
       hint: 'すぐに切り替わり、サイト全体に適用されます。配色と表示モードはスタイルごとに保存されます。'
@@ -76,7 +88,8 @@
       mecha: { accent: 'orange', theme: 'light' },
       blackgold: { accent: 'orange', theme: 'dark' },
       columbina: { accent: 'blue', theme: 'light' },
-      furina: { accent: 'blue', theme: 'dark' }
+      furina: { accent: 'blue', theme: 'dark' },
+      mtf: { accent: 'blue', theme: 'light' }
     }[name];
     return {
       accent: ['graphite', 'blue', 'violet', 'green', 'orange'].includes(saved?.accent) ? saved.accent : defaults.accent,
@@ -223,10 +236,49 @@
       if (furinaCredit) { furinaCredit.hidden = style !== 'furina'; furinaCredit.firstChild.textContent = text.furinaCredit; }
     }
 
+    let mtfScene, mtfBackdrop, mtfCredit;
+    function createMtfArt(className) {
+      const frame = document.createElement('div');
+      frame.className = className; frame.setAttribute('aria-hidden', 'true');
+      const flag = document.createElement('img');
+      flag.alt = ''; flag.width = 800; flag.height = 480; flag.decoding = 'async';
+      const timeout = setTimeout(() => frame.classList.add('is-unavailable'), 8000);
+      flag.addEventListener('error', () => { clearTimeout(timeout); frame.classList.add('is-unavailable'); });
+      flag.addEventListener('load', () => { clearTimeout(timeout); frame.classList.remove('is-unavailable'); });
+      flag.src = '/assets/themes/mtf/pride-flag.svg';
+      frame.append(flag);
+      return frame;
+    }
+    function syncMtf(text) {
+      if (style === 'mtf' && !mtfScene) {
+        const hero = document.querySelector('.hero');
+        if (hero) {
+          mtfScene = createMtfArt('mtf-scene');
+          const wordmark = document.createElement('span');
+          wordmark.className = 'mtf-wordmark'; wordmark.textContent = 'MTF';
+          const caption = document.createElement('span'); caption.className = 'mtf-caption';
+          mtfScene.append(wordmark, caption); hero.prepend(mtfScene);
+          mtfBackdrop = createMtfArt('mtf-backdrop'); document.body.prepend(mtfBackdrop);
+        }
+        const footer = document.querySelector('footer');
+        if (footer) {
+          mtfCredit = document.createElement('p'); mtfCredit.className = 'mtf-credit';
+          const source = document.createElement('a');
+          source.href = 'https://commons.wikimedia.org/wiki/File:Transgender_Pride_flag.svg';
+          source.target = '_blank'; source.rel = 'noopener noreferrer';
+          mtfCredit.append(source); footer.append(mtfCredit);
+        }
+      }
+      if (mtfScene) { mtfScene.hidden = style !== 'mtf'; mtfScene.querySelector('.mtf-caption').textContent = text.mtfCaption; }
+      if (mtfBackdrop) mtfBackdrop.hidden = style !== 'mtf';
+      if (mtfCredit) { mtfCredit.hidden = style !== 'mtf'; mtfCredit.firstChild.textContent = text.mtfCredit; }
+    }
+
     function sync() {
       const text = copy[root.lang] || copy['zh-CN'];
       syncColumbina(text);
       syncFurina(text);
+      syncMtf(text);
       section.querySelectorAll('[data-style-text]').forEach(element => { element.textContent = text[element.dataset.styleText]; });
       section.querySelectorAll('[data-style-choice]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.styleChoice === style));

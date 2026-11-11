@@ -69,7 +69,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
       assert.ok(fonts.some(font => font.glyphCount && (font.isCustomFont || /Apple|SF/.test(font.familyName))), selector + ': no Apple or fallback glyph rendered');
       assert.ok(await page.locator(selector).evaluate(el => parseFloat(getComputedStyle(el).webkitTextStrokeWidth) > 0));
     }
-    for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina']) {
+    for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']) {
       await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
       for (const width of [320, 390]) {
         await page.setViewportSize({ width, height: 844 });
@@ -79,6 +79,6 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
     await page.locator('.platform-tabs').screenshot({ path: '/tmp/fixed-ios-tabs.png' });
     await page.locator('#platform-art').screenshot({ path: '/tmp/fixed-ios-art.png' });
     assert.deepEqual(errors, []);
-    console.log('PASS four-language unified Tools; all 14 resources; 9 keyboard tablists; mouse/keyboard sync; native-character outline with actual fallback glyph; 6 theme layouts');
+    console.log('PASS four-language unified Tools; all 14 resources; 9 keyboard tablists; mouse/keyboard sync; native-character outline with actual fallback glyph; 7 theme layouts');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
