@@ -1,4 +1,4 @@
-/* MTF artwork: local-only/lazy delivery, framing, source labels and resilient fallback. */
+/* MTF artwork: local-only/lazy delivery, full-viewport framing, source labels and resilient fallback. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
@@ -13,6 +13,25 @@ for (const color of ['#5BCEFA', '#F5A9B8', '#FFF']) assert.ok(flag.includes(colo
 assert.doesNotMatch(flag.toString(), /<script|href=|\bon\w+=/i);
 const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
 const oldStyles = styles.filter(style => style !== 'mtf');
+
+async function checkBackdrop(page, label) {
+  const result = await page.evaluate(() => {
+    const frame = document.querySelector('.mtf-backdrop'), image = frame.querySelector('img');
+    const box = frame.getBoundingClientRect(), art = image.getBoundingClientRect();
+    const css = getComputedStyle(frame), imageCss = getComputedStyle(image);
+    return {
+      fills: Math.abs(box.left) < .1 && Math.abs(box.top) < .1 && Math.abs(box.width - innerWidth) < .1 && Math.abs(box.height - innerHeight) < .1,
+      imageFills: Math.abs(art.width - box.width) < .1 && Math.abs(art.height - box.height) < .1,
+      fixed: css.position === 'fixed', behind: Number(css.zIndex) < 0, noninteractive: css.pointerEvents === 'none',
+      uncropped: imageCss.objectFit === 'fill' && imageCss.transform === 'none' && imageCss.filter === 'none',
+      fallback: css.backgroundImage.includes('linear-gradient') && css.backgroundImage.includes('20%') && css.backgroundImage.includes('80%'),
+      noScene: !document.querySelector('.mtf-scene,.mtf-wordmark,.mtf-caption'),
+      centered: getComputedStyle(document.querySelector('.hero')).textAlign === 'center',
+      overflow: document.documentElement.scrollWidth > innerWidth
+    };
+  });
+  assert.deepEqual(result, { fills: true, imageFills: true, fixed: true, behind: true, noninteractive: true, uncropped: true, fallback: true, noScene: true, centered: true, overflow: false }, label);
+}
 
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
@@ -33,7 +52,7 @@ const oldStyles = styles.filter(style => style !== 'mtf');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style: 'mtf', theme: 'light', accent: 'blue' });
     await page.locator('#close-settings').click();
     assert.deepEqual(await page.locator('main a').evaluateAll(elements => elements.map(element => element.href)), links);
-    await page.waitForFunction(() => [...document.querySelectorAll('.mtf-scene img,.mtf-backdrop img')].every(image => image.complete && image.naturalWidth));
+    await page.waitForFunction(() => [...document.querySelectorAll('.mtf-backdrop img')].every(image => image.complete && image.naturalWidth));
     assert.ok(requests.length);
     assert.ok(requests.every(url => new URL(url).origin === new URL(base).origin), 'No external runtime artwork dependency');
     const scoped = await page.evaluate(() => {
@@ -45,27 +64,27 @@ const oldStyles = styles.filter(style => style !== 'mtf');
     let layouts = 0, positions = 0;
     for (const file of fs.readdirSync('.').filter(file => file.endsWith('.html'))) {
       await page.goto(base + '/' + file);
-      await page.waitForFunction(() => [...document.querySelectorAll('.mtf-scene img,.mtf-backdrop img')].every(image => image.complete && image.naturalWidth));
-      assert.equal(await page.locator('.mtf-scene').count(), 1);
+      await page.waitForFunction(() => [...document.querySelectorAll('.mtf-backdrop img')].every(image => image.complete && image.naturalWidth));
+      assert.equal(await page.locator('.mtf-scene,.mtf-wordmark,.mtf-caption').count(), 0);
       assert.equal(await page.locator('.mtf-backdrop').count(), 1);
-      assert.equal(await page.locator('.mtf-scene img').getAttribute('alt'), '');
-      assert.equal(await page.locator('.mtf-scene').getAttribute('aria-hidden'), 'true');
-      for (const width of [320, 390, 768, 1440]) {
+      assert.equal(await page.locator('.mtf-backdrop img').getAttribute('alt'), '');
+      assert.equal(await page.locator('.mtf-backdrop').getAttribute('aria-hidden'), 'true');
+      for (const width of [320, 390, 768, 1440, 3440]) {
         await page.setViewportSize({ width, height: 844 });
-        const layout = await page.evaluate(() => {
-          const art = document.querySelector('.mtf-scene').getBoundingClientRect(), title = document.querySelector('.hero h1').getBoundingClientRect();
-          return { overlap: art.left < title.right && art.right > title.left && art.top < title.bottom && art.bottom > title.top, overflow: document.documentElement.scrollWidth > innerWidth };
-        });
-        assert.deepEqual(layout, { overlap: false, overflow: false }, file + ' / ' + width);
-        layouts++;
+        for (const bottom of [false, true]) {
+          await page.evaluate(bottom => scrollTo(0, bottom ? document.documentElement.scrollHeight : 0), bottom);
+          await checkBackdrop(page, file + ' / ' + width + ' / scroll=' + bottom);
+          layouts++;
+        }
       }
+      await page.evaluate(() => scrollTo(0, 0));
       await page.setViewportSize({ width: 390, height: 844 });
       await page.locator('#settings-trigger').click();
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.evaluate(language => document.querySelector('[data-language="' + language + '"]').click(), language);
         assert.match(await page.locator('.mtf-credit').textContent(), /Wikimedia Commons/);
         assert.equal(await page.locator('.mtf-credit a').getAttribute('href'), 'https://commons.wikimedia.org/wiki/File:Transgender_Pride_flag.svg');
-        assert.equal(await page.locator('.mtf-caption').textContent(), { 'zh-CN': '自在，自信，做自己。', 'zh-TW': '自在，自信，做自己。', en: 'Be yourself, in your own light.', ja: '自分らしく、自分の光で。' }[language]);
+        assert.match(await page.locator('[data-style-choice=mtf]').textContent(), { 'zh-CN': /MTF 跨性别/, 'zh-TW': /MTF 跨性別/, en: /MTF Trans Pride/, ja: /MTF トランス/ }[language]);
         for (const width of [320, 390]) {
           await page.setViewportSize({ width, height: 844 });
           positions += await page.evaluate(() => {
@@ -84,7 +103,7 @@ const oldStyles = styles.filter(style => style !== 'mtf');
       }
       for (const style of oldStyles) {
         await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
-        for (const selector of ['.mtf-scene', '.mtf-backdrop', '.mtf-credit']) assert.equal(await page.locator(selector).isVisible(), false);
+        for (const selector of ['.mtf-backdrop', '.mtf-credit']) assert.equal(await page.locator(selector).isVisible(), false);
       }
       await page.evaluate(() => document.querySelector('[data-style-choice=mtf]').click());
       await page.locator('#close-settings').click();
@@ -103,14 +122,16 @@ const oldStyles = styles.filter(style => style !== 'mtf');
       await failure.goto(base + '/');
       await failure.evaluate(() => document.querySelector('[data-style-choice=mtf]').click());
       if (mode === 'timeout') { await began; await failure.clock.fastForward(8100); }
-      await failure.locator('.mtf-scene.is-unavailable').waitFor({ state: 'attached' });
       await failure.locator('.mtf-backdrop.is-unavailable').waitFor({ state: 'attached' });
+      await checkBackdrop(failure, mode + ' CSS fallback');
+      assert.ok(await failure.locator('.mtf-backdrop').isVisible());
+      assert.equal(await failure.locator('.mtf-backdrop img').isVisible(), false);
       assert.ok(await failure.locator('.hero h1').isVisible());
       assert.equal(await failure.locator('.resource-card').count(), 14);
       if (mode === 'timeout') {
         released = true;
         await Promise.all(pending.map(route => route.fulfill({ path, contentType: 'image/svg+xml' })));
-        await failure.waitForFunction(() => [...document.querySelectorAll('.mtf-scene,.mtf-backdrop')].every(frame => !frame.classList.contains('is-unavailable') && frame.querySelector('img').naturalWidth));
+        await failure.waitForFunction(() => [...document.querySelectorAll('.mtf-backdrop')].every(frame => !frame.classList.contains('is-unavailable') && frame.querySelector('img').naturalWidth));
       }
       await failure.close();
     }
@@ -120,7 +141,11 @@ const oldStyles = styles.filter(style => style !== 'mtf');
     await page.screenshot({ path: '/tmp/mtf-mobile-final.png' });
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.screenshot({ path: '/tmp/mtf-desktop-final.png' });
+    await page.evaluate(() => document.querySelector('[data-mode=dark]').click());
+    await page.locator('#resources').scrollIntoViewIfNeeded();
+    await checkBackdrop(page, 'dark library scroll');
+    await page.screenshot({ path: '/tmp/mtf-desktop-dark-library.png' });
     assert.deepEqual(errors, []);
-    console.log('PASS MTF: local public-domain SVG/hash; lazy/scoped artwork; 17 pages / ' + layouts + ' layouts, 4 languages, ' + positions + ' indicator positions; other-theme hiding; error/timeout/late success');
+    console.log('PASS MTF: local public-domain SVG/hash; lazy/scoped artwork; 17 pages / ' + layouts + ' full-viewport scrolling layouts, 4 languages, ' + positions + ' indicator positions; other-theme hiding; error/timeout/late success');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

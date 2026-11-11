@@ -18,7 +18,6 @@
       furina: '芙宁娜', furinaDescription: '枫丹蓝金 · 水光歌剧舞台',
       furinaCredit: '角色美术 © miHoYo · 国内图片源：B站 BWIKI · 非官方主题',
       mtf: 'MTF 跨性别', mtfDescription: '蓝粉白 · 自在流光',
-      mtfCaption: '自在，自信，做自己。',
       mtfCredit: '配色参考跨性别骄傲旗 · 公有领域图形 · 来源：Wikimedia Commons',
       artCredit: '角色美术 © miHoYo · 来源：米游社 · 非官方网站',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
@@ -32,7 +31,6 @@
       furina: '芙寧娜', furinaDescription: '楓丹藍金 · 水光歌劇舞臺',
       furinaCredit: '角色美術 © miHoYo · 中國大陸圖片來源：B站 BWIKI · 非官方主題',
       mtf: 'MTF 跨性別', mtfDescription: '藍粉白 · 自在流光',
-      mtfCaption: '自在，自信，做自己。',
       mtfCredit: '配色參考跨性別驕傲旗 · 公有領域圖形 · 來源：Wikimedia Commons',
       artCredit: '角色美術 © miHoYo · 來源：米遊社 · 非官方網站',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
@@ -46,7 +44,6 @@
       furina: 'Furina', furinaDescription: 'Fontaine blue & gold · An aquatic opera',
       furinaCredit: 'Character art © miHoYo · China image CDN: Bilibili BWIKI · Unofficial fan theme',
       mtf: 'MTF Trans Pride', mtfDescription: 'Blue, pink & white · Soft light',
-      mtfCaption: 'Be yourself, in your own light.',
       mtfCredit: 'Trans Pride flag colors · Public-domain flag artwork · Source: Wikimedia Commons',
       artCredit: 'Character art © miHoYo · Source: Miyoushe · Unofficial fan theme',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
@@ -60,7 +57,6 @@
       furina: 'フリーナ', furinaDescription: '青と金のフォンテーヌ・水の歌劇',
       furinaCredit: 'キャラクターアート © miHoYo · 中国向け画像CDN：bilibili BWIKI · 非公式テーマ',
       mtf: 'MTF トランス', mtfDescription: '青・ピンク・白・やわらかな光',
-      mtfCaption: '自分らしく、自分の光で。',
       mtfCredit: 'トランスジェンダー・プライドの配色 · 旗の図はパブリックドメイン · 出典：Wikimedia Commons',
       artCredit: 'キャラクターアート © miHoYo · 出典：米遊社 · 非公式ファンテーマ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
@@ -236,7 +232,7 @@
       if (furinaCredit) { furinaCredit.hidden = style !== 'furina'; furinaCredit.firstChild.textContent = text.furinaCredit; }
     }
 
-    let mtfScene, mtfBackdrop, mtfCredit;
+    let mtfBackdrop, mtfCredit;
     function createMtfArt(className) {
       const frame = document.createElement('div');
       frame.className = className; frame.setAttribute('aria-hidden', 'true');
@@ -250,16 +246,8 @@
       return frame;
     }
     function syncMtf(text) {
-      if (style === 'mtf' && !mtfScene) {
-        const hero = document.querySelector('.hero');
-        if (hero) {
-          mtfScene = createMtfArt('mtf-scene');
-          const wordmark = document.createElement('span');
-          wordmark.className = 'mtf-wordmark'; wordmark.textContent = 'MTF';
-          const caption = document.createElement('span'); caption.className = 'mtf-caption';
-          mtfScene.append(wordmark, caption); hero.prepend(mtfScene);
-          mtfBackdrop = createMtfArt('mtf-backdrop'); document.body.prepend(mtfBackdrop);
-        }
+      if (style === 'mtf' && !mtfBackdrop) {
+        mtfBackdrop = createMtfArt('mtf-backdrop'); document.body.prepend(mtfBackdrop);
         const footer = document.querySelector('footer');
         if (footer) {
           mtfCredit = document.createElement('p'); mtfCredit.className = 'mtf-credit';
@@ -269,7 +257,6 @@
           mtfCredit.append(source); footer.append(mtfCredit);
         }
       }
-      if (mtfScene) { mtfScene.hidden = style !== 'mtf'; mtfScene.querySelector('.mtf-caption').textContent = text.mtfCaption; }
       if (mtfBackdrop) mtfBackdrop.hidden = style !== 'mtf';
       if (mtfCredit) { mtfCredit.hidden = style !== 'mtf'; mtfCredit.firstChild.textContent = text.mtfCredit; }
     }

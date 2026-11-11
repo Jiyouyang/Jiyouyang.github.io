@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-11-mtf-full-background', date: '2026-11-11', type: 'improved', content: {
+      'zh-CN': ['MTF 旗帜改为全屏背景', ['移除首屏的小旗帜框，将原蓝粉白旗帜铺满整个页面背景，滚动时继续保留；深浅模式分别调整背景强度，保持文字与卡片清晰。', '旗帜素材、来源、主题偏好和网站功能不变，其他六套风格不受影响。']],
+      'zh-TW': ['MTF 旗幟改為全螢幕背景', ['移除首屏的小旗幟框，將原藍粉白旗幟鋪滿整個頁面背景，捲動時繼續保留；深淺模式分別調整背景強度，保持文字與卡片清晰。', '旗幟素材、來源、主題偏好和網站功能不變，其他六套風格不受影響。']],
+      en: ['A full-page Pride flag for MTF', ['The small hero flag frame is replaced by a blue, pink and white flag backdrop that fills the viewport and stays behind the page while scrolling. Separate light and dark intensities keep text and cards readable.', 'The original flag artwork, credits, preferences and website features are unchanged. The other six styles are unaffected.']],
+      ja: ['MTF の旗を全画面背景に変更', ['小さな旗のフレームをなくし、青・ピンク・白の旗を画面全体の背景にしました。スクロール中も表示され、ライト・ダークに合わせて濃さを調整します。', '旗の素材、出典、テーマ設定、既存機能はそのままです。他の6テーマには影響しません。']]
+    }
+  },
+  {
     id: '2026-11-11-mtf-style', date: '2026-11-11', type: 'added', content: {
       'zh-CN': ['新增 MTF 跨性别主题', ['网站设置新增独立的“MTF 跨性别”风格：以跨性别骄傲旗的蓝、粉、白为灵感，搭配柔和流光、折光玻璃与飘带旗帜，覆盖首页、专区、下载、资源库及设置。', '默认浅色蓝，支持五种配色、浅色/深色/跟随系统及四语言；偏好与其他六套风格独立保存，不自动切换现有设置。旗帜图形采用已标明公有领域的素材，由本站按需加载并提供来源说明；原有功能与下载链接不变。']],
       'zh-TW': ['新增 MTF 跨性別主題', ['網站設定新增獨立的「MTF 跨性別」風格：以跨性別驕傲旗的藍、粉、白為靈感，搭配柔和流光、折光玻璃與飄帶旗幟，涵蓋首頁、專區、下載、資源庫及設定。', '預設淺色藍，支援五種配色、淺色/深色/跟隨系統及四語言；偏好與其他六套風格獨立儲存，不自動切換現有設定。旗幟圖形採用已標明公有領域的素材，由本站按需載入並提供來源說明；原有功能與下載連結不變。']],
