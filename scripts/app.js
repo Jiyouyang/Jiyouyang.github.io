@@ -93,96 +93,19 @@ const i18n = {
   }
 };
 
-const resources = [
-  { id: 'mdn', category: 'development', url: 'https://developer.mozilla.org/zh-CN/', domain: 'developer.mozilla.org', glyph: '</>', x: '78%', y: '20%', content: {
-    'zh-CN': ['MDN Web Docs', '完整可靠的 Web 技术文档，适合查询 HTML、CSS 与 JavaScript。'],
-    'zh-TW': ['MDN Web Docs', '完整可靠的 Web 技術文件，適合查詢 HTML、CSS 與 JavaScript。'],
-    en: ['MDN Web Docs', 'Reliable web documentation for HTML, CSS, JavaScript, and browser APIs.'],
-    ja: ['MDN Web Docs', 'HTML、CSS、JavaScript、ブラウザー API の信頼できる技術資料。']
-  }},
-  { id: 'github', category: 'development', url: 'https://github.com/', domain: 'github.com', glyph: '{ }', x: '24%', y: '18%', content: {
-    'zh-CN': ['GitHub', '托管代码、管理项目并探索全球开发者的开源作品。'],
-    'zh-TW': ['GitHub', '託管程式碼、管理專案並探索全球開發者的開源作品。'],
-    en: ['GitHub', 'Host code, manage projects, and explore open-source work from developers worldwide.'],
-    ja: ['GitHub', 'コードのホスティング、プロジェクト管理、オープンソース探索の定番。']
-  }},
-  { id: 'apple-dev', category: 'development', url: 'https://developer.apple.com/', domain: 'developer.apple.com', glyph: '⌘', x: '72%', y: '78%', content: {
-    'zh-CN': ['Apple Developer', 'Apple 平台的设计规范、开发文档、示例代码与工具入口。'],
-    'zh-TW': ['Apple Developer', 'Apple 平台的設計規範、開發文件、範例程式碼與工具入口。'],
-    en: ['Apple Developer', 'Design guidance, documentation, sample code, and tools for Apple platforms.'],
-    ja: ['Apple Developer', 'Apple プラットフォーム向けの設計指針、資料、サンプル、ツール。']
-  }},
-  { id: 'freecodecamp', category: 'learning', url: 'https://www.freecodecamp.org/chinese/', domain: 'freecodecamp.org', glyph: '01', x: '18%', y: '72%', content: {
-    'zh-CN': ['freeCodeCamp', '通过课程和实践项目免费学习编程与 Web 开发。'],
-    'zh-TW': ['freeCodeCamp', '透過課程和實作專案免費學習程式設計與 Web 開發。'],
-    en: ['freeCodeCamp', 'Learn programming and web development through free lessons and practical projects.'],
-    ja: ['freeCodeCamp', '無料のレッスンと実践プロジェクトでプログラミングを学べます。']
-  }},
-  { id: 'jlpt', category: 'learning', url: 'https://www.jlpt.jp/cn/', domain: 'jlpt.jp', glyph: 'あ', x: '82%', y: '24%', content: {
-    'zh-CN': ['JLPT', '日语能力考试官方信息、考试安排和练习样题。'],
-    'zh-TW': ['JLPT', '日語能力考試官方資訊、考試安排和練習題。'],
-    en: ['JLPT', 'Official test information, schedules, and sample questions for Japanese learners.'],
-    ja: ['JLPT', '日本語能力試験の公式情報、日程、問題例を確認できます。']
-  }},
-  { id: 'jisho', category: 'tools', url: 'https://jisho.org/', domain: 'jisho.org', glyph: '辞', x: '20%', y: '22%', content: {
-    'zh-CN': ['Jisho', '简洁好用的日英词典，支持汉字、例句与多种检索方式。'],
-    'zh-TW': ['Jisho', '簡潔好用的日英辭典，支援漢字、例句與多種檢索方式。'],
-    en: ['Jisho', 'A fast Japanese–English dictionary with kanji, examples, and flexible search.'],
-    ja: ['Jisho', '漢字、例文、多彩な検索に対応した使いやすい日英辞書。']
-  }},
-  { id: 'caniuse', category: 'tools', url: 'https://caniuse.com/', domain: 'caniuse.com', glyph: '✓', x: '76%', y: '76%', content: {
-    'zh-CN': ['Can I use', '快速查看 Web 功能在不同浏览器和版本中的兼容情况。'],
-    'zh-TW': ['Can I use', '快速查看 Web 功能在不同瀏覽器和版本中的相容情況。'],
-    en: ['Can I use', 'Check browser support for web features across versions and platforms.'],
-    ja: ['Can I use', 'Web 機能のブラウザー・バージョン別対応状況をすぐ確認できます。']
-  }},
-  { id: 'computer', category: 'tools', url: '/computer-tools.html', domain: 'jiyouyang.github.io/computer-tools', glyph: 'PC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['电脑工具', '进入电脑工具专区，查看 Chrome、Python、Steam、图吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盗船 BT 下载和 Nyaa BT 下载。'],
-    'zh-TW': ['電腦工具', '進入電腦工具專區，查看 Chrome、Python、Steam、圖吧工具箱、IDM、IDM_Cracker、Watt 工具箱、v2rayN、海盜船 BT 下載和 Nyaa BT 下載。'],
-    en: ['PC Tools', 'Open the PC Tools hub for Chrome, Python, Steam, Tuba Toolbox, IDM, IDM_Cracker, Watt Toolkit, v2rayN, The Pirate Bay, and Nyaa.'],
-    ja: ['PC ツール', 'PC ツールのページで Chrome、Python、Steam、図吧ツールボックス、IDM、IDM_Cracker、Watt Toolkit、v2rayN、The Pirate Bay、Nyaa を確認できます。']
-  }},
-  { id: 'steamdb', category: 'games', url: 'https://steamdb.info/', domain: 'steamdb.info', glyph: 'DB', x: '22%', y: '80%', content: {
-    'zh-CN': ['SteamDB', '查询 Steam 游戏价格、更新记录、在线人数与历史数据。'],
-    'zh-TW': ['SteamDB', '查詢 Steam 遊戲價格、更新記錄、線上人數與歷史資料。'],
-    en: ['SteamDB', 'Explore Steam pricing, update history, player counts, and historical data.'],
-    ja: ['SteamDB', 'Steam の価格、更新履歴、プレイヤー数、過去データを確認できます。']
-  }},
-  { id: 'minecraft', category: 'games', url: '/minecraft.html', domain: 'jiyouyang.github.io/minecraft', glyph: 'MC', x: '78%', y: '22%', internal: true, content: {
-    'zh-CN': ['Minecraft', '进入 Minecraft 专区，浏览国服与基岩版下载、Java 版模组、启动器等内容。'],
-    'zh-TW': ['Minecraft', '進入 Minecraft 專區，瀏覽中國版與基岩版下載、Java 版模組、啟動器等內容。'],
-    en: ['Minecraft', 'Explore Minecraft China and Bedrock downloads, Java mods, launchers, and more.'],
-    ja: ['Minecraft', 'Minecraft 専用ページで、中国版・統合版のダウンロードや Java 版の MOD・ランチャーを探せます。']
-  }},
-  { id: 'genshin', category: 'games', url: '/genshin.html', domain: 'jiyouyang.github.io/genshin', glyph: 'GI', x: '24%', y: '24%', internal: true, content: {
-    'zh-CN': ['原神', '进入原神专区，查看多平台下载、国服官网与可用兑换码。'],
-    'zh-TW': ['原神', '進入原神專區，查看多平台下載、國服官網與可用兌換碼。'],
-    en: ['Genshin Impact', 'Find downloads, the mainland China official site, and available redemption codes in the Genshin Impact hub.'],
-    ja: ['原神', '原神専用ページで、ダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
-  }},
-  { id: 'hsr', category: 'games', url: '/hsr.html', domain: 'jiyouyang.github.io/hsr', glyph: 'HSR', x: '24%', y: '76%', internal: true, content: {
-    'zh-CN': ['崩坏：星穹铁道', '进入崩铁专区，查看国际版多平台下载、国服官网与可用兑换码。'],
-    'zh-TW': ['崩壞：星穹鐵道', '進入星穹鐵道專區，查看國際版多平台下載、國服官網與可用兌換碼。'],
-    en: ['Honkai: Star Rail', 'Find global downloads, the mainland China official site, and available redemption codes in the Honkai: Star Rail hub.'],
-    ja: ['崩壊：スターレイル', '専用ページでグローバル版のダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
-  }},
-  { id: 'zzz', category: 'games', url: '/zzz.html', domain: 'jiyouyang.github.io/zzz', glyph: 'ZZZ', x: '78%', y: '24%', internal: true, content: {
-    'zh-CN': ['绝区零', '进入绝区零专区，查看国际版多平台下载、国服官网与可用兑换码。'],
-    'zh-TW': ['絕區零', '進入絕區零專區，查看國際版多平台下載、國服官網與可用兌換碼。'],
-    en: ['Zenless Zone Zero', 'Find global downloads, the mainland China official site, and available redemption codes in the Zenless Zone Zero hub.'],
-    ja: ['ゼンレスゾーンゼロ', '専用ページでグローバル版のダウンロード、中国版公式サイト、利用可能な交換コードを確認できます。']
-  }},
-  { id: 'endfield', category: 'games', url: '/endfield.html', domain: 'jiyouyang.github.io/endfield', glyph: 'AE', x: '76%', y: '72%', internal: true, content: {
-    'zh-CN': ['明日方舟：终末地', '进入终末地专区，查看国际版多平台下载、国服官网与兑换码查询。'],
-    'zh-TW': ['明日方舟：終末地', '進入終末地專區，查看國際版多平台下載、國服官網與兌換碼查詢。'],
-    en: ['Arknights: Endfield', 'Find global downloads, the mainland China official site, and redemption codes in the Endfield hub.'],
-    ja: ['アークナイツ：エンドフィールド', '専用ページでグローバル版のダウンロード、中国版公式サイト、交換コードの確認先を探せます。']
-  }}
-];
+const resources = window.JYCatalog.filter(resource => resource.home);
 
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    id: '2026-11-11-library-experience', date: '2026-11-11', type: 'improved', content: {
+      'zh-CN': ['资源收藏与浏览体验升级', ['首页和各专区的资源卡片支持收藏与复制链接；首页“我的常用”支持调整顺序，偏好保存在当前浏览器。卡片新增来源与平台标签，资源库可以切换大卡片或紧凑列表。', '顶部搜索升级为快捷面板，支持搜索历史、常用入口、分类结果与 MC 等别名，电脑可用 Ctrl / ⌘ + K 或 / 打开。公告详情改为按日期折叠的更新日志，新增、优化、修复一目了然。', '补上收藏和复制反馈、轻量按压效果与返回资源库时的筛选和位置恢复；所有新功能适配七套主题与四种语言。']],
+      'zh-TW': ['資源收藏與瀏覽體驗升級', ['首頁和各專區的資源卡片支援收藏與複製連結；首頁「我的常用」支援調整順序，偏好儲存在目前瀏覽器。卡片新增來源與平台標籤，資源庫可切換大卡片或精簡列表。', '頂部搜尋升級為快捷面板，支援搜尋紀錄、常用入口、分類結果與 MC 等別名，電腦可用 Ctrl / ⌘ + K 或 / 開啟。公告詳情改為依日期折疊的更新日誌，新增、優化、修復一目了然。', '補上收藏與複製回饋、輕量按壓效果，以及返回資源庫時的篩選和位置還原；所有新功能適配七套主題與四種語言。']],
+      en: ['A more personal resource library', ['Favorite or copy resource links from the home page and hubs. Reorder your shortcuts on the home page; preferences stay in this browser. Source and platform labels make destinations clearer, with card and compact-list views.', 'Quick search offers recent queries, favorites, grouped results and aliases such as MC. Open it from the navigation or with Ctrl / ⌘ + K or /. Expanded notices now form a dated update timeline with New, Improved and Fixed labels.', 'Added favorite and copy feedback, subtle press states and filter/position restoration when returning to the library. All additions support seven styles and four languages.']],
+      ja: ['リソースの保存と閲覧を改善', ['ホームと各専用ページのカードをお気に入りに追加し、リンクもコピーできます。ホームで並び替えでき、設定はこのブラウザーに保存されます。出典・対応プラットフォームのラベルと、カード／一覧表示を追加しました。', 'クイック検索は検索履歴、お気に入り、カテゴリー別の結果、MC などの別名に対応。ナビゲーションや Ctrl / ⌘ + K、/ で開けます。お知らせは日付別に折りたためる更新履歴となり、追加・改善・修正を表示します。', '保存・コピーの通知、控えめな押下効果、リソース一覧に戻った際の絞り込みと位置の復元も追加。7つのテーマと4言語に対応しています。']]
+    }
+  },
   {
     id: '2026-10-23-furina-style', date: '2026-10-23', content: {
       'zh-CN': ['新增芙宁娜主题', ['在网站设置的“哥伦比娅”与“绪山真寻”之间新增“芙宁娜”：枫丹蓝金、珍珠白、水纹、礼帽与歌剧舞台边框，配官方生日贺图，并支持深浅模式。', '图片优先从 B站 BWIKI 国内图片源加载，提供相同图片的本地备用。七套风格独立保存配色与显示模式，原有资源、平台切换及四语言功能保持可用。']],
@@ -557,11 +480,19 @@ function renderAnnouncements() {
   rotatingAnnouncements = orderedAnnouncements.filter(entry => entry.pinned);
   activeAnnouncementIndex = 0;
   setAnnouncementSummary(latest);
-  $('#announcement-list').innerHTML = orderedAnnouncements.map(entry => {
+  const uiText = window.JYLibrary.text;
+  const regular = orderedAnnouncements.filter(entry => !entry.pinned);
+  const dates = [...new Set(regular.map(entry => entry.date))];
+  const entryHtml = (entry, timeline) => {
     const [title, details] = entry.content[language] || entry.content['zh-CN'];
-    return '<article class="announcement-entry"><time datetime="' + escapeHtml(entry.date) + '">' +
-      escapeHtml(entry.date.replaceAll('-', '.')) + '</time><h2>' + escapeHtml(title) + '</h2><ul>' +
+    const latest = timeline && entry === regular[0];
+    const type = entry.type || (/fix|bug|修复|修正/.test(entry.id + title) ? 'fixed' : /style|新增|加入/.test(entry.id + title) ? 'added' : 'improved');
+    return '<article class="announcement-entry' + (timeline ? ' update-entry' : '') + (latest ? ' is-latest' : '') + '" data-update-id="' + escapeHtml(entry.id) + '">' + (timeline ? '<div class="update-labels"><span class="update-type">' + escapeHtml(uiText(type)) + '</span>' + (latest ? '<span class="update-latest">' + escapeHtml(uiText('latest')) + '</span>' : '') + '</div>' : '<time datetime="' + escapeHtml(entry.date) + '">' + escapeHtml(entry.date.replaceAll('-', '.')) + '</time>') + '<h3>' + escapeHtml(title) + '</h3><ul>' +
       details.map(detail => '<li>' + escapeHtml(detail) + '</li>').join('') + '</ul></article>';
+  };
+  $('#announcement-list').innerHTML = (rotatingAnnouncements.length ? '<section class="pinned-notices" aria-labelledby="pinned-notices-title"><h2 class="pinned-title" id="pinned-notices-title">' + escapeHtml(uiText('pinned')) + '</h2>' + rotatingAnnouncements.map(entry => entryHtml(entry, false)).join('') + '</section>' : '') + (regular.length ? '<h2 class="update-log-title">' + escapeHtml(uiText('updates')) + '</h2>' : '') + dates.map((date, index) => {
+    const entries = regular.filter(entry => entry.date === date);
+    return '<details class="update-day"' + (index === 0 ? ' open' : '') + '><summary><time datetime="' + date + '">' + date.replaceAll('-', '.') + '</time><span class="update-day-count">' + escapeHtml(uiText('updatesCount', { n: entries.length })) + '</span></summary><div class="update-timeline">' + entries.map(entry => entryHtml(entry, true)).join('') + '</div></details>';
   }).join('');
   if (rotatingAnnouncements.length > 1) {
     announcementTimer = setInterval(rotateAnnouncementSummary, announcementRotationDelay);
@@ -597,9 +528,7 @@ function rotateAnnouncementSummary() {
 function renderResources() {
   const query = $('#search').value.trim().toLocaleLowerCase();
   const list = resources.filter(resource => {
-    const [title, description] = localized(resource);
-    const haystack = (title + ' ' + description + ' ' + resource.domain + ' ' + t('category.' + resource.category)).toLocaleLowerCase();
-    return (category === 'all' || resource.category === category) && haystack.includes(query);
+    return (category === 'all' || resource.category === category) && window.JYLibrary.matches(resource, query);
   });
   $('#count').textContent = t('library.count', { n: String(list.length) });
   $('#resource-grid').innerHTML = list.length ? list.map(resource => {
@@ -611,6 +540,7 @@ function renderResources() {
       '<div class="resource-body"><div class="resource-topline"><span class="resource-tag">' + escapeHtml(t('category.' + resource.category)) + '</span><span class="resource-arrow">' + arrow + '</span></div>' +
       '<h3>' + escapeHtml(title) + '</h3><p>' + escapeHtml(description) + '</p><div class="resource-domain">' + escapeHtml(resource.domain) + '</div></div></a>';
   }).join('') : '<p class="empty">' + escapeHtml(t('library.empty')) + '</p>';
+  document.dispatchEvent(new Event('jy:resources-rendered'));
 }
 
 function applyAccent() {
@@ -668,14 +598,7 @@ document.querySelectorAll('[data-category]').forEach(button => {
 });
 
 $('#search').oninput = renderResources;
-$('#search-jump').onclick = () => {
-  const input = $('#search');
-  const searchBox = input.closest('.search');
-  const targetTop = Math.max(0, scrollY + searchBox.getBoundingClientRect().top - (innerWidth <= 590 ? 188 : 140));
-  history.replaceState(null, '', location.pathname + location.search + '#resources');
-  input.focus({ preventScroll: true });
-  window.scrollTo({ top: targetTop, behavior: 'smooth' });
-};
+$('#search-jump').onclick = () => window.JYLibrary.openSearch();
 
 $('#settings-trigger').onclick = () => {
   settings.showModal();
@@ -704,3 +627,16 @@ $('#resource-total').textContent = String(resources.length);
 applyAccent();
 applyTheme();
 applyLanguage();
+window.JYLibrary.initHome({
+  getState: () => ({ category, query: $('#search').value }),
+  restoreState: state => {
+    category = ['all', 'development', 'learning', 'tools', 'games'].includes(state.category) ? state.category : 'all';
+    $('#search').value = typeof state.query === 'string' ? state.query.slice(0, 120) : '';
+    document.querySelectorAll('[data-category]').forEach(button => {
+      const active = button.dataset.category === category;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    renderResources();
+  }
+});

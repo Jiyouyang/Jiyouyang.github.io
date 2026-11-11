@@ -1,6 +1,6 @@
 # CODEX 项目交接文档
 
-> 最后更新：2026-10-23
+> 最后更新：2026-11-11
 > 当前仓库：`Jiyouyang/Jiyouyang.github.io`  
 > 当前分支：`main`  
 > 线上地址：https://jiyouyang.github.io/
@@ -61,7 +61,7 @@
 - 顶部固定液态玻璃导航：品牌、居中的“资源分享”、搜索按钮、齿轮“网站设置”。
 - 搜索按钮与设置按钮之间保留距离，避免移动端误触。
 - 手机端导航的搜索和齿轮按钮均有 44px 点按区域；设置入口在窄屏显示齿轮图标，可访问性名称仍为“网站设置”。
-- 点击顶部搜索按钮会平滑滚动到资源搜索栏并主动聚焦输入框，以唤起系统键盘。
+- 点击顶部搜索按钮打开全站快捷搜索面板，支持别名、分类结果、收藏入口与最近搜索；Ctrl/⌘+K 或 / 也可打开。资源库原有搜索栏继续用于首页筛选，面板不会叠加在设置弹窗上。
 - 分类：全部、开发、学习、工具、游戏；实际资源分类为四类。“工具”合并原来两个同名筛选入口，包含电脑工具专区、Jisho 与 Can I use。
 - 首页电脑工具站内卡片仍进入 `/computer-tools.html`；Chrome、Python、Steam、图吧工具箱、IDM 下载器、IDM_Cracker、Watt 工具箱、v2rayN、The Pirate Bay 与 Nyaa 的外链卡片集中放在专区内。
 - 资源支持按标题、简介、域名和分类即时检索。
@@ -69,7 +69,9 @@
 - Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地资源卡片依次位于资源列表前列，分别进入站内专区。
 - 首页 Minecraft、原神、绝区零、崩铁与终末地卡片的简介均按当前实际入口描述。
 
-首页当前资源数据在 `scripts/app.js` 的 `resources` 数组中，包括 Minecraft、原神、绝区零、崩铁、终末地、电脑工具专区、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等。
+首页当前资源从 `scripts/resource-catalog.js` 的 `window.JYCatalog` 筛选 `home: true`，包括 Minecraft、原神、绝区零、崩铁、终末地、电脑工具专区、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I Use、SteamDB 等原 14 项。目录另镜像 28 项专区卡片用于收藏和全站搜索；原专区页面仍由各页脚本维护，修改文案时须同步目录并通过四语言镜像检查。
+
+资源卡片的收藏与复制按钮放在链接外的包装层，避免嵌套交互；“我的常用”可排序。资源库支持大卡片/紧凑列表，来源与平台标签区分站内专区、站内选择、官方、第三方及社区项目。公告摘要原布局保留；展开后置顶与普通更新分开，普通更新按日期折叠并标记新增/优化/修复。返回资源库可恢复筛选、搜索词与浏览位置。
 
 ### 电脑工具专区 `/computer-tools.html`
 
@@ -301,6 +303,8 @@
 - `jy-accent`
 - `jy-theme`
 - `jy-language`
+- `jy-favorites`：资源 ID 列表及顺序；`jy-library-view`：`cards` / `list`；`jy-search-history`：最多六条已执行的搜索词，均仅保存在当前浏览器。数据按目录 ID 验证、去重，存储被禁止时仍可本页使用。
+- `sessionStorage.jy-library-return`：首页筛选、搜索词与滚动锚点，仅在后退或从专区返回资源库时恢复，最多保留一天。
 - `jy-style`：`classic` / `terminal` / `mecha` / `blackgold` / `columbina` / `furina` / `mahiro`
 - `jy-style-classic`、`jy-style-terminal`、`jy-style-mecha`、`jy-style-blackgold`、`jy-style-columbina`、`jy-style-furina`、`jy-style-mahiro`：分别保存 `{accent, theme}`；现有 `jy-accent` / `jy-theme` 始终对应当前风格，供各页原脚本读取。
 
@@ -342,7 +346,11 @@
 | --- | --- |
 | `.nojekyll` | 让 GitHub Pages 直接发布静态文件 |
 | `index.html` | 首页结构、样式、导航、资源区和设置弹窗 |
-| `scripts/app.js` | 首页四语言文案、资源数据、搜索/筛选、主题与设置逻辑 |
+| `scripts/app.js` | 首页四语言文案、公告时间线、目录筛选、主题与设置逻辑 |
+| `scripts/resource-catalog.js` | 14 项首页资源和 28 项专区镜像的共享四语言目录、来源/平台/别名 |
+| `scripts/library-experience.js` | 收藏排序、复制/降级、全站快捷搜索/历史、列表布局与返回状态恢复 |
+| `styles/library-experience.css` | 收藏、标签、搜索面板、紧凑列表、公告时间线及轻量按压反馈；使用现有主题变量 |
+| `tests/library-experience.cjs` | 原资源保留、目录/专区四语言一致性、收藏持久化、快捷键/历史/恢复、平台复制和七主题布局回归 |
 | `computer-tools.html` | 电脑工具专区结构、十张外链卡片和设置弹窗 |
 | `scripts/computer-tools.js` | 电脑工具专区四语言文案、主题与设置逻辑 |
 | `styles/card-controls.css` | 全站卡片图区和下载页平台/渠道选择器的共享视觉样式 |
@@ -1022,3 +1030,15 @@
 - 验证：`tests/site-style.cjs … furina` 通过全部 17 页、四宽度、300 组语言/配色/模式、七主题偏好隔离、主题恢复、搜索/公告/平台切换与下载按钮优先级；文字/金色标签与按钮对比度不低于 4.5。`tests/style-isolation.cjs … 84a941a` 通过原六主题 1020 组样式对照。`tests/furina-art.cjs --live` 确认实际国内 CDN 图片请求成功，17 页四宽度构图不遮字、四语言、1144 个滑块位置、选项顺序、按需请求、离开隐藏、远端失败/全部失败/8 秒超时回退均通过；仅对当前环境代理 CA 使用限定 SPKI 信任，不关闭全局 TLS 验证。已人工查看手机首页、桌面全页与浅色 iOS 下载页。
 - 静态验证：17 页仅增加独立 CSS 引用及缓存号，原正文和目的链接逐字一致；原 `card-controls.css` 与四份独立主题 CSS 与基线逐字节相同，所有正式 JS 语法与 `git diff --check` 通过。前一轮分类合并、Apple 字形及键盘修复继续由 `tests/small-bugfixes.cjs` 检查。资源库图标的珍珠环使用独立 `::after` 选择器，避免将伪元素放进 `:is()` 后被浏览器忽略。
 - 限制：无法替代中国大陆各运营商和真实 iPhone 的设备实测；国内源在当前环境下载与浏览器核验，备用图防止外链失效。此前哥伦比娅米游社同图直链未完成项仍保留，本次没有改动其原图。
+
+### 2026-11-11：接续完成本地资源库增强
+
+- 用户明确选择完成工作区已有的资源库增强，并指示“图片源不用再管了”；因此不再继续查找或改动哥伦比娅及其他主题图片源，此项不作为本轮待办。
+- 接手时 `main` 和线上均为 `dbe9c444e03f9f23e8bef3d32e82d1e7a0833e88`；工作区已有 17 页、首页脚本及三份新文件的未提交草稿。先通过独立临时 Git index 将全部草稿纳入完整快照，未覆盖工作区或主 index。
+- 于 **2026-11-11 08:57:19 UTC** 创建并核验 GitHub 备份分支 `backup/pre-change-2026-11-11_08-57-19_UTC` 与带注释标签 `backup-2026-11-11_08-57-19_UTC`。两者剥离后均为快照提交 `70ecf4d0594419fbd2b468d8287fefe0d92e0d98`，其父为上述线上基线。备份包含修改前完整未提交内容，而非只备份 HEAD；若需恢复最后正式上线的芙宁娜版本，使用 `dbe9c44` 的网站文件，维护文档仍保留最新版本。
+- 本次完成收藏/取消/排序与跨页持久化、卡片来源/平台标签、复制链接及手动降级、快捷搜索及别名/历史/键盘选择、首页紧凑列表、返回筛选与位置恢复、按日期折叠的更新日志及按压反馈。14 项原首页资源与 28 项原专区入口保持原文案和目的链接，七套主题与四语言共用增强功能。
+- 补齐草稿中的平台切换复制错误：复制控件跟随当前可见下载按钮、地址与文字更新，点击时读取实际目标链接；监听相关 href/hidden/文字变化。收藏不足两项时自动退出排序，存储被拒绝时正确显示临时模式。快捷搜索输入文字后按 Esc 会直接关闭面板并恢复页面滚动，避免浏览器搜索框先清空文字、未按提示关闭的问题。
+- 17 页资源版本从草稿 `20261105-library1` 更新为 `20261111-library1`，普通更新公告日期使用实际完成日。原主题文件、平台滑块尺寸与 Apple 字形保持不变。
+- 涉及文件：`scripts/resource-catalog.js`、`scripts/library-experience.js`、`styles/library-experience.css`、17 页引用、`scripts/app.js`、`tests/library-experience.cjs`、原主题回归测试的搜索与公告入口断言、README 与本文件。
+- 验证：`node tests/library-experience.cjs http://127.0.0.1:8765` 通过原 14 项首页资源逐字段对照、28 项专区入口的 112 组四语言原卡片对照、收藏/排序/刷新持久化、别名/快捷键/历史清除/返回状态、29 个当前平台下载链接复制、剪贴板拒绝时手动复制、禁用存储降级，以及七主题 × 两档模式 × 四语言 × 三宽度 × 两布局共 336 组资源库与搜索面板无溢出检查。`tests/site-style.cjs … furina` 通过全部 17 页、经典样式对照、300 组配色/语言/模式、七主题偏好隔离与搜索/公告/平台切换回归。17 页原目的链接、资源引用与全部正式 JS 语法检查通过；七主题原有 CSS/共享风格脚本逐字节未改，`git diff --check` 通过。已人工查看手机端收藏区、紧凑列表、快捷搜索与公告展开截图。
+- 保留限制：浏览器数据不跨设备同步，外部站点可用性由对应网站决定；真实 iPhone 和中国大陆运营商网络仍需实机验证。

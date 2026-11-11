@@ -230,7 +230,8 @@ async function snapshot(page) {
     // Existing home search/filter/announcement interaction in the new style.
     await page.goto(base + '/index.html');
     await page.locator('#search-jump').click();
-    assert.equal(await page.locator('#search').evaluate(element => element === document.activeElement), true);
+    assert.equal(await page.locator('#quick-search-input').evaluate(element => element === document.activeElement), true);
+    await page.keyboard.press('Escape');
     await page.locator('#search').fill('Minecraft');
     assert.equal(await page.locator('.resource-card').count(), 1);
     await page.locator('#search').fill('');
@@ -238,7 +239,7 @@ async function snapshot(page) {
     assert.equal(await page.locator('.resource-card').count(), 3);
     assert.ok((await page.locator('.resource-card').evaluateAll(es => es.map(e => e.getAttribute('href')))).includes('/computer-tools.html'));
     await page.locator('[data-category=all]').click();
-    await page.locator('.announcement summary').click();
+    await page.locator('.announcement > summary').click();
     assert.equal(await page.locator('.announcement').getAttribute('open'), '');
     assert.ok((await page.locator('#announcement-list').textContent()).includes('ターミナル'));
 
