@@ -44,6 +44,6 @@ Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.ht
 
 芙宁娜选项紧随哥伦比娅，选中后才直接从 B站 BWIKI 的 `patchwiki.biligame.com` 国内域名加载官方生日贺图，首屏和背景共用该图；提供同字节本地备用图、错误/超时降级与四语言来源说明。记录见 `assets/themes/furina/README.md`，检查入口为 `tests/furina-art.cjs`。
 
-MTF 跨性别是全新独立主题，追加在芙宁娜之后，不恢复已删除的角色主题。蓝粉白参考跨性别骄傲旗，使用 Wikimedia Commons 已标明公有领域的 273 字节 SVG；旗帜铺满整个视口并在滚动时固定于内容后方，不再显示首屏小旗帜框；手机/超宽屏均保留五条等高横纹，深浅模式分别调整透明度。图形从本站同源按需加载，没有海外图片运行时依赖。错误或 8 秒超时保留 CSS 底板，迟到图片成功后恢复。出处、许可与哈希见 `assets/themes/mtf/README.md`，专项检查为 `tests/mtf-theme.cjs`；保留其他六套风格、原有资源/下载及浏览器隐私边界。
+MTF 跨性别是独立主题，位于芙宁娜之后。蓝粉白参考跨性别骄傲旗，原图是 Wikimedia Commons 已标明公有领域的 273 字节 SVG。网站从本站按需加载适应视口的显示副本，手机竖屏和超宽屏均显示五条等高横纹，滚动时旗帜固定于内容后方，深浅模式分别调整透明度。加载失败或 8 秒超时显示相同横纹的 CSS 背景，图片稍后加载成功时自动恢复。出处、许可与原图哈希见 `assets/themes/mtf/README.md`，专项检查见 `tests/mtf-theme.cjs`；保留其他六套风格、原有资源/下载及浏览器隐私边界。
 
 浏览器标签页、Apple 主屏幕与桌面快捷方式图标使用 `assets/site-cover.jpg`。

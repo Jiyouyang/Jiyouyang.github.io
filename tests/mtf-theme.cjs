@@ -4,13 +4,14 @@ const fs = require('node:fs');
 const crypto = require('node:crypto');
 const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
-const path = 'assets/themes/mtf/pride-flag.svg';
-const flag = fs.readFileSync(path);
+const flag = fs.readFileSync('assets/themes/mtf/pride-flag.svg');
+const path = 'assets/themes/mtf/pride-flag-viewport.svg';
 assert.equal(flag.length, 273);
 assert.equal(crypto.createHash('sha256').update(flag).digest('hex'), 'a46c2d7f8524ce172136c8810256b9b0b0fb3301c8b98e680394554d865f5fc8');
 assert.match(flag.toString(), /viewBox="0 0 800 480"/);
 for (const color of ['#5BCEFA', '#F5A9B8', '#FFF']) assert.ok(flag.includes(color));
 assert.doesNotMatch(flag.toString(), /<script|href=|\bon\w+=/i);
+assert.equal(fs.readFileSync(path, 'utf8'), flag.toString().replace('viewBox="0 0 800 480"', 'viewBox="0 0 800 480" preserveAspectRatio="none"'));
 const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
 const oldStyles = styles.filter(style => style !== 'mtf');
 
@@ -31,6 +32,36 @@ async function checkBackdrop(page, label) {
     };
   });
   assert.deepEqual(result, { fills: true, imageFills: true, fixed: true, behind: true, noninteractive: true, uncropped: true, fallback: true, noScene: true, centered: true, overflow: false }, label);
+}
+
+async function checkStripePixels(page, label) {
+  const screenshot = await page.screenshot({
+    scale: 'css',
+    style: 'body > :not(.mtf-backdrop) { display: none !important; } .mtf-backdrop { opacity: 1 !important; }'
+  });
+  const mismatch = await page.evaluate(async encoded => {
+    const image = new Image();
+    image.src = 'data:image/png;base64,' + encoded;
+    await image.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+    const colors = [[91, 206, 250], [245, 169, 184], [255, 255, 255], [245, 169, 184], [91, 206, 250]];
+    for (const x of [1, Math.floor(image.width / 2), image.width - 2]) {
+      const pixels = ctx.getImageData(x, 0, 1, image.height).data;
+      for (let y = 0; y < image.height; y++) {
+        const row = 5 * (y + .5) / image.height;
+        if (Math.abs(row - Math.round(row)) * image.height / 5 < 1.5) continue;
+        const expected = colors[Math.floor(row)];
+        const actual = Array.from(pixels.slice(y * 4, y * 4 + 3));
+        if (expected.some((channel, index) => Math.abs(channel - actual[index]) > 2)) return { x, y, expected, actual };
+      }
+    }
+    return null;
+  }, screenshot.toString('base64'));
+  assert.equal(mismatch, null, label + ': expected five equal bands, got ' + JSON.stringify(mismatch));
 }
 
 (async () => {
@@ -55,6 +86,11 @@ async function checkBackdrop(page, label) {
     await page.waitForFunction(() => [...document.querySelectorAll('.mtf-backdrop img')].every(image => image.complete && image.naturalWidth));
     assert.ok(requests.length);
     assert.ok(requests.every(url => new URL(url).origin === new URL(base).origin), 'No external runtime artwork dependency');
+    assert.ok(requests.some(url => new URL(url).pathname === '/' + path), 'The viewport SVG must be requested');
+    for (const [width, height] of [[390, 844], [1440, 1000], [3440, 844]]) {
+      await page.setViewportSize({ width, height });
+      await checkStripePixels(page, width + '×' + height);
+    }
     const scoped = await page.evaluate(() => {
       const sheet = [...document.styleSheets].find(sheet => sheet.href?.includes('/styles/mtf.css'));
       const walk = rules => [...rules].every(rule => rule.selectorText ? rule.selectorText.includes('[data-style="mtf"]') : rule.cssRules ? walk(rule.cssRules) : false);
@@ -113,7 +149,7 @@ async function checkBackdrop(page, label) {
       let started, released = false;
       const pending = [], began = new Promise(resolve => { started = resolve; });
       if (mode === 'timeout') await failure.clock.install();
-      await failure.route('**/assets/themes/mtf/pride-flag.svg', route => {
+      await failure.route('**/assets/themes/mtf/pride-flag-viewport.svg', route => {
         if (mode === 'error') return route.abort();
         if (released) return route.fulfill({ path, contentType: 'image/svg+xml' });
         pending.push(route); started();
@@ -128,10 +164,12 @@ async function checkBackdrop(page, label) {
       assert.equal(await failure.locator('.mtf-backdrop img').isVisible(), false);
       assert.ok(await failure.locator('.hero h1').isVisible());
       assert.equal(await failure.locator('.resource-card').count(), 14);
+      await checkStripePixels(failure, mode + ' CSS fallback');
       if (mode === 'timeout') {
         released = true;
         await Promise.all(pending.map(route => route.fulfill({ path, contentType: 'image/svg+xml' })));
         await failure.waitForFunction(() => [...document.querySelectorAll('.mtf-backdrop')].every(frame => !frame.classList.contains('is-unavailable') && frame.querySelector('img').naturalWidth));
+        await checkStripePixels(failure, 'late image recovery');
       }
       await failure.close();
     }

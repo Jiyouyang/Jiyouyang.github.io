@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-20-mtf-flag-bands', date: '2026-11-20', type: 'fixed', content: {
+      'zh-CN': ['修复 MTF 背景横纹重复', ['MTF 背景在手机竖屏和超宽屏上均铺满视口，完整显示五条等高旗帜横纹。']],
+      'zh-TW': ['修復 MTF 背景橫紋重複', ['MTF 背景在手機直向和超寬螢幕上均鋪滿視窗，完整顯示五條等高旗幟橫紋。']],
+      en: ['Fixed repeating MTF flag stripes', ['The MTF background fills portrait phones and ultrawide displays with five equal-height stripes.']],
+      ja: ['MTF 背景の縞の重複を修正', ['縦長のスマートフォンやウルトラワイド画面でも、同じ高さの5本の縞が画面全体に表示されます。']]
+    }
+  },
+  {
     id: '2026-11-11-mtf-full-background', date: '2026-11-11', type: 'improved', content: {
       'zh-CN': ['MTF 旗帜改为全屏背景', ['移除首屏的小旗帜框，将原蓝粉白旗帜铺满整个页面背景，滚动时继续保留；深浅模式分别调整背景强度，保持文字与卡片清晰。', '旗帜素材、来源、主题偏好和网站功能不变，其他六套风格不受影响。']],
       'zh-TW': ['MTF 旗幟改為全螢幕背景', ['移除首屏的小旗幟框，將原藍粉白旗幟鋪滿整個頁面背景，捲動時繼續保留；深淺模式分別調整背景強度，保持文字與卡片清晰。', '旗幟素材、來源、主題偏好和網站功能不變，其他六套風格不受影響。']],

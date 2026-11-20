@@ -6,7 +6,7 @@
 - 图形来源与许可：[Wikimedia Commons · Transgender Pride flag.svg](https://commons.wikimedia.org/wiki/File:Transgender_Pride_flag.svg)。来源页列作者 Dlloyd（基于 Monica Helms 设计），并明确将简单旗帜图形标为公有领域（Public domain）。图形采用蓝 `#5BCEFA`、粉 `#F5A9B8`、白 `#FFFFFF`，五条等高横纹，比例 5:3。
 - 原始文件：<https://upload.wikimedia.org/wikipedia/commons/b/b0/Transgender_Pride_flag.svg>。本目录 `pride-flag.svg` 保存相同 SVG 源码，不含脚本、外链、字体或追踪请求。
 - 本地文件为 273 字节，SHA-256 `a46c2d7f8524ce172136c8810256b9b0b0fb3301c8b98e680394554d865f5fc8`。
-- 网站从自身同源加载图形，不运行时请求 Wikimedia；首次选择 `mtf` 才创建单一全屏固定背景，不创建首屏小旗帜框。五条等高横纹随视口铺满，图片文件的原始 5:3 比例和字节不变；浅色透明度 0.20、深色 0.22，背景不遮挡点击。离开后隐藏；加载失败或 8 秒超时保留 CSS 蓝粉白底板与全部网站功能，迟到的成功图片仍可恢复。
+- 网站从本站按需加载 `pride-flag-viewport.svg`。这是原旗帜的显示副本，只增加了 `preserveAspectRatio="none"`，使五条横纹在任何屏幕比例下都等高铺满。浅色透明度 0.20、深色 0.22，背景不遮挡点击。离开主题后隐藏；加载失败或 8 秒超时显示同样五条横纹的 CSS 背景，图片稍后加载成功时自动恢复。
 - 来源说明同步简中、繁中、英语、日语；旗帜素材不暗示任何组织背书。主题选择与配色仍只存于当前浏览器，不新增账户同步或统计。
 
 实现：`styles/mtf.css`、`scripts/site-style.js`。默认浅色蓝，支持五色、浅/深/跟随系统、四语言及跨页独立偏好。

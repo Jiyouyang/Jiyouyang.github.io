@@ -241,7 +241,7 @@
       const timeout = setTimeout(() => frame.classList.add('is-unavailable'), 8000);
       flag.addEventListener('error', () => { clearTimeout(timeout); frame.classList.add('is-unavailable'); });
       flag.addEventListener('load', () => { clearTimeout(timeout); frame.classList.remove('is-unavailable'); });
-      flag.src = '/assets/themes/mtf/pride-flag.svg';
+      flag.src = '/assets/themes/mtf/pride-flag-viewport.svg';
       frame.append(flag);
       return frame;
     }

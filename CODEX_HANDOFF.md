@@ -1,7 +1,7 @@
 # CODEX 项目交接文档
 
-> 更新：2026-11-11 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
-> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-11（MTF 旗帜改为全屏背景）
+> 更新：2026-11-20 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
+> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-20（修复 MTF 背景横纹重复）
 
 本文集中保存现行规则、网站现状和维护入口。精简前全文（含全部需求演变、备份 SHA、时间、测试与部署记录）[原样归档](docs/history/CODEX_HANDOFF-2026-11-11-original.md)；[本次全部整理说明](docs/HANDOFF_SIMPLIFICATION.md)。历史方案若已被后续要求取代，只作追溯，不按旧记录恢复网站。
 
@@ -60,7 +60,7 @@
 | `scripts/library-experience.js` / `styles/library-experience.css` | 收藏/排序、复制及降级、快捷搜索/历史、紧凑列表、返回状态、标签与按压反馈 |
 | `scripts/app.js` | 首页字典、公告时间线、目录筛选、原主题/设置逻辑 |
 | `styles/card-controls.css` | 共用卡片图区、下载平台/渠道滑块及几何修复；`20261022-bugfix1` |
-| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、有效偏好清理/后退恢复、主题预览及终端视觉；JS `20261111-mtf-background1` / CSS `20261111-mtf1` |
+| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、有效偏好清理/后退恢复、主题预览及终端视觉；JS `20261120-mtf-bands1` / CSS `20261111-mtf1` |
 | `styles/mecha.css` / `styles/blackgold.css` | 科技 / 黑金典藏独立视觉；`20261018-mecha1` / `20261018-blackgold1` |
 | `styles/columbina.css` / `styles/furina.css` | 两角色独立视觉；`20261018-columbina1` / `20261023-furina1` |
 | `styles/mtf.css` | 独立 MTF 蓝粉白全屏旗帜背景与五色/深浅/响应式；`20261111-mtf-background1` |
@@ -70,7 +70,7 @@
 | `archive/legacy/minecraft.js` / `archive/legacy/preview.html` | 已标记遗留、正式页面不引用；只归档，不擅自删除 |
 | `README.md` / `docs/ROLLBACK.md` | 项目入口概览 / 历史备份与网站文件回滚说明 |
 
-17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录及增强 JS 保留 `20261111-library1`，增强 CSS 保留 `20261111-style-removal1`；共享风格 CSS 保留 `20261111-mtf1`；共享风格 JS、MTF CSS 及首页 `app.js` 为 `20261111-mtf-background1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入；不要把过往版本号当当前值。
+17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录及增强 JS 保留 `20261111-library1`，增强 CSS 保留 `20261111-style-removal1`；共享风格 CSS 为 `20261111-mtf1`，MTF CSS 为 `20261111-mtf-background1`，共享风格 JS 和首页 `app.js` 为 `20261120-mtf-bands1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入。
 
 旧全面升级的 `site.css`、`site.js`、`scripts/verify-ui.cjs` 已回滚移除；现行共享文件不是把那套升级恢复。未经用户再次要求，不自行引回旧共用体系。
 
@@ -235,6 +235,8 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 | `node tests/removed-style.cjs <URL>` | 删除前后风格清单差异、五个专属文件确实删除、17 页四语言无残留/请求、经典偏好恢复、其余数据保留和存储拒绝 |
 | `node tests/mtf-theme.cjs <URL>` | MTF 旗帜安全源码/哈希、同源按需加载、17 页全屏/滚动构图与滑块、四语言、切换隐藏及失败/超时/迟到恢复 |
 
+MTF 专项通过浏览器截图逐行核对手机、桌面和超宽屏的五条等高横纹，并核对图片失败、超时与迟到恢复时的画面。
+
 浏览器脚本需运行中的本地静态服务器、Playwright 与 Chromium，默认 `/usr/bin/chromium`，可用 `CHROMIUM_PATH` 指定。涉及滑块须测实际指示块几何（已有标准误差 <0.12px），不只测页面无横向溢出；真实图片请求与确定性回退分开验证。历史线上浏览器测试只限定信任当前环境代理 CA 的 SPKI，没有关闭全局 TLS 验证。
 
 每次改动至少核对：
@@ -297,4 +299,11 @@ Minecraft 是持续扩充的内容容器；后续按用户指定类型加卡片�
 - 实现：移除首屏小旗帜框、装饰文字和预留分栏，首屏内容居中；同一原图固定铺满视口，保留五条横纹、不模糊裁切，滚动时仍在内容后方。浅色透明度 0.20、深色 0.22；失败/8 秒超时仍显示同纹 CSS 背景，迟到成功可恢复。
 - 文件：`styles/mtf.css`、`scripts/site-style.js`、17 页对应缓存引用、首页四语言普通公告、专项测试、两份 README 及本文。修改资源版本 `20261111-mtf-background1`；其他主题、源 SVG/许可/哈希、下载与资源库逻辑、存储和历史文档保持不变。
 - 验证与限制：备份已核验；编辑前完成超宽屏 SVG 铺满的浏览器像素试验。随后工作环境断开，改用 GitHub 连接生成同一原子提交；执行 JS 语法解析、单一背景按需/六主题隐藏/四语言来源及失败-超时-迟到恢复逻辑模拟、17 页正文/目的链接及缓存差异检查、MTF 规则隔离和深浅五色 48 项文字/旗帜合成对比度计算（最低约 4.52:1）。专项测试已按全屏/滚动/超宽屏/失败降级更新，但本轮无法运行完整 Playwright 回归或截图验收，不引用上一轮通过数字作为本轮结果。
-- 遗留/决策：环境恢复后应运行 `node tests/mtf-theme.cjs <URL>` 与通用风格回归；真实手机仍需实机确认。不重做素材来源，不恢复已删除主题。
+- 当时待续：MTF 专项与通用风格回归，已于 2026-11-20 补做，见下方记录。
+
+### 2026-11-20：补验整页旗帜并修复横纹重复
+
+- 恢复工作环境后，截图发现旧 SVG 按原始比例留白，在部分屏幕上与 CSS 底层横纹叠加。新增 `pride-flag-viewport.svg` 作为按需加载的显示副本，通过 `preserveAspectRatio="none"` 使五条等高横纹铺满，原图和许可继续存档。同步更新 17 页共享脚本版本、首页四语言公告与素材文档。
+- 修改前完整备份为 **2026-11-20 11:19:59 UTC**。GitHub 分支 `backup/pre-change-2026-11-20_11-19-59_UTC`、带注释标签 `backup-2026-11-20_11-19-59_UTC` 均已核验至 `63ea1bc7b1815a5f0817b7751b8be3ef1e8ac979`。
+- MTF 专项通过 17 页、170 组滚动布局、四语言、1,144 个滑块位置，以及三种屏幕比例与图片失败、超时、迟到恢复的逐行像素检查。通用回归通过 17 页、300 组设定组合、偏好与主题切换。补验期间另通过其他六套主题的 1,020 项对照、资源库 336 组布局及 29 个下载链接复制检查。
+- 手机结果来自 Chromium 模拟视口。真实 iPhone Safari 与 Android 实机验证仍待有设备时完成。素材来源沿用现有记录，已删除主题继续按交接规则维护。
