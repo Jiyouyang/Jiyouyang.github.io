@@ -43,8 +43,8 @@
 :root[data-style="columbina"][data-style][data-theme="dark"][data-accent="orange"] { --accent: #efbc9b; }
 
 html[data-style="columbina"] body { position: relative; isolation: isolate; background: var(--bg); }
-html[data-style="columbina"] body::before { content: ""; position: fixed; z-index: -1; pointer-events: none; inset: 0; background: url('/assets/themes/columbina/character.png') right bottom / min(850px, 100vw) auto no-repeat; opacity: .09; }
-html[data-style="columbina"][data-theme="dark"] body::before { opacity: .055; }
+html[data-style="columbina"] body::before { content: ""; position: fixed; z-index: -1; pointer-events: none; inset: 0; background: url('/assets/themes/columbina/character.png') right bottom / min(850px, 100vw) auto no-repeat; opacity: calc(.09 * var(--backdrop-strength, 1)); }
+html[data-style="columbina"][data-theme="dark"] body::before { opacity: calc(.055 * var(--backdrop-strength, 1)); }
 html[data-style="columbina"] ::selection { background: var(--accent); color: var(--on-accent); }
 html[data-style="columbina"] :is(h1,h2,h3) { overflow-wrap: anywhere; }
 html[data-style="columbina"] :is(a,button,input):focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }

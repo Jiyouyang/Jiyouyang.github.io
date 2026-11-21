@@ -1,7 +1,7 @@
 # CODEX 项目交接文档
 
-> 更新：2026-11-20 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
-> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-20（修复 MTF 背景横纹重复）
+> 更新：2026-11-21 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
+> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-21（手机主题选择器与背景浓度）
 
 本文集中保存现行规则、网站现状和维护入口。精简前全文（含全部需求演变、备份 SHA、时间、测试与部署记录）[原样归档](docs/history/CODEX_HANDOFF-2026-11-11-original.md)；[本次全部整理说明](docs/HANDOFF_SIMPLIFICATION.md)。历史方案若已被后续要求取代，只作追溯，不按旧记录恢复网站。
 
@@ -60,17 +60,17 @@
 | `scripts/library-experience.js` / `styles/library-experience.css` | 收藏/排序、复制及降级、快捷搜索/历史、紧凑列表、返回状态、标签与按压反馈 |
 | `scripts/app.js` | 首页字典、公告时间线、目录筛选、原主题/设置逻辑 |
 | `styles/card-controls.css` | 共用卡片图区、下载平台/渠道滑块及几何修复；`20261022-bugfix1` |
-| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、有效偏好清理/后退恢复、主题预览及终端视觉；JS `20261120-mtf-bands1` / CSS `20261111-mtf1` |
+| `scripts/site-style.js` / `styles/site-style.css` | 风格设置、有效偏好清理/后退恢复、主题预览及终端视觉；JS `20261121-picker1` / CSS `20261121-picker1` |
 | `styles/mecha.css` / `styles/blackgold.css` | 科技 / 黑金典藏独立视觉；`20261018-mecha1` / `20261018-blackgold1` |
-| `styles/columbina.css` / `styles/furina.css` | 两角色独立视觉；`20261018-columbina1` / `20261023-furina1` |
-| `styles/mtf.css` | 独立 MTF 蓝粉白全屏旗帜背景与五色/深浅/响应式；`20261111-mtf-background1` |
+| `styles/columbina.css` / `styles/furina.css` | 两角色独立视觉；`20261121-picker1` / `20261121-picker1` |
+| `styles/mtf.css` | 独立 MTF 蓝粉白全屏旗帜背景与五色/深浅/响应式；`20261121-picker1` |
 | `assets/themes/{columbina,furina,mtf}/` | 角色图/同字节备用及 MTF 公有领域旗帜；来源、许可、哈希见各目录 README |
 | `assets/fonts/` | Apple 字符后备字体、原许可及来源 |
 | `assets/site-cover.jpg` / `site.webmanifest` | 网站/桌面图标与 standalone PWA 信息 |
 | `archive/legacy/minecraft.js` / `archive/legacy/preview.html` | 已标记遗留、正式页面不引用；只归档，不擅自删除 |
 | `README.md` / `docs/ROLLBACK.md` | 项目入口概览 / 历史备份与网站文件回滚说明 |
 
-17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录及增强 JS 保留 `20261111-library1`，增强 CSS 保留 `20261111-style-removal1`；共享风格 CSS 为 `20261111-mtf1`，MTF CSS 为 `20261111-mtf-background1`，共享风格 JS 和首页 `app.js` 为 `20261120-mtf-bands1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入。
+17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录及增强 JS 保留 `20261111-library1`，增强 CSS 保留 `20261111-style-removal1`；共享风格 CSS 为 `20261121-picker1`，MTF CSS 为 `20261121-picker1`，共享风格 JS 和首页 `app.js` 为 `20261121-picker1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入。
 
 旧全面升级的 `site.css`、`site.js`、`scripts/verify-ui.cjs` 已回滚移除；现行共享文件不是把那套升级恢复。未经用户再次要求，不自行引回旧共用体系。
 
@@ -307,3 +307,10 @@ MTF 专项通过浏览器截图逐行核对手机、桌面和超宽屏的五条�
 - 修改前完整备份为 **2026-11-20 11:19:59 UTC**。GitHub 分支 `backup/pre-change-2026-11-20_11-19-59_UTC`、带注释标签 `backup-2026-11-20_11-19-59_UTC` 均已核验至 `63ea1bc7b1815a5f0817b7751b8be3ef1e8ac979`。
 - MTF 专项通过 17 页、170 组滚动布局、四语言、1,144 个滑块位置，以及三种屏幕比例与图片失败、超时、迟到恢复的逐行像素检查。通用回归通过 17 页、300 组设定组合、偏好与主题切换。补验期间另通过其他六套主题的 1,020 项对照、资源库 336 组布局及 29 个下载链接复制检查。
 - 手机结果来自 Chromium 模拟视口。真实 iPhone Safari 与 Android 实机验证仍待有设备时完成。素材来源沿用现有记录，已删除主题继续按交接规则维护。
+
+### 2026-11-21：手机风格选择与背景浓度
+
+- 650px 及以下的设置面板以当前风格预览作为展开按钮。选择后收起并将焦点返回按钮，桌面直接展示七套风格。
+- 哥伦比娅、芙宁娜和 MTF 各支持淡雅、标准、鲜明三档浓度，首次为标准。对应 `jy-backdrop-<风格>` 偏好可跨页恢复，存储受限时在当前页面记忆。设置及普通公告包含四语言。
+- 修改前 GitHub 完整备份时间为 2026-11-21 00:36:25 UTC，分支 `backup/pre-change-2026-11-21_00-36-25_UTC` 和带注释标签 `backup-2026-11-21_00-36-25_UTC` 已核验指向 `0c8b68a822a3cf34cecca11af905941110373163`。
+- 入口见共享风格 JS/CSS、三份背景主题 CSS 和首页公告。浏览器检查见 `tests/theme-picker.cjs`，覆盖 320px 手机键盘、桌面、三主题各档实际透明度、跨页恢复、深浅及四语言。通用风格测试覆盖 17 页和 300 组组合。移动端验证使用 Chromium 模拟视口。

@@ -2,6 +2,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { chromium } = require('playwright');
+const { selectStyle } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 
 (async () => {
@@ -12,9 +13,9 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
     page.on('request', request => { if (request.url().includes('/assets/themes/columbina/')) artRequests.push(request.url()); });
     await page.goto(base + '/');
     await page.locator('#settings-trigger').click();
-    for (const style of ['terminal', 'mecha', 'blackgold', 'classic']) await page.locator('[data-style-choice=' + style + ']').click();
+    for (const style of ['terminal', 'mecha', 'blackgold', 'classic']) await selectStyle(page, '[data-style-choice=' + style + ']');
     assert.deepEqual(artRequests, [], 'Existing styles must not download the character image');
-    await page.locator('[data-style-choice=columbina]').click();
+    await selectStyle(page, '[data-style-choice=columbina]');
     await page.locator('#close-settings').click();
     await page.locator('.columbina-scene img').evaluate(image => image.decode());
     assert.ok(artRequests.length > 0);
@@ -40,20 +41,20 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
         assert.match(await page.locator('.columbina-credit').textContent(), /米游社|米遊社|Miyoushe/);
       }
       for (const style of ['classic', 'terminal', 'mecha', 'blackgold']) {
-        await page.locator('[data-style-choice=' + style + ']').click();
+        await selectStyle(page, '[data-style-choice=' + style + ']');
         assert.equal(await page.locator('.columbina-scene').isVisible(), false);
         assert.equal(await page.locator('.columbina-credit').isVisible(), false);
       }
-      await page.locator('[data-style-choice=columbina]').click();
+      await selectStyle(page, '[data-style-choice=columbina]');
     }
     // Failed artwork leaves a decorative crescent; content and settings still work.
     const fallback = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await fallback.route('**/assets/themes/columbina/character.png', route => route.abort());
     await fallback.goto(base + '/');
     await fallback.locator('#settings-trigger').click();
-    await fallback.locator('[data-style-choice=columbina]').click();
+    await selectStyle(fallback, '[data-style-choice=columbina]');
     await fallback.locator('.columbina-scene.is-unavailable').waitFor({ state: 'attached' });
-    await fallback.locator('[data-style-choice=classic]').click();
+    await selectStyle(fallback, '[data-style-choice=classic]');
     assert.equal(await fallback.locator('html').getAttribute('data-style'), 'classic');
     console.log('PASS: 17 pages, 4 widths, artwork framing/credits, no art requests in other styles, switching and failed-image fallback');
   } finally { await browser.close(); }

@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-21-theme-picker', date: '2026-11-21', type: 'improved', content: {
+      'zh-CN': ['手机主题选择器与背景浓度', ['点「更换风格」展开主题。哥伦比娅、芙宁娜和 MTF 各自记住淡雅、标准或鲜明的背景浓度。']],
+      'zh-TW': ['手機主題選擇器與背景濃度', ['點「更換風格」展開主題。哥倫比婭、芙寧娜和 MTF 分別記住淡雅、標準或鮮明的背景濃度。']],
+      en: ['Mobile style picker and background intensity', ['Tap Change style to see all themes. Columbina, Furina and MTF each remember their own Soft, Standard or Vivid background.']],
+      ja: ['モバイルのスタイル選択と背景の濃さ', ['「スタイル変更」でテーマ一覧を開けます。コロンビーナ、フリーナ、MTF は背景の濃さを個別に記憶します。']]
+    }
+  },
+  {
     id: '2026-11-20-mtf-flag-bands', date: '2026-11-20', type: 'fixed', content: {
       'zh-CN': ['修复 MTF 背景横纹重复', ['MTF 背景在手机竖屏和超宽屏上均铺满视口，完整显示五条等高旗帜横纹。']],
       'zh-TW': ['修復 MTF 背景橫紋重複', ['MTF 背景在手機直向和超寬螢幕上均鋪滿視窗，完整顯示五條等高旗幟橫紋。']],

@@ -28,9 +28,9 @@
 }
 html[data-style="mtf"] body { position: relative; isolation: isolate; background: var(--bg); }
 /* Five equal-height bands fill every viewport; the CSS flag also covers loading failures. */
-html[data-style="mtf"] .mtf-backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; opacity: .20; background: linear-gradient(var(--mtf-sky) 20%, var(--mtf-pink) 20% 40%, #fff 40% 60%, var(--mtf-pink) 60% 80%, var(--mtf-sky) 80%); }
+html[data-style="mtf"] .mtf-backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; opacity: calc(.20 * var(--backdrop-strength, 1)); background: linear-gradient(var(--mtf-sky) 20%, var(--mtf-pink) 20% 40%, #fff 40% 60%, var(--mtf-pink) 60% 80%, var(--mtf-sky) 80%); }
 html[data-style="mtf"] .mtf-backdrop img { display: block; width: 100%; height: 100%; object-fit: fill; }
-html[data-style="mtf"][data-theme="dark"] .mtf-backdrop { opacity: .22; }
+html[data-style="mtf"][data-theme="dark"] .mtf-backdrop { opacity: calc(.22 * var(--backdrop-strength, 1)); }
 html[data-style="mtf"] .mtf-backdrop.is-unavailable img { visibility: hidden; }
 html[data-style="mtf"] ::selection { background: var(--accent); color: var(--on-accent); }
 html[data-style="mtf"] :is(a,button,input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -126,4 +126,10 @@ html[data-style="mtf"] .mtf-credit a { color: var(--muted); text-decoration: und
 }
 @media(prefers-reduced-motion:reduce) {
   html[data-style="mtf"] *, html[data-style="mtf"] *::before, html[data-style="mtf"] *::after { animation: none !important; transition: none !important; }
+}
+/* Keep small text readable against the strongest flag bands. */
+:root.mtf-vivid[data-style="mtf"][data-theme="light"] { --mtf-orange: #8e5030; }
+:root.mtf-vivid[data-style="mtf"][data-theme="dark"] {
+  --muted: #d4e0ef; --mtf-label: #ffcee2;
+  --mtf-blue: #bce8fb; --mtf-violet: #ead6fa; --mtf-orange: #ffdac0;
 }

@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
 const { chromium } = require('playwright');
+const { selectStyle } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const revision = 'a90bef16de8945194a1cb4c27a33ae94276ed60a';
 const current = fs.readFileSync('scripts/site-style.js', 'utf8');
@@ -67,7 +68,7 @@ for (const file of [...pages, 'scripts/site-style.js', 'styles/site-style.css', 
     await page.goto(base + '/');
     await page.locator('#settings-trigger').click();
     for (const style of remaining) {
-      await page.locator('[data-style-choice=' + style + ']').click();
+      await selectStyle(page, '[data-style-choice=' + style + ']');
       assert.equal(await page.locator('html').getAttribute('data-style'), style);
     }
     await page.evaluate(retired => {
@@ -113,7 +114,7 @@ for (const file of [...pages, 'scripts/site-style.js', 'styles/site-style.css', 
     blocked.on('pageerror', error => errors.push(error.message));
     await blocked.goto(base + '/');
     await blocked.locator('#settings-trigger').click();
-    await blocked.locator('[data-style-choice=furina]').click();
+    await selectStyle(blocked, '[data-style-choice=furina]');
     await blocked.evaluate(() => window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })));
     assert.equal(await blocked.locator('html').getAttribute('data-style'), 'furina', 'Blocked storage should preserve in-page switching');
     await denied.close();

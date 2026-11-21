@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 const { chromium } = require('playwright');
+const { selectStyle } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const flag = fs.readFileSync('assets/themes/mtf/pride-flag.svg');
 const path = 'assets/themes/mtf/pride-flag-viewport.svg';
@@ -79,7 +80,7 @@ async function checkStripePixels(page, label) {
     assert.deepEqual(requests, [], 'Existing styles must not request the new flag');
     const links = await page.locator('main a').evaluateAll(elements => elements.map(element => element.href));
     await page.locator('#settings-trigger').click();
-    await page.locator('[data-style-choice=mtf]').click();
+    await selectStyle(page, '[data-style-choice=mtf]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style: 'mtf', theme: 'light', accent: 'blue' });
     await page.locator('#close-settings').click();
     assert.deepEqual(await page.locator('main a').evaluateAll(elements => elements.map(element => element.href)), links);

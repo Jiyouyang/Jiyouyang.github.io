@@ -8,6 +8,22 @@
   const storedStyle = read('jy-style');
   let style = styles.includes(storedStyle) ? storedStyle : 'classic';
   root.dataset.style = style;
+  const illustrated = ['columbina', 'furina', 'mtf'];
+  const strengths = { soft: .5, standard: 1, vivid: 1.35 };
+  const levels = {};
+  function paintStrength() {
+    root.classList.toggle('mtf-vivid', style === 'mtf' && levels.mtf === 'vivid');
+    if (illustrated.includes(style)) root.style.setProperty('--backdrop-strength', strengths[levels[style]]);
+    else root.style.removeProperty('--backdrop-strength');
+  }
+  function applyStrength() {
+    if (illustrated.includes(style)) {
+      const stored = read('jy-backdrop-' + style) || levels[style];
+      levels[style] = Object.hasOwn(strengths, stored) ? stored : 'standard';
+    }
+    paintStrength();
+  }
+  applyStrength();
 
   const copy = {
     'zh-CN': {
@@ -118,13 +134,58 @@
     const section = document.createElement('section');
     section.className = 'setting-block style-setting';
     section.innerHTML = '<h3 class="setting-label" id="style-label" data-style-text="title"></h3>' +
-      '<div class="style-choices" role="group" aria-labelledby="style-label">' +
+      '<button type="button" class="style-picker-toggle" aria-expanded="false" aria-controls="theme-options"><span class="style-preview" aria-hidden="true"><i></i><i></i><i></i></span><strong></strong><span class="picker-action"></span></button>' +
+      '<div class="style-choices" id="theme-options" role="group" aria-labelledby="style-label">' +
       styles.map(name => '<button type="button" class="style-choice" data-style-choice="' + name + '" aria-pressed="false">' +
         '<span class="style-preview style-preview-' + name + '" aria-hidden="true"><i></i><i></i><i></i></span>' +
         '<span class="style-choice-title"><span data-style-text="' + name + '"></span><span class="style-check" aria-hidden="true">✓</span></span>' +
         '<span class="style-choice-description" data-style-text="' + name + 'Description"></span></button>').join('') +
       '</div><p class="style-hint" data-style-text="hint"></p>';
     body.prepend(section);
+    const picker = section.querySelector('.style-picker-toggle');
+    const mobile = matchMedia('(max-width: 650px)');
+    const strengthBlock = document.createElement('section');
+    strengthBlock.className = 'setting-block backdrop-setting';
+    strengthBlock.innerHTML = '<h3 class="setting-label" id="strength-label"></h3><div class="strength-options" role="group" aria-labelledby="strength-label">' +
+      Object.keys(strengths).map(level => '<button type="button" data-strength="' + level + '"></button>').join('') + '</div>';
+    section.after(strengthBlock);
+    const controlsCopy = {
+      'zh-CN': ['更换风格', '收起', '背景浓度', '淡雅', '标准', '鲜明'],
+      'zh-TW': ['更換風格', '收合', '背景濃度', '淡雅', '標準', '鮮明'],
+      en: ['Change style', 'Collapse', 'Background intensity', 'Soft', 'Standard', 'Vivid'],
+      ja: ['スタイル変更', '閉じる', '背景の濃さ', '淡め', '標準', '鮮やか']
+    };
+    function syncPicker() {
+      const labels = controlsCopy[root.lang] || controlsCopy['zh-CN'];
+      const expanded = picker.getAttribute('aria-expanded') === 'true';
+      picker.querySelector('.picker-action').textContent = labels[expanded ? 1 : 0];
+      picker.querySelector('.style-preview').className = 'style-preview style-preview-' + style;
+      picker.querySelector('strong').textContent = (copy[root.lang] || copy['zh-CN'])[style];
+      strengthBlock.hidden = !illustrated.includes(style);
+      strengthBlock.firstElementChild.textContent = labels[2];
+      strengthBlock.querySelectorAll('[data-strength]').forEach((button, index) => {
+        button.textContent = labels[3 + index];
+        button.setAttribute('aria-pressed', String(button.dataset.strength === levels[style]));
+      });
+    }
+    function foldPicker() {
+      picker.setAttribute('aria-expanded', 'false');
+      syncPicker();
+    }
+    picker.addEventListener('click', () => {
+      picker.setAttribute('aria-expanded', String(picker.getAttribute('aria-expanded') !== 'true'));
+      syncPicker();
+    });
+    document.querySelector('#settings').addEventListener('close', foldPicker);
+    mobile.addEventListener('change', foldPicker);
+    strengthBlock.addEventListener('click', event => {
+      const button = event.target.closest('[data-strength]');
+      if (!button || !illustrated.includes(style)) return;
+      levels[style] = button.dataset.strength;
+      write('jy-backdrop-' + style, levels[style]);
+      paintStrength();
+      syncPicker();
+    });
 
     // Native button activation stays in each page script; add standard horizontal
     // tab navigation and a single Tab stop to all download platform/channel lists.
@@ -266,6 +327,7 @@
       syncColumbina(text);
       syncFurina(text);
       syncMtf(text);
+      syncPicker();
       section.querySelectorAll('[data-style-text]').forEach(element => { element.textContent = text[element.dataset.styleText]; });
       section.querySelectorAll('[data-style-choice]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.styleChoice === style));
@@ -277,11 +339,17 @@
 
     section.addEventListener('click', event => {
       const button = event.target.closest('[data-style-choice]');
-      if (!button || button.dataset.styleChoice === style) return;
+      if (!button) return;
+      if (mobile.matches && picker.getAttribute('aria-expanded') === 'true') {
+        foldPicker();
+        picker.focus();
+      }
+      if (button.dataset.styleChoice === style) return;
       savePreferences();
       style = button.dataset.styleChoice;
       const next = savedPreferences(style);
       root.dataset.style = style;
+      applyStrength();
       write('jy-style', style);
       // Reuse existing handlers to keep their in-memory state, ARIA and storage in sync.
       document.querySelector('[data-accent-choice="' + next.accent + '"]')?.click();
@@ -308,6 +376,7 @@
       style = styles.includes(storedStyle) ? storedStyle : 'classic';
       if (storedStyle !== style) write('jy-style', style);
       root.dataset.style = style;
+      applyStrength();
       const next = savedPreferences(style, true);
       document.querySelector('[data-accent-choice="' + next.accent + '"]')?.click();
       document.querySelector('[data-mode="' + next.theme + '"]')?.click();

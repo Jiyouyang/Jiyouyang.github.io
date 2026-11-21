@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
+const { selectStyle } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const testedStyle = process.argv[3] || 'terminal';
 assert.ok(['terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'].includes(testedStyle));
@@ -51,7 +52,7 @@ async function snapshot(page) {
       assert.deepEqual(await snapshot(page), await snapshot(baseline), file + ': classic visuals changed');
       const links = await page.locator('main a').evaluateAll(elements => elements.map(element => element.href));
       await page.locator('#settings-trigger').click();
-      await page.locator('[data-style-choice=' + testedStyle + ']').click();
+      await selectStyle(page, '[data-style-choice=' + testedStyle + ']');
       assert.equal(await page.locator('#settings').evaluate(element => element.open), true, file + ': dialog closed during switch');
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), initial);
       await page.locator('#close-settings').click();
@@ -81,10 +82,10 @@ async function snapshot(page) {
     // Per-style preference isolation across page navigation, plus global language.
     await page.goto(base + '/index.html');
     await page.locator('#settings-trigger').click();
-    await page.locator('[data-style-choice=classic]').click();
+    await selectStyle(page, '[data-style-choice=classic]');
     await page.locator('[data-accent-choice=blue]').click();
     await page.locator('[data-mode=light]').click();
-    await page.locator('[data-style-choice=terminal]').click();
+    await selectStyle(page, '[data-style-choice=terminal]');
     await page.locator('[data-accent-choice=violet]').click();
     await page.locator('[data-mode=dark]').click();
     await page.locator('[data-language=en]').click();
@@ -92,63 +93,63 @@ async function snapshot(page) {
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'violet', style: 'terminal' });
     await page.locator('#settings-trigger').click();
     assert.equal(await page.locator('#style-label').textContent(), 'Visual style');
-    await page.locator('[data-style-choice=classic]').click();
+    await selectStyle(page, '[data-style-choice=classic]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'blue', style: 'classic' });
     assert.equal(await page.locator('html').getAttribute('lang'), 'en');
-    await page.locator('[data-style-choice=terminal]').click();
+    await selectStyle(page, '[data-style-choice=terminal]');
     assert.equal(await page.locator('html').getAttribute('data-accent'), 'violet');
     console.log('PASS preference isolation and cross-page language');
 
-    await page.locator('[data-style-choice=mecha]').click();
+    await selectStyle(page, '[data-style-choice=mecha]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'orange', style: 'mecha' });
     await page.locator('[data-accent-choice=green]').click();
     await page.goto(base + '/genshin-download.html');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'green', style: 'mecha' });
     await page.locator('#settings-trigger').click();
-    await page.locator('[data-style-choice=terminal]').click();
+    await selectStyle(page, '[data-style-choice=terminal]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'violet', style: 'terminal' });
-    await page.locator('[data-style-choice=classic]').click();
+    await selectStyle(page, '[data-style-choice=classic]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'blue', style: 'classic' });
-    await page.locator('[data-style-choice=mecha]').click();
+    await selectStyle(page, '[data-style-choice=mecha]');
     assert.equal(await page.locator('html').getAttribute('data-accent'), 'green');
-    await page.locator('[data-style-choice=blackgold]').click();
+    await selectStyle(page, '[data-style-choice=blackgold]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'orange', style: 'blackgold' });
     await page.locator('[data-accent-choice=blue]').click();
     await page.goto(base + '/minecraft-download.html');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'blue', style: 'blackgold' });
     await page.locator('#settings-trigger').click();
     for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark']]) {
-      await page.locator('[data-style-choice=' + style + ']').click();
+      await selectStyle(page, '[data-style-choice=' + style + ']');
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
-    await page.locator('[data-style-choice=columbina]').click();
+    await selectStyle(page, '[data-style-choice=columbina]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'blue', style: 'columbina' });
     await page.locator('[data-accent-choice=violet]').click();
     await page.locator('[data-mode=dark]').click();
     await page.goto(base + '/minecraft-mods.html');
     await page.locator('#settings-trigger').click();
     for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark'], ['columbina', 'violet', 'dark']]) {
-      await page.locator('[data-style-choice=' + style + ']').click();
+      await selectStyle(page, '[data-style-choice=' + style + ']');
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
-    await page.locator('[data-style-choice=furina]').click();
+    await selectStyle(page, '[data-style-choice=furina]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'dark', accent: 'blue', style: 'furina' });
     await page.locator('[data-accent-choice=green]').click();
     await page.locator('[data-mode=light]').click();
     await page.goto(base + '/minecraft-download.html');
     await page.locator('#settings-trigger').click();
     for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark'], ['columbina', 'violet', 'dark'], ['furina', 'green', 'light']]) {
-      await page.locator('[data-style-choice=' + style + ']').click();
+      await selectStyle(page, '[data-style-choice=' + style + ']');
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
-    await page.locator('[data-style-choice=mtf]').click();
+    await selectStyle(page, '[data-style-choice=mtf]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style: 'mtf', theme: 'light', accent: 'blue' });
     await page.locator('[data-accent-choice=orange]').click();
     await page.locator('[data-mode=dark]').click();
     await page.goto(base + '/minecraft-china.html');
     await page.locator('#settings-trigger').click();
     for (const [style, accent, theme] of [['classic', 'blue', 'light'], ['terminal', 'violet', 'dark'], ['mecha', 'green', 'light'], ['blackgold', 'blue', 'dark'], ['columbina', 'violet', 'dark'], ['furina', 'green', 'light'], ['mtf', 'orange', 'dark']]) {
-      await page.locator('[data-style-choice=' + style + ']').click();
+      await selectStyle(page, '[data-style-choice=' + style + ']');
       assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style, accent, theme });
     }
     console.log('PASS all seven styles keep independent preferences');
@@ -159,14 +160,14 @@ async function snapshot(page) {
       window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
     });
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { theme: 'light', accent: 'orange', style: 'classic' });
-    await page.locator('[data-style-choice=terminal]').click();
+    await selectStyle(page, '[data-style-choice=terminal]');
     console.log('PASS back/forward cache preference restoration');
 
     // Palette contrast and translated settings for every accent/language/mode combination.
     for (const file of ['index.html', 'minecraft.html', 'minecraft-launchers.html', 'genshin-download.html', 'minecraft-seed.html']) {
       await page.goto(base + '/' + file);
       await page.locator('#settings-trigger').click();
-      await page.locator('[data-style-choice=' + testedStyle + ']').click();
+      await selectStyle(page, '[data-style-choice=' + testedStyle + ']');
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.locator('[data-language="' + language + '"]').click();
         assert.equal(await page.locator('[data-style-text=mecha]').textContent(), { 'zh-CN': '科技', 'zh-TW': '科技', en: 'Technology', ja: 'テクノロジー' }[language]);
@@ -248,8 +249,8 @@ async function snapshot(page) {
     deniedPage.on('pageerror', error => problems.push('storage denied: ' + error.message));
     await deniedPage.goto(base + '/index.html');
     await deniedPage.locator('#settings-trigger').click();
-    await deniedPage.locator('[data-style-choice=' + testedStyle + ']').click();
-    await deniedPage.locator('[data-style-choice=classic]').click();
+    await selectStyle(deniedPage, '[data-style-choice=' + testedStyle + ']');
+    await selectStyle(deniedPage, '[data-style-choice=classic]');
     assert.equal(await deniedPage.locator('html').getAttribute('data-style'), 'classic');
     await denied.close();
     assert.deepEqual(problems, []);
