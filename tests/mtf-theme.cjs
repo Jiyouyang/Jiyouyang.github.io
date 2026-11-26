@@ -164,7 +164,7 @@ async function checkStripePixels(page, label) {
       assert.ok(await failure.locator('.mtf-backdrop').isVisible());
       assert.equal(await failure.locator('.mtf-backdrop img').isVisible(), false);
       assert.ok(await failure.locator('.hero h1').isVisible());
-      assert.equal(await failure.locator('.resource-card').count(), 14);
+      assert.equal(await failure.locator('.resource-card').count(), 15);
       await checkStripePixels(failure, mode + ' CSS fallback');
       if (mode === 'timeout') {
         released = true;

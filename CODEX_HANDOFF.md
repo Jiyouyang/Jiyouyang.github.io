@@ -1,7 +1,7 @@
 # CODEX 项目交接文档
 
-> 更新：2026-11-21 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
-> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-21（手机主题选择器与背景浓度）
+> 更新：2026-11-26 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
+> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-26（头像工坊资源卡片）
 
 本文集中保存现行规则、网站现状和维护入口。精简前全文（含全部需求演变、备份 SHA、时间、测试与部署记录）[原样归档](docs/history/CODEX_HANDOFF-2026-11-11-original.md)；[本次全部整理说明](docs/HANDOFF_SIMPLIFICATION.md)。历史方案若已被后续要求取代，只作追溯，不按旧记录恢复网站。
 
@@ -32,13 +32,14 @@
 
 纯静态 HTML/CSS/原生 JavaScript，无框架、构建步骤、后端或账户同步；GitHub Pages 从 `main` 根目录发布，`.nojekyll` 保留。网站只做资源分享，不恢复已移除的博客。正式 HTML 保留根目录 URL；新 JS 放 `scripts/`、共享 CSS 放 `styles/`、维护文档优先放 `docs/`、图片/字体放 `assets/`。
 
-### 17 个正式页面
+### 18 个正式页面
 
 下表脚本路径均位于 `scripts/`；各页仍维护自身基础样式、翻译、设置和弹窗，不能漏改同类页面。
 
 | HTML | 页面职责 | 对应脚本 |
 | --- | --- | --- |
 | `index.html` | 首页、筛选、精选、公告与设置 | `app.js` |
+| `avatar.html` | 头像工坊独立编辑页 | `avatar.js` |
 | `computer-tools.html` | 十张工具整卡外链 | `computer-tools.js` |
 | `minecraft.html` | 六张 Minecraft 站内入口 | `minecraft-hub.js` |
 | `minecraft-download.html` | 基岩版 Windows / Android | `minecraft-download.js` |
@@ -56,7 +57,7 @@
 
 | 文件 | 职责 / 当前版本 |
 | --- | --- |
-| `scripts/resource-catalog.js` | `window.JYCatalog`：原 14 项首页资源（`home: true`）及 28 项专区镜像；四语言、来源、平台、别名 |
+| `scripts/resource-catalog.js` | `window.JYCatalog`：15 项首页资源（`home: true`）及 28 项专区镜像；四语言、来源、平台、别名 |
 | `scripts/library-experience.js` / `styles/library-experience.css` | 收藏/排序、复制及降级、快捷搜索/历史、紧凑列表、返回状态、标签与按压反馈 |
 | `scripts/app.js` | 首页字典、公告时间线、目录筛选、原主题/设置逻辑 |
 | `styles/card-controls.css` | 共用卡片图区、下载平台/渠道滑块及几何修复；`20261022-bugfix1` |
@@ -70,7 +71,7 @@
 | `archive/legacy/minecraft.js` / `archive/legacy/preview.html` | 已标记遗留、正式页面不引用；只归档，不擅自删除 |
 | `README.md` / `docs/ROLLBACK.md` | 项目入口概览 / 历史备份与网站文件回滚说明 |
 
-17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录及增强 JS 保留 `20261111-library1`，增强 CSS 保留 `20261111-style-removal1`；共享风格 CSS 为 `20261121-picker1`，MTF CSS 为 `20261121-picker1`，共享风格 JS 和首页 `app.js` 为 `20261121-picker1`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入。
+17 页均加载共享样式和风格脚本。`site-style.js` 在 `<head>`、正文绘制前恢复风格；底部先加载资源目录，再加载增强脚本，最后原页面脚本。目录版本为 `20261126-avatar-card`，增强 JS 为 `20261111-library1`，增强 CSS 保留 `20261111-style-removal1`；共享风格 CSS 为 `20261121-picker1`，MTF CSS 为 `20261121-picker1`，共享风格 JS 为 `20261121-picker1`，首页 `app.js` 为 `20261126-avatar-card`。改哪个运行文件就同步更新所有引用页的版本，新页面也须接入。
 
 旧全面升级的 `site.css`、`site.js`、`scripts/verify-ui.cjs` 已回滚移除；现行共享文件不是把那套升级恢复。未经用户再次要求，不自行引回旧共用体系。
 
@@ -78,9 +79,9 @@
 
 ### 首页与资源库
 
-- 品牌 Jiyouyang，固定液态玻璃导航含居中“资源分享”、搜索和齿轮“网站设置”（不再叫“外观”）；搜索与设置留距离，手机两按钮点按区域均为 44px，窄屏设置可只显示齿轮但保留可访问名称。
-- 首页 14 项资源：Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地、电脑工具、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I use、SteamDB。前六项按此顺序在前，五个游戏入口均进入站内专区；简介反映实际内容，并保留“崩铁”“终末地”等检索词。
-- 分类为“全部、开发、学习、工具、游戏”，实际四类；`tools` 已合并电脑工具、Jisho 与 Can I use，不再保留两个同名工具筛选。只把首页分类叫“工具”，不因此改掉“电脑工具”专区/卡片名称，仍可扩展手机工具。
+- 品牌 Jiyouyang，首页固定液态玻璃导航中央留白，保留品牌、搜索和齿轮“网站设置”（不再叫“外观”）；搜索与设置留距离，手机两按钮点按区域均为 44px，窄屏设置可只显示齿轮但保留可访问名称。
+- 首页 15 项资源：头像工坊、Minecraft、原神、绝区零、崩坏：星穹铁道、明日方舟：终末地、电脑工具、MDN、GitHub、Apple Developer、freeCodeCamp、JLPT、Jisho、Can I use、SteamDB。前六项按此顺序在前，五个游戏入口均进入站内专区；简介反映实际内容，并保留“崩铁”“终末地”等检索词。
+- 分类为“全部、开发、学习、工具、游戏”，实际四类；`tools` 包含头像工坊、电脑工具、Jisho 与 Can I use，不再保留两个同名工具筛选。只把首页分类叫“工具”，不因此改掉“电脑工具”专区/卡片名称，仍可扩展手机工具。
 - 首页搜索栏即时筛选名称、用途/简介、域名、分类；导航搜索打开全站面板，支持 MC 等别名、分类结果、收藏/推荐、最近六条已执行搜索。Ctrl/⌘+K 或 / 打开，上下键选择、Enter 打开、Esc 关闭并恢复滚动/焦点；不叠在设置弹窗上。
 - 卡片收藏/复制控件放在链接外，避免嵌套交互；“我的常用”支持取消与排序，不足两项退出排序。来源/平台标签区分站内专区、站内选择、官方、第三方和社区项目；不将非官方项目标成官方。
 - 首页大卡片/紧凑列表可切换；收藏、顺序与布局刷新后保留，跨页/标签页同步。复制下载链接随当前可见平台按钮的地址、文字与数量更新，点击时读实际链接；复制失败提供可选中的手动复制链接。返回资源库恢复筛选、词和位置，反馈与按压尊重减少动态效果。
@@ -319,3 +320,11 @@ MTF 专项通过浏览器截图逐行核对手机、桌面和超宽屏的五条�
 
 首页导航新增独立入口 avatar.html，scripts/avatar.js 与 styles/avatar.css 负责本地图片解码、Canvas 贴纸绘制和原尺寸 PNG 导出。补充四语言入口、资源索引、公告与 README。以 375px 宽 Chromium 从首页进入，上传 1200×800 图片，切换旗帜、缎带与位置，验证下载尺寸及叠加像素。
 备份时间 2026-11-26_10-23-06_UTC，分支 backup/pre-change-2026-11-26_10-23-06_UTC，带注释标签 backup-2026-11-26_10-23-06_UTC，基线 35f4c3570eabd277a9228d9a10a6c9f4ebfe8284。
+
+### 2026-11-26 · 将头像工坊移入首页资源库
+
+首页导航中央留白。「头像工坊」与游戏专区共用资源卡片，在「全部」和「工具」中显示，同页签进入 `avatar.html`。后续维护先读本文，再按第一节备份、验证、记录和发布。
+
+编辑前完整备份于 2026-11-26 10:36:50 UTC，远端分支 `backup/pre-change-2026-11-26_10-36-50_UTC` 和带注释标签 `backup-2026-11-26_10-36-50_UTC` 均已核验至 `ce9079a086056fb05f877366fa41ca294051e87d`。
+
+变更涉及首页导航、资源目录、四语言更新公告、各引用页缓存版本、README 与测试预期。本地 Chromium 已验证首页卡片跳转、四语言工具筛选及七主题布局，另检查四语言 × 三种外观 × 五种配色下的新公告与入口。

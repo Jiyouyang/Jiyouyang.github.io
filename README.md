@@ -6,7 +6,7 @@
 
 ## 功能
 
-- 首页导航「头像工坊」进入独立编辑页，支持本地选图、拖放旗帜贴纸和原尺寸 PNG 导出。
+- 首页资源库「全部」与「工具」中的「头像工坊」卡片进入独立编辑页，支持本地选图、拖放旗帜贴纸和原尺寸 PNG 导出。
 
 - 开发、学习、工具、游戏四类资源与“全部”筛选
 - 首页“电脑工具”卡片进入独立专区，专区内可整卡前往 Google Chrome、Python、Steam、图吧工具箱、IDM、Watt 工具箱和 v2rayN 的官方页面，以及 IDM_Cracker GitHub 项目、The Pirate Bay 和 Nyaa 的原站
@@ -26,11 +26,11 @@
 
 ## 内容维护
 
-共享资源目录位于 `scripts/resource-catalog.js` 的 `window.JYCatalog`，包括原有 14 项首页资源（`home: true`）与 28 项专区卡片。首页 `scripts/app.js` 从目录筛出首页资源，公告仍位于该文件的 `announcements` 数组。每项资源包含链接、域名、分类、封面字符、四语言标题/说明、来源类型、平台及别名。专区卡片文案修改时，同步更新目录镜像；`tests/library-experience.cjs` 核对四语言一致性。
+共享资源目录位于 `scripts/resource-catalog.js` 的 `window.JYCatalog`，包括15 项首页资源（`home: true`）与 28 项专区卡片。首页 `scripts/app.js` 从目录筛出首页资源，公告仍位于该文件的 `announcements` 数组。每项资源包含链接、域名、分类、封面字符、四语言标题/说明、来源类型、平台及别名。专区卡片文案修改时，同步更新目录镜像；`tests/library-experience.cjs` 核对四语言一致性。
 
 `scripts/library-experience.js` 负责收藏、排序、复制链接、快捷搜索、搜索历史、紧凑列表与返回位置恢复；视觉补充集中在 `styles/library-experience.css`。17 页均先加载资源目录、再加载增强脚本、最后加载原页面脚本。收藏与偏好只存于当前浏览器，不涉及账号或外部同步；禁止存储时降级为本页临时使用，自动复制失败时提供可选中的链接。复制下载链接会跟随当前平台与可见按钮更新。
 
-首页筛选共四类：开发、学习、工具、游戏（另有“全部”）。工具类统一包含电脑工具专区、Jisho 与 Can I use，避免同名筛选分散资源。下载页平台/渠道栏支持左右方向键、Home/End 与单一 Tab 焦点入口；原有鼠标及触屏交互不变。iOS 图标继续使用原生 Apple 字符和镂空样式，非 Apple 字体环境由 `assets/fonts/` 中的 OFL 单字形字体兼容。
+首页筛选共四类：开发、学习、工具、游戏（另有“全部”）。工具类统一包含头像工坊、电脑工具专区、Jisho 与 Can I use，避免同名筛选分散资源。下载页平台/渠道栏支持左右方向键、Home/End 与单一 Tab 焦点入口；原有鼠标及触屏交互不变。iOS 图标继续使用原生 Apple 字符和镂空样式，非 Apple 字体环境由 `assets/fonts/` 中的 OFL 单字形字体兼容。
 
 Minecraft 正式入口为 `minecraft.html`，子页面是 `minecraft-download.html`、`minecraft-china.html`、`minecraft-mods.html`、`minecraft-launchers.html`、`minecraft-mobile.html` 和 `minecraft-seed.html`。国服下载页的 Android、Windows 与 iOS 选项卡只切换内容，下载按钮分别前往网易官方下载入口与中国区 App Store。种子查询页不设选项卡，两个并列按钮分别前往 Minecraft Search 与 Chunkbase。对应逻辑集中在 `scripts/`（专区使用 `scripts/minecraft-hub.js`，国服下载页使用 `scripts/minecraft-china.js`，种子查询页使用 `scripts/minecraft-seed.js`）。电脑工具专区位于 `computer-tools.html`，四语言与设置逻辑位于 `scripts/computer-tools.js`。原神、绝区零、崩铁与终末地专区及下载页逻辑同样位于 `scripts/`。旧版 `minecraft.js` 与 `preview.html` 已归档到 `archive/legacy/`，不参与正式页面。详细维护约定见 `CODEX_HANDOFF.md`。
 

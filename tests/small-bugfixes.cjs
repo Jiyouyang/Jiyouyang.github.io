@@ -20,11 +20,11 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
       assert.equal(await page.locator('[data-category]').count(), 5);
       await page.locator('[data-category=tools]').click();
       assert.deepEqual(await page.locator('.resource-card').evaluateAll(es => es.map(e => e.getAttribute('href')).sort()),
-        ['/computer-tools.html', 'https://caniuse.com/', 'https://jisho.org/'].sort());
+        ['/avatar.html', '/computer-tools.html', 'https://caniuse.com/', 'https://jisho.org/'].sort());
       await page.locator('[data-category=all]').click();
       assert.deepEqual(await page.locator('.resource-card').evaluateAll(es => es.map(e => e.getAttribute('href')).sort()), destinations);
     }
-    assert.equal(destinations.length, 14, 'All existing resources stay available');
+    assert.equal(destinations.length, 15, 'All existing resources stay available');
 
     let downloadPages = 0;
     for (const file of fs.readdirSync('.').filter(file => file.endsWith('.html'))) {
@@ -79,6 +79,6 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
     await page.locator('.platform-tabs').screenshot({ path: '/tmp/fixed-ios-tabs.png' });
     await page.locator('#platform-art').screenshot({ path: '/tmp/fixed-ios-art.png' });
     assert.deepEqual(errors, []);
-    console.log('PASS four-language unified Tools; all 14 resources; 9 keyboard tablists; mouse/keyboard sync; native-character outline with actual fallback glyph; 7 theme layouts');
+    console.log('PASS four-language unified Tools; all 15 resources; 9 keyboard tablists; mouse/keyboard sync; native-character outline with actual fallback glyph; 7 theme layouts');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

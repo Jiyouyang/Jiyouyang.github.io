@@ -1,8 +1,8 @@
 const i18n = {
   'zh-CN': {
     'meta.title': 'Jiyouyang · 好用的，值得分享。',
-    'meta.description': 'Jiyouyang 的精选资源分享站。收藏开发、学习、工具与游戏资源。',
-    'nav.avatar': '头像工坊', 'nav.label': '主导航', 'nav.resources': '资源分享', 'nav.search': '搜索资源',
+    'meta.description': 'Jiyouyang 的精选资源分享站。收藏开发、学习、工具与游戏资源。 在首页资源库的「工具」分类中点击头像工坊卡片即可进入。',
+    'nav.label': '主导航', 'nav.search': '搜索资源',
     'announcement.label': '公告',
     'hero.line1': '好用的，', 'hero.line2': '值得分享。',
     'hero.intro': '认真收藏每一个好工具与好入口。<br>少一点寻找，多一点创造。',
@@ -24,8 +24,8 @@ const i18n = {
   },
   'zh-TW': {
     'meta.title': 'Jiyouyang · 好用的，值得分享。',
-    'meta.description': 'Jiyouyang 的精選資源分享站。收藏開發、學習、工具與遊戲資源。',
-    'nav.avatar': '頭像工坊', 'nav.label': '主導覽', 'nav.resources': '資源分享', 'nav.search': '搜尋資源',
+    'meta.description': 'Jiyouyang 的精選資源分享站。收藏開發、學習、工具與遊戲資源。 在首頁資源庫的「工具」分類中點選頭像工坊卡片即可進入。',
+    'nav.label': '主導覽', 'nav.search': '搜尋資源',
     'announcement.label': '公告',
     'hero.line1': '好用的，', 'hero.line2': '值得分享。',
     'hero.intro': '認真收藏每一個好工具與好入口。<br>少一點尋找，多一點創造。',
@@ -47,8 +47,8 @@ const i18n = {
   },
   en: {
     'meta.title': 'Jiyouyang · Useful things, shared.',
-    'meta.description': 'Jiyouyang’s curated collection of development, learning, utility, and gaming resources.',
-    'nav.avatar': 'Avatar Studio', 'nav.label': 'Main navigation', 'nav.resources': 'Resources', 'nav.search': 'Search resources',
+    'meta.description': 'Jiyouyang’s curated collection of development, learning, utility, and gaming resources. Open the Avatar Studio card under Tools in the homepage library.',
+    'nav.label': 'Main navigation', 'nav.search': 'Search resources',
     'announcement.label': 'Updates',
     'hero.line1': 'Useful things,', 'hero.line2': 'worth sharing.',
     'hero.intro': 'A considered collection of useful tools and places.<br>Spend less time searching and more time creating.',
@@ -70,8 +70,8 @@ const i18n = {
   },
   ja: {
     'meta.title': 'Jiyouyang · 便利なものを、分かち合う。',
-    'meta.description': '開発、学習、ツール、ゲームの厳選リソースを集めた Jiyouyang のサイトです。',
-    'nav.avatar': 'アイコン工房', 'nav.label': 'メインナビゲーション', 'nav.resources': 'リソース', 'nav.search': 'リソースを検索',
+    'meta.description': '開発、学習、ツール、ゲームの厳選リソースを集めた Jiyouyang のサイトです。 ホームのリソース一覧で「ツール」を選び、アイコン工房のカードを開けます。',
+    'nav.label': 'メインナビゲーション', 'nav.search': 'リソースを検索',
     'announcement.label': 'お知らせ',
     'hero.line1': '便利なものを、', 'hero.line2': '分かち合う。',
     'hero.intro': '役立つツールと入口を、丁寧に集めました。<br>探す時間を減らして、つくる時間を増やそう。',
@@ -98,6 +98,37 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  {
+    "id": "2026-11-26-avatar-card",
+    "date": "2026-11-26",
+    "type": "improved",
+    "content": {
+      "zh-CN": [
+        "头像工坊移入资源库",
+        [
+          "在首页资源库的「工具」分类中点击头像工坊卡片即可进入。"
+        ]
+      ],
+      "zh-TW": [
+        "頭像工坊移入資源庫",
+        [
+          "在首頁資源庫的「工具」分類中點選頭像工坊卡片即可進入。"
+        ]
+      ],
+      "en": [
+        "Avatar Studio moved to the library",
+        [
+          "Open the Avatar Studio card under Tools in the homepage library."
+        ]
+      ],
+      "ja": [
+        "アイコン工房をリソース一覧に移動",
+        [
+          "ホームのリソース一覧で「ツール」を選び、アイコン工房のカードを開けます。"
+        ]
+      ]
+    }
+  },
   {"id": "2026-11-26-avatar", "date": "2026-11-26", "type": "added", "content": {"zh-CN": ["头像工坊", ["为头像添加旗帜贴纸，按原图尺寸保存 PNG。"]], "zh-TW": ["頭像工坊", ["為頭像加入旗幟貼紙，依原圖尺寸儲存 PNG。"]], "en": ["Avatar Studio", ["Add a flag sticker to a photo and save a full-resolution PNG."]], "ja": ["アイコン工房", ["写真に旗ステッカーを添えて、元のサイズの PNG で保存。"]]}},
   {
     id: '2026-11-21-theme-picker', date: '2026-11-21', type: 'improved', content: {
