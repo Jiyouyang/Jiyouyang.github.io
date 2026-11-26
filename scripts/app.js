@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-26-section-path', date: '2026-11-26', type: 'added', content: {
+      'zh-CN': ['专区顶部显示当前位置', ['进入专区或详情页后，点顶部路径中的首页或专区名即可返回。']],
+      'zh-TW': ['專區頂部顯示目前位置', ['進入專區或詳情頁後，點頂部路徑中的首頁或專區名稱即可返回。']],
+      en: ['Section navigation paths', ['From a section or detail page, select Home or a parent section in the path to return there.']],
+      ja: ['ページ上部に現在地を表示', ['セクションや詳細ページでは、パスのホームまたは親セクションを選ぶと戻れます。']]
+    }
+  },
+  {
     "id": "2026-11-26-avatar-card",
     "date": "2026-11-26",
     "type": "improved",
