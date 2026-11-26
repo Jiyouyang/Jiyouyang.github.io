@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-26-jyos2', date: '2026-11-26', type: 'added', content: {
+    'zh-CN': ['JY//OS 快捷操作更新', ['点导航栏搜索按钮或按 Ctrl/⌘ + K 查找资源和命令。下载页可记住平台，页面顶部可查看阅读进度。']],
+    'zh-TW': ['JY//OS 快捷操作更新', ['點導覽列搜尋按鈕或按 Ctrl/⌘ + K 尋找資源和指令。下載頁可記住平台，頁首可查看閱讀進度。']],
+    en: ['JY//OS command palette', ['Use the search button or Ctrl/⌘ + K for resources and commands. Download pages remember your platform. Track reading progress at the top.']],
+    ja: ['JY//OS のクイック操作', ['検索ボタンまたは Ctrl/⌘ + K でリソースとコマンドを検索できます。ダウンロード先を記憶し、ページ上部に読了位置を表示します。']]
+  } },
   {
     id: '2026-11-26-jyos', date: '2026-11-26', type: 'added', content: {
       'zh-CN': ['JY//OS 控制台主题上线', ['首次访问默认使用 JY//OS，首页加入状态面板与网格背景。在网站设置中可切换八套风格。']],
