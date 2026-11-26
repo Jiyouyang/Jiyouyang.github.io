@@ -21,7 +21,7 @@ assert.ok(selectedPages.length && selectedPages.every(file => pages.includes(fil
     for (const file of selectedPages) {
       await page.goto(base + '/' + file);
       await page.locator('#settings-trigger').click();
-      for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']) {
+      for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf', 'tech']) {
         await selectStyle(page, '[data-style-choice=' + style + ']');
         for (const width of [320, 390, 768, 1440]) {
           await page.setViewportSize({ width, height: 844 });

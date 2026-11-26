@@ -17,7 +17,7 @@ const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mt
     page.on('request', request => { if (request.url() === art || request.url().includes('/assets/themes/furina/')) requests.push(request.url()); });
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base + '/');
-    assert.deepEqual(await page.locator('[data-style-choice]').evaluateAll(es => es.map(e => e.dataset.styleChoice)), ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']);
+    assert.deepEqual(await page.locator('[data-style-choice]').evaluateAll(es => es.map(e => e.dataset.styleChoice)), ['tech', 'classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']);
     for (const style of oldStyles) await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
     assert.deepEqual(requests, [], 'Old styles must not request Furina art');
     await page.evaluate(() => document.querySelector('[data-style-choice=furina]').click());

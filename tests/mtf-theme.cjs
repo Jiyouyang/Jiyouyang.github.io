@@ -13,7 +13,7 @@ assert.match(flag.toString(), /viewBox="0 0 800 480"/);
 for (const color of ['#5BCEFA', '#F5A9B8', '#FFF']) assert.ok(flag.includes(color));
 assert.doesNotMatch(flag.toString(), /<script|href=|\bon\w+=/i);
 assert.equal(fs.readFileSync(path, 'utf8'), flag.toString().replace('viewBox="0 0 800 480"', 'viewBox="0 0 800 480" preserveAspectRatio="none"'));
-const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
+const styles = ['tech', 'classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
 const oldStyles = styles.filter(style => style !== 'mtf');
 
 async function checkBackdrop(page, label) {

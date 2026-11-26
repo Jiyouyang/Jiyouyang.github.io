@@ -46,10 +46,10 @@ const base = process.argv[2] || 'http://127.0.0.1:8766';
     }
     await toggle.focus();
     await page.keyboard.press('Enter');
-    assert.equal(await page.locator('.style-choice:visible').count(), 7);
+    assert.equal(await page.locator('.style-choice:visible').count(), 8);
     await page.setViewportSize({ width: 1100, height: 800 });
     assert.equal(await toggle.isVisible(), false);
-    assert.equal(await page.locator('.style-choice:visible').count(), 7);
+    assert.equal(await page.locator('.style-choice:visible').count(), 8);
     await selectStyle(page, '[data-style-choice=classic]');
     assert.equal(await page.locator('.backdrop-setting').isVisible(), false);
     console.log('PASS mobile disclosure, keyboard, desktop list, four languages and per-theme intensity across pages and modes');

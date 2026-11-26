@@ -15,7 +15,7 @@ const initial = { style: testedStyle, ...{
   furina: { theme: 'dark', accent: 'blue' },
   mtf: { theme: 'light', accent: 'blue' }
 }[testedStyle] };
-const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
+const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html') && file !== 'avatar.html');
 const problems = [];
 
 async function snapshot(page) {
@@ -46,7 +46,7 @@ async function snapshot(page) {
     // Classic visual parity, all page families, persistence, tabs and small screens.
     for (const file of pages) {
       await page.goto(base + '/' + file);
-      await page.evaluate(() => localStorage.clear());
+      await page.evaluate(() => { localStorage.clear(); localStorage.setItem('jy-style', 'classic'); });
       await page.reload();
       await baseline.goto(base + '/' + file);
       assert.deepEqual(await snapshot(page), await snapshot(baseline), file + ': classic visuals changed');

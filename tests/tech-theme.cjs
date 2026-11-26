@@ -1,0 +1,42 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const { chromium } = require('playwright');
+const { selectStyle } = require('./select-style.cjs');
+const base = process.argv[2] || 'http://127.0.0.1:8767';
+(async () => {
+  const args = ['--no-sandbox'];
+  if (process.env.TRUSTED_PROXY_SPKI) args.push('--ignore-certificate-errors-spki-list=' + process.env.TRUSTED_PROXY_SPKI);
+  const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args });
+  try {
+    const page = await browser.newPage({ viewport: { width: 320, height: 780 }, reducedMotion: 'reduce' });
+    const errors = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await page.goto(base);
+    assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+    assert.equal(await page.locator('.hud').count(), 1);
+    await page.locator('#settings-trigger').click();
+    assert.equal(await page.locator('[data-style-choice]').first().getAttribute('data-style-choice'), 'tech');
+    await selectStyle(page, '[data-style-choice=classic]');
+    assert.equal(await page.locator('.hud').count(), 0);
+    await page.reload();
+    assert.equal(await page.locator('html').getAttribute('data-style'), 'classic');
+    await page.locator('#settings-trigger').click();
+    await selectStyle(page, '[data-style-choice=tech]');
+    await page.locator('[data-mode=light]').click();
+    const files = fs.readdirSync('.').filter(f => f.endsWith('.html'));
+    for (const width of [320, 390, 1440]) {
+      await page.setViewportSize({ width, height: 820 });
+      for (const file of files) {
+        await page.goto(base + '/' + file, {waitUntil:'domcontentloaded'});
+        assert.equal(await page.locator('html').getAttribute('data-style'), 'tech', file);
+        assert.equal(await page.locator('html').getAttribute('data-theme'), 'light', file);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), file + '/' + width + ' overflow');
+      }
+    }
+    await page.goto(base + '/genshin-download.html');
+    await page.locator('[data-platform=windows]').click();
+    assert.match(await page.locator('.download-button:visible').first().getAttribute('href'), /hoyoplay\.hoyoverse\.com/);
+    assert.deepEqual(errors, []);
+    console.log('PASS JY//OS default, picker order, preference persistence, HUD lifecycle, Windows download and widths on ' + files.length + ' pages');
+  } finally { await browser.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });

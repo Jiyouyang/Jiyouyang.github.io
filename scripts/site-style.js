@@ -4,9 +4,17 @@
   const root = document.documentElement;
   const read = key => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
-  const styles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
+  const styles = ['tech', 'classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf'];
   const storedStyle = read('jy-style');
-  let style = styles.includes(storedStyle) ? storedStyle : 'classic';
+  let style = storedStyle === null ? 'tech' : styles.includes(storedStyle) ? storedStyle : 'classic';
+  const firstDark = style === 'tech' && !read('jy-theme');
+  if (style === 'tech') {
+    const mode = read('jy-theme') || 'dark';
+    root.dataset.theme = mode === 'auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode;
+    root.dataset.accent = read('jy-accent') || 'graphite';
+    if (firstDark) write('jy-theme', 'dark');
+    if (!storedStyle) write('jy-style', style);
+  }
   root.dataset.style = style;
   const illustrated = ['columbina', 'furina', 'mtf'];
   const strengths = { soft: .5, standard: 1, vivid: 1.35 };
@@ -34,6 +42,7 @@
       furina: '芙宁娜', furinaDescription: '枫丹蓝金 · 水光歌剧舞台',
       furinaCredit: '角色美术 © miHoYo · 国内图片源：B站 BWIKI · 非官方主题',
       mtf: 'MTF 跨性别', mtfDescription: '蓝粉白 · 自在流光',
+      tech: 'JY//OS', techDescription: 'HUD · 霓虹网格',
       mtfCredit: '配色参考跨性别骄傲旗 · 公有领域图形 · 来源：Wikimedia Commons',
       artCredit: '角色美术 © miHoYo · 来源：米游社 · 非官方网站',
       classicDescription: '柔和留白 · 液态玻璃', terminalDescription: '终端面板 · 荧光描边',
@@ -47,6 +56,7 @@
       furina: '芙寧娜', furinaDescription: '楓丹藍金 · 水光歌劇舞臺',
       furinaCredit: '角色美術 © miHoYo · 中國大陸圖片來源：B站 BWIKI · 非官方主題',
       mtf: 'MTF 跨性別', mtfDescription: '藍粉白 · 自在流光',
+      tech: 'JY//OS', techDescription: 'HUD · 霓虹網格',
       mtfCredit: '配色參考跨性別驕傲旗 · 公有領域圖形 · 來源：Wikimedia Commons',
       artCredit: '角色美術 © miHoYo · 來源：米遊社 · 非官方網站',
       classicDescription: '柔和留白 · 液態玻璃', terminalDescription: '終端面板 · 螢光描邊',
@@ -60,6 +70,7 @@
       furina: 'Furina', furinaDescription: 'Fontaine blue & gold · An aquatic opera',
       furinaCredit: 'Character art © miHoYo · China image CDN: Bilibili BWIKI · Unofficial fan theme',
       mtf: 'MTF Trans Pride', mtfDescription: 'Blue, pink & white · Soft light',
+      tech: 'JY//OS', techDescription: 'HUD · Neon grid',
       mtfCredit: 'Trans Pride flag colors · Public-domain flag artwork · Source: Wikimedia Commons',
       artCredit: 'Character art © miHoYo · Source: Miyoushe · Unofficial fan theme',
       classicDescription: 'Soft space · Liquid glass', terminalDescription: 'Console panels · Neon lines',
@@ -73,6 +84,7 @@
       furina: 'フリーナ', furinaDescription: '青と金のフォンテーヌ・水の歌劇',
       furinaCredit: 'キャラクターアート © miHoYo · 中国向け画像CDN：bilibili BWIKI · 非公式テーマ',
       mtf: 'MTF トランス', mtfDescription: '青・ピンク・白・やわらかな光',
+      tech: 'JY//OS', techDescription: 'HUD · ネオングリッド',
       mtfCredit: 'トランスジェンダー・プライドの配色 · 旗の図はパブリックドメイン · 出典：Wikimedia Commons',
       artCredit: 'キャラクターアート © miHoYo · 出典：米遊社 · 非公式ファンテーマ',
       classicDescription: 'ゆとりの余白・ガラス', terminalDescription: '端末パネル・ネオンの輪郭',
@@ -101,7 +113,8 @@
       blackgold: { accent: 'orange', theme: 'dark' },
       columbina: { accent: 'blue', theme: 'light' },
       furina: { accent: 'blue', theme: 'dark' },
-      mtf: { accent: 'blue', theme: 'light' }
+      mtf: { accent: 'blue', theme: 'light' },
+      tech: { accent: 'graphite', theme: 'dark' }
     }[name];
     return {
       accent: ['graphite', 'blue', 'violet', 'green', 'orange'].includes(saved?.accent) ? saved.accent : defaults.accent,
@@ -384,6 +397,7 @@
       if (Object.hasOwn(copy, language)) document.querySelector('[data-language="' + language + '"]')?.click();
       sync();
     });
+    if (firstDark) document.querySelector('[data-mode="dark"]')?.click();
     savePreferences();
     sync();
   }

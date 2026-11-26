@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-26-jyos', date: '2026-11-26', type: 'added', content: {
+      'zh-CN': ['JY//OS 控制台主题上线', ['首次访问默认使用 JY//OS，首页加入状态面板与网格背景。在网站设置中可切换八套风格。']],
+      'zh-TW': ['JY//OS 控制台主題上線', ['首次造訪預設使用 JY//OS，首頁加入狀態面板與網格背景。可在網站設定中切換八種風格。']],
+      en: ['Introducing JY//OS', ['First-time visitors start with a control-room HUD and grid backdrop. Choose from eight styles in Settings.']],
+      ja: ['JY//OS スタイルを追加', ['初回表示はグリッドとステータスパネルを備えた JY//OS です。設定から8種類のスタイルを選べます。']]
+    }
+  },
+  {
     id: '2026-11-26-avatar-background', date: '2026-11-26', type: 'improved', content: {
       'zh-CN': ['头像工坊支持整幅旗帜背景', ['上传透明底图片，或移除相连的纯色底，再调整前景位置与大小。']],
       'zh-TW': ['頭像工坊支援整幅旗幟背景', ['上傳透明底圖片，或移除相連的純色底，再調整前景位置與大小。']],

@@ -12,7 +12,7 @@ const previous = execFileSync('git', ['show', revision + ':scripts/site-style.js
 const styleNames = code => vm.runInNewContext(code.match(/const styles = (\[[^\]]+\]);/)[1]);
 const remaining = Array.from(styleNames(current));
 const removed = Array.from(styleNames(previous)).filter(name => !remaining.includes(name));
-assert.equal(remaining.length, 7);
+assert.equal(remaining.length, 8);
 assert.equal(removed.length, 1);
 const retired = removed[0];
 const pages = fs.readdirSync('.').filter(file => file.endsWith('.html'));

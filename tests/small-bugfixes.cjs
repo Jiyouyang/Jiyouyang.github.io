@@ -69,7 +69,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8765';
       assert.ok(fonts.some(font => font.glyphCount && (font.isCustomFont || /Apple|SF/.test(font.familyName))), selector + ': no Apple or fallback glyph rendered');
       assert.ok(await page.locator(selector).evaluate(el => parseFloat(getComputedStyle(el).webkitTextStrokeWidth) > 0));
     }
-    for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf']) {
+    for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf', 'tech']) {
       await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
       for (const width of [320, 390]) {
         await page.setViewportSize({ width, height: 844 });
