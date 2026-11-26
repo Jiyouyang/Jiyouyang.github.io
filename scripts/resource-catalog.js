@@ -4,6 +4,44 @@
    source describes the destination, never an endorsement of an internal hub. */
 window.JYCatalog = [
   {
+  "id": "avatar-studio",
+  "category": "tools",
+  "url": "/avatar.html",
+  "domain": "jiyouyang.github.io",
+  "glyph": "◎",
+  "x": "50%",
+  "y": "50%",
+  "content": {
+    "zh-CN": [
+      "头像工坊",
+      "为头像添加旗帜贴纸，按原图尺寸保存 PNG。"
+    ],
+    "zh-TW": [
+      "頭像工坊",
+      "為頭像加入旗幟貼紙，依原圖尺寸儲存 PNG。"
+    ],
+    "en": [
+      "Avatar Studio",
+      "Add a flag sticker to a photo and save a full-resolution PNG."
+    ],
+    "ja": [
+      "アイコン工房",
+      "写真に旗ステッカーを添えて、元のサイズの PNG で保存。"
+    ]
+  },
+  "home": false,
+  "source": "project",
+  "platforms": [
+    "web"
+  ],
+  "aliases": [
+    "跨旗",
+    "头像",
+    "avatar",
+    "pride"
+  ]
+},
+  {
     "id": "mdn",
     "category": "development",
     "url": "https://developer.mozilla.org/zh-CN/",

@@ -1,0 +1,14 @@
+*{box-sizing:border-box}
+:root{color-scheme:light dark;color:light-dark(#26232b,#faf7fb);background:light-dark(#f5f4f6,#19171c);font:16px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;--paper:light-dark(#fff,#29262d);--line:light-dark(#dedbe1,#504c55);--muted:light-dark(#635e68,#c2bdc8)}
+header,main{width:min(1000px,calc(100% - 32px));margin:auto}
+nav{margin:18px 0 48px;padding:10px 16px;display:flex;align-items:center;gap:14px;border:1px solid var(--line);background:var(--paper);border-radius:20px}
+a{color:inherit;text-decoration:none;font-size:14px}a:hover{text-decoration:underline}.brand{margin-right:auto;font-size:19px;font-weight:750}.brand span{color:#b27b90}
+[aria-current]{background:light-dark(#eeecf1,#45414c);padding:6px 14px;border-radius:20px}
+h1{font-size:clamp(32px,5vw,52px);letter-spacing:-.05em;margin:0}p,small{color:var(--muted)}p{margin:6px 0 26px}
+.desk{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(265px,1fr);gap:18px;margin-bottom:36px}
+section{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px}.bar,label{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mat{margin:17px 0;background:repeating-conic-gradient(#ece8ef 0 25%,#f6f3f7 0 50%) 0 0/22px 22px;border-radius:12px;display:grid;place-items:center;padding:26px;min-height:330px}
+canvas{display:block;max-width:100%;max-height:420px;width:auto;height:auto;touch-action:none;cursor:move;box-shadow:0 4px 20px #24213024}
+h2{margin:0 0 12px;font-size:19px}.panel small{display:block;margin:6px 0 24px;font-size:12px}
+button,select{font:inherit;color:inherit;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 12px}button{cursor:pointer;width:100%;font-weight:650}select{max-width:70%}label{font-size:14px;margin:12px 0 6px}input[type=range]{width:100%;accent-color:#76536e}.primary{margin-top:20px;background:#373040;color:#fff}.primary:disabled{opacity:.5;cursor:default}#status{font-size:13px;margin-top:6px}
+@media(max-width:680px){nav{margin-bottom:26px}.desk{grid-template-columns:1fr}.mat{min-height:160px;padding:18px}canvas{max-height:320px}section{padding:17px}}

@@ -6,6 +6,8 @@
 
 ## 功能
 
+- 首页导航「头像工坊」进入独立编辑页，支持本地选图、拖放旗帜贴纸和原尺寸 PNG 导出。
+
 - 开发、学习、工具、游戏四类资源与“全部”筛选
 - 首页“电脑工具”卡片进入独立专区，专区内可整卡前往 Google Chrome、Python、Steam、图吧工具箱、IDM、Watt 工具箱和 v2rayN 的官方页面，以及 IDM_Cracker GitHub 项目、The Pirate Bay 和 Nyaa 的原站
 - 资源名称、说明与域名即时搜索

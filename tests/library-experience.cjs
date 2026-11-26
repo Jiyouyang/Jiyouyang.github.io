@@ -22,8 +22,8 @@ const normalize = value => value.replace(/\s+/g, ' ').trim();
   const extra = ['home', 'source', 'platforms', 'aliases', 'parent'];
   const home = catalog.filter(item => item.home).map(item => Object.fromEntries(Object.entries(item).filter(([key]) => !extra.includes(key))));
   assert.deepEqual(home, JSON.parse(JSON.stringify(before.window.entries)));
-  assert.equal(catalog.length, 42);
-  assert.equal(new Set(catalog.map(item => item.id)).size, 42);
+  assert.equal(catalog.length, 43);
+  assert.equal(new Set(catalog.map(item => item.id)).size, catalog.length);
   for (const item of catalog) for (const language of languages) assert.equal(item.content[language].length, 2);
 
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
