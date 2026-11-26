@@ -99,6 +99,14 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   {
+    id: '2026-11-26-avatar-background', date: '2026-11-26', type: 'improved', content: {
+      'zh-CN': ['头像工坊支持整幅旗帜背景', ['上传透明底图片，或移除相连的纯色底，再调整前景位置与大小。']],
+      'zh-TW': ['頭像工坊支援整幅旗幟背景', ['上傳透明底圖片，或移除相連的純色底，再調整前景位置與大小。']],
+      en: ['Full flag backgrounds in Avatar Studio', ['Use a transparent image or remove a connected solid background, then position and scale the foreground.']],
+      ja: ['アイコン工房で旗を背景全体に表示', ['透過画像を使うか、つながった単色の背景を消してから、前景の位置と大きさを調整できます。']]
+    }
+  },
+  {
     id: '2026-11-26-section-path', date: '2026-11-26', type: 'added', content: {
       'zh-CN': ['专区顶部显示当前位置', ['进入专区或详情页后，点顶部路径中的首页或专区名即可返回。']],
       'zh-TW': ['專區頂部顯示目前位置', ['進入專區或詳情頁後，點頂部路徑中的首頁或專區名稱即可返回。']],

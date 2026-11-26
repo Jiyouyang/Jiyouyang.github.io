@@ -4,27 +4,29 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>头像工坊 · Jiyouyang</title>
 <link rel="icon" href="/assets/site-cover.jpg">
-<link rel="stylesheet" href="/styles/avatar.css?v=1">
+<link rel="stylesheet" href="/styles/avatar.css?v=20261126-bg1">
 <link rel="stylesheet" href="/styles/breadcrumbs.css?v=20261126-path1">
 <header><nav class="path-bar"><a href="/" class="brand">Jiyouyang<span>.</span></a><ol class="crumbs"><li><a href="/index.html#resources" data-path-home data-t="home">首页</a></li><li><span aria-current="page" data-t="studio">头像工坊</span></li></ol></nav></header>
 <main>
 <h1 data-t="studio">头像工坊</h1>
-<p data-t="intro">给头像贴上一枚属于你的旗帜。照片只在本机处理。</p>
+<p data-t="intro">让旗帜铺满画布，把你的头像放在前面。图片只在本机处理。</p>
 <div class="desk">
-<section class="preview"><div class="bar"><strong data-t="preview">实时预览</strong><small id="dimensions">DEMO</small></div>
-<div class="mat" id="drop"><canvas id="art" width="500" height="500" aria-label="头像预览"></canvas></div>
-<small data-t="hint">把图片拖到这里，或选择图片开始。拖动贴纸可微调位置。</small></section>
+<section class="preview"><div class="bar"><strong data-t="preview">实时预览</strong><small id="dimensions">500 × 500</small></div>
+<div class="mat" id="drop"><canvas id="art" tabindex="0" width="500" height="500" aria-label="头像预览"></canvas></div>
+<small data-t="hint">拖入图片，或点「选择图片」。透明区域会直接透出旗帜。</small></section>
 <section class="panel">
-<h2 data-t="image">原图</h2>
+<h2 data-t="image">前景图片</h2>
 <button id="choose" data-t="choose">选择图片</button><input id="file" type="file" accept="image/png,image/jpeg,image/webp" hidden>
 <small>PNG / JPG / WebP</small>
-<h2 data-t="sticker">旗帜贴纸</h2>
+<h2 data-t="background">旗帜背景</h2>
 <label><span data-t="palette">配色</span><select id="palette"><option value="trans" data-t="trans">跨性别旗</option><option value="pride" data-t="pride">彩虹旗</option><option value="nb" data-t="nb">非二元旗</option></select></label>
-<label><span data-t="shape">形状</span><select id="shape"><option value="seal" data-t="seal">波纹徽章</option><option value="ribbon" data-t="ribbon">燕尾缎带</option></select></label>
-<label><span data-t="position">位置</span><select id="position"><option value="br" data-t="br">右下</option><option value="bl" data-t="bl">左下</option><option value="tr" data-t="tr">右上</option><option value="tl" data-t="tl">左上</option><option value="bc" data-t="bc">底部居中</option><option value="custom" disabled data-t="custom">自由位置</option></select></label>
-<label for="size"><span data-t="size">贴纸大小</span><output id="percent">30%</output></label><input id="size" type="range" min="12" max="65" value="30">
+<label for="size"><span data-t="size">前景大小</span><output id="percent" for="size">100%</output></label>
+<input id="size" type="range" min="25" max="160" value="100" disabled>
+<label><span data-t="edit">预览操作</span><select id="edit" disabled><option value="move" data-t="move">移动前景</option><option value="remove" data-t="remove">点选去底色</option></select></label>
+<small data-t="help">纯色背景可点选移除；复杂背景建议先准备透明底图片。拖动前景或用方向键调整位置。</small>
+<button id="reset" disabled data-t="reset">还原前景</button>
 <button class="primary" id="save" disabled data-t="save">下载 PNG</button>
 <div role="status" id="status"></div></section></div>
-</main><script src="/scripts/avatar.js?v=1"></script>
+</main><script src="/scripts/avatar.js?v=20261126-bg1"></script>
 <script src="/scripts/breadcrumbs.js?v=20261126-path1"></script>
 </html>

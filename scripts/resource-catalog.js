@@ -14,19 +14,19 @@ window.JYCatalog = [
     "content": {
       "zh-CN": [
         "头像工坊",
-        "为头像添加旗帜贴纸，按原图尺寸保存 PNG。"
+        "将旗帜铺满头像背景，按原图尺寸保存 PNG。"
       ],
       "zh-TW": [
         "頭像工坊",
-        "為頭像加入旗幟貼紙，依原圖尺寸儲存 PNG。"
+        "將旗幟鋪滿頭像背景，依原圖尺寸儲存 PNG。"
       ],
       "en": [
         "Avatar Studio",
-        "Add a flag sticker to a photo and save a full-resolution PNG."
+        "Place your portrait over a full flag background and save a full-resolution PNG."
       ],
       "ja": [
         "アイコン工房",
-        "写真に旗ステッカーを添えて、元のサイズの PNG で保存。"
+        "旗を背景に画像を重ねて、元のサイズの PNG で保存。"
       ]
     },
     "home": true,
