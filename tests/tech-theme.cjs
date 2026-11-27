@@ -14,6 +14,16 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
     await page.goto(base);
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     assert.equal(await page.locator('.hud').count(), 1);
+    assert.equal(await page.locator('.jy-ink').count(), 2);
+    for (const filter of await page.locator('.filters [data-category]').all()) {
+      await filter.click();
+      assert.equal(Number(await filter.getAttribute('data-n')), await page.locator('#resource-grid a.resource-card').count());
+      await page.waitForFunction(() => {
+        const ink = document.querySelector('.filters .jy-ink').getBoundingClientRect();
+        const active = document.querySelector('.filters .active').getBoundingClientRect();
+        return Math.abs(ink.x - active.x) < 1 && Math.abs(ink.y - active.y) < 1;
+      });
+    }
     await page.locator('.jy-cmd').click();
     await page.locator('#jy-palette-input').fill('minecraft');
     assert.ok(await page.locator('#jy-palette a.jp-item').count() > 0);
@@ -25,7 +35,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
     assert.equal(await page.locator('[data-style-choice]').first().getAttribute('data-style-choice'), 'tech');
     await selectStyle(page, '[data-style-choice=classic]');
     assert.equal(await page.locator('.hud').count(), 0);
-    assert.equal(await page.locator('.jy-cmd,#jy-progress').count(), 0);
+    assert.equal(await page.locator('.jy-cmd,#jy-progress,.jy-ink,[data-n]').count(), 0);
     await page.reload();
     assert.equal(await page.locator('html').getAttribute('data-style'), 'classic');
     await page.locator('#settings-trigger').click();
@@ -42,7 +52,19 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
       }
     }
     await page.goto(base + '/genshin-download.html');
-    await page.locator('[data-platform=windows]').click();
+    assert.ok(await page.locator('.jy-ctl #settings-trigger').isVisible());
+    await page.locator('[data-platform=ios]').click();
+    const card = page.locator('#platform-description');
+    await card.evaluate(target => {
+      function swipe(type, x) {
+        const touch = new Touch({ identifier: 1, target, clientX: x, clientY: 200 });
+        target.dispatchEvent(new TouchEvent(type, { bubbles: true, touches: type === 'touchstart' ? [touch] : [], changedTouches: [touch] }));
+      }
+      swipe('touchstart', 220);
+      swipe('touchend', 125);
+    });
+    assert.equal(await page.locator('[data-platform=windows]').getAttribute('aria-selected'), 'true');
+    assert.equal(await page.locator('[data-platform=windows]').getAttribute('data-key'), '3');
     assert.match(await page.locator('.download-button:visible').first().getAttribute('href'), /hoyoplay\.hoyoverse\.com/);
     assert.equal(new URL(page.url()).hash, '#windows');
     await page.goto(base + '/genshin-download.html');

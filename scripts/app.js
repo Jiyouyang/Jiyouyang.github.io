@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-26-jyos3', date: '2026-11-26', type: 'improved', content: {
+    'zh-CN': ['JY//OS 分类与下载页更新', ['分类显示资源数量，分类和视图切换新增滑动高亮。手机可在下载卡片上左右滑动切换平台，桌面可按对应数字键。']],
+    'zh-TW': ['JY//OS 分類與下載頁更新', ['分類顯示資源數量，分類與檢視切換加入滑動高亮。手機可在下載卡片上左右滑動切換平台，桌面可按對應數字鍵。']],
+    en: ['JY//OS library and download controls', ['Category filters show resource counts. A sliding highlight follows the category and view. Swipe the download card or use the numbered platform shortcuts.']],
+    ja: ['JY//OS の分類とダウンロード操作', ['分類ごとの件数を表示し、分類と表示形式の選択に合わせてハイライトが移動します。ダウンロードカードのスワイプや数字キーでプラットフォームを切り替えられます。']]
+  } },
   { id: '2026-11-26-jyos2', date: '2026-11-26', type: 'added', content: {
     'zh-CN': ['JY//OS 快捷操作更新', ['点导航栏搜索按钮或按 Ctrl/⌘ + K 查找资源和命令。下载页可记住平台，页面顶部可查看阅读进度。']],
     'zh-TW': ['JY//OS 快捷操作更新', ['點導覽列搜尋按鈕或按 Ctrl/⌘ + K 尋找資源和指令。下載頁可記住平台，頁首可查看閱讀進度。']],

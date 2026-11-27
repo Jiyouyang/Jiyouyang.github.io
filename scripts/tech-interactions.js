@@ -422,6 +422,118 @@
       });
     }
 
+    /* One sliding ink bar under whichever button is active. */
+    function wireInk(group, activeTest) {
+      if (!group || group.dataset.ink) return;
+      group.dataset.ink = '1';
+      group.classList.add('jy-inked');
+      const ink = document.createElement('i');
+      ink.className = 'jy-ink';
+      ink.setAttribute('aria-hidden', 'true');
+      group.prepend(ink);
+      const buttons = () => $$('button', group);
+      let first = true, queued = 0;
+      signal.addEventListener('abort', () => {
+        cancelAnimationFrame(queued);
+        group.classList.remove('jy-inked');
+        delete group.dataset.ink;
+        ink.remove();
+      });
+      const place = () => {
+        queued = 0;
+        const on = buttons().find(activeTest);
+        if (!on || !on.offsetWidth) { ink.style.opacity = '0'; return; }
+        if (first) { ink.style.transition = 'none'; }
+        ink.style.opacity = '1';
+        ink.style.width = on.offsetWidth + 'px';
+        ink.style.height = on.offsetHeight + 'px';
+        ink.style.transform = 'translate(' + on.offsetLeft + 'px,' + on.offsetTop + 'px)';
+        if (first) { ink.offsetWidth; ink.style.transition = ''; first = false; }
+      };
+      const schedule = () => { if (!signal.aborted && !queued) queued = requestAnimationFrame(place); };
+      observe(schedule, group, { subtree: true, attributes: true, attributeFilter: ['class', 'aria-pressed', 'aria-selected'] });
+      observe(schedule, group, { subtree: true, childList: true, characterData: true });
+      const resize = new ResizeObserver(schedule);
+      resize.observe(group);
+      for (const button of buttons()) resize.observe(button);
+      signal.addEventListener('abort', () => resize.disconnect());
+      addEventListener('resize', schedule, { passive: true, signal });
+      document.fonts?.ready?.then(schedule);
+      place();
+    }
+    function wireFilters() {
+      const group = $('.filters');
+      if (!group) return;
+      wireInk(group, b => b.classList.contains('active'));
+      // count badges come from the catalog; they live in an attribute so the page's own i18n can't wipe them
+      signal.addEventListener('abort', () => $$('[data-n]', group).forEach(b => delete b.dataset.n));
+      const home = catalog.filter(item => item.home);
+      const count = id => id === 'all' ? home.length : home.filter(item => item.category === id).length;
+      $$('[data-category]', group).forEach(button => { button.dataset.n = String(count(button.dataset.category)); });
+    }
+    function wireViewToggle() {
+      const hook = () => {
+        const buttons = $$('[data-library-view]');
+        if (!buttons.length) return false;
+        wireInk(buttons[0].parentElement, b => b.getAttribute('aria-pressed') === 'true');
+        return true;
+      };
+      if (!$('.filters') || hook()) return;
+      const watcher = new MutationObserver(() => { if (hook()) watcher.disconnect(); });
+      watcher.observe(document.body, { childList: true, subtree: true });
+      signal.addEventListener('abort', () => watcher.disconnect());
+    }
+    /* Download pages: direction-aware content swap, number hints, swipe between platforms. */
+    function wireTabMotion() {
+      const group = $('.platform-tabs');
+      const tabs = platformTabs();
+      if (!group || tabs.length < 2) return;
+      tabs.forEach((tab, i) => { tab.dataset.key = String(i + 1); });
+      const swapTargets = ['#platform-art', '#platform-description', '#platform-details', '#download-link', '#download-link-secondary', '#platform-label', '#platform-name']
+        .map(sel => $(sel)).filter(Boolean);
+      let from = tabs.findIndex(tab => tab.classList.contains('active'));
+      group.addEventListener('click', event => {
+        const tab = event.target.closest('[data-platform]');
+        if (!tab) return;
+        const to = tabs.indexOf(tab);
+        if (to === from) return;
+        root.style.setProperty('--tab-dir', to > from ? '1' : '-1');
+        from = to;
+        if (reducedMotion.matches) return;
+        swapTargets.forEach(el => { el.classList.remove('jy-swap'); });
+        void group.offsetWidth;
+        swapTargets.forEach((el, i) => { el.style.setProperty('--swap-i', String(i)); el.classList.add('jy-swap'); });
+      }, { capture: true, signal });
+      const area = $('#platform-title')?.closest('section, main') || document.body;
+      let start;
+      area.addEventListener('touchstart', event => {
+        start = null;
+        const touch = event.touches[0];
+        if (event.touches.length !== 1 || event.target.closest('input,textarea,button,a,.platform-tabs')) return;
+        if (touch.clientX < 18 || touch.clientX > innerWidth - 18) return;
+        start = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+      }, { passive: true, signal });
+      area.addEventListener('touchcancel', () => { start = null; }, { passive: true, signal });
+      area.addEventListener('touchend', event => {
+        const origin = start;
+        start = null;
+        if (!origin || event.touches.length || Date.now() - origin.time > 600) return;
+        const dx = event.changedTouches[0].clientX - origin.x;
+        const dy = event.changedTouches[0].clientY - origin.y;
+        if (Math.abs(dx) < 64 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
+        const current = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+        tabs[current + (dx < 0 ? 1 : -1)]?.click();
+      }, { passive: true, signal });
+      signal.addEventListener('abort', () => {
+        root.style.removeProperty('--tab-dir');
+        tabs.forEach(tab => delete tab.dataset.key);
+        swapTargets.forEach(el => {
+          el.classList.remove('jy-swap');
+          el.style.removeProperty('--swap-i');
+        });
+      });
+    }
+
     /* ------------------------------------------------------------ chrome */
     function addNavChip() {
       const trigger = $('#settings-trigger');
@@ -434,7 +546,14 @@
       label();
       observe(label, root, { attributes: true, attributeFilter: ['lang'] });
       chip.addEventListener('click', () => openPalette());
-      if (trigger) trigger.before(chip); else $('.path-bar').append(chip);
+      if (trigger?.parentElement.matches('.path-bar')) {
+        const controls = document.createElement('div');
+        controls.className = 'jy-ctl';
+        trigger.before(controls);
+        controls.append(chip, trigger);
+        signal.addEventListener('abort', () => controls.replaceWith(trigger));
+      } else if (trigger) trigger.before(chip);
+      else $('.path-bar').append(chip);
     }
     function addProgress() {
       const bar = document.createElement('div');
@@ -462,6 +581,9 @@
     wireFilterBox();
     wirePlatforms();
     wireTabKeys();
+    wireFilters();
+    wireViewToggle();
+    wireTabMotion();
     return () => {
       controller.abort();
       transition.remove();
