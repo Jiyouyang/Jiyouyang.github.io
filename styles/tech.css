@@ -476,7 +476,8 @@ html[data-style] kbd, html[data-style] .jp-esc kbd {
 html[data-style] kbd + kbd { margin-left: 4px; }
 
 /* nav chip (replaces the old search icon) */
-html[data-style] #search-jump { display: none; }
+html[data-style="tech"] #search-jump { display: none; }
+html:not([data-style="tech"]) .controls:has(#search-jump) .jy-cmd { display: none; }
 html[data-style] .jy-cmd {
   display: inline-flex; align-items: center; gap: 9px; height: 34px; padding: 0 10px; cursor: pointer;
   background: transparent; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 2px;
@@ -582,8 +583,8 @@ html[data-style="tech"] .jy-cmd { position: relative; z-index: 2; }
    ========================================================================== */
 html[data-style] .jy-inked { position: relative; isolation: isolate; }
 html[data-style] .jy-inked > button { position: relative; z-index: 1; }
-html[data-style] .jy-inked > button.active,
-html[data-style] .jy-inked > button[aria-pressed="true"] { background: transparent !important; box-shadow: none !important; }
+html[data-style="tech"] .jy-inked > button.active,
+html[data-style="tech"] .jy-inked > button[aria-pressed="true"] { background: transparent !important; box-shadow: none !important; }
 html[data-style] .jy-ink {
   position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; border-radius: 2px; opacity: 0;
   background: color-mix(in srgb, var(--sig) 18%, var(--surface));
@@ -591,9 +592,9 @@ html[data-style] .jy-ink {
   transition: transform .34s cubic-bezier(.3, 1.25, .45, 1), width .3s cubic-bezier(.3, 1, .4, 1), height .3s, opacity .2s;
 }
 html[data-style] .jy-ink::after { content: ""; position: absolute; inset: 0; border: 1px solid color-mix(in srgb, var(--sig) 38%, transparent); border-radius: 2px; }
-html[data-style] .jy-inked > button:active { transform: scale(.96); }
-html[data-style] .jy-inked > button { transition: color .2s, transform .12s; }
-html[data-style] .jy-inked > button.active, html[data-style] .jy-inked > button[aria-pressed="true"] { color: var(--sig); font-weight: 700; }
+html[data-style="tech"] .jy-inked > button:active { transform: scale(.96); }
+html[data-style="tech"] .jy-inked > button { transition: color .2s, transform .12s; }
+html[data-style="tech"] .jy-inked > button.active, html[data-style="tech"] .jy-inked > button[aria-pressed="true"] { color: var(--sig); font-weight: 700; }
 
 /* category counts */
 html[data-style] .filters button[data-n]::after {
@@ -744,4 +745,15 @@ html[data-style]:not([data-style="tech"]) .jy-cmd { min-width: 44px; min-height:
       transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
     }
   }
+}
+
+/* Keep native active-button fills and track the selection with a thin underline. */
+html:not([data-style="tech"]) .jy-ink {
+  background: transparent; box-shadow: none; border-radius: 0; z-index: 2;
+}
+html:not([data-style="tech"]) .jy-ink::after {
+  inset: auto 25% 0; height: 2px; border: 0; background: var(--muted);
+}
+html:not([data-style="tech"]) .filters button[data-n]::after {
+  color: inherit; border-color: currentColor; font-family: inherit;
 }

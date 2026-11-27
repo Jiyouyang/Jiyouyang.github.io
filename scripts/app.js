@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-27-native-controls', date: '2026-11-27', type: 'improved', content: {
+    'zh-CN': ['保留各主题的原生控件', ['其他主题沿用原有首页搜索按钮、分类和视图选中配色，并支持共享命令面板。']],
+    'zh-TW': ['保留各主題的原有控制項', ['其他主題沿用原有首頁搜尋按鈕、分類和檢視選取配色，並支援共用命令面板。']],
+    en: ['Native theme controls', ['Other themes retain their home search button and selection colors while sharing the command palette.']],
+    ja: ['各テーマの操作ボタン', ['各テーマのホーム検索ボタンと選択時の配色を維持し、共通のコマンドパレットを開けるようにしました。']]
+  } },
   { id: '2026-11-27-original-tech', date: '2026-11-27', type: 'improved', content: {
     'zh-CN': ['JY//OS 卡片与导航', ['默认主题采用切角卡片与分批入场动画，八套主题共享快捷操作和最近访问。']],
     'zh-TW': ['JY//OS 卡片與導覽', ['預設主題採用切角卡片與分批進場動畫，八套主題共用快捷操作與最近造訪。']],
