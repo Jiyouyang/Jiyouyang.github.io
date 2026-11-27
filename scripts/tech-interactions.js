@@ -57,10 +57,6 @@
         kOpen: 'コマンドパレットを開く', kMove: '前 / 次のカード', kFav: '選択中のカードをお気に入り', kTheme: 'ライト / ダークを切り替え', kTab: 'ダウンロード先を切り替え', kHome: 'ホームへ戻る', kHelp: 'このヘルプを表示'
       }
     };
-    Object.assign(WORDS['zh-CN'], { clear: '清除筛选', recent: '最近访问', kArrows: '方向键在卡片间移动', kBack: '返回上一级' });
-    Object.assign(WORDS['zh-TW'], { clear: '清除篩選', recent: '最近造訪', kArrows: '方向鍵在卡片間移動', kBack: '返回上一層' });
-    Object.assign(WORDS.en, { clear: 'Clear filters', recent: 'Recently opened', kArrows: 'Move between cards', kBack: 'Go back one level' });
-    Object.assign(WORDS.ja, { clear: '絞り込みを解除', recent: '最近開いた', kArrows: 'カード間を移動', kBack: '一つ前のページへ' });
     const lang = () => WORDS[root.lang] ? root.lang : 'zh-CN';
     const t = (key, values = {}) => Object.entries(values).reduce((s, [k, v]) => s.replaceAll('{' + k + '}', v), (WORDS[lang()][key] ?? WORDS['zh-CN'][key] ?? key));
 
@@ -152,22 +148,6 @@
     /* ------------------------------------------------------------ palette */
     let palette, input, listEl, countEl, hintEl, flat = [], sel = 0, opener = null, savedOverflow = '';
 
-    function storedIds(key) {
-      const value = read(key, []);
-      return Array.isArray(value) ? value : [];
-    }
-    const rememberVisit = id => {
-      if (!id) return;
-      const list = [id, ...storedIds('jy-recent').filter(x => x !== id)].slice(0, 6);
-      write('jy-recent', list);
-    };
-    document.addEventListener('click', event => {
-      const link = event.target.closest?.('a.resource-card, a.hub-card, a.featured-card, a.favorite-link');
-      if (!link) return;
-      const href = link.getAttribute('href');
-      rememberVisit(catalog.find(item => item.url === href)?.id);
-    }, {capture: true, signal});
-
     function buildPalette() {
       palette = document.createElement('dialog');
       palette.id = 'jy-palette';
@@ -187,7 +167,7 @@
         if (!row) return;
         const entry = flat[Number(row.dataset.idx)];
         if (entry?.cmd) { event.preventDefault(); palette.close(); entry.cmd.run(); }
-        else { rememberVisit(entry?.item?.id); palette.close(); }
+        else palette.close(); // anchors navigate on their own
       });
       listEl.addEventListener('mousemove', event => {
         const row = event.target.closest('.jp-item');
@@ -208,12 +188,10 @@
       const cmds = commands();
       if (!nq) {
         if (!cmdOnly && catalog.length) {
-          const recent = storedIds('jy-recent').filter(id => byId.has(id)).slice(0, 4).map(id => byId.get(id));
-          if (recent.length) groups.push([t('recent'), recent.map(item => ({ item }))]);
-          const seen = new Set(recent.map(item => item.id));
-          const favorites = storedIds('jy-favorites').filter(id => byId.has(id) && !seen.has(id)).slice(0, 6).map(id => byId.get(id));
-          const items = favorites.length ? favorites : catalog.filter(item => item.home && !seen.has(item.id)).slice(0, 6);
-          if (items.length) groups.push([favorites.length ? t('gFav') : t('gSug'), items.map(item => ({ item }))]);
+          const saved = read('jy-favorites', []);
+          const favorites = (Array.isArray(saved) ? saved : []).filter(id => byId.has(id)).slice(0, 6).map(id => byId.get(id));
+          const items = favorites.length ? favorites : catalog.filter(item => item.home).slice(0, 6);
+          groups.push([favorites.length ? t('gFav') : t('gSug'), items.map(item => ({ item }))]);
         }
         groups.push([t('gCmd'), cmds.map(cmd => ({ cmd }))]);
       } else {
@@ -318,8 +296,8 @@
       const row = (keys, label) => '<div><dt>' + keys.map(k => '<kbd>' + esc(k) + '</kbd>').join('') + '</dt><dd>' + esc(label) + '</dd></div>';
       dialog.setAttribute('aria-label', t('helpTitle'));
       dialog.innerHTML = '<div class="jh-shell"><div class="jh-head"><h2>' + esc(t('helpTitle')) + '</h2><button type="button" class="jp-esc" data-jh-close aria-label="' + esc(t('hClose')) + '"><kbd>esc</kbd></button></div><dl>' +
-        row([MOD, 'K'], t('kOpen')) + row(['/'], t('kOpen')) + row(['J', 'K'], t('kMove')) + row(['←', '↑', '↓', '→'], t('kArrows')) + row(['F'], t('kFav')) + row(['T'], t('kTheme')) +
-        (platformTabs().length ? row(['1', '…', '9'], t('kTab')) : '') + row(['G', 'H'], t('kHome')) + ($('.back') ? row(['B'], t('kBack')) : '') + row(['?'], t('kHelp')) + '</dl></div>';
+        row([MOD, 'K'], t('kOpen')) + row(['/'], t('kOpen')) + row(['J', 'K'], t('kMove')) + row(['F'], t('kFav')) + row(['T'], t('kTheme')) +
+        (platformTabs().length ? row(['1', '…', '9'], t('kTab')) : '') + row(['G', 'H'], t('kHome')) + row(['?'], t('kHelp')) + '</dl></div>';
       document.body.style.overflow = 'hidden';
       dialog.showModal();
     }
@@ -337,22 +315,6 @@
       next.focus({ preventScroll: true });
       next.scrollIntoView({ block: 'center', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
     }
-    function moveCard(direction) {
-      const cur = document.activeElement, cards = visibleCards().filter(card => card !== cur);
-      const a = cur.getBoundingClientRect(), ax = a.left + a.width / 2, ay = a.top + a.height / 2;
-      let best = null, bestScore = Infinity;
-      for (const card of cards) {
-        const r = card.getBoundingClientRect(), dx = r.left + r.width / 2 - ax, dy = r.top + r.height / 2 - ay;
-        const along = direction === 'Right' ? dx : direction === 'Left' ? -dx : direction === 'Down' ? dy : -dy;
-        const across = direction === 'Right' || direction === 'Left' ? Math.abs(dy) : Math.abs(dx);
-        if (along < 8) continue;
-        const score = along + across * 2.2;
-        if (score < bestScore) { bestScore = score; best = card; }
-      }
-      if (!best) return;
-      best.focus({ preventScroll: true });
-      best.scrollIntoView({ block: 'center', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-    }
     window.addEventListener('keydown', event => {
       if (event.isComposing || event.keyCode === 229) return;
       const mod = event.ctrlKey || event.metaKey;
@@ -367,8 +329,6 @@
       const key = event.key;
       if (key === '?') { event.preventDefault(); openHelp(); }
       else if (key === 'j' || key === 'k') { event.preventDefault(); stepCard(key === 'j' ? 1 : -1); }
-      else if (key.startsWith('Arrow') && document.activeElement?.matches?.(cardSelector)) { event.preventDefault(); moveCard(key.slice(5)); }
-      else if (key === 'b') { $('.back')?.click(); }
       else if (key === 'f') { document.activeElement?.closest?.('.library-entry')?.querySelector('[data-library-action="favorite"]')?.click(); }
       else if (key === 't' && $('[data-mode]')) {
         const order = ['auto', 'light', 'dark'], next = order[(order.indexOf(themePref()) + 1) % order.length];
@@ -613,60 +573,12 @@
       update();
     }
 
-    function markText(el, q) {
-      const lq = q.toLocaleLowerCase(), walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
-      while (walker.nextNode()) nodes.push(walker.currentNode);
-      nodes.forEach(node => {
-        const at = node.data.toLocaleLowerCase().indexOf(lq);
-        if (at < 0) return;
-        const rest = node.splitText(at); rest.splitText(q.length);
-        const mark = document.createElement('mark'); mark.className = 'jy-hit'; mark.textContent = rest.data; rest.replaceWith(mark);
-      });
-    }
-    function wireHome() {
-      const box = $('#search'), cats = $$('[data-category]');
-      if (!box || !cats.length) return;
-      const decorate = () => {
-        const q = box.value.trim();
-        if (q && !$('#resource-grid .jy-hit')) $$('#resource-grid .resource-card h3, #resource-grid .resource-card p').forEach(el => markText(el, q));
-        const empty = $('#resource-grid .empty');
-        if (empty && !empty.querySelector('button')) {
-          const button = document.createElement('button');
-          button.type = 'button'; button.className = 'jy-clear'; button.textContent = t('clear');
-          button.addEventListener('click', () => { box.value = ''; $('[data-category="all"]')?.click(); box.dispatchEvent(new Event('input', { bubbles: true })); box.focus(); });
-          empty.append(button);
-        }
-      };
-      document.addEventListener('jy:resources-rendered', decorate, {signal});
-      signal.addEventListener('abort', () => {
-        $$('.jy-hit').forEach(mark => mark.replaceWith(mark.textContent));
-        $('.jy-clear')?.remove();
-      });
-      const params = new URLSearchParams(location.search), c = params.get('c'), q = params.get('q');
-      if (c && c !== 'all') cats.find(button => button.dataset.category === c)?.click();
-      if (q) { box.value = q; box.dispatchEvent(new Event('input', { bubbles: true })); }
-      let timer = 0;
-      const save = () => {
-        const next = new URLSearchParams(location.search);
-        next.delete('c'); next.delete('q');
-        const active = $('[data-category].active')?.dataset.category;
-        if (active && active !== 'all') next.set('c', active);
-        if (box.value.trim()) next.set('q', box.value.trim());
-        const qs = next.toString();
-        try { history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } catch {}
-      };
-      document.addEventListener('click', event => { if (event.target.closest('[data-category]')) save(); }, {signal});
-      box.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(save, 250); }, {signal});
-      signal.addEventListener('abort', () => clearTimeout(timer));
-      decorate();
-    }
     const transition = document.createElement('style');
-    transition.textContent = '@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }';
+    transition.textContent = '@view-transition { navigation: auto; }';
     document.head.append(transition);
     addNavChip();
     addProgress();
     wireFilterBox();
-    wireHome();
     wirePlatforms();
     wireTabKeys();
     wireFilters();

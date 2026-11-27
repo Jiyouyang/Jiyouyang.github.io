@@ -33,55 +33,23 @@
       refresh();
       timer = setInterval(refresh, 1000);
     }
-    const motion = matchMedia('(prefers-reduced-motion: no-preference)');
-    const selector = '.resource-card,.hub-card,.featured-card,.favorite-entry,.next-step';
-    const reveal = window.IntersectionObserver && new IntersectionObserver(entries => {
-      entries.filter(entry => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left)
-        .forEach(({target}, index) => {
-        reveal.unobserve(target);
-        if (!motion.matches) return;
-        target.style.setProperty('--jy-delay', Math.min(index, 9) * 60 + 'ms');
-        target.classList.add('jy-card-enter');
-      });
-    }, {rootMargin: '0px 0px -5% 0px', threshold: 0.06});
-    function scan() {
-      document.querySelectorAll(selector).forEach(card => {
-        if (!card.classList.contains('jy-card-enter')) reveal?.observe(card);
-      });
-    }
-    scan();
-    const observer = new MutationObserver(records => {
-      if (records.some(record => [...record.addedNodes].some(node => node.nodeType === 1 &&
-        (node.matches(selector) || node.querySelector(selector))))) scan();
-    });
-    observer.observe(document.querySelector('main') || document.body, {childList: true, subtree: true});
     let previous;
     function move(event) {
       if (event.pointerType === 'touch') return;
       const card = event.target.closest?.('.resource-card,.hub-card,.featured-card,.download-card,.favorite-entry');
-      if (!card) { clear(); return; }
+      if (!card) return;
       if (previous !== card) clear();
       previous = card;
       const box = card.getBoundingClientRect();
-      if (motion.matches && !card.closest('[data-view="list"]') && box.width && box.height) {
-        card.style.setProperty('--ry', ((event.clientX - box.left) / box.width * 8 - 4) + 'deg');
-        card.style.setProperty('--rx', (3.5 - (event.clientY - box.top) / box.height * 7) + 'deg');
-      }
       card.style.setProperty('--mx', (event.clientX - box.left) + 'px');
       card.style.setProperty('--my', (event.clientY - box.top) + 'px');
     }
     function clear() {
       previous?.style.removeProperty('--mx');
       previous?.style.removeProperty('--my');
-      previous?.style.removeProperty('--rx');
-      previous?.style.removeProperty('--ry');
-      previous = null;
     }
     document.addEventListener('pointermove', move, { passive: true });
-    return () => { observer.disconnect(); reveal?.disconnect();
-      document.querySelectorAll('.jy-card-enter').forEach(card => { card.classList.remove('jy-card-enter'); card.style.removeProperty('--jy-delay'); });
-      document.removeEventListener('pointermove', move); clear(); clearInterval(timer); panel?.remove(); };
+    return () => { document.removeEventListener('pointermove', move); clear(); clearInterval(timer); panel?.remove(); };
   }
   function sync() {
     if (root.dataset.style === 'tech') { if (!cleanup) cleanup = mount(); }
