@@ -36,13 +36,15 @@
     const motion = matchMedia('(prefers-reduced-motion: no-preference)');
     const selector = '.resource-card,.hub-card,.featured-card,.favorite-entry,.next-step';
     const reveal = window.IntersectionObserver && new IntersectionObserver(entries => {
-      entries.filter(entry => entry.isIntersecting).forEach(({target}, index) => {
+      entries.filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left)
+        .forEach(({target}, index) => {
         reveal.unobserve(target);
         if (!motion.matches) return;
-        target.style.setProperty('--jy-delay', Math.min(index, 6) * 45 + 'ms');
+        target.style.setProperty('--jy-delay', Math.min(index, 9) * 60 + 'ms');
         target.classList.add('jy-card-enter');
       });
-    });
+    }, {rootMargin: '0px 0px -5% 0px', threshold: 0.06});
     function scan() {
       document.querySelectorAll(selector).forEach(card => {
         if (!card.classList.contains('jy-card-enter')) reveal?.observe(card);

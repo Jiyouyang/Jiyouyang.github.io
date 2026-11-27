@@ -661,7 +661,7 @@
       decorate();
     }
     const transition = document.createElement('style');
-    transition.textContent = '@view-transition { navigation: auto; }';
+    transition.textContent = '@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }';
     document.head.append(transition);
     addNavChip();
     addProgress();

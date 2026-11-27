@@ -712,6 +712,12 @@ html[data-style="tech"] .jy-clear:hover { background: var(--tint-strong); }
 html[data-style="tech"] .jy-clear:active { transform: scale(.96); }
 
 @media (prefers-reduced-motion: no-preference) {
-  html[data-style="tech"] .jy-card-enter { animation: jy-card-enter .42s ease-out backwards; animation-delay: var(--jy-delay, 0ms); }
-  @keyframes jy-card-enter { from { opacity: .3; translate: 0 12px; } }
+  html[data-style="tech"] .jy-card-enter {
+    animation: jy-enter .62s cubic-bezier(.2, .8, .2, 1) backwards !important;
+    animation-delay: var(--jy-delay, 0ms) !important;
+  }
+}
+@keyframes jy-enter {
+  0% { opacity: 0; transform: translateY(26px) scale(.97); clip-path: polygon(0 0, 0 0, 0 var(--cut, 18px), 0 100%, 0 100%); }
+  60% { clip-path: polygon(0 0, calc(100% - var(--cut, 18px)) 0, 100% var(--cut, 18px), 100% 100%, 0 100%); }
 }

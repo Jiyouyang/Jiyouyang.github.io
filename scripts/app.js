@@ -99,10 +99,10 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Remove an entry by id when requested.
 const announcements = [
   { id: '2026-11-27-jyos-cards', date: '2026-11-27', type: 'improved', content: {
-    'zh-CN': ['JY//OS 卡片与搜索更新', ['用方向键浏览卡片，分享当前筛选，或在命令面板重新打开最近访问的资源。']],
-    'zh-TW': ['JY//OS 卡片與搜尋更新', ['用方向鍵瀏覽卡片、分享目前的篩選條件，或從命令面板重新開啟最近造訪的資源。']],
-    en: ['JY//OS cards and search', ['Navigate cards with the arrow keys, share library filters, and reopen recent resources from the command palette.']],
-    ja: ['JY//OS のカードと検索', ['矢印キーでカードを移動し、絞り込み条件を共有できます。最近開いたリソースはコマンドパレットから開けます。']]
+    'zh-CN': ['JY//OS 卡片与搜索更新', ['卡片依次展开。用方向键浏览卡片，分享当前筛选，或在命令面板重新打开最近访问的资源。']],
+    'zh-TW': ['JY//OS 卡片與搜尋更新', ['卡片依序展開。用方向鍵瀏覽卡片、分享目前的篩選條件，或從命令面板重新開啟最近造訪的資源。']],
+    en: ['JY//OS cards and search', ['Cards reveal in sequence. Navigate cards with the arrow keys, share library filters, and reopen recent resources from the command palette.']],
+    ja: ['JY//OS のカードと検索', ['カードが順番に展開します。矢印キーでカードを移動し、絞り込み条件を共有できます。最近開いたリソースはコマンドパレットから開けます。']]
   } },
   { id: '2026-11-26-jyos3', date: '2026-11-26', type: 'improved', content: {
     'zh-CN': ['JY//OS 分类与下载页更新', ['分类显示资源数量，分类和视图切换新增滑动高亮。手机可在下载卡片上左右滑动切换平台，桌面可按对应数字键。']],
