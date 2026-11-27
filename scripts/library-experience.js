@@ -234,8 +234,8 @@
     $('#quick-search-input').setAttribute('aria-activedescendant', options[searchIndex].id);
     options[searchIndex].scrollIntoView({ block: 'nearest', behavior: 'instant' });
   }
-  function rememberSearch() {
-    const query = $('#quick-search-input').value.trim().slice(0, 120);
+  function rememberSearch(value = $('#quick-search-input').value) {
+    const query = value.trim().slice(0, 120);
     if (!query) return;
     recent = sanitizeHistory([query, ...sanitizeHistory(read('jy-search-history', recent)).filter(value => normalize(value) !== normalize(query))]);
     write('jy-search-history', recent);
@@ -398,6 +398,6 @@
     initialized = true;
     refresh();
   }
-  window.JYLibrary = { text, matches, tags, openSearch, initHome, refresh };
+  window.JYLibrary = { text, matches, tags, openSearch, rememberSearch, searchHistory: () => recent.slice(), initHome, refresh };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true }); else init();
 })();
