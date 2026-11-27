@@ -687,7 +687,7 @@ html.jy-reveal[data-style="tech"] :is(.resource-card, .hub-card, .featured-card,
 html.jy-reveal[data-style="tech"] .library-entry:has(> a:not(.jy-in)) .entry-actions { opacity: 0; }
 html[data-style="tech"] .entry-actions { transition: opacity .3s .15s; }
 @keyframes jy-enter {
-  0% { opacity: 0; transform: translateY(26px) scale(.97); clip-path: polygon(0 0, 0 0, 0 var(--cut, 18px), 0 100%, 0 100%); }
+  0% { opacity: 0; transform: translateY(var(--ey, 26px)) scale(.97); clip-path: polygon(0 0, 0 0, 0 var(--cut, 18px), 0 100%, 0 100%); }
   60% { clip-path: polygon(0 0, calc(100% - var(--cut, 18px)) 0, 100% var(--cut, 18px), 100% 100%, 0 100%); }
 }
 @media (prefers-reduced-motion: reduce) {

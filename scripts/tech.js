@@ -686,11 +686,21 @@
       if (reducedMotion.matches || !('IntersectionObserver' in window)) return;
       const selector = '.resource-card, .hub-card, .featured-card, .favorite-entry, .next-step';
       root.classList.add('jy-reveal');
+      // Replays every time: a card re-arms once it is fully off-screen and animates again on re-entry,
+      // sliding in from whichever edge (top or bottom) it arrives from.
       const io = observe(IntersectionObserver, entries => {
-        entries.filter(e => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left)
-          .forEach((entry, i) => { entry.target.style.setProperty('--ri', String(Math.min(i, 9))); entry.target.classList.add('jy-in'); io.unobserve(entry.target); });
-      }, { rootMargin: '0px 0px -5% 0px', threshold: 0.06 });
+        const middle = innerHeight / 2;
+        entries.filter(e => !e.isIntersecting && e.target.classList.contains('jy-in')).forEach(e => e.target.classList.remove('jy-in'));
+        entries.filter(e => e.isIntersecting && e.intersectionRatio >= 0.06 && !e.target.classList.contains('jy-in'))
+          .sort((x, y) => x.boundingClientRect.top - y.boundingClientRect.top || x.boundingClientRect.left - y.boundingClientRect.left)
+          .forEach((entry, i, all) => {
+            const fromTop = entry.boundingClientRect.top < middle - 40 && entry.boundingClientRect.bottom < innerHeight;
+            const order = fromTop ? all.length - 1 - i : i;
+            entry.target.style.setProperty('--ri', String(Math.min(order, 9)));
+            entry.target.style.setProperty('--ey', fromTop ? '-26px' : '26px');
+            entry.target.classList.add('jy-in');
+          });
+      }, { rootMargin: '0px 0px -5% 0px', threshold: [0, 0.06] });
       const scan = () => $$(selector).forEach(el => { if (!el.dataset.rv) { el.dataset.rv = '1'; io.observe(el); } });
       scan();
       observe(MutationObserver, scan).observe(document.body, { childList: true, subtree: true });
@@ -764,6 +774,7 @@
         el.classList.remove('jy-inked','jy-in','jy-swap');
         el.style.removeProperty('--swap-i');
         el.style.removeProperty('--ri');
+        el.style.removeProperty('--ey');
       });
       $$(panels).forEach(el => {
         for (const key of ['--mx','--my','--rx','--ry']) el.style.removeProperty(key);
