@@ -179,10 +179,10 @@
       write('jy-recent', list);
     };
     listen(document, 'click', event => {
-      const link = event.target.closest?.('a.resource-card, a.hub-card, a.featured-card, a.favorite-entry');
+      const link = event.target.closest?.('a.resource-card, a.hub-card, a.featured-card, a.favorite-link');
       if (!link) return;
-      const href = link.getAttribute('href');
-      rememberVisit(catalog.find(item => item.url === href)?.id);
+      const favoriteId = link.closest('[data-favorite-id]')?.dataset.favoriteId;
+      rememberVisit(favoriteId || catalog.find(item => item.url === link.getAttribute('href'))?.id);
     }, true);
 
     /* ------------------------------------------------------------ palette */

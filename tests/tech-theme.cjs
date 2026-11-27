@@ -15,6 +15,13 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     assert.equal(await page.locator('.hud').count(), 1);
     assert.equal(await page.locator('.jy-ink').count(), 2);
+    const favorite = page.locator('#resource-grid [data-library-action="favorite"][data-entry-id="avatar-studio"]');
+    await favorite.click();
+    assert.equal(await page.evaluate(() => localStorage.getItem('jy-recent')), null);
+    await page.locator('#favorites-grid a[href="/avatar.html"]').focus();
+    await Promise.all([page.waitForURL('**/avatar.html'), page.keyboard.press('Enter')]);
+    assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('jy-recent'))), ['avatar-studio']);
+    await page.goto(base);
     for (const filter of await page.locator('.filters [data-category]').all()) {
       await filter.click();
       assert.equal(Number(await filter.getAttribute('data-n')), await page.locator('#resource-grid a.resource-card').count());

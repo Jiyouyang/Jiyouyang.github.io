@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-27-favorite-visit', date: '2026-11-27', type: 'improved', content: {
+    'zh-CN': ['修复收藏入口的访问记录', ['从“我的常用”打开的资源现在会出现在命令面板的“最近访问”中。']],
+    'zh-TW': ['修正收藏入口的造訪記錄', ['從常用清單開啟的資源現在會出現在命令面板的最近造訪記錄中。']],
+    en: ['Recent visits from favorites', ['Resources opened from your shortcuts now appear in the command palette’s recent visits.']],
+    ja: ['お気に入りからの閲覧履歴を修正', ['お気に入りから開いたリソースが、コマンドパレットの「最近開いた」に表示されます。']]
+  } },
   { id: '2026-11-27-native-controls', date: '2026-11-27', type: 'improved', content: {
     'zh-CN': ['保留各主题的原生控件', ['其他主题沿用原有首页搜索按钮、分类和视图选中配色，并支持共享命令面板。']],
     'zh-TW': ['保留各主題的原有控制項', ['其他主題沿用原有首頁搜尋按鈕、分類和檢視選取配色，並支援共用命令面板。']],
