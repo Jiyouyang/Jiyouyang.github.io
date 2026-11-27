@@ -1,7 +1,7 @@
 # CODEX 项目交接文档
 
 > 更新：2026-11-27 · 仓库：`Jiyouyang/Jiyouyang.github.io` · 分支：`main`
-> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-27（置顶公告使用 ChatGPT Codex 署名）
+> 网站：https://jiyouyang.github.io/ · 最近网站更新：2026-11-27（置顶公告更新 ChatGPT Codex 模型名称）
 
 本文集中保存现行规则、网站现状和维护入口。精简前全文（含全部需求演变、备份 SHA、时间、测试与部署记录）[原样归档](docs/history/CODEX_HANDOFF-2026-11-11-original.md)；[本次全部整理说明](docs/HANDOFF_SIMPLIFICATION.md)。历史方案若已被后续要求取代，只作追溯，不按旧记录恢复网站。
 
@@ -416,3 +416,5 @@ Chromium 使用临时生成的色块检查五条旗纹、透明前景、JPEG 纯
 - 编辑前备份于 2026-11-27 10:52:22 UTC，分支 `backup/pre-change-2026-11-27_10-52-22_UTC` 和标签 `backup-2026-11-27_10-52-22_UTC` 均已核验为 `72f8c0babdf6d5ae86d1582c8de9b3208ec9aa7f`。
 
 2026-11-27：置顶制作公告四语言标题与详情中的 Codex 改为 ChatGPT Codex，首页同步更新脚本缓存版本。编辑前于 2026-11-27 11:03:45 UTC 核验备份分支 `backup/pre-change-2026-11-27_11-03-45_UTC` 和标签 `backup-2026-11-27_11-03-45_UTC`，基线为 `a25494a1ea145f45f63208acb2e2efa48ef0fc5c`。
+
+2026-11-27：原制作署名的四语言标题改用 6.2 Astra 和 6.2 Sol，并递增首页缓存版本。编辑前于 2026-11-27 11:04:29 UTC 核验备份分支 `backup/pre-change-2026-11-27_11-04-29_UTC`、标签 `backup-2026-11-27_11-04-29_UTC`，基线为 `4e89cce6dd6d87ed2ec8b655ee6b4e5bbb8c7bc7`。
