@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-27-original-tech', date: '2026-11-27', type: 'improved', content: {
+    'zh-CN': ['JY//OS 卡片与导航', ['默认主题采用切角卡片与分批入场动画，支持方向键导航和最近访问。']],
+    'zh-TW': ['JY//OS 卡片與導覽', ['預設主題採用切角卡片與分批進場動畫，支援方向鍵導覽與最近造訪。']],
+    en: ['JY//OS cards and navigation', ['The default theme features chamfered cards, staggered entrances, arrow-key navigation and recently opened resources.']],
+    ja: ['JY//OS のカードとナビゲーション', ['既定のテーマに切り欠きのあるカードと順次表示アニメーションを採用し、矢印キーでの移動と最近開いたリソースに対応しました。']]
+  } },
   { id: '2026-11-26-jyos3', date: '2026-11-26', type: 'improved', content: {
     'zh-CN': ['JY//OS 分类与下载页更新', ['分类显示资源数量，分类和视图切换新增滑动高亮。手机可在下载卡片上左右滑动切换平台，桌面可按对应数字键。']],
     'zh-TW': ['JY//OS 分類與下載頁更新', ['分類顯示資源數量，分類與檢視切換加入滑動高亮。手機可在下載卡片上左右滑動切換平台，桌面可按對應數字鍵。']],
