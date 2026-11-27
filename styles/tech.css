@@ -739,7 +739,7 @@ html[data-style]:not([data-style="tech"]) :is(.jy-cmd,.jy-clear,.jp-item,.jp-esc
 html[data-style]:not([data-style="tech"]) .jy-cmd { min-width: 44px; min-height: 44px; justify-content: center; }
 @media (prefers-reduced-motion: no-preference) {
   html.jy-reveal:not([data-style="tech"]) .jy-in { animation: jy-shared-enter .62s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--ri,0) * 60ms); }
-  @keyframes jy-shared-enter { from { opacity: 0; translate: 0 14px; } }
+  @keyframes jy-shared-enter { from { opacity: 0; translate: 0 calc(var(--ey, 26px) * 14 / 26); } }
   @media (hover:hover) {
     html:not([data-style="tech"]) :is(.resource-card,.hub-card,.featured-card):hover {
       transform: perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));

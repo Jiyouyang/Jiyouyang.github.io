@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-27-shared-reveal-direction', date: '2026-11-27', type: 'improved', content: {
+    'zh-CN': ['各主题的双向卡片入场', ['滚动返回时，卡片会从重新进入视野的一侧滑入。']],
+    'zh-TW': ['各主題的雙向卡片進場', ['捲動返回時，卡片會從重新進入視野的一側滑入。']],
+    en: ['Directional card entrances across themes', ['When you scroll back, cards slide in from the edge they re-enter.']],
+    ja: ['全テーマの双方向カード表示', ['スクロールで戻ると、カードが画面に再び入る側からスライドします。']]
+  } },
   { id: '2026-11-27-directional-reveal', date: '2026-11-27', type: 'improved', content: {
     'zh-CN': ['首页文案与卡片入场更新', ['首页更新主标题、每周精选和资源库标题。JY//OS 卡片移出视口后再次出现时，会按进入方向依次展开。']],
     'zh-TW': ['首頁文案與卡片進場更新', ['首頁更新主標題、每週精選與資源庫標題。JY//OS 卡片離開視窗後再次出現時，會依進入方向依序展開。']],
