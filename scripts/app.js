@@ -407,10 +407,10 @@ const announcements = [
       en: 'Made by Jiyouyang & Codex',
       ja: 'JiyouyangとCodexが制作'
     }, content: {
-      'zh-CN': ['本站由Jiyouyang & Codex（基于ChatGPT 6Astra & 6Sol)制作', ['本站由 Jiyouyang 与 Codex 共同制作。']],
-      'zh-TW': ['本站由Jiyouyang & Codex（基於ChatGPT 6Astra & 6Sol)製作', ['本站由 Jiyouyang 與 Codex 共同製作。']],
-      en: ['Made by Jiyouyang & Codex (powered by ChatGPT 6Astra & 6Sol)', ['This site was made by Jiyouyang and Codex.']],
-      ja: ['このサイトはJiyouyangとCodex（ChatGPT 6Astra・6Solベース）が制作', ['このサイトは Jiyouyang と Codex が共同制作しました。']]
+      'zh-CN': ['本站由 Jiyouyang、Codex（基于 ChatGPT 6Astra & 6Sol）与 Claude Code（基于 Claude Fable 5.2 & Opus 5.5）共同制作', ['本站由 Jiyouyang、Codex 与 Claude Code 共同制作。']],
+      'zh-TW': ['本站由 Jiyouyang、Codex（基於 ChatGPT 6Astra & 6Sol）與 Claude Code（基於 Claude Fable 5.2 & Opus 5.5）共同製作', ['本站由 Jiyouyang、Codex 與 Claude Code 共同製作。']],
+      en: ['Made by Jiyouyang, Codex (powered by ChatGPT 6Astra & 6Sol), and Claude Code (powered by Claude Fable 5.2 & Opus 5.5)', ['This site was made by Jiyouyang, Codex, and Claude Code.']],
+      ja: ['Jiyouyang、Codex（ChatGPT 6Astra・6Sol ベース）、Claude Code（Claude Fable 5.2・Opus 5.5 ベース）が共同制作', ['このサイトは Jiyouyang、Codex、Claude Code が共同制作しました。']]
     }
   },
   {
