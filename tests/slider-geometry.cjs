@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
-const { selectStyle } = require('./select-style.cjs');
+const { selectStyle, openSettings } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const pages = fs.readdirSync(path.join(__dirname, '..')).filter(file => file.endsWith('.html'));
 // Optional comma-separated pages for resuming an interrupted long run; default tests every page.
@@ -20,8 +20,8 @@ assert.ok(selectedPages.length && selectedPages.every(file => pages.includes(fil
     page.on('pageerror', error => errors.push(error.message));
     for (const file of selectedPages) {
       await page.goto(base + '/' + file);
-      await page.locator('#settings-trigger').click();
       for (const style of ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'furina', 'mtf', 'tech']) {
+        await openSettings(page);
         await selectStyle(page, '[data-style-choice=' + style + ']');
         for (const width of [320, 390, 768, 1440]) {
           await page.setViewportSize({ width, height: 844 });

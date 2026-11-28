@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-28-unified-mobile-settings', date: '2026-11-28', type: 'improved', content: {
+    'zh-CN': ['手机网站设置移至底栏', ['在底栏右侧打开设置，可集中调整主题、配色、背景浓度、明暗模式、语言和资源布局。']],
+    'zh-TW': ['手機網站設定移至底欄', ['在底欄右側開啟設定，可集中調整主題、配色、背景濃度、明暗模式、語言與資源版面。']],
+    en: ['Site settings in the mobile bottom bar', ['Open Settings at the right of the bottom bar to adjust the theme, accent, background intensity, light or dark mode, language and resource layout.']],
+    ja: ['モバイルのサイト設定を下部に移動', ['下部メニュー右側の設定から、テーマ、配色、背景の濃さ、明暗モード、言語、リソースの表示形式を変更できます。']]
+  } },
   { id: '2026-11-28-dock-screens', date: '2026-11-28', type: 'added', content: {
     'zh-CN': ['手机底栏新增独立页面', ['在搜索页筛选和收藏资源，从常用页重新打开，在设置页调整外观和语言。']],
     'zh-TW': ['手機底欄新增獨立頁面', ['在搜尋頁篩選並收藏資源，從常用頁再次開啟，在設定頁調整外觀與語言。']],

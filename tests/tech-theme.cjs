@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { chromium } = require('playwright');
-const { selectStyle } = require('./select-style.cjs');
+const { selectStyle, openSettings, selectSetting } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8767';
 (async () => {
   const args = ['--no-sandbox'];
@@ -42,7 +42,7 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
     await page.keyboard.press('?');
     assert.equal(await page.locator('#jy-help').isVisible(), true);
     await page.keyboard.press('Escape');
-    await page.locator('#settings-trigger').click();
+    await openSettings(page);
     assert.equal(await page.locator('[data-style-choice]').first().getAttribute('data-style-choice'), 'tech');
     await selectStyle(page, '[data-style-choice=classic]');
     assert.equal(await page.locator('.hud').count(), 0);
@@ -50,9 +50,9 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
     assert.equal(await page.locator('.jy-ink').count(), 2);
     await page.reload();
     assert.equal(await page.locator('html').getAttribute('data-style'), 'classic');
-    await page.locator('#settings-trigger').click();
+    await openSettings(page);
     await selectStyle(page, '[data-style-choice=tech]');
-    await page.locator('[data-mode=light]').click();
+    await selectSetting(page, '[data-mode=light]');
     const files = fs.readdirSync('.').filter(f => f.endsWith('.html'));
     for (const width of [320, 390, 1440]) {
       await page.setViewportSize({ width, height: 820 });

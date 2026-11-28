@@ -1,3 +1,4 @@
+const { openSettings, closeSettings } = require('./select-style.cjs');
 /* Character artwork integration, domestic request origin, ordering, framing and failure handling. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -41,7 +42,7 @@ const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mt
         assert.deepEqual(layout, { overlap: false, overflow: false }, file + ' at ' + width);
       }
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.locator('#settings-trigger').click();
+      await openSettings(page);
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.evaluate(language => document.querySelector('[data-language="' + language + '"]').click(), language);
         assert.match(await page.locator('.furina-credit').textContent(), /BWIKI/);
@@ -68,7 +69,7 @@ const oldStyles = ['classic', 'terminal', 'mecha', 'blackgold', 'columbina', 'mt
         for (const selector of ['.furina-scene', '.furina-backdrop', '.furina-credit']) assert.equal(await page.locator(selector).isVisible(), false);
       }
       await page.evaluate(() => document.querySelector('[data-style-choice=furina]').click());
-      await page.locator('#close-settings').click();
+      await closeSettings(page);
     }
     for (const mode of ['remote-fails', 'all-fail', 'remote-stalls']) {
       const failure = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });

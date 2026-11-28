@@ -678,6 +678,12 @@
       const recent = storedIds('jy-recent').filter(id => byId.has(id)).slice(0, 5).map(id => byId.get(id));
       if (recent.length) body.insertAdjacentHTML('beforeend', '<h2 class="js-label">' + esc(t('recent')) + '</h2><div class="js-list">' + recent.map(rowHtml).join('') + '</div>');
     }
+    const settingsBody = $('#settings .settings-body');
+    const settingsExtras = document.createElement('div');
+    function restoreSettings() {
+      if (settingsExtras.childElementCount) settingsBody.prepend(...settingsExtras.children);
+    }
+
     function renderSet(pane) {
       const body = $('.js-body', pane);
       const group = (label, buttons, kind, activeOf) => buttons.length ? '<section class="js-group"><h2 class="js-label">' + esc(label) + '</h2><div class="js-opts">' +
@@ -686,7 +692,16 @@
           return '<button type="button" class="js-opt" data-proxy="' + kind + ':' + i + '" aria-pressed="' + activeOf(b) + '">' + dot + esc(b.textContent.trim()) + '</button>';
         }).join('') + '</div></section>' : '';
       const modes = $$('[data-mode]'), accents = $$('[data-accent-choice]'), langs = $$('[data-language]'), views = $$('[data-library-view]');
-      body.innerHTML =
+      if (!settingsExtras.parentElement) body.prepend(settingsExtras);
+      if (settingsBody) settingsExtras.append(...$$('.style-setting, .backdrop-setting', settingsBody));
+
+      let groups = $('.js-settings-groups', body);
+      if (!groups) {
+        groups = document.createElement('div');
+        groups.className = 'js-settings-groups';
+        body.append(groups);
+      }
+      groups.innerHTML =
         group(t('sAppear'), modes, 'mode', b => b.classList.contains('active') || b.getAttribute('aria-pressed') === 'true' || b.getAttribute('aria-selected') === 'true') +
         group(t('sAccent'), accents, 'accent', b => b.classList.contains('active') || b.getAttribute('aria-pressed') === 'true') +
         group(t('sLang'), langs, 'lang', b => b.dataset.language === root.lang) +
@@ -702,6 +717,7 @@
       layer.innerHTML = [1, 2, 3].map(i => '<section class="jy-screen" data-screen="' + SCREEN_KEYS[i] + '" data-pos="right" inert aria-hidden="true"><header class="js-head"><h1></h1></header><div class="js-body"></div></section>').join('');
       document.body.append(layer);
       onExit(() => {
+        restoreSettings();
         layer.remove();
         root.classList.remove('jy-screen-open');
         inertBackground.forEach(element => { element.inert = false; });
@@ -773,8 +789,15 @@
       const next = history.state?.jyScreen;
       apply(phone() && Number.isInteger(next) && next > 0 && next < SCREEN_KEYS.length && $('.jy-dock') ? next : 0);
     }
+    // A reload can restore this tab before the theme picker is initialized.
+    listen(document, 'DOMContentLoaded', () => { if (cur === 3) refreshScreen(); }, { once: true });
     listen(window, 'popstate', restoreScreen);
-    listen(window, 'resize', () => { if (cur > 0 && !phone()) apply(0); }, { passive: true });
+    listen(window, 'resize', () => {
+      if (!phone()) {
+        if (cur) apply(0);
+        restoreSettings();
+      }
+    }, { passive: true });
     listen(window, 'storage', event => {
       if (cur && (!event.key || ['jy-favorites','jy-recent'].includes(event.key))) refreshScreen();
     });

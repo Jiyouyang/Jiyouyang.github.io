@@ -1,3 +1,4 @@
+const { openSettings } = require('./select-style.cjs');
 /* Real user flows for the shared library: persistence, aliases, clipboard,
    hub/catalog parity, return state, and responsive theme/language controls. */
 const assert = require('node:assert/strict');
@@ -77,7 +78,7 @@ const normalize = value => value.replace(/\s+/g, ' ').trim();
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.querySelector('#quick-search').open && document.body.style.overflow === '');
     assert.equal(await page.evaluate(() => document.body.style.overflow), '');
-    await page.locator('#settings-trigger').click();
+    await openSettings(page);
     await page.keyboard.press('Control+k');
     assert.equal(await page.locator('#quick-search').evaluate(el => el.open), false, 'Do not open stacked search over settings');
     await page.keyboard.press('Escape');

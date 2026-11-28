@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 const { chromium } = require('playwright');
-const { selectStyle } = require('./select-style.cjs');
+const { selectStyle, openSettings, closeSettings } = require('./select-style.cjs');
 const base = process.argv[2] || 'http://127.0.0.1:8765';
 const flag = fs.readFileSync('assets/themes/mtf/pride-flag.svg');
 const path = 'assets/themes/mtf/pride-flag-viewport.svg';
@@ -79,10 +79,10 @@ async function checkStripePixels(page, label) {
     for (const style of oldStyles) await page.evaluate(style => document.querySelector('[data-style-choice=' + style + ']').click(), style);
     assert.deepEqual(requests, [], 'Existing styles must not request the new flag');
     const links = await page.locator('main a').evaluateAll(elements => elements.map(element => element.href));
-    await page.locator('#settings-trigger').click();
+    await openSettings(page);
     await selectStyle(page, '[data-style-choice=mtf]');
     assert.deepEqual(await page.evaluate(() => ({ ...document.documentElement.dataset })), { style: 'mtf', theme: 'light', accent: 'blue' });
-    await page.locator('#close-settings').click();
+    await closeSettings(page);
     assert.deepEqual(await page.locator('main a').evaluateAll(elements => elements.map(element => element.href)), links);
     await page.waitForFunction(() => [...document.querySelectorAll('.mtf-backdrop img')].every(image => image.complete && image.naturalWidth));
     assert.ok(requests.length);
@@ -116,7 +116,7 @@ async function checkStripePixels(page, label) {
       }
       await page.evaluate(() => scrollTo(0, 0));
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.locator('#settings-trigger').click();
+      await openSettings(page);
       for (const language of ['zh-CN', 'zh-TW', 'en', 'ja']) {
         await page.evaluate(language => document.querySelector('[data-language="' + language + '"]').click(), language);
         assert.match(await page.locator('.mtf-credit').textContent(), /Wikimedia Commons/);
@@ -143,7 +143,7 @@ async function checkStripePixels(page, label) {
         for (const selector of ['.mtf-backdrop', '.mtf-credit']) assert.equal(await page.locator(selector).isVisible(), false);
       }
       await page.evaluate(() => document.querySelector('[data-style-choice=mtf]').click());
-      await page.locator('#close-settings').click();
+      await closeSettings(page);
     }
     for (const mode of ['error', 'timeout']) {
       const failure = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });

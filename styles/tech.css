@@ -1113,3 +1113,7 @@ html:not([data-style="tech"]) #jy-screens { display: none; }
   html:not([data-style="tech"]) :is(.js-head h1,.js-label,.js-search input,.js-chip,.js-opt,.js-empty) { font-family: inherit; }
   html:not([data-style="tech"]) :is(.js-search,.js-chip,.js-opt,.jy-row .jp-item,.jy-star) { border-radius: var(--library-control-radius); }
 }
+
+@media (max-width: 700px) {
+  body:has(.jy-dock) #settings-trigger { display: none; }
+}
