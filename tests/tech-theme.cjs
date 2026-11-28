@@ -33,9 +33,12 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
     }
     await page.evaluate(() => scrollTo({top: 0, behavior: 'instant'}));
     await page.locator('[data-dock=search]').click();
-    await page.locator('#jy-palette-input').fill('minecraft');
-    assert.ok(await page.locator('#jy-palette a.jp-item').count() > 0);
+    assert.ok(await page.locator('main').evaluate(main => main.inert));
+    await page.locator('[data-screen=search] input').fill('minecraft');
+    assert.ok(await page.locator('[data-screen=search] a.jp-item').count() > 0);
     await page.keyboard.press('Escape');
+    await page.waitForFunction(() => !document.documentElement.classList.contains('jy-screen-open'));
+    assert.equal(await page.locator('main').evaluate(main => main.inert), false);
     await page.keyboard.press('?');
     assert.equal(await page.locator('#jy-help').isVisible(), true);
     await page.keyboard.press('Escape');

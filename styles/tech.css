@@ -935,6 +935,98 @@ html:not([data-style="tech"]) .jy-dock { display: none; }
   html[data-style="tech"] #jy-toast, html[data-style="tech"] #library-toast { bottom: calc(104px + env(safe-area-inset-bottom)); }
 }
 
+/* ---- Maximum transparency: almost no fill, minimal blur, only rim light + specular ---- */
+@media (max-width: 700px) {
+  html[data-style="tech"] .jy-dock,
+  html[data-theme="light"][data-style="tech"] .jy-dock,
+  html[data-theme="dark"][data-style="tech"] .jy-dock {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 3%, transparent), transparent 50%, color-mix(in srgb, #fff 1.5%, transparent));
+    -webkit-backdrop-filter: blur(1.5px) saturate(170%); backdrop-filter: blur(1.5px) saturate(170%);
+    box-shadow:
+      inset 0 1.5px 0 color-mix(in srgb, #fff 85%, transparent), inset 0 -1px 0 color-mix(in srgb, #fff 38%, transparent),
+      inset 1.5px 0 1px -.5px rgba(255, 90, 140, .2), inset -1.5px 0 1px -.5px rgba(80, 200, 255, .24),
+      inset 0 0 14px color-mix(in srgb, #fff 5%, transparent), 0 0 0 .5px color-mix(in srgb, var(--ink) 20%, transparent),
+      0 8px 24px rgba(8, 16, 36, .12);
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock { box-shadow:
+      inset 0 1.5px 0 color-mix(in srgb, #fff 55%, transparent), inset 0 -1px 0 color-mix(in srgb, #fff 16%, transparent),
+      inset 1.5px 0 1px -.5px rgba(255, 90, 140, .24), inset -1.5px 0 1px -.5px rgba(80, 200, 255, .28),
+      0 0 0 .5px color-mix(in srgb, #fff 24%, transparent), 0 10px 28px rgba(0, 0, 0, .4); }
+  html[data-style="tech"] .jy-dock::after { opacity: .3; background: radial-gradient(110% 70% at 14% -40%, color-mix(in srgb, #fff 70%, transparent), transparent 55%); }
+  html[data-style="tech"] .jy-dock::before,
+  html[data-theme="dark"][data-style="tech"] .jy-dock::before,
+  html[data-theme="light"][data-style="tech"] .jy-dock::before {
+    background: rgba(118, 118, 128, .1); -webkit-backdrop-filter: blur(3px) saturate(150%); backdrop-filter: blur(3px) saturate(150%);
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock::before { background: rgba(235, 235, 245, .09); }
+  html[data-style="tech"] .jy-dock button svg { filter: drop-shadow(0 0 2px color-mix(in srgb, var(--bg) 60%, transparent)); }
+}
+
+/* ==========================================================================
+   Dock screens: Search / Saved / Settings as full views that slide like App Store tabs
+   ========================================================================== */
+html[data-style="tech"] #jy-screens { display: none; }
+@media (max-width: 700px) {
+  html[data-style="tech"] .jy-dock { z-index: 100; }
+  html[data-style="tech"] #jy-screens { display: block; position: fixed; inset: 0; z-index: 91; pointer-events: none; visibility: hidden; transition: visibility 0s .5s; }
+  html[data-style="tech"] #jy-screens.open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
+  html.jy-screen-open { overflow: hidden; }
+  html[data-style="tech"] .jy-screen {
+    position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    padding: calc(env(safe-area-inset-top) + 22px) 18px calc(118px + env(safe-area-inset-bottom));
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 44px 44px; background-attachment: local;
+    transition: transform .5s cubic-bezier(.2, .85, .25, 1), opacity .4s; will-change: transform;
+  }
+  html[data-style="tech"] .jy-screen[data-pos="right"] { transform: translateX(100%); }
+  html[data-style="tech"] .jy-screen[data-pos="left"] { transform: translateX(-26%); opacity: 0; }
+  html[data-style="tech"] .jy-screen[data-pos="center"] { transform: none; opacity: 1; }
+
+  html[data-style="tech"] .js-head h1 { margin: 0 0 18px; font: 800 34px/1.1 var(--mono); letter-spacing: -.5px; color: var(--ink); }
+  html[data-style="tech"] .js-head h1::before { content: "> "; color: var(--sig); text-shadow: 0 0 14px color-mix(in srgb, var(--sig) 50%, transparent); }
+  html[data-style="tech"] .js-head h1:focus { outline: none; }
+  html[data-style="tech"] .js-label { margin: 26px 0 10px; font: 600 11px var(--mono); letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  html[data-style="tech"] .js-label::before { content: "// "; color: var(--sig); }
+
+  /* search */
+  html[data-style="tech"] .js-search { display: flex; align-items: center; gap: 10px; padding: 0 14px; height: 50px; background: color-mix(in srgb, var(--surface) 90%, transparent); border: 1px solid var(--line-strong); border-radius: 2px; transition: border-color .2s, box-shadow .2s; }
+  html[data-style="tech"] .js-search:focus-within { border-color: var(--sig); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig) 18%, transparent); }
+  html[data-style="tech"] .js-search svg { flex: none; width: 19px; height: 19px; fill: none; stroke: var(--sig); stroke-width: 2; stroke-linecap: round; }
+  html[data-style="tech"] .js-search input { flex: 1; min-width: 0; height: 100%; font: 500 16px var(--mono); color: var(--ink); background: transparent; border: 0; outline: 0; caret-color: var(--sig); -webkit-appearance: none; appearance: none; }
+  html[data-style="tech"] .js-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+  html[data-style="tech"] .js-chips { display: flex; gap: 8px; margin: 14px -18px 6px; padding: 2px 18px; overflow-x: auto; scrollbar-width: none; }
+  html[data-style="tech"] .js-chips::-webkit-scrollbar { display: none; }
+  html[data-style="tech"] .js-chip, html[data-style="tech"] .js-opt {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; cursor: pointer; font: 600 13px var(--mono); color: var(--muted);
+    background: color-mix(in srgb, var(--surface) 80%, transparent); border: 1px solid var(--line-strong); border-radius: 999px; transition: color .2s, background .2s, border-color .2s, transform .12s;
+  }
+  html[data-style="tech"] .js-chip:active, html[data-style="tech"] .js-opt:active { transform: scale(.95); }
+  html[data-style="tech"] .js-chip[aria-pressed="true"], html[data-style="tech"] .js-opt[aria-pressed="true"] { color: var(--sig); border-color: var(--sig); background: var(--tint); box-shadow: 0 0 16px color-mix(in srgb, var(--sig) 18%, transparent); }
+
+  /* rows */
+  html[data-style="tech"] .js-list { display: grid; gap: 8px; margin-top: 8px; }
+  html[data-style="tech"] .jy-row { display: flex; align-items: stretch; gap: 8px; animation: jy-row-in .5s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--ri, 0) * 35ms); }
+  html[data-style="tech"] .jy-row .jp-item { flex: 1; min-width: 0; padding: 10px 12px; background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); border-radius: 2px; transition: border-color .2s, transform .12s; }
+  html[data-style="tech"] .jy-row .jp-item:active { border-color: var(--sig); transform: scale(.985); }
+  html[data-style="tech"] .jy-row .jp-meta { display: none; }
+  html[data-style="tech"] .jy-star { flex: none; width: 52px; display: grid; place-items: center; cursor: pointer; color: var(--muted); background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); border-radius: 2px; transition: color .2s, border-color .2s, transform .15s; }
+  html[data-style="tech"] .jy-star svg { width: 22px; height: 22px; fill: transparent; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; transition: fill .2s, transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+  html[data-style="tech"] .jy-star[aria-pressed="true"] { color: var(--sig); border-color: color-mix(in srgb, var(--sig) 55%, transparent); }
+  html[data-style="tech"] .jy-star[aria-pressed="true"] svg { fill: var(--sig); transform: scale(1.12) rotate(-8deg); filter: drop-shadow(0 0 6px var(--sig)); }
+  html[data-style="tech"] .jy-star:active { transform: scale(.9); }
+  html[data-style="tech"] .js-empty { margin: 36px 0; text-align: center; font: 13px var(--mono); color: var(--muted); }
+  html[data-style="tech"] .js-emptybox { display: grid; justify-items: center; gap: 6px; padding: 54px 20px 20px; text-align: center; color: var(--muted); }
+  html[data-style="tech"] .js-emptybox p { margin: 6px 0 4px; max-width: 24em; line-height: 1.7; }
+  html[data-style="tech"] .js-bigstar svg { width: 54px; height: 54px; fill: none; stroke: var(--sig); stroke-width: 1.3; stroke-linejoin: round; filter: drop-shadow(0 0 14px color-mix(in srgb, var(--sig) 45%, transparent)); }
+
+  /* settings */
+  html[data-style="tech"] .js-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  html[data-style="tech"] .js-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); box-shadow: inset 0 0 0 2px var(--surface); }
+}
+@keyframes jy-row-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { html[data-style="tech"] .jy-screen { transition: opacity .2s; } html[data-style="tech"] .jy-row { animation: none; } }
+
 /* Keep the package's reduced-transparency fallback above its light and dark variants. */
 @media (max-width: 700px) and (prefers-reduced-transparency: reduce) {
   html[data-style="tech"][data-theme] .jy-dock {
@@ -955,4 +1047,69 @@ html:not([data-style="tech"]) .jy-dock { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   html:not([data-style="tech"]) .jy-dock::before { transition: opacity .2s; }
+}
+
+/* Shared screen interactions use each theme’s existing surfaces and controls. */
+html:not([data-style="tech"]) #jy-screens { display: none; }
+@media (max-width: 700px) {
+  html:not([data-style="tech"]) .jy-dock { z-index: 100; }
+  html:not([data-style="tech"]) #jy-screens { display: block; position: fixed; inset: 0; z-index: 91; pointer-events: none; visibility: hidden; transition: visibility 0s .5s; }
+  html:not([data-style="tech"]) #jy-screens.open { pointer-events: auto; visibility: visible; transition-delay: 0s; }
+  html.jy-screen-open { overflow: hidden; }
+  html:not([data-style="tech"]) .jy-screen {
+    position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    padding: calc(env(safe-area-inset-top) + 22px) 18px calc(118px + env(safe-area-inset-bottom));
+    background-color: var(--bg);
+
+    transition: transform .5s cubic-bezier(.2, .85, .25, 1), opacity .4s; will-change: transform;
+  }
+  html:not([data-style="tech"]) .jy-screen[data-pos="right"] { transform: translateX(100%); }
+  html:not([data-style="tech"]) .jy-screen[data-pos="left"] { transform: translateX(-26%); opacity: 0; }
+  html:not([data-style="tech"]) .jy-screen[data-pos="center"] { transform: none; opacity: 1; }
+
+  html:not([data-style="tech"]) .js-head h1 { margin: 0 0 18px; font: 800 34px/1.1 var(--mono); letter-spacing: -.5px; color: var(--ink); }
+  html:not([data-style="tech"]) .js-head h1:focus { outline: none; }
+  html:not([data-style="tech"]) .js-label { margin: 26px 0 10px; font: 600 11px var(--mono); letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+  /* search */
+  html:not([data-style="tech"]) .js-search { display: flex; align-items: center; gap: 10px; padding: 0 14px; height: 50px; background: color-mix(in srgb, var(--surface) 90%, transparent); border: 1px solid var(--line-strong); border-radius: 2px; transition: border-color .2s, box-shadow .2s; }
+  html:not([data-style="tech"]) .js-search:focus-within { border-color: var(--sig); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig) 18%, transparent); }
+  html:not([data-style="tech"]) .js-search svg { flex: none; width: 19px; height: 19px; fill: none; stroke: var(--sig); stroke-width: 2; stroke-linecap: round; }
+  html:not([data-style="tech"]) .js-search input { flex: 1; min-width: 0; height: 100%; font: 500 16px var(--mono); color: var(--ink); background: transparent; border: 0; outline: 0; caret-color: var(--sig); -webkit-appearance: none; appearance: none; }
+  html:not([data-style="tech"]) .js-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+  html:not([data-style="tech"]) .js-chips { display: flex; gap: 8px; margin: 14px -18px 6px; padding: 2px 18px; overflow-x: auto; scrollbar-width: none; }
+  html:not([data-style="tech"]) .js-chips::-webkit-scrollbar { display: none; }
+  html:not([data-style="tech"]) .js-chip, html:not([data-style="tech"]) .js-opt {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; cursor: pointer; font: 600 13px var(--mono); color: var(--muted);
+    background: color-mix(in srgb, var(--surface) 80%, transparent); border: 1px solid var(--line-strong); border-radius: 999px; transition: color .2s, background .2s, border-color .2s, transform .12s;
+  }
+  html:not([data-style="tech"]) .js-chip:active, html:not([data-style="tech"]) .js-opt:active { transform: scale(.95); }
+  html:not([data-style="tech"]) .js-chip[aria-pressed="true"], html:not([data-style="tech"]) .js-opt[aria-pressed="true"] { color: var(--sig); border-color: var(--sig); background: var(--tint); box-shadow: 0 0 16px color-mix(in srgb, var(--sig) 18%, transparent); }
+
+  /* rows */
+  html:not([data-style="tech"]) .js-list { display: grid; gap: 8px; margin-top: 8px; }
+  html:not([data-style="tech"]) .jy-row { display: flex; align-items: stretch; gap: 8px; animation: jy-row-in .5s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(var(--ri, 0) * 35ms); }
+  html:not([data-style="tech"]) .jy-row .jp-item { flex: 1; min-width: 0; padding: 10px 12px; background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); border-radius: 2px; transition: border-color .2s, transform .12s; }
+  html:not([data-style="tech"]) .jy-row .jp-item:active { border-color: var(--sig); transform: scale(.985); }
+  html:not([data-style="tech"]) .jy-row .jp-meta { display: none; }
+  html:not([data-style="tech"]) .jy-star { flex: none; width: 52px; display: grid; place-items: center; cursor: pointer; color: var(--muted); background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); border-radius: 2px; transition: color .2s, border-color .2s, transform .15s; }
+  html:not([data-style="tech"]) .jy-star svg { width: 22px; height: 22px; fill: transparent; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; transition: fill .2s, transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+  html:not([data-style="tech"]) .jy-star[aria-pressed="true"] { color: var(--sig); border-color: color-mix(in srgb, var(--sig) 55%, transparent); }
+  html:not([data-style="tech"]) .jy-star[aria-pressed="true"] svg { fill: var(--sig); transform: scale(1.12) rotate(-8deg); filter: drop-shadow(0 0 6px var(--sig)); }
+  html:not([data-style="tech"]) .jy-star:active { transform: scale(.9); }
+  html:not([data-style="tech"]) .js-empty { margin: 36px 0; text-align: center; font: 13px var(--mono); color: var(--muted); }
+  html:not([data-style="tech"]) .js-emptybox { display: grid; justify-items: center; gap: 6px; padding: 54px 20px 20px; text-align: center; color: var(--muted); }
+  html:not([data-style="tech"]) .js-emptybox p { margin: 6px 0 4px; max-width: 24em; line-height: 1.7; }
+  html:not([data-style="tech"]) .js-bigstar svg { width: 54px; height: 54px; fill: none; stroke: var(--sig); stroke-width: 1.3; stroke-linejoin: round; filter: drop-shadow(0 0 14px color-mix(in srgb, var(--sig) 45%, transparent)); }
+
+  /* settings */
+  html:not([data-style="tech"]) .js-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  html:not([data-style="tech"]) .js-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); box-shadow: inset 0 0 0 2px var(--surface); }
+}
+@media (prefers-reduced-motion: reduce) { html:not([data-style="tech"]) .jy-screen { transition: opacity .2s; } html:not([data-style="tech"]) .jy-row { animation: none; } }
+
+@media (max-width: 700px) {
+  html:not([data-style="tech"]) .jy-screen { font-family: inherit; background-color: var(--bg); }
+  html:not([data-style="tech"]) :is(.js-head h1,.js-label,.js-search input,.js-chip,.js-opt,.js-empty) { font-family: inherit; }
+  html:not([data-style="tech"]) :is(.js-search,.js-chip,.js-opt,.jy-row .jp-item,.jy-star) { border-radius: var(--library-control-radius); }
 }

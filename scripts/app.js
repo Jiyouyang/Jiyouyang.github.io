@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-28-dock-screens', date: '2026-11-28', type: 'added', content: {
+    'zh-CN': ['手机底栏新增独立页面', ['在搜索页筛选和收藏资源，从常用页重新打开，在设置页调整外观和语言。']],
+    'zh-TW': ['手機底欄新增獨立頁面', ['在搜尋頁篩選並收藏資源，從常用頁再次開啟，在設定頁調整外觀與語言。']],
+    en: ['Search, Saved and Settings on mobile', ['Filter and save resources in Search, revisit them in Saved, and change appearance or language in Settings.']],
+    ja: ['モバイルの検索・よく使う項目・設定画面', ['検索でリソースを絞り込んで保存し、よく使う項目から開けます。設定では外観や言語を変更できます。']]
+  } },
   { id: '2026-11-28-dock-lens', date: '2026-11-28', type: 'improved', content: {
     'zh-CN': ['手机底栏按压反馈', ['点按底栏时，高亮会移到对应按钮。JY//OS 使用透明胶囊底栏与磨砂高亮。']],
     'zh-TW': ['手機底欄按壓回饋', ['點按底欄時，醒目標示會移到對應按鈕。JY//OS 採用透明膠囊底欄與霧面標示。']],

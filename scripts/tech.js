@@ -88,6 +88,10 @@
     Object.assign(WORDS['zh-TW'], { dHome: '首頁', dSearch: '搜尋', dFav: '常用', dSet: '設定', dNav: '快速導覽' });
     Object.assign(WORDS.en, { dHome: 'Home', dSearch: 'Search', dFav: 'Saved', dSet: 'Settings', dNav: 'Quick navigation' });
     Object.assign(WORDS.ja, { dHome: 'ホーム', dSearch: '検索', dFav: 'よく使う', dSet: '設定', dNav: 'クイックナビ' });
+    Object.assign(WORDS['zh-CN'], { sSearch: '搜索', sFind: '搜索资源名称或用途', sAll: '全部', sFavTitle: '我的常用', sFavEmpty: '还没有常用资源。在“搜索”里点星标，就会出现在这里。', sGoSearch: '去搜索', sSetTitle: '设置', sAppear: '外观', sAccent: '主题色', sLang: '语言', sLayout: '资源布局', sNoHit: '没有找到相关资源', sStar: '收藏', sUnstar: '取消收藏' });
+    Object.assign(WORDS['zh-TW'], { sSearch: '搜尋', sFind: '搜尋資源名稱或用途', sAll: '全部', sFavTitle: '我的常用', sFavEmpty: '還沒有常用資源。在「搜尋」裡點星號，就會出現在這裡。', sGoSearch: '去搜尋', sSetTitle: '設定', sAppear: '外觀', sAccent: '主題色', sLang: '語言', sLayout: '資源版面', sNoHit: '沒有找到相關資源', sStar: '收藏', sUnstar: '取消收藏' });
+    Object.assign(WORDS.en, { sSearch: 'Search', sFind: 'Search resources', sAll: 'All', sFavTitle: 'Your shortcuts', sFavEmpty: 'Nothing saved yet. Star a resource in Search and it shows up here.', sGoSearch: 'Go to Search', sSetTitle: 'Settings', sAppear: 'Appearance', sAccent: 'Accent', sLang: 'Language', sLayout: 'Layout', sNoHit: 'No matching resources', sStar: 'Save', sUnstar: 'Remove' });
+    Object.assign(WORDS.ja, { sSearch: '検索', sFind: 'リソースを検索', sAll: 'すべて', sFavTitle: 'よく使う', sFavEmpty: 'まだありません。検索で星を付けるとここに表示されます。', sGoSearch: '検索へ', sSetTitle: '設定', sAppear: '外観', sAccent: 'テーマカラー', sLang: '言語', sLayout: '表示形式', sNoHit: '一致するリソースがありません', sStar: '保存', sUnstar: '解除' });
     const lang = () => WORDS[root.lang] ? root.lang : 'zh-CN';
     const t = (key, values = {}) => Object.entries(values).reduce((s, [k, v]) => s.replaceAll('{' + k + '}', v), (WORDS[lang()][key] ?? WORDS['zh-CN'][key] ?? key));
 
@@ -384,6 +388,10 @@
     }
     listen(window, 'keydown', event => {
       if (event.isComposing || event.keyCode === 229) return;
+      if (cur > 0) {
+        if (event.key === 'Escape') { event.preventDefault(); request(0); }
+        return;
+      }
       const mod = event.ctrlKey || event.metaKey;
       if (mod && !event.altKey && !event.shiftKey && event.key.toLowerCase() === 'k') {
         if (palette?.open || !anyDialogOpen()) { event.preventDefault(); event.stopImmediatePropagation(); togglePalette(); }
@@ -623,6 +631,156 @@
     }, true);
 
     /* ------------------------------------------------------------ chrome */
+    /* ------------------------------------------------------------ dock screens (App Store-style tabs) */
+    const SCREEN_KEYS = ['home', 'search', 'fav', 'set'];
+    let cur = 0, layer = null, searchQuery = '', searchCat = 'all', syncDock = () => {};
+    const phone = () => matchMedia('(max-width: 700px)').matches;
+    let inertBackground = [];
+    const favIds = () => window.JYLibrary.favoriteIds().filter(id => byId.has(id));
+    function toggleFav(id) {
+      window.JYLibrary.toggleFavorite(id);
+      return favIds().includes(id);
+    }
+    const starSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8L12 3.5Z"/></svg>';
+    function rowHtml(item, index) {
+      const [title, desc] = localized(item), external = !item.internal, fav = favIds().includes(item.id);
+      return '<div class="jy-row" style="--ri:' + Math.min(index, 12) + '"><a class="jp-item" href="' + esc(item.url) + '"' + (external ? ' target="_blank" rel="noopener noreferrer"' : '') + ' data-id="' + esc(item.id) + '">' +
+        '<span class="jp-ico">' + esc(item.glyph || '·') + '</span><span class="jp-text"><span class="jp-title">' + esc(title) + '</span><span class="jp-sub">' + esc(item.domain || desc || '') + '</span></span>' +
+        '<span class="jp-meta">' + esc(categoryName(item)) + ' ' + (external ? '↗' : '→') + '</span></a>' +
+        '<button type="button" class="jy-star" data-star="' + esc(item.id) + '" aria-pressed="' + fav + '" aria-label="' + esc(t(fav ? 'sUnstar' : 'sStar') + ' · ' + title) + '">' + starSvg + '</button></div>';
+    }
+    function renderSearch(pane) {
+      const body = $('.js-body', pane);
+      const cats = ['all', ...new Set(catalog.map(item => item.category))];
+      let chips = $('.js-chips', body), input = $('input', body), list = $('.js-list', body);
+      if (!input) {
+        body.innerHTML = '<label class="js-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false"></label><div class="js-chips" role="group"></div><div class="js-list"></div>';
+        input = $('input', body); chips = $('.js-chips', body); list = $('.js-list', body);
+        input.addEventListener('input', () => { searchQuery = input.value; fill(); });
+        chips.addEventListener('click', event => { const b = event.target.closest('[data-cat]'); if (b) { searchCat = b.dataset.cat; fillChips(); fill(); } });
+      }
+      input.value = searchQuery; input.placeholder = t('sFind'); input.setAttribute('aria-label', t('sFind'));
+      function fillChips() { chips.innerHTML = cats.map(c => '<button type="button" class="js-chip" data-cat="' + esc(c) + '" aria-pressed="' + (c === searchCat) + '">' + esc(c === 'all' ? t('sAll') : window.JYLibrary?.text ? window.JYLibrary.text(c) : c) + '</button>').join(''); }
+      function fill() {
+        const q = searchQuery.trim(), nq = norm(q);
+        let items = catalog.filter(item => searchCat === 'all' || item.category === searchCat);
+        if (nq) items = items.map(item => ({ item, s: resourceScore(item, q, nq) })).filter(h => h.s >= 0).sort((a, b) => a.s - b.s).map(h => h.item);
+        else items = [...items].sort((a, b) => (b.home ? 1 : 0) - (a.home ? 1 : 0));
+        list.innerHTML = items.length ? items.slice(0, 60).map(rowHtml).join('') : '<p class="js-empty">' + esc(t('sNoHit')) + '</p>';
+      }
+      fillChips(); fill();
+    }
+    function renderFav(pane) {
+      const body = $('.js-body', pane);
+      const items = favIds().map(id => byId.get(id));
+      body.innerHTML = items.length ? '<div class="js-list">' + items.map(rowHtml).join('') + '</div>' :
+        '<div class="js-emptybox"><div class="js-bigstar">' + starSvg + '</div><p>' + esc(t('sFavEmpty')) + '</p><button type="button" class="jy-clear" data-goto="search">' + esc(t('sGoSearch')) + '</button></div>';
+      const recent = storedIds('jy-recent').filter(id => byId.has(id)).slice(0, 5).map(id => byId.get(id));
+      if (recent.length) body.insertAdjacentHTML('beforeend', '<h2 class="js-label">' + esc(t('recent')) + '</h2><div class="js-list">' + recent.map(rowHtml).join('') + '</div>');
+    }
+    function renderSet(pane) {
+      const body = $('.js-body', pane);
+      const group = (label, buttons, kind, activeOf) => buttons.length ? '<section class="js-group"><h2 class="js-label">' + esc(label) + '</h2><div class="js-opts">' +
+        buttons.map((b, i) => {
+          const dot = kind === 'accent' ? '<i class="js-dot" style="background:' + esc(b.querySelector('.swatch-dot')?.style.getPropertyValue('--swatch') || 'var(--sig)') + '"></i>' : '';
+          return '<button type="button" class="js-opt" data-proxy="' + kind + ':' + i + '" aria-pressed="' + activeOf(b) + '">' + dot + esc(b.textContent.trim()) + '</button>';
+        }).join('') + '</div></section>' : '';
+      const modes = $$('[data-mode]'), accents = $$('[data-accent-choice]'), langs = $$('[data-language]'), views = $$('[data-library-view]');
+      body.innerHTML =
+        group(t('sAppear'), modes, 'mode', b => b.classList.contains('active') || b.getAttribute('aria-pressed') === 'true' || b.getAttribute('aria-selected') === 'true') +
+        group(t('sAccent'), accents, 'accent', b => b.classList.contains('active') || b.getAttribute('aria-pressed') === 'true') +
+        group(t('sLang'), langs, 'lang', b => b.dataset.language === root.lang) +
+        group(t('sLayout'), views, 'view', b => b.getAttribute('aria-pressed') === 'true');
+      body._proxy = { mode: modes, accent: accents, lang: langs, view: views };
+    }
+    const RENDER = { 1: renderSearch, 2: renderFav, 3: renderSet };
+    const TITLE = { 1: 'sSearch', 2: 'sFavTitle', 3: 'sSetTitle' };
+    function buildLayer() {
+      if (layer) return;
+      layer = document.createElement('div');
+      layer.id = 'jy-screens';
+      layer.innerHTML = [1, 2, 3].map(i => '<section class="jy-screen" data-screen="' + SCREEN_KEYS[i] + '" data-pos="right" inert aria-hidden="true"><header class="js-head"><h1></h1></header><div class="js-body"></div></section>').join('');
+      document.body.append(layer);
+      onExit(() => {
+        layer.remove();
+        root.classList.remove('jy-screen-open');
+        inertBackground.forEach(element => { element.inert = false; });
+      });
+      layer.addEventListener('click', event => {
+        const star = event.target.closest('[data-star]');
+        if (star) { const on = toggleFav(star.dataset.star); if (cur === 2) refreshScreen(); else { star.setAttribute('aria-pressed', String(on)); star.setAttribute('aria-label', t(on ? 'sUnstar' : 'sStar') + ' · ' + localized(byId.get(star.dataset.star))[0]); } return; }
+        const go = event.target.closest('[data-goto]');
+        if (go) { request(SCREEN_KEYS.indexOf(go.dataset.goto)); return; }
+        const opt = event.target.closest('[data-proxy]');
+        if (opt) { const [kind, i] = opt.dataset.proxy.split(':'); $('.js-body', opt.closest('.jy-screen'))._proxy[kind][Number(i)]?.click(); later(refreshScreen, 80); return; }
+        const row = event.target.closest('a.jp-item[data-id]');
+        if (row) { rememberVisit(row.dataset.id); if (cur === 1) window.JYLibrary.rememberSearch(searchQuery); }
+      });
+      observe(MutationObserver, () => later(refreshScreen, 90)).observe(root, { attributes: true, attributeFilter: ['lang'] });
+    }
+    function refreshScreen() {
+      if (!layer || cur < 1) return;
+      const pane = $('[data-screen="' + SCREEN_KEYS[cur] + '"]', layer);
+      $('h1', pane).textContent = t(TITLE[cur]);
+      const scroller = pane.scrollTop;
+      RENDER[cur](pane);
+      pane.scrollTop = scroller;
+    }
+    function apply(next) {
+      if (next === cur) return;
+      buildLayer();
+      const previous = cur;
+      cur = next;
+      if (!previous && cur) {
+        inertBackground = [...document.body.children].filter(element =>
+          element.matches('header, nav, main, footer, #top') && !element.matches('.jy-dock') && !element.inert);
+        inertBackground.forEach(element => { element.inert = true; });
+      } else if (!cur) {
+        inertBackground.forEach(element => { element.inert = false; });
+        inertBackground = [];
+        if (layer.contains(document.activeElement)) $('[data-dock="' + SCREEN_KEYS[previous] + '"]')?.focus({ preventScroll: true });
+      }
+      $$('.jy-screen', layer).forEach((pane, i) => {
+        const index = i + 1;
+        pane.dataset.pos = index < cur ? 'left' : index > cur ? 'right' : 'center';
+        const active = index === cur;
+        pane.toggleAttribute('inert', !active); pane.setAttribute('aria-hidden', String(!active));
+      });
+      layer.classList.toggle('open', cur > 0);
+      root.classList.toggle('jy-screen-open', cur > 0);
+      if (cur > 0) {
+        refreshScreen();
+        const pane = $('[data-screen="' + SCREEN_KEYS[cur] + '"]', layer);
+        pane.scrollTop = 0;
+        const title = $('h1', pane);
+        title.tabIndex = -1;
+        title.focus({ preventScroll: true });
+      }
+      $('.jy-dock')?.classList.remove('away');
+      syncDock();
+    }
+    /* History: opening a screen from the page adds one entry, so the system Back gesture closes it. */
+    function request(next) {
+      if (!phone() || !$('.jy-dock') || !Number.isInteger(next) || next < 0 || next >= SCREEN_KEYS.length || next === cur) return;
+      if (next === 0) { if (!OFFLINE && history.state?.jyScreen) history.back(); else apply(0); return; }
+      if (!OFFLINE) {
+        const state = { ...(history.state || {}), jyScreen: next };
+        try { if (cur === 0) history.pushState(state, ''); else history.replaceState(state, ''); } catch {}
+      }
+      apply(next);
+    }
+    function restoreScreen() {
+      const next = history.state?.jyScreen;
+      apply(phone() && Number.isInteger(next) && next > 0 && next < SCREEN_KEYS.length && $('.jy-dock') ? next : 0);
+    }
+    listen(window, 'popstate', restoreScreen);
+    listen(window, 'resize', () => { if (cur > 0 && !phone()) apply(0); }, { passive: true });
+    listen(window, 'storage', event => {
+      if (cur && (!event.key || ['jy-favorites','jy-recent'].includes(event.key))) refreshScreen();
+    });
+    window.JYScreens = { go: request, current: () => cur };
+    onExit(() => { delete window.JYScreens; });
+
     /* ------------------------------------------------------------ mobile dock */
     function addDock() {
       if ($('.jy-dock') || !$('#settings-trigger')) return;
@@ -646,7 +804,11 @@
       const lens = index => dock.style.setProperty('--i', String(index));
       let settleTimer;
       const sync = () => {
-        buttons.forEach(button => button.classList.toggle('on', button.dataset.dock === 'home' && onHome() && scrollY < 400));
+        const index = cur > 0 ? cur : onHome() ? 0 : -1;
+        buttons.forEach((button, i) => {
+          button.classList.toggle('on', i === index);
+          if (i === index) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current');
+        });
         if (dock.classList.contains('pressing')) return;
         const at = buttons.findIndex(button => button.classList.contains('on'));
         dock.classList.toggle('lens-off', at < 0);
@@ -665,20 +827,24 @@
         dock.classList.remove('pressing');
         settleTimer = later(sync, 260);
       };
+      syncDock = sync;
       for (const event of ['pointerup', 'pointercancel', 'pointerleave']) listen(dock, event, release);
       listen(dock, 'click', event => {
         const button = event.target.closest('[data-dock]');
         if (!button) return;
-        const key = button.dataset.dock;
-        if (key === 'home') { if (onHome()) scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' }); else visit('/index.html', false); }
-        else if (key === 'search') openPalette();
-        else if (key === 'set') $('#settings-trigger')?.click();
-        else if (key === 'fav') { const section = $('#favorites-section'); if (section) section.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' }); else visit('/index.html#favorites-section', false); }
+        const key = button.dataset.dock, index = SCREEN_KEYS.indexOf(key);
+        if (key === 'home') {
+          if (cur > 0) request(0);
+          else if (onHome()) scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+          else visit('/index.html', false);
+        } else if (index === cur) {
+          const pane = $('[data-screen="' + key + '"]', layer); pane?.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+        } else request(index);
       });
       // slide away while reading downward, return on scroll up or when idle at the end
       let last = scrollY, ticking = false;
       listen(window, 'scroll', () => {
-        if (ticking) return; ticking = true;
+        if (ticking || cur > 0) return; ticking = true;
         nextFrame(() => {
           ticking = false;
           const y = scrollY, delta = y - last;
@@ -687,7 +853,9 @@
           sync();
         });
       }, { passive: true });
+      restoreScreen();
       sync();
+      listen(document, 'focusout', () => later(() => { if (!typingTarget(document.activeElement)) dock.classList.remove('away'); }, 50));
       listen(document, 'focusin', event => { if (typingTarget(event.target) && !event.target.closest('dialog')) dock.classList.add('away'); });
     }
 

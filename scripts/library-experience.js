@@ -399,6 +399,6 @@
     initialized = true;
     refresh();
   }
-  window.JYLibrary = { text, matches, tags, openSearch, rememberSearch, searchHistory: () => recent.slice(), initHome, refresh };
+  window.JYLibrary = { text, matches, tags, openSearch, rememberSearch, toggleFavorite, favoriteIds: () => favorites.slice(), searchHistory: () => recent.slice(), initHome, refresh };
   if (document.readyState === 'loading' && !document.getElementById('resource-grid')) document.addEventListener('DOMContentLoaded', init, { once: true }); else init();
 })();
