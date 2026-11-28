@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-28-shared-dock-motion', date: '2026-11-28', type: 'improved', content: {
+    'zh-CN': ['各主题同步底栏动效', ['按下底栏按钮时，高亮滑到对应位置并轻微放大，松手后恢复。']],
+    'zh-TW': ['各主題同步底欄動效', ['按下底欄按鈕時，醒目標示會滑到對應位置並稍微放大，放開後恢復。']],
+    en: ['Matching bottom bar motion across themes', ['The highlight slides to the pressed button, expands slightly and settles when released.']],
+    ja: ['全テーマの下部ナビに共通の動き', ['ボタンを押すとハイライトが移動して少し拡大し、離すと元の大きさに戻ります。']]
+  } },
   { id: '2026-11-28-unified-mobile-settings', date: '2026-11-28', type: 'improved', content: {
     'zh-CN': ['手机网站设置移至底栏', ['在底栏右侧打开设置，可集中调整主题、配色、背景浓度、明暗模式、语言和资源布局。']],
     'zh-TW': ['手機網站設定移至底欄', ['在底欄右側開啟設定，可集中調整主題、配色、背景濃度、明暗模式、語言與資源版面。']],

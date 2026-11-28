@@ -1045,6 +1045,11 @@ html[data-style="tech"] #jy-screens { display: none; }
   html:not([data-style="tech"]) .jy-dock button { position: relative; }
   html:not([data-style="tech"]) .jy-dock button:is(:active,.on) { background: transparent; }
 }
+@media (max-width: 700px) and (prefers-reduced-motion: no-preference) {
+  html:not([data-style="tech"]) .jy-dock.pressing::before {
+    transform: translateX(calc(var(--i, 0) * (100% + 2px))) scale(1.1, 1.08);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html:not([data-style="tech"]) .jy-dock::before { transition: opacity .2s; }
 }
