@@ -84,6 +84,10 @@
     Object.assign(WORDS['zh-TW'], { favOn: '已加入我的常用', favOff: '已移出我的常用', clear: '清除篩選', recent: '最近造訪', kArrows: '方向鍵在卡片間移動', kBack: '返回上一層' });
     Object.assign(WORDS.en, { favOn: 'Added to your shortcuts', favOff: 'Removed from your shortcuts', clear: 'Clear filters', recent: 'Recently opened', kArrows: 'Move between cards', kBack: 'Go back one level' });
     Object.assign(WORDS.ja, { favOn: 'よく使うに追加しました', favOff: 'よく使うから外しました', clear: '絞り込みを解除', recent: '最近開いた', kArrows: 'カード間を移動', kBack: '一つ前のページへ' });
+    Object.assign(WORDS['zh-CN'], { dHome: '首页', dSearch: '搜索', dFav: '常用', dSet: '设置', dNav: '快捷导航' });
+    Object.assign(WORDS['zh-TW'], { dHome: '首頁', dSearch: '搜尋', dFav: '常用', dSet: '設定', dNav: '快速導覽' });
+    Object.assign(WORDS.en, { dHome: 'Home', dSearch: 'Search', dFav: 'Saved', dSet: 'Settings', dNav: 'Quick navigation' });
+    Object.assign(WORDS.ja, { dHome: 'ホーム', dSearch: '検索', dFav: 'よく使う', dSet: '設定', dNav: 'クイックナビ' });
     const lang = () => WORDS[root.lang] ? root.lang : 'zh-CN';
     const t = (key, values = {}) => Object.entries(values).reduce((s, [k, v]) => s.replaceAll('{' + k + '}', v), (WORDS[lang()][key] ?? WORDS['zh-CN'][key] ?? key));
 
@@ -619,6 +623,51 @@
     }, true);
 
     /* ------------------------------------------------------------ chrome */
+    /* ------------------------------------------------------------ mobile dock */
+    function addDock() {
+      if ($('.jy-dock') || !$('#settings-trigger')) return;
+      const icon = d => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>';
+      const items = [
+        ['home', 'dHome', 'M3 11.5 12 4l9 7.5M5.5 10v10h13V10'],
+        ['search', 'dSearch', 'M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13ZM16 16l5 5'],
+        ['fav', 'dFav', 'm12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8L12 3.5Z'],
+        ['set', 'dSet', 'M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.6a7 7 0 0 0-2 1.2l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2 1.2l.4 2.6h4l.4-2.6a7 7 0 0 0 2-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2Z']
+      ];
+      const dock = document.createElement('nav');
+      dock.className = 'jy-dock';
+      dock.innerHTML = items.map(([key, word, path]) => '<button type="button" data-dock="' + key + '">' + icon(path) + '<span data-dword="' + word + '"></span></button>').join('');
+      document.body.append(dock);
+      onExit(() => dock.remove());
+      const label = () => { dock.setAttribute('aria-label', t('dNav')); $$('[data-dword]', dock).forEach(el => { el.textContent = t(el.dataset.dword); }); };
+      label();
+      observe(MutationObserver, label).observe(root, { attributes: true, attributeFilter: ['lang'] });
+      const onHome = () => !!$('#resource-grid');
+      const sync = () => { $$('button', dock).forEach(button => button.classList.toggle('on', button.dataset.dock === 'home' && onHome() && scrollY < 400)); };
+      listen(dock, 'click', event => {
+        const button = event.target.closest('[data-dock]');
+        if (!button) return;
+        const key = button.dataset.dock;
+        if (key === 'home') { if (onHome()) scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' }); else visit('/index.html', false); }
+        else if (key === 'search') openPalette();
+        else if (key === 'set') $('#settings-trigger')?.click();
+        else if (key === 'fav') { const section = $('#favorites-section'); if (section) section.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' }); else visit('/index.html#favorites-section', false); }
+      });
+      // slide away while reading downward, return on scroll up or when idle at the end
+      let last = scrollY, ticking = false;
+      listen(window, 'scroll', () => {
+        if (ticking) return; ticking = true;
+        nextFrame(() => {
+          ticking = false;
+          const y = scrollY, delta = y - last;
+          if (Math.abs(delta) > 6) { dock.classList.toggle('away', delta > 0 && y > 160); last = y; }
+          if (y < 80 || innerHeight + y >= root.scrollHeight - 40) dock.classList.remove('away');
+          sync();
+        });
+      }, { passive: true });
+      sync();
+      listen(document, 'focusin', event => { if (typingTarget(event.target) && !event.target.closest('dialog')) dock.classList.add('away'); });
+    }
+
     function addNavChip() {
       const trigger = $('#settings-trigger');
       if (!trigger || $('.jy-cmd')) return;
@@ -741,6 +790,7 @@
 
     function init() {
       addNavChip();
+      addDock();
       addProgress();
       buildHud();
       wireFilterBox();
@@ -789,6 +839,11 @@
     cleanup = mount();
   }
   function start() {
+    if (typeof window.__JYBASE !== 'string' && window.isSecureContext && 'serviceWorker' in navigator) {
+      const register = () => navigator.serviceWorker.register('/sw.js').catch(() => {});
+      if (document.readyState === 'complete') register();
+      else window.addEventListener('load', register, {once: true});
+    }
     new MutationObserver(sync).observe(root, {attributes: true, attributeFilter: ['data-style']});
     sync();
   }

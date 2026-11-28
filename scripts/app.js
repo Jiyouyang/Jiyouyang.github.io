@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-28-mobile-offline', date: '2026-11-28', type: 'added', content: {
+    'zh-CN': ['手机快捷导航与离线浏览', ['手机底栏可打开首页、搜索、常用和设置。首次在线缓存完成后，可离线浏览站内页面。']],
+    'zh-TW': ['手機快速導覽與離線瀏覽', ['手機底欄可開啟首頁、搜尋、常用和設定。首次連線快取完成後，即可離線瀏覽站內頁面。']],
+    en: ['Mobile navigation and offline browsing', ['Use the bottom bar for Home, Search, Saved and Settings. Site pages work offline after the first online cache completes.']],
+    ja: ['モバイルナビとオフライン閲覧', ['下部のナビからホーム、検索、よく使う項目、設定を開けます。初回のキャッシュ完了後はサイト内のページをオフラインで閲覧できます。']]
+  } },
   { id: '2026-11-27-shared-reveal-direction', date: '2026-11-27', type: 'improved', content: {
     'zh-CN': ['各主题的双向卡片入场', ['滚动返回时，卡片会从重新进入视野的一侧滑入。']],
     'zh-TW': ['各主題的雙向卡片進場', ['捲動返回時，卡片會從重新進入視野的一側滑入。']],

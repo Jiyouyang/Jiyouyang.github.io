@@ -295,6 +295,7 @@
   }
   function initHome(callbacks) {
     home = callbacks;
+    if (initialized) setTimeout(restoreHomeState, 0);
   }
   function init() {
     const toast = document.createElement('div');
@@ -399,5 +400,5 @@
     refresh();
   }
   window.JYLibrary = { text, matches, tags, openSearch, rememberSearch, searchHistory: () => recent.slice(), initHome, refresh };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true }); else init();
+  if (document.readyState === 'loading' && !document.getElementById('resource-grid')) document.addEventListener('DOMContentLoaded', init, { once: true }); else init();
 })();

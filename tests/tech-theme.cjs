@@ -31,7 +31,8 @@ const base = process.argv[2] || 'http://127.0.0.1:8767';
         return Math.abs(ink.x - active.x) < 1 && Math.abs(ink.y - active.y) < 1;
       });
     }
-    await page.locator('.jy-cmd').click();
+    await page.evaluate(() => scrollTo({top: 0, behavior: 'instant'}));
+    await page.locator('[data-dock=search]').click();
     await page.locator('#jy-palette-input').fill('minecraft');
     assert.ok(await page.locator('#jy-palette a.jp-item').count() > 0);
     await page.keyboard.press('Escape');

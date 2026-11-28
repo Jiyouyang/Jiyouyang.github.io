@@ -757,3 +757,61 @@ html:not([data-style="tech"]) .jy-ink::after {
 html:not([data-style="tech"]) .filters button[data-n]::after {
   color: inherit; border-color: currentColor; font-family: inherit;
 }
+
+/* Reserve the HUD's slot until tech.js mounts it, so the stacked mobile layout doesn't jump. */
+@media (max-width: 900px) {
+  html[data-style="tech"] #hero-top:not(:has(.hud))::after { content: ""; display: block; height: 272px; }
+}
+
+/* ==========================================================================
+   Mobile dock: thumb-reach navigation (phones and small tablets only)
+   ========================================================================== */
+html[data-style="tech"] .jy-dock { display: none; }
+@media (max-width: 700px) {
+  html[data-style="tech"] body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  html[data-style="tech"] .jy-dock {
+    position: fixed; z-index: 90; left: 12px; right: 12px; bottom: max(10px, env(safe-area-inset-bottom));
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 5px;
+    background: color-mix(in srgb, var(--surface) 90%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid var(--line-strong); border-radius: 2px; box-shadow: 0 10px 34px rgba(0, 0, 0, .28), 0 0 0 1px color-mix(in srgb, var(--sig) 10%, transparent);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), opacity .25s;
+  }
+  html[data-style="tech"] .jy-dock.away { transform: translateY(calc(100% + 24px)); opacity: 0; pointer-events: none; }
+  html[data-style="tech"] .jy-dock button {
+    position: relative; display: grid; justify-items: center; gap: 3px; padding: 8px 2px 7px; min-height: 48px; cursor: pointer;
+    font: 600 10.5px var(--mono); letter-spacing: .4px; color: var(--muted); background: transparent; border: 0; border-radius: 2px;
+    -webkit-tap-highlight-color: transparent; transition: color .2s, background .2s, transform .12s;
+  }
+  html[data-style="tech"] .jy-dock button svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  html[data-style="tech"] .jy-dock button:active { transform: scale(.92); background: var(--tint); color: var(--sig); }
+  html[data-style="tech"] .jy-dock button.on { color: var(--sig); }
+  html[data-style="tech"] .jy-dock button.on::after { content: ""; position: absolute; left: 30%; right: 30%; top: 0; height: 2px; background: var(--sig); box-shadow: 0 0 8px var(--sig); }
+  html[data-style="tech"] #jy-toast, html[data-style="tech"] #library-toast { bottom: calc(86px + env(safe-area-inset-bottom)); }
+  html[data-style="tech"] body:has(dialog[open]) .jy-dock { display: none; }
+  html[data-style="tech"] .jy-cmd { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { html[data-style="tech"] .jy-dock { transition: none; } }
+
+/* Use each theme's native surfaces and controls for the shared phone dock. */
+html:not([data-style="tech"]) .jy-dock { display: none; }
+@media (max-width: 700px) {
+  html:not([data-style="tech"]) body:has(.jy-dock) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  html:not([data-style="tech"]) .jy-dock {
+    position: fixed; z-index: 90; left: 12px; right: 12px; bottom: max(10px, env(safe-area-inset-bottom));
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 5px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--library-radius);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .25s;
+  }
+  html:not([data-style="tech"]) .jy-dock.away { transform: translateY(calc(100% + 24px)); opacity: 0; pointer-events: none; }
+  html:not([data-style="tech"]) .jy-dock button {
+    display: grid; justify-items: center; align-content: center; gap: 3px; min-height: 48px;
+    font-family: inherit; font-size: 11px; color: var(--muted); background: transparent; cursor: pointer;
+    border: 0; border-radius: var(--library-control-radius);
+  }
+  html:not([data-style="tech"]) .jy-dock button:is(:active,.on) { color: var(--ink); background: var(--soft); }
+  html:not([data-style="tech"]) .jy-dock svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  html:not([data-style="tech"]) body:has(dialog[open]) .jy-dock { display: none; }
+  html:not([data-style="tech"]) body:has(.jy-dock) :is(#jy-toast,#library-toast) { bottom: calc(86px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) { html:not([data-style="tech"]) .jy-dock { transition: none; } }

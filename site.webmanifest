@@ -1,16 +1,37 @@
 {
-  "name": "Jiyouyang · 好用的，值得分享。",
+  "name": "Jiyouyang · 资源分享",
   "short_name": "Jiyouyang",
-  "start_url": "/",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f5f5f7",
-  "theme_color": "#f5f5f7",
+  "background_color": "#05070b",
+  "theme_color": "#05070b",
   "icons": [
     {
       "src": "/assets/site-cover.jpg?v=2",
       "sizes": "1242x1242",
       "type": "image/jpeg",
       "purpose": "any"
+    }
+  ],
+  "description": "精选资源分享站",
+  "lang": "zh-CN",
+  "scope": "/",
+  "categories": [
+    "utilities",
+    "productivity"
+  ],
+  "shortcuts": [
+    {
+      "name": "搜索资源",
+      "url": "/index.html#resources"
+    },
+    {
+      "name": "Minecraft",
+      "url": "/minecraft.html"
+    },
+    {
+      "name": "电脑工具",
+      "url": "/computer-tools.html"
     }
   ]
 }
