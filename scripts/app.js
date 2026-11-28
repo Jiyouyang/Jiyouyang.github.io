@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-28-dock-lens', date: '2026-11-28', type: 'improved', content: {
+    'zh-CN': ['手机底栏按压反馈', ['点按底栏时，高亮会移到对应按钮。JY//OS 使用透明胶囊底栏与磨砂高亮。']],
+    'zh-TW': ['手機底欄按壓回饋', ['點按底欄時，醒目標示會移到對應按鈕。JY//OS 採用透明膠囊底欄與霧面標示。']],
+    en: ['Mobile navigation feedback', ['The highlight moves to the button you press. JY//OS pairs a transparent capsule with a frosted selection indicator.']],
+    ja: ['モバイルナビのタップ表示', ['タップしたボタンにハイライトが移動します。JY//OS では透明なカプセル型のバーとすりガラス風のハイライトを採用しました。']]
+  } },
   { id: '2026-11-28-mobile-offline', date: '2026-11-28', type: 'added', content: {
     'zh-CN': ['手机快捷导航与离线浏览', ['手机底栏可打开首页、搜索、常用和设置。首次在线缓存完成后，可离线浏览站内页面。']],
     'zh-TW': ['手機快速導覽與離線瀏覽', ['手機底欄可開啟首頁、搜尋、常用和設定。首次連線快取完成後，即可離線瀏覽站內頁面。']],

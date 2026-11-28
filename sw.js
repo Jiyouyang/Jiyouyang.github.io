@@ -1,6 +1,6 @@
 /* Offline support: after the first visit every page, style and script is available without a network.
    HTML is network-first (so updates show up immediately), assets are stale-while-revalidate. */
-const VERSION = 'jy-20261128-1';
+const VERSION = 'jy-20261128-ix13';
 const PAGES = ['/', '/index.html', '/avatar.html', '/computer-tools.html', '/endfield-download.html', '/endfield.html', '/genshin-download.html', '/genshin.html',
   '/hsr-download.html', '/hsr.html', '/minecraft-china.html', '/minecraft-download.html', '/minecraft-launchers.html', '/minecraft-mobile.html',
   '/minecraft-mods.html', '/minecraft-seed.html', '/minecraft.html', '/zzz-download.html', '/zzz.html'];

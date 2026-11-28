@@ -642,7 +642,30 @@
       label();
       observe(MutationObserver, label).observe(root, { attributes: true, attributeFilter: ['lang'] });
       const onHome = () => !!$('#resource-grid');
-      const sync = () => { $$('button', dock).forEach(button => button.classList.toggle('on', button.dataset.dock === 'home' && onHome() && scrollY < 400)); };
+      const buttons = $$('button', dock);
+      const lens = index => dock.style.setProperty('--i', String(index));
+      let settleTimer;
+      const sync = () => {
+        buttons.forEach(button => button.classList.toggle('on', button.dataset.dock === 'home' && onHome() && scrollY < 400));
+        if (dock.classList.contains('pressing')) return;
+        const at = buttons.findIndex(button => button.classList.contains('on'));
+        dock.classList.toggle('lens-off', at < 0);
+        if (at >= 0) lens(at);
+      };
+      listen(dock, 'pointerdown', event => {
+        const at = buttons.indexOf(event.target.closest('button'));
+        if (at < 0) return;
+        clearTimeout(settleTimer);
+        dock.classList.remove('lens-off');
+        dock.classList.add('pressing');
+        lens(at);
+      });
+      const release = () => {
+        if (!dock.classList.contains('pressing')) return;
+        dock.classList.remove('pressing');
+        settleTimer = later(sync, 260);
+      };
+      for (const event of ['pointerup', 'pointercancel', 'pointerleave']) listen(dock, event, release);
       listen(dock, 'click', event => {
         const button = event.target.closest('[data-dock]');
         if (!button) return;

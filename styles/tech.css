@@ -815,3 +815,144 @@ html:not([data-style="tech"]) .jy-dock { display: none; }
   html:not([data-style="tech"]) body:has(.jy-dock) :is(#jy-toast,#library-toast) { bottom: calc(86px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) { html:not([data-style="tech"]) .jy-dock { transition: none; } }
+
+/* ---- Liquid-glass dock ---- */
+@media (max-width: 700px) {
+  html[data-style="tech"] .jy-dock {
+    --i: 0; --pad: 6px;
+    clip-path: none; border-radius: 28px; padding: var(--pad); gap: 0; border: 0; overflow: hidden;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, #fff 34%, transparent), color-mix(in srgb, #fff 6%, transparent) 46%, color-mix(in srgb, #fff 14%, transparent)),
+      color-mix(in srgb, var(--surface) 22%, transparent);
+    -webkit-backdrop-filter: blur(26px) saturate(190%) brightness(1.06) contrast(1.02); backdrop-filter: blur(26px) saturate(190%) brightness(1.06) contrast(1.02);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 80%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #fff 22%, transparent),
+      inset 1px 0 0 color-mix(in srgb, #fff 30%, transparent), inset -1px 0 0 color-mix(in srgb, #fff 30%, transparent),
+      inset 0 0 18px color-mix(in srgb, #fff 18%, transparent),
+      0 0 0 .5px color-mix(in srgb, var(--ink) 16%, transparent),
+      0 12px 32px rgba(10, 20, 40, .22), 0 2px 8px rgba(10, 20, 40, .12);
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock {
+    background:
+      linear-gradient(180deg, color-mix(in srgb, #fff 16%, transparent), color-mix(in srgb, #fff 2%, transparent) 50%, color-mix(in srgb, #fff 7%, transparent)),
+      color-mix(in srgb, var(--surface) 20%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 42%, transparent), inset 0 -1px 0 color-mix(in srgb, #fff 8%, transparent),
+      inset 0 0 18px color-mix(in srgb, #fff 6%, transparent), 0 0 0 .5px color-mix(in srgb, #fff 16%, transparent),
+      0 14px 36px rgba(0, 0, 0, .55);
+  }
+  /* specular sweep across the top edge */
+  html[data-style="tech"] .jy-dock::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(120% 90% at 18% -30%, color-mix(in srgb, #fff 55%, transparent), transparent 55%);
+    opacity: .55; mix-blend-mode: soft-light;
+  }
+  /* the sliding glass bubble */
+  html[data-style="tech"] .jy-dock::before {
+    content: ""; position: absolute; z-index: 0; top: var(--pad); bottom: var(--pad); left: var(--pad);
+    width: calc((100% - var(--pad) * 2) / 4); border-radius: 22px; pointer-events: none;
+    transform: translateX(calc(var(--i) * 100%)) scale(1);
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 46%, transparent), color-mix(in srgb, var(--sig) 14%, transparent));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 90%, transparent), inset 0 0 14px color-mix(in srgb, #fff 30%, transparent), 0 2px 10px color-mix(in srgb, var(--sig) 22%, transparent);
+    -webkit-backdrop-filter: blur(6px) brightness(1.12); backdrop-filter: blur(6px) brightness(1.12);
+    transition: transform .5s cubic-bezier(.34, 1.5, .5, 1), opacity .25s;
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock::before { background: linear-gradient(180deg, color-mix(in srgb, #fff 22%, transparent), color-mix(in srgb, var(--sig) 18%, transparent)); }
+  html[data-style="tech"] .jy-dock.lens-off::before { opacity: 0; }
+  html[data-style="tech"] .jy-dock.pressing::before { transform: translateX(calc(var(--i) * 100%)) scale(1.1, 1.08); }
+  html[data-style="tech"] .jy-dock button { z-index: 1; border-radius: 22px; color: color-mix(in srgb, var(--ink) 74%, transparent); text-shadow: 0 1px 0 color-mix(in srgb, #fff 40%, transparent); }
+  html[data-theme="dark"][data-style="tech"] .jy-dock button { text-shadow: none; }
+  html[data-style="tech"] .jy-dock button:active { background: transparent; transform: none; color: var(--sig); }
+  html[data-style="tech"] .jy-dock button.on { color: var(--sig); }
+  html[data-style="tech"] .jy-dock button.on::after { display: none; }
+}
+@media (max-width: 700px) and (prefers-reduced-transparency: reduce) {
+  html[data-style="tech"] .jy-dock { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--surface); }
+}
+@media (max-width: 700px) and (prefers-reduced-motion: reduce) { html[data-style="tech"] .jy-dock::before { transition: opacity .2s; } }
+@media (max-width: 700px) {
+  html[data-theme="light"][data-style="tech"] .jy-dock {
+    background:
+      linear-gradient(180deg, color-mix(in srgb, #fff 22%, transparent), color-mix(in srgb, #fff 2%, transparent) 50%, color-mix(in srgb, #fff 9%, transparent)),
+      color-mix(in srgb, var(--surface) 6%, transparent);
+    -webkit-backdrop-filter: blur(22px) saturate(210%) brightness(1.02); backdrop-filter: blur(22px) saturate(210%) brightness(1.02);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 95%, transparent), inset 0 -1px 0 color-mix(in srgb, #fff 40%, transparent),
+      inset 0 0 22px color-mix(in srgb, #fff 22%, transparent), 0 0 0 .5px color-mix(in srgb, var(--ink) 26%, transparent),
+      0 14px 34px rgba(10, 20, 40, .2), 0 2px 8px rgba(10, 20, 40, .1);
+  }
+  html[data-theme="light"][data-style="tech"] .jy-dock button { color: color-mix(in srgb, var(--ink) 82%, transparent); }
+}
+
+/* ---- Clear liquid glass: the most transparent variant (near-zero fill, light blur, bright rim) ---- */
+@media (max-width: 700px) {
+  html[data-style="tech"] .jy-dock,
+  html[data-theme="light"][data-style="tech"] .jy-dock,
+  html[data-theme="dark"][data-style="tech"] .jy-dock {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 10%, transparent), transparent 42%, color-mix(in srgb, #fff 5%, transparent));
+    -webkit-backdrop-filter: blur(5px) saturate(185%) brightness(1.12); backdrop-filter: blur(5px) saturate(185%) brightness(1.12);
+    box-shadow:
+      inset 0 1.5px 0 color-mix(in srgb, #fff 92%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #fff 45%, transparent),
+      inset 1.5px 0 1px -.5px rgba(255, 90, 140, .22), inset -1.5px 0 1px -.5px rgba(80, 200, 255, .26),
+      inset 0 0 26px color-mix(in srgb, #fff 14%, transparent),
+      0 0 0 .5px color-mix(in srgb, #fff 55%, transparent),
+      0 10px 30px rgba(8, 16, 36, .16);
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock { box-shadow:
+      inset 0 1.5px 0 color-mix(in srgb, #fff 60%, transparent), inset 0 -1px 0 color-mix(in srgb, #fff 18%, transparent),
+      inset 1.5px 0 1px -.5px rgba(255, 90, 140, .26), inset -1.5px 0 1px -.5px rgba(80, 200, 255, .3),
+      inset 0 0 22px color-mix(in srgb, #fff 8%, transparent), 0 0 0 .5px color-mix(in srgb, #fff 26%, transparent), 0 12px 34px rgba(0, 0, 0, .42); }
+  html[data-style="tech"] .jy-dock::after { opacity: .7; background: radial-gradient(110% 80% at 15% -35%, color-mix(in srgb, #fff 75%, transparent), transparent 55%); mix-blend-mode: normal; }
+  html[data-style="tech"] .jy-dock::before {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 24%, transparent), color-mix(in srgb, #fff 4%, transparent) 55%, color-mix(in srgb, #fff 12%, transparent));
+    -webkit-backdrop-filter: blur(1px) saturate(160%) brightness(1.18); backdrop-filter: blur(1px) saturate(160%) brightness(1.18);
+    box-shadow: inset 0 1.5px 0 color-mix(in srgb, #fff 95%, transparent), inset 0 -1px 0 color-mix(in srgb, #fff 40%, transparent), inset 0 0 16px color-mix(in srgb, #fff 24%, transparent), 0 0 0 .5px color-mix(in srgb, #fff 60%, transparent), 0 3px 12px rgba(8, 16, 36, .14);
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock::before { background: linear-gradient(180deg, color-mix(in srgb, #fff 20%, transparent), color-mix(in srgb, #fff 2%, transparent) 55%, color-mix(in srgb, #fff 8%, transparent)); }
+  /* labels stay readable over busy content through a soft halo instead of a fill */
+  html[data-style="tech"] .jy-dock button { font-weight: 700; text-shadow: 0 0 6px color-mix(in srgb, var(--bg) 85%, transparent), 0 0 2px color-mix(in srgb, var(--bg) 80%, transparent); }
+  html[data-style="tech"] .jy-dock button svg { filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bg) 70%, transparent)); }
+}
+
+/* ---- App Store–sized dock: full-width capsule, ~62pt tall, grey frosted selection lens ---- */
+@media (max-width: 700px) {
+  html[data-style="tech"] body { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
+  html[data-style="tech"] .jy-dock { --pad: 5px; left: 20px; right: 20px; bottom: max(16px, env(safe-area-inset-bottom)); border-radius: 999px; }
+  html[data-style="tech"] .jy-dock button { min-height: 52px; padding: 7px 2px 6px; gap: 3px; border-radius: 999px; font: 600 10.5px/1.1 -apple-system, "SF Pro Text", var(--mono), sans-serif; letter-spacing: 0; color: var(--ink); }
+  html[data-style="tech"] .jy-dock button svg { width: 26px; height: 26px; stroke-width: 1.9; }
+  html[data-style="tech"] .jy-dock::before,
+  html[data-theme="dark"][data-style="tech"] .jy-dock::before,
+  html[data-theme="light"][data-style="tech"] .jy-dock::before {
+    border-radius: 999px;
+    background: rgba(118, 118, 128, .17);
+    -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%);
+    box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .55), inset 0 1px 0 rgba(255, 255, 255, .7), 0 1px 6px rgba(8, 16, 36, .1);
+  }
+  html[data-theme="dark"][data-style="tech"] .jy-dock::before { background: rgba(235, 235, 245, .14); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .22), inset 0 1px 0 rgba(255, 255, 255, .3); }
+  html[data-style="tech"] .jy-dock button.on, html[data-style="tech"] .jy-dock.pressing button:active { color: var(--sig); }
+  html[data-style="tech"] #jy-toast, html[data-style="tech"] #library-toast { bottom: calc(104px + env(safe-area-inset-bottom)); }
+}
+
+/* Keep the package's reduced-transparency fallback above its light and dark variants. */
+@media (max-width: 700px) and (prefers-reduced-transparency: reduce) {
+  html[data-style="tech"][data-theme] .jy-dock {
+    background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+}
+@media (max-width: 700px) {
+  html:not([data-style="tech"]) .jy-dock::before {
+    content: ""; position: absolute; left: 5px; top: 5px; bottom: 5px;
+    width: calc((100% - 16px) / 4); border-radius: var(--library-control-radius);
+    background: var(--soft); pointer-events: none;
+    transform: translateX(calc(var(--i, 0) * (100% + 2px)));
+    transition: transform .5s cubic-bezier(.34,1.5,.5,1), opacity .25s;
+  }
+  html:not([data-style="tech"]) .jy-dock.lens-off::before { opacity: 0; }
+  html:not([data-style="tech"]) .jy-dock button { position: relative; }
+  html:not([data-style="tech"]) .jy-dock button:is(:active,.on) { background: transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-style="tech"]) .jy-dock::before { transition: opacity .2s; }
+}
