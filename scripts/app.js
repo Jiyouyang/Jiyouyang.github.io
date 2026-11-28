@@ -98,6 +98,12 @@ const resources = window.JYCatalog.filter(resource => resource.home);
 // Add future update summaries at the start of this list; pinned entries stay above regular updates.
 // Remove an entry by id when requested.
 const announcements = [
+  { id: '2026-11-28-shared-dock-glass', date: '2026-11-28', type: 'improved', content: {
+    'zh-CN': ['各主题的液态玻璃底栏', ['手机底栏按钮采用液态玻璃效果，滑动高亮会跟随当前主题的配色。']],
+    'zh-TW': ['各主題的液態玻璃底欄', ['手機底欄按鈕採用液態玻璃效果，滑動標示會跟隨目前主題的配色。']],
+    en: ['Liquid-glass mobile navigation', ['The bottom bar uses a glass finish and a sliding highlight tinted by the current theme.']],
+    ja: ['全テーマのガラス調モバイルナビ', ['下部ナビをガラス調にし、スライドするハイライトには選択中のテーマの色を使います。']]
+  } },
   { id: '2026-11-28-shared-dock-motion', date: '2026-11-28', type: 'improved', content: {
     'zh-CN': ['各主题同步底栏动效', ['按下底栏按钮时，高亮滑到对应位置并轻微放大，松手后恢复。']],
     'zh-TW': ['各主題同步底欄動效', ['按下底欄按鈕時，醒目標示會滑到對應位置並稍微放大，放開後恢復。']],

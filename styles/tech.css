@@ -1054,6 +1054,61 @@ html[data-style="tech"] #jy-screens { display: none; }
   html:not([data-style="tech"]) .jy-dock::before { transition: opacity .2s; }
 }
 
+/* Glass surfaces for the other themes' mobile dock. */
+@media (max-width: 700px) {
+  html:not([data-style="tech"]) .jy-dock button {
+    color: var(--ink);
+    border-radius: 999px;
+  }
+  html:not([data-style="tech"]) .jy-dock::before { border-radius: 999px; }
+}
+@media (max-width: 700px) {
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    html:not([data-style="tech"]) .jy-dock {
+      background: linear-gradient(180deg, #ffffff1a, transparent 50%, #ffffff09),
+        color-mix(in srgb, var(--surface) 42%, transparent);
+      -webkit-backdrop-filter: blur(1.5px) saturate(170%);
+      backdrop-filter: blur(1.5px) saturate(170%);
+      box-shadow: inset 0 1.5px 0 #ffffff99, inset 0 -1px 0 #ffffff38,
+        inset 0 0 12px #ffffff18, 0 8px 24px #0003;
+    }
+    html:not([data-style="tech"]) .jy-dock::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(110% 70% at 14% -40%, #ffffff66, transparent 55%);
+    }
+    html:not([data-style="tech"]) .jy-dock::before {
+      background: linear-gradient(180deg, #ffffff24, transparent 58%),
+        color-mix(in srgb, var(--accent) 19%, transparent);
+      -webkit-backdrop-filter: blur(3px) saturate(150%);
+      backdrop-filter: blur(3px) saturate(150%);
+      box-shadow: inset 0 1px 0 #ffffff80, inset 0 -1px 0 #ffffff29,
+        0 0 0 1px color-mix(in srgb, var(--accent) 48%, transparent);
+    }
+    html[data-theme="dark"]:not([data-style="tech"]) .jy-dock {
+      background: linear-gradient(180deg, #ffffff0e, transparent 50%, #ffffff06),
+        color-mix(in srgb, var(--surface) 58%, transparent);
+      box-shadow: inset 0 1.5px 0 #ffffff66, inset 0 -1px 0 #ffffff24,
+        inset 0 0 12px #ffffff0c, 0 10px 28px #0006;
+    }
+  }
+}
+
+@media (max-width: 700px) and (prefers-reduced-transparency: reduce) {
+  html:not([data-style="tech"]) .jy-dock,
+  html[data-theme="dark"]:not([data-style="tech"]) .jy-dock { background: var(--surface); }
+  html:not([data-style="tech"]) .jy-dock::before { background: var(--soft); }
+  html:not([data-style="tech"]) .jy-dock,
+  html:not([data-style="tech"]) .jy-dock::before {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  html:not([data-style="tech"]) .jy-dock::after { content: none; }
+}
+
 /* Shared screen interactions use each theme’s existing surfaces and controls. */
 html:not([data-style="tech"]) #jy-screens { display: none; }
 @media (max-width: 700px) {
